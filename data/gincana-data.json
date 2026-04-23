@@ -48,14 +48,6 @@
   ],
   "materials": [
     {
-      "teamId": "6",
-      "material": "Ficha de inscrição",
-      "status": "Entregue",
-      "date": "",
-      "amount": "",
-      "note": ""
-    },
-    {
       "teamId": "7",
       "material": "Ficha de inscrição",
       "status": "Entregue",
