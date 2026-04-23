@@ -330,9 +330,11 @@ function renderDiscipline() {
   const entries = [...state.discipline].reverse();
   setHtml("disciplineList", entries.length ? entries.map((item) => {
     const itemTeam = team(item.teamId);
+    const dateLabel = item.date ? formatDate(item.date) : "Data não informada";
     return `
       <article class="discipline-item" style="border-left:8px solid ${itemTeam.color}">
         <h3>${item.type} • ${itemTeam.name}</h3>
+        <p>${dateLabel}</p>
         <p>${item.reason}</p>
         <p>${item.type === "Penalidade" ? `Desconto: ${formatPoints(Math.abs(item.points || 0))} pontos` : "Sem desconto aplicado"}</p>
       </article>
