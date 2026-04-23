@@ -62,6 +62,14 @@
       "date": "2026-04-20",
       "amount": "",
       "note": ""
+    },
+    {
+      "teamId": "8",
+      "material": "Ficha de inscrição",
+      "status": "Entregue",
+      "date": "2026-04-20",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
