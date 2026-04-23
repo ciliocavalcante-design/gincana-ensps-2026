@@ -4,6 +4,8 @@
   --paper: #070a12;
   --surface: #101724;
   --surface-soft: #151f2e;
+  --surface-neutral: #1a202c;
+  --surface-neutral-soft: #202734;
   --line: rgba(255, 255, 255, 0.12);
   --brand: #22c55e;
   --accent: #38bdf8;
@@ -379,12 +381,12 @@ h1 {
 .discipline-item {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--surface-neutral);
   box-shadow: var(--shadow-soft);
 }
 
 .team-card {
-  background: var(--surface-soft);
+  background: var(--surface-neutral-soft);
 }
 
 .team-card {
@@ -418,6 +420,11 @@ h1 {
   color: var(--muted);
 }
 
+.team-card strong {
+  color: #e5e7eb;
+  font-weight: 800;
+}
+
 .event-card {
   border-top: 8px solid var(--team-color);
 }
@@ -441,7 +448,7 @@ h1 {
 .food-team {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--surface-neutral);
   box-shadow: var(--shadow-soft);
 }
 
@@ -537,7 +544,7 @@ h1 {
 .material-team {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--surface-neutral);
   box-shadow: var(--shadow-soft);
 }
 

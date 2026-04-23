@@ -12,12 +12,12 @@ localStorage.removeItem("gincana-ensps-2026-github-token");
 
 const defaultData = {
   teams: [
-    { id: "6", name: "6º Ano", theme: "São João Nordestino", color: "#f97316", category: "Categoria 1" },
-    { id: "7", name: "7º Ano", theme: "Festa do Peão de Barretos", color: "#8b5cf6", category: "Categoria 1" },
-    { id: "8", name: "8º Ano", theme: "Carnaval de Salvador", color: "#facc15", category: "Categoria 1" },
-    { id: "9", name: "9º Ano", theme: "Bumba Meu Boi", color: "#16a34a", category: "Categoria 2" },
-    { id: "1", name: "1º Ano", theme: "Carnaval de Recife", color: "#2563eb", category: "Categoria 2" },
-    { id: "2", name: "2º Ano", theme: "Festival de Parintins", color: "#050505", category: "Categoria 2" }
+    { id: "6", name: "6º Ano", theme: "São João Nordestino", color: "#f97316", category: "Categoria 1", mentor: "Prof. Eduardo" },
+    { id: "7", name: "7º Ano", theme: "Festa do Peão de Barretos", color: "#8b5cf6", category: "Categoria 1", mentor: "Prof. Thayna" },
+    { id: "8", name: "8º Ano", theme: "Carnaval de Salvador", color: "#facc15", category: "Categoria 1", mentor: "Prof. Elayne" },
+    { id: "9", name: "9º Ano", theme: "Bumba Meu Boi", color: "#16a34a", category: "Categoria 2", mentor: "Prof. Alexandre" },
+    { id: "1", name: "1º Ano", theme: "Carnaval de Recife", color: "#2563eb", category: "Categoria 2", mentor: "Prof. Amanda e Diogo" },
+    { id: "2", name: "2º Ano", theme: "Festival de Parintins", color: "#050505", category: "Categoria 2", mentor: "Prof. Rafaely" }
   ],
   materialTypes: [
     "Ficha de inscrição",
@@ -215,8 +215,9 @@ function renderTeams() {
       <div class="team-swatch"></div>
       <div class="team-card-body">
         <h3>${item.name}</h3>
-        <p>${item.theme}</p>
-        <p>${item.category}</p>
+        <p><strong>Cor:</strong> ${item.color.toUpperCase()}</p>
+        <p><strong>Tema:</strong> ${item.theme}</p>
+        <p><strong>Padrinho:</strong> ${item.mentor}</p>
       </div>
     </article>
   `).join(""));
