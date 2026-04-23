@@ -77,17 +77,23 @@
             <label>Início<input name="time" type="time" required></label>
             <label>Fim<input name="endTime" type="time"></label>
             <label>Local<input name="place" type="text" value="ENSPS"></label>
-            <label class="wide">Atividade<input name="activity" type="text" list="scheduleActivities" placeholder="Dança típica, líderes de torcida, professores"></label>
+            <label class="wide activity-field">
+              <span>Atividade</span>
+              <div class="activity-input-row">
+                <input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores">
+                <select name="activityPreset" aria-label="Sugestões de atividade">
+                  <option value="">Escolher</option>
+                  <option value="Dança das Líderes de Torcida">Dança das Líderes de Torcida</option>
+                  <option value="Dança dos Professores">Dança dos Professores</option>
+                  <option value="Dança Típica">Dança Típica</option>
+                  <option value="Story">Story</option>
+                  <option value="Organização">Organização</option>
+                </select>
+              </div>
+            </label>
             <button class="button primary" id="scheduleSubmit" type="submit">Agendar ensaio</button>
             <button class="button ghost" id="scheduleCancelEdit" type="button" hidden>Cancelar edição</button>
           </form>
-          <datalist id="scheduleActivities">
-            <option value="Dança das Líderes de Torcida"></option>
-            <option value="Dança dos Professores"></option>
-            <option value="Dança Típica"></option>
-            <option value="Story"></option>
-            <option value="Organização"></option>
-          </datalist>
           <div class="schedule-board admin-schedule-board">
             <div class="schedule-board-heading">
               <span class="eyebrow">Agenda</span>

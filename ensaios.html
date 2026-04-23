@@ -29,60 +29,75 @@
 
   <main>
     <section class="section single-panel">
-      <div class="section-heading">
-        <span>
-          <span class="eyebrow">Marcação</span>
-          <span class="section-title">Agendar ensaio</span>
-        </span>
-      </div>
-
       <div class="split-workspace section-body">
-        <div class="admin-shell">
-          <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
-          <div class="admin-panel active">
-            <form id="scheduleForm" class="form-grid rehearsal-form">
-              <input name="editIndex" type="hidden" value="">
-              <label>Turma<select name="team" required></select></label>
-              <label>Data<input name="date" type="date" required></label>
-              <label>
-                Horário padrão
-                <select name="preset">
-                  <option value="">Selecionar</option>
-                  <option value="10:40|11:30">10h40-11h30</option>
-                  <option value="11:30|12:30">11h30-12h30</option>
-                  <option value="11:50|12:35">11h50-12h35</option>
-                  <option value="14:30|16:30">14h30-16h30</option>
-                </select>
-              </label>
-              <label>Início<input name="time" type="time" required></label>
-              <label>Fim<input name="endTime" type="time"></label>
-              <label>Local<input name="place" type="text" value="ENSPS"></label>
-              <label class="wide">Atividade<input name="activity" type="text" list="scheduleActivities" placeholder="Dança típica, líderes de torcida, professores"></label>
-              <button class="button primary" id="scheduleSubmit" type="submit">Agendar ensaio</button>
-              <button class="button ghost" id="scheduleCancelEdit" type="button" hidden>Cancelar edição</button>
-            </form>
-            <datalist id="scheduleActivities">
-              <option value="Dança das Líderes de Torcida"></option>
-              <option value="Dança dos Professores"></option>
-              <option value="Dança Típica"></option>
-              <option value="Story"></option>
-              <option value="Organização"></option>
-            </datalist>
-            <div class="rehearsal-actions">
-              <button class="button primary" id="saveGithubData" type="button">Salvar online</button>
+        <details class="admin-shell schedule-shell section-toggle">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Marcação</span>
+              <span class="section-title">Agendar ensaio</span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
+            <div class="admin-panel active">
+              <form id="scheduleForm" class="form-grid rehearsal-form">
+                <input name="editIndex" type="hidden" value="">
+                <label>Turma<select name="team" required></select></label>
+                <label>Data<input name="date" type="date" required></label>
+                <label>
+                  Horário padrão
+                  <select name="preset">
+                    <option value="">Selecionar</option>
+                    <option value="10:40|11:30">10h40-11h30</option>
+                    <option value="11:30|12:30">11h30-12h30</option>
+                    <option value="11:50|12:35">11h50-12h35</option>
+                    <option value="14:30|16:30">14h30-16h30</option>
+                  </select>
+                </label>
+                <label>Início<input name="time" type="time" required></label>
+                <label>Fim<input name="endTime" type="time"></label>
+                <label>Local<input name="place" type="text" value="ENSPS"></label>
+                <label class="wide activity-field">
+                  <span>Atividade</span>
+                  <div class="activity-input-row">
+                    <input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores">
+                    <select name="activityPreset" aria-label="Sugestões de atividade">
+                      <option value="">Escolher</option>
+                      <option value="Dança das Líderes de Torcida">Dança das Líderes de Torcida</option>
+                      <option value="Dança dos Professores">Dança dos Professores</option>
+                      <option value="Dança Típica">Dança Típica</option>
+                      <option value="Story">Story</option>
+                      <option value="Organização">Organização</option>
+                    </select>
+                  </div>
+                </label>
+                <button class="button primary" id="scheduleSubmit" type="submit">Agendar ensaio</button>
+                <button class="button ghost" id="scheduleCancelEdit" type="button" hidden>Cancelar edição</button>
+              </form>
+              <div class="rehearsal-actions">
+                <button class="button primary" id="saveGithubData" type="button">Salvar online</button>
+              </div>
             </div>
           </div>
-        </div>
+        </details>
 
-        <div class="schedule-board">
-          <div class="schedule-board-heading">
-            <span class="eyebrow">Agenda</span>
-            <h2>Ensaios agendados</h2>
-            <p>Acompanhe os horários marcados por turma.</p>
+        <details class="schedule-board schedule-shell section-toggle">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Agenda</span>
+              <span class="section-title">Ensaios agendados</span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <div class="schedule-board-heading">
+              <p>Acompanhe os horários marcados por turma.</p>
+            </div>
+            <div id="scheduleList" class="schedule-list"></div>
+            <div class="table-wrap"><table id="scheduleTable"></table></div>
           </div>
-          <div id="scheduleList" class="schedule-list"></div>
-          <div class="table-wrap"><table id="scheduleTable"></table></div>
-        </div>
+        </details>
       </div>
     </section>
   </main>

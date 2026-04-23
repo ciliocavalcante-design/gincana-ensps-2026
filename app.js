@@ -423,6 +423,12 @@ function applySchedulePreset(rawValue) {
   form.elements.endTime.value = end || "";
 }
 
+function applyActivityPreset(rawValue) {
+  const form = byId("scheduleForm");
+  if (!form || !rawValue) return;
+  form.elements.activity.value = rawValue;
+}
+
 function renderDiscipline() {
   const entries = [...state.discipline].reverse();
   setHtml("disciplineList", entries.length ? entries.map((item) => {
@@ -736,6 +742,9 @@ on("scheduleCancelEdit", "click", () => {
 on("scheduleForm", "change", (event) => {
   if (event.target.name === "preset") {
     applySchedulePreset(event.target.value);
+  }
+  if (event.target.name === "activityPreset") {
+    applyActivityPreset(event.target.value);
   }
 });
 
