@@ -1,19 +1,9 @@
 const GITHUB_API_BASE = "https://api.github.com";
 
-function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, X-Admin-Secret",
-    "Access-Control-Max-Age": "86400"
-  };
-}
-
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      ...corsHeaders(),
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store"
     }
@@ -26,10 +16,9 @@ function getConfig(env) {
   const branch = env.GITHUB_BRANCH || "main";
   const path = env.GITHUB_DATA_PATH || "data/gincana-data.json";
 
-  if (!env.GITHUB_TOKEN) throw new Error("Secret GITHUB_TOKEN nao configurado no Cloudflare.");
-  if (!env.ADMIN_SECRET) throw new Error("Secret ADMIN_SECRET nao configurado no Cloudflare.");
+  if (!env.GITHUB_TOKEN) throw new Error("Secret GITHUB_TOKEN nao configurado no Cloudflare Pages.");
 
-  return { owner, repo, branch, path, token: env.GITHUB_TOKEN, adminSecret: env.ADMIN_SECRET };
+  return { owner, repo, branch, path, token: env.GITHUB_TOKEN };
 }
 
 function toBase64Utf8(text) {
@@ -52,7 +41,7 @@ async function githubRequest(config, url, init = {}) {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${config.token}`,
       "Content-Type": "application/json; charset=utf-8",
-      "User-Agent": "gincana-ensps-2026-cloudflare-worker",
+      "User-Agent": "gincana-ensps-2026-cloudflare-pages",
       "X-GitHub-Api-Version": "2022-11-28",
       ...(init.headers || {})
     }
@@ -116,60 +105,35 @@ async function writeGithubData(config, data, reason) {
   throw lastError || new Error("Conflito ao salvar no GitHub.");
 }
 
-function authorize(request, config) {
-  return request.headers.get("X-Admin-Secret") === config.adminSecret;
+export async function onRequestGet(context) {
+  try {
+    const config = getConfig(context.env);
+    const current = await readGithubData(config);
+    return json({
+      ok: true,
+      data: current.data,
+      sha: current.sha,
+      path: config.path,
+      branch: config.branch
+    });
+  } catch (error) {
+    return json({ ok: false, error: error.message || "Erro ao carregar dados." }, 500);
+  }
 }
 
-export default {
-  async fetch(request, env) {
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders() });
+export async function onRequestPost(context) {
+  try {
+    const config = getConfig(context.env);
+    const body = await context.request.json().catch(() => ({}));
+    const data = body?.data;
+
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      return json({ ok: false, error: "Envie um JSON no formato { data }." }, 400);
     }
 
-    try {
-      const config = getConfig(env);
-      const url = new URL(request.url);
-
-      if (url.pathname === "/health") {
-        return json({ ok: true });
-      }
-
-      if (url.pathname !== "/data") {
-        return json({ ok: false, error: "Rota nao encontrada." }, 404);
-      }
-
-      if (request.method === "GET") {
-        const current = await readGithubData(config);
-        return json({
-          ok: true,
-          data: current.data,
-          sha: current.sha,
-          path: config.path,
-          branch: config.branch
-        });
-      }
-
-      if (request.method === "POST") {
-        if (!authorize(request, config)) {
-          return json({ ok: false, error: "Senha de administrador invalida." }, 401);
-        }
-
-        const body = await request.json().catch(() => ({}));
-        const data = body?.data;
-        if (!data || typeof data !== "object" || Array.isArray(data)) {
-          return json({ ok: false, error: "Envie um JSON no formato { data }." }, 400);
-        }
-
-        const saved = await writeGithubData(config, data, body.reason);
-        return json(saved);
-      }
-
-      return json({ ok: false, error: "Metodo nao permitido." }, 405);
-    } catch (error) {
-      return json({
-        ok: false,
-        error: error.message || "Erro inesperado no Cloudflare Worker."
-      }, 500);
-    }
+    const saved = await writeGithubData(config, data, body.reason);
+    return json(saved);
+  } catch (error) {
+    return json({ ok: false, error: error.message || "Erro ao salvar dados." }, 500);
   }
-};
+}

@@ -1,11 +1,10 @@
 const STORAGE_KEY = "gincana-ensps-2026-v1";
-const WORKER_URL_KEY = "gincana-ensps-2026-worker-url";
-const ADMIN_SECRET_KEY = "gincana-ensps-2026-admin-secret";
 const GITHUB_OWNER = "ciliocavalcante-design";
 const GITHUB_REPO = "gincana-ensps-2026";
 const GITHUB_BRANCH = "main";
 const DATA_PATH = "data/gincana-data.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
+const PAGES_DATA_URL = "/api/data";
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
@@ -106,11 +105,11 @@ function normalizeState(saved = {}) {
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   render();
-  if (hasRemoteAccess()) {
+  if (canSaveOnline()) {
     setSyncStatus("Alterações salvas. Sincronizando online...");
     queueRemoteSave();
   } else {
-    setSyncStatus("Alterações salvas neste navegador. Configure o Worker e a senha para atualizar o site dos alunos.");
+    setSyncStatus("Alterações salvas neste navegador. Abra pelo Cloudflare Pages para salvar online.");
   }
 }
 
@@ -136,21 +135,12 @@ function queueRemoteSave() {
   }, 700);
 }
 
-function workerUrl() {
-  return (localStorage.getItem(WORKER_URL_KEY) || "").trim().replace(/\/+$/, "");
+function usesPagesApi() {
+  return location.protocol.startsWith("http") && !location.hostname.endsWith("github.io");
 }
 
-function adminSecret() {
-  return (localStorage.getItem(ADMIN_SECRET_KEY) || "").trim();
-}
-
-function hasRemoteAccess() {
-  return Boolean(workerUrl() && adminSecret());
-}
-
-function workerEndpoint(path) {
-  const base = workerUrl();
-  return base ? `${base}${path}` : "";
+function canSaveOnline() {
+  return usesPagesApi();
 }
 
 function byId(id) {
@@ -616,27 +606,6 @@ on("importData", "change", async (event) => {
   saveState();
 });
 
-on("saveAdminAccess", "click", () => {
-  const url = byId("workerUrl").value.trim().replace(/\/+$/, "");
-  const secret = byId("adminSecret").value.trim();
-  if (!url || !secret) {
-    setSyncStatus("Informe a URL do Worker e a senha de administrador antes de guardar.");
-    return;
-  }
-  localStorage.setItem(WORKER_URL_KEY, url);
-  localStorage.setItem(ADMIN_SECRET_KEY, secret);
-  byId("adminSecret").value = "";
-  setSyncStatus("Acesso de administrador guardado neste navegador.");
-});
-
-on("clearAdminAccess", "click", () => {
-  localStorage.removeItem(WORKER_URL_KEY);
-  localStorage.removeItem(ADMIN_SECRET_KEY);
-  setValue("workerUrl", "");
-  setValue("adminSecret", "");
-  setSyncStatus("Acesso de administrador removido deste navegador.");
-});
-
 on("loadGithubData", "click", () => {
   loadRemoteData({ announce: true });
 });
@@ -653,16 +622,15 @@ on("resetData", "click", () => {
 
 async function loadRemoteData(options = {}) {
   try {
-    const endpoint = workerEndpoint("/data");
-    setSyncStatus(endpoint ? "Carregando dados online pelo Cloudflare..." : "Carregando dados públicos do GitHub...");
-    const response = await fetch(`${endpoint || RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    setSyncStatus("Carregando dados online...");
+    const response = await fetch(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`servidor respondeu ${response.status}`);
     const payload = await response.json();
     const data = payload?.data || payload;
     state = normalizeState(data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
-    setSyncStatus(endpoint ? "Dados carregados pelo Cloudflare." : "Dados públicos carregados do GitHub.");
+    setSyncStatus("Dados carregados.");
   } catch (error) {
     if (options.announce) {
       setSyncStatus(`Não foi possível carregar os dados online: ${error.message}`);
@@ -674,10 +642,8 @@ async function loadRemoteData(options = {}) {
 }
 
 async function saveRemoteData() {
-  const endpoint = workerEndpoint("/data");
-  const secret = adminSecret();
-  if (!endpoint || !secret) {
-    setSyncStatus("Informe e guarde a URL do Worker e a senha de administrador antes de salvar online.");
+  if (!canSaveOnline()) {
+    setSyncStatus("Abra a página publicada no Cloudflare Pages para salvar online.");
     return;
   }
 
@@ -691,11 +657,10 @@ async function saveRemoteData() {
 
   try {
     setSyncStatus("Salvando dados online pelo Cloudflare...");
-    const response = await fetch(endpoint, {
+    const response = await fetch(PAGES_DATA_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "X-Admin-Secret": secret
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         data: mutableState(),
@@ -707,7 +672,7 @@ async function saveRemoteData() {
       throw new Error(payload.error || `servidor respondeu ${response.status}`);
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    setSyncStatus("Dados salvos no GitHub pelo Cloudflare. Os alunos verão a atualização ao recarregar a página.");
+    setSyncStatus("Dados salvos online. Os alunos verão a atualização ao recarregar a página.");
   } catch (error) {
     setSyncStatus(`Não foi possível salvar online: ${error.message}`);
   } finally {
@@ -720,5 +685,4 @@ async function saveRemoteData() {
 }
 
 render();
-setValue("workerUrl", workerUrl());
 loadRemoteData();

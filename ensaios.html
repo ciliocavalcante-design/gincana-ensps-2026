@@ -51,13 +51,7 @@
 
             <div class="sync-box rehearsal-sync">
               <h3>Acesso online</h3>
-              <p>Use a URL do Worker e a senha de administrador para salvar os ensaios no GitHub.</p>
-              <div class="form-grid sync-grid">
-                <label class="wide">URL do Worker<input id="workerUrl" type="url" autocomplete="off" placeholder="https://gincana-ensps-2026.ciliocavalcante.workers.dev"></label>
-                <label class="wide">Senha de administrador<input id="adminSecret" type="password" autocomplete="off" placeholder="Senha criada no Cloudflare como ADMIN_SECRET"></label>
-                <button class="button primary" id="saveAdminAccess" type="button">Guardar acesso</button>
-                <button class="button ghost" id="clearAdminAccess" type="button">Limpar acesso</button>
-              </div>
+              <p>O login será feito pelo Cloudflare Access. Depois de autenticado, os ensaios são salvos online automaticamente.</p>
               <div class="settings-actions">
                 <button class="button primary" id="loadGithubData" type="button">Carregar online</button>
                 <button class="button primary" id="saveGithubData" type="button">Salvar online</button>
