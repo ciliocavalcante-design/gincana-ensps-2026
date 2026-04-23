@@ -1077,6 +1077,10 @@ h1 {
 .schedule-shell {
   width: 100%;
   margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
 }
 
 .schedule-shell > .section-heading {
@@ -1096,6 +1100,37 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 170px;
   gap: 10px;
+}
+
+@media (min-width: 761px) {
+  .rehearsal-form,
+  #schedulePanel .form-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .rehearsal-form label:not(.wide),
+  #schedulePanel .form-grid label:not(.wide) {
+    grid-column: span 2;
+  }
+
+  .rehearsal-form label.wide,
+  #schedulePanel .form-grid label.wide {
+    grid-column: span 6;
+  }
+
+  .activity-input-row {
+    grid-template-columns: minmax(0, 1fr) 190px;
+  }
+
+  .rehearsal-form #scheduleSubmit,
+  .rehearsal-form #scheduleCancelEdit,
+  #schedulePanel #scheduleSubmit,
+  #schedulePanel #scheduleCancelEdit {
+    grid-column: span 2;
+    justify-self: start;
+    min-width: 190px;
+  }
 }
 
 .rehearsal-actions {
@@ -1528,6 +1563,18 @@ footer {
   .activity-input-row {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .schedule-shell {
+    border-radius: 14px;
+  }
+
+  .schedule-shell > .section-heading {
+    padding: 10px 14px 12px;
+  }
+
+  .schedule-shell > .section-body {
+    padding: 14px 16px 16px;
   }
 
   .rehearsal-sync {
