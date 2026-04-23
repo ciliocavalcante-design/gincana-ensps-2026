@@ -235,20 +235,21 @@ function renderEvents() {
   }).join(""));
 }
 
-function eventRanking(eventId) {
-  return state.teams.map((item) => {
+function eventRanking(eventId, category) {
+  return state.teams
+    .filter((item) => !category || item.category === category)
+    .map((item) => {
     const score = state.scores.find((entry) => entry.teamId === item.id && entry.eventId === eventId);
     return {
       ...item,
       points: Number(score?.points || 0),
       note: score?.note || "Sem observação"
     };
-  }).sort((a, b) => b.points - a.points);
+    }).sort((a, b) => b.points - a.points);
 }
 
 function renderEventResults() {
   setHtml("eventResults", state.events.map((event) => {
-    const ranking = eventRanking(event.id);
     return `
       <details class="event-result-card">
         <summary>
@@ -259,17 +260,27 @@ function renderEventResults() {
           <span class="toggle-arrow event-result-arrow" aria-hidden="true">⌄</span>
         </summary>
         <div class="event-result-body">
-          ${ranking.map((item, index) => `
-            <article class="event-result-row${index < 3 ? " top-three" : ""}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-              <div class="event-result-place">${index + 1}º</div>
-              <div>
-                <h4>${item.name}</h4>
-                <p>${item.theme}</p>
-                <small>${item.note}</small>
-              </div>
-              <div class="event-result-points">${formatPoints(item.points)}</div>
-            </article>
-          `).join("")}
+          ${["Categoria 1", "Categoria 2"].map((category) => {
+            const ranking = eventRanking(event.id, category);
+            return `
+              <section class="event-result-category">
+                <h4>${category}</h4>
+                <div class="event-result-category-list">
+                  ${ranking.map((item, index) => `
+                    <article class="event-result-row${index < 3 ? " top-three" : ""}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
+                      <div class="event-result-place">${index + 1}º</div>
+                      <div>
+                        <h4>${item.name}</h4>
+                        <p>${item.theme}</p>
+                        <small>${item.note}</small>
+                      </div>
+                      <div class="event-result-points">${formatPoints(item.points)}</div>
+                    </article>
+                  `).join("")}
+                </div>
+              </section>
+            `;
+          }).join("")}
         </div>
       </details>
     `;
