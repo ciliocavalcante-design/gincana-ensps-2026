@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gincana Tudo Junto e Misturado 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="Navegação principal">
+      <a href="#inicio" class="brand-link" aria-label="Início">
+        <img src="assets/logo-ensps.png" alt="Logo ENSPS">
+        <span>ENSPS</span>
+      </a>
+      <a href="#placar">Placar</a>
+      <a href="#provas">Provas</a>
+      <a href="#arrecadacao">Arrecadação</a>
+      <a href="#entregas">Entregas</a>
+      <a href="#ensaios">Ensaios</a>
+      <a href="#admin">Administrador</a>
+    </nav>
+    <div id="inicio" class="hero-content-wrap">
+      <img class="school-logo" src="assets/logo-ensps.png" alt="Logo da Escola Nossa Senhora do Perpétuo Socorro">
+      <div class="hero-content">
+        <p class="eyebrow">ENSPS • 2026</p>
+        <h1>Tudo Junto e Misturado</h1>
+        <p>Brasil em Cena: Festas e Tradições</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#placar">Ver pontuação</a>
+          <a class="button ghost" href="#admin">Atualizar dados</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="placar" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Pontuação parcial</p>
+        <h2>Placar geral</h2>
+      </div>
+      <div id="scoreboard" class="scoreboard" aria-live="polite"></div>
+    </section>
+
+    <section class="section band">
+      <div class="section-heading">
+        <p class="eyebrow">Turmas</p>
+        <h2>Cores e temas</h2>
+      </div>
+      <div id="teamsGrid" class="teams-grid"></div>
+    </section>
+
+    <section id="provas" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Resumo</p>
+        <h2>Provas da gincana</h2>
+      </div>
+      <div id="eventsGrid" class="events-grid"></div>
+    </section>
+
+    <section id="ensaios" class="section band">
+      <div class="section-heading">
+        <p class="eyebrow">Organização</p>
+        <h2>Ensaios agendados</h2>
+      </div>
+      <div id="scheduleList" class="schedule-list"></div>
+    </section>
+
+    <section id="arrecadacao" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Prova solidária</p>
+        <h2>Arrecadação de alimentos</h2>
+      </div>
+      <div id="foodRanking" class="food-ranking"></div>
+      <div id="foodPanel" class="food-panel"></div>
+    </section>
+
+    <section id="entregas" class="section band">
+      <div class="section-heading">
+        <p class="eyebrow">Controle</p>
+        <h2>Entrega de materiais</h2>
+      </div>
+      <div id="materialsOverview" class="materials-overview"></div>
+      <div id="materialsList" class="materials-list"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Comissão</p>
+        <h2>Advertências e penalidades</h2>
+      </div>
+      <div id="disciplineList" class="discipline-list"></div>
+    </section>
+
+    <section id="admin" class="section admin-section">
+      <div class="section-heading">
+        <p class="eyebrow">Área interna</p>
+        <h2>Administrador</h2>
+      </div>
+
+      <div class="admin-shell">
+        <div class="admin-tabs" role="tablist" aria-label="Ferramentas de administração">
+          <button class="tab-button active" data-panel="pointsPanel" type="button">Pontuações</button>
+          <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios</button>
+          <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
+          <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
+          <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
+          <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
+        </div>
+
+        <div class="admin-panel active" id="pointsPanel">
+          <form id="pointsForm" class="form-grid">
+            <label>
+              Turma
+              <select name="team" required></select>
+            </label>
+            <label>
+              Prova
+              <select name="event" required></select>
+            </label>
+            <label>
+              Pontos
+              <input name="points" type="number" step="0.5" required>
+            </label>
+            <label class="wide">
+              Observação
+              <input name="note" type="text" placeholder="Ex.: 1º lugar, bônus, revisão da banca">
+            </label>
+            <button class="button primary" type="submit">Salvar pontuação</button>
+          </form>
+          <div class="table-wrap">
+            <table id="pointsTable"></table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="schedulePanel">
+          <form id="scheduleForm" class="form-grid">
+            <label>
+              Turma
+              <select name="team" required></select>
+            </label>
+            <label>
+              Data
+              <input name="date" type="date" required>
+            </label>
+            <label>
+              Horário
+              <input name="time" type="time" required>
+            </label>
+            <label>
+              Local
+              <input name="place" type="text" value="ENSPS">
+            </label>
+            <label class="wide">
+              Atividade
+              <input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores">
+            </label>
+            <button class="button primary" type="submit">Agendar ensaio</button>
+          </form>
+          <div class="table-wrap">
+            <table id="scheduleTable"></table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="foodPanelAdmin">
+          <form id="foodForm" class="form-grid">
+            <label>
+              Turma
+              <select name="team" required></select>
+            </label>
+            <label>
+              Item
+              <select name="food" required></select>
+            </label>
+            <label>
+              Quantidade
+              <input name="quantity" type="number" min="0.01" step="0.01" required>
+            </label>
+            <label>
+              Data
+              <input name="date" type="date">
+            </label>
+            <label class="wide">
+              Observação
+              <input name="note" type="text" placeholder="Ex.: conferido na sala, doação da família">
+            </label>
+            <button class="button primary" type="submit">Lançar alimento</button>
+          </form>
+          <div class="table-wrap">
+            <table id="foodTable"></table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="materialsPanel">
+          <form id="materialsForm" class="form-grid">
+            <label>
+              Turma
+              <select name="team" required></select>
+            </label>
+            <label>
+              Material
+              <select name="material" required>
+                <option value="Ficha de inscrição">Ficha de inscrição</option>
+                <option value="Relatório de estratégia de trabalho">Relatório de estratégia de trabalho</option>
+                <option value="Cota (sala + blusa)">Cota (sala + blusa)</option>
+                <option value="Remix dança das líderes de torcida">Remix dança das líderes de torcida</option>
+                <option value="Remix dança dos professores">Remix dança dos professores</option>
+                <option value="Remix dança típica">Remix dança típica</option>
+                <option value="Áudio da comida típica">Áudio da comida típica</option>
+              </select>
+            </label>
+            <label>
+              Situação
+              <select name="status" required>
+                <option>Entregue</option>
+                <option>Parcial</option>
+                <option>Pendente</option>
+              </select>
+            </label>
+            <label>
+              Data
+              <input name="date" type="date">
+            </label>
+            <label>
+              Valor/Detalhe
+              <input name="amount" type="text" placeholder="Ex.: R$ 85,00 ou link/pendrive">
+            </label>
+            <label class="wide">
+              Observação
+              <input name="note" type="text" placeholder="Ex.: faltam 3 alunos, arquivo em conferência">
+            </label>
+            <button class="button primary" type="submit">Salvar entrega</button>
+          </form>
+          <div class="table-wrap">
+            <table id="materialsTable"></table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="disciplinePanel">
+          <form id="disciplineForm" class="form-grid">
+            <label>
+              Turma
+              <select name="team" required></select>
+            </label>
+            <label>
+              Tipo
+              <select name="type" required>
+                <option>Advertência</option>
+                <option>Penalidade</option>
+              </select>
+            </label>
+            <label>
+              Pontos
+              <input name="points" type="number" step="0.5" value="0">
+            </label>
+            <label class="wide">
+              Motivo
+              <input name="reason" type="text" required placeholder="Ex.: atraso, comportamento, ensaio sem aviso">
+            </label>
+            <button class="button primary" type="submit">Registrar</button>
+          </form>
+          <div class="table-wrap">
+            <table id="disciplineTable"></table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="settingsPanel">
+          <div class="settings-actions">
+            <button class="button primary" id="exportData" type="button">Exportar JSON</button>
+            <label class="button ghost file-button">
+              Importar JSON
+              <input id="importData" type="file" accept="application/json">
+            </label>
+            <button class="button danger" id="resetData" type="button">Restaurar exemplo</button>
+          </div>
+          <textarea id="dataPreview" readonly spellcheck="false"></textarea>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Gincana Socioesportiva e Cultural ENSPS 2026</strong>
+    <span>Dados salvos neste navegador até a publicação com banco de dados.</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
