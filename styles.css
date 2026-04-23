@@ -88,10 +88,10 @@ a {
 
 .eyebrow {
   display: block;
-  margin: 0 0 5px;
+  margin: 0 0 3px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: clamp(0.7rem, 0.82vw, 0.8rem);
+  font-size: clamp(0.66rem, 0.72vw, 0.74rem);
   font-weight: 800;
   color: #86efac;
 }
@@ -162,7 +162,7 @@ h1 {
 }
 
 .section {
-  padding: 18px clamp(18px, 5vw, 72px);
+  padding: 10px clamp(18px, 5vw, 72px);
 }
 
 .band {
@@ -175,9 +175,9 @@ h1 {
   justify-content: space-between;
   gap: 18px;
   width: min(980px, 100%);
-  min-height: 58px;
+  min-height: 46px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 7px 0;
   cursor: pointer;
   list-style: none;
 }
@@ -189,14 +189,14 @@ h1 {
 .section-title {
   display: block;
   margin: 0;
-  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-size: clamp(1.18rem, 2vw, 1.65rem);
   font-weight: 800;
   line-height: 0.95;
 }
 
 .toggle-arrow {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -204,7 +204,7 @@ h1 {
   border-radius: 50%;
   color: #bbf7d0;
   background: rgba(255, 255, 255, 0.06);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 900;
   transition: transform 180ms ease, background 180ms ease;
 }
