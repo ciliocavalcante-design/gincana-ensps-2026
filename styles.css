@@ -215,7 +215,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  width: min(980px, 100%);
+  width: min(1180px, 100%);
   min-height: 46px;
   margin: 0 auto;
   padding: 7px 0 9px;
