@@ -1125,30 +1125,18 @@ h1 {
 @media (min-width: 761px) {
   .rehearsal-form,
   #schedulePanel .form-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .rehearsal-form label:not(.wide),
   #schedulePanel .form-grid label:not(.wide) {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .rehearsal-form label.wide,
   #schedulePanel .form-grid label.wide {
-    grid-column: span 6;
-  }
-
-  .rehearsal-form #scheduleSubmit,
-  #schedulePanel #scheduleSubmit {
     grid-column: 1 / -1;
-    width: 100%;
-  }
-
-  .rehearsal-form #scheduleCancelEdit,
-  #schedulePanel #scheduleCancelEdit {
-    grid-column: 1 / -1;
-    width: 100%;
   }
 }
 
@@ -1577,6 +1565,11 @@ footer {
   .rehearsal-form,
   .rehearsal-sync .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .rehearsal-form #scheduleSubmit,
+  .rehearsal-form #scheduleCancelEdit {
+    width: 100%;
   }
 
   .activity-combo input {
