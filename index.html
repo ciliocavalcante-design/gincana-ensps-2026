@@ -17,10 +17,7 @@
         <span>ENSPS</span>
       </a>
       <a href="#placar">Placar</a>
-      <a href="#provas">Provas</a>
-      <a href="#arrecadacao">Arrecadação</a>
-      <a href="#entregas">Entregas</a>
-      <a href="#ensaios">Ensaios</a>
+      <a href="#painel">Painel</a>
       <a href="#admin">Administrador</a>
     </nav>
     <div id="inicio" class="hero-content-wrap">
@@ -46,54 +43,64 @@
       <div id="scoreboard" class="scoreboard" aria-live="polite"></div>
     </section>
 
-    <section class="section band">
+    <section id="painel" class="section band">
       <div class="section-heading">
-        <p class="eyebrow">Turmas</p>
-        <h2>Cores e temas</h2>
+        <p class="eyebrow">Acompanhe</p>
+        <h2>Painel da gincana</h2>
       </div>
-      <div id="teamsGrid" class="teams-grid"></div>
-    </section>
 
-    <section id="provas" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Resumo</p>
-        <h2>Provas da gincana</h2>
+      <div class="public-tabs" role="tablist" aria-label="Painel público da gincana">
+        <button class="public-tab-button active" data-public-panel="teamsPanel" type="button">Turmas</button>
+        <button class="public-tab-button" data-public-panel="eventsPanel" type="button">Provas</button>
+        <button class="public-tab-button" data-public-panel="foodPublicPanel" type="button">Arrecadação</button>
+        <button class="public-tab-button" data-public-panel="materialsPublicPanel" type="button">Entregas</button>
+        <button class="public-tab-button" data-public-panel="schedulePublicPanel" type="button">Ensaios</button>
+        <button class="public-tab-button" data-public-panel="disciplinePublicPanel" type="button">Advertências</button>
       </div>
-      <div id="eventsGrid" class="events-grid"></div>
-    </section>
 
-    <section id="ensaios" class="section band">
-      <div class="section-heading">
-        <p class="eyebrow">Organização</p>
-        <h2>Ensaios agendados</h2>
+      <div class="public-panel active" id="teamsPanel">
+        <div class="panel-heading">
+          <h3>Cores e temas</h3>
+        </div>
+        <div id="teamsGrid" class="teams-grid"></div>
       </div>
-      <div id="scheduleList" class="schedule-list"></div>
-    </section>
 
-    <section id="arrecadacao" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Prova solidária</p>
-        <h2>Arrecadação de alimentos</h2>
+      <div class="public-panel" id="eventsPanel">
+        <div class="panel-heading">
+          <h3>Provas da gincana</h3>
+        </div>
+        <div id="eventsGrid" class="events-grid"></div>
       </div>
-      <div id="foodRanking" class="food-ranking"></div>
-      <div id="foodPanel" class="food-panel"></div>
-    </section>
 
-    <section id="entregas" class="section band">
-      <div class="section-heading">
-        <p class="eyebrow">Controle</p>
-        <h2>Entrega de materiais</h2>
+      <div class="public-panel" id="foodPublicPanel">
+        <div class="panel-heading">
+          <h3>Arrecadação de alimentos</h3>
+        </div>
+        <div id="foodRanking" class="food-ranking"></div>
+        <div id="foodPanel" class="food-panel"></div>
       </div>
-      <div id="materialsOverview" class="materials-overview"></div>
-      <div id="materialsList" class="materials-list"></div>
-    </section>
 
-    <section class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Comissão</p>
-        <h2>Advertências e penalidades</h2>
+      <div class="public-panel" id="materialsPublicPanel">
+        <div class="panel-heading">
+          <h3>Entrega de materiais</h3>
+        </div>
+        <div id="materialsOverview" class="materials-overview"></div>
+        <div id="materialsList" class="materials-list"></div>
       </div>
-      <div id="disciplineList" class="discipline-list"></div>
+
+      <div class="public-panel" id="schedulePublicPanel">
+        <div class="panel-heading">
+          <h3>Ensaios agendados</h3>
+        </div>
+        <div id="scheduleList" class="schedule-list"></div>
+      </div>
+
+      <div class="public-panel" id="disciplinePublicPanel">
+        <div class="panel-heading">
+          <h3>Advertências e penalidades</h3>
+        </div>
+        <div id="disciplineList" class="discipline-list"></div>
+      </div>
     </section>
 
     <section id="admin" class="section admin-section">

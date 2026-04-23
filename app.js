@@ -444,6 +444,15 @@ document.querySelectorAll(".tab-button").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".public-tab-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".public-tab-button").forEach((item) => item.classList.remove("active"));
+    document.querySelectorAll(".public-panel").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    byId(button.dataset.publicPanel).classList.add("active");
+  });
+});
+
 byId("pointsForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
