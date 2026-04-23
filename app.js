@@ -183,7 +183,7 @@ function totals() {
 
 function renderScoreboard() {
   byId("scoreboard").innerHTML = totals().map((item, index) => `
-    <article class="score-card" style="--team-color:${item.color}">
+    <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
       <div class="rank">${index + 1}º</div>
       <div>
         <h3>${item.name}</h3>
@@ -262,7 +262,7 @@ function foodTotals() {
 function renderFoodDonations() {
   const ranking = foodTotals();
   byId("foodRanking").innerHTML = ranking.map((item, index) => `
-    <article class="food-rank-card" style="--team-color:${item.color}">
+    <article class="food-rank-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
       <div class="rank">${index + 1}º</div>
       <div>
         <h3>${item.name}</h3>
