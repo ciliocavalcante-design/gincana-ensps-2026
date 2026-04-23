@@ -342,6 +342,29 @@ function renderDiscipline() {
   }).join("") : `<div class="empty-state">Nenhuma advertência ou penalidade registrada.</div>`);
 }
 
+function setDisciplineEditing(index = "") {
+  const form = byId("disciplineForm");
+  if (!form) return;
+  form.elements.editIndex.value = index === "" ? "" : String(index);
+  const isEditing = index !== "";
+  const submitButton = byId("disciplineSubmit");
+  const cancelButton = byId("disciplineCancelEdit");
+  if (submitButton) submitButton.textContent = isEditing ? "Salvar alteração" : "Registrar";
+  if (cancelButton) cancelButton.hidden = !isEditing;
+}
+
+function loadDisciplineIntoForm(index) {
+  const form = byId("disciplineForm");
+  const item = state.discipline[index];
+  if (!form || !item) return;
+  form.elements.team.value = item.teamId;
+  form.elements.type.value = item.type;
+  form.elements.date.value = item.date || "";
+  form.elements.points.value = item.type === "Penalidade" ? Math.abs(Number(item.points || 0)) : 0;
+  form.elements.reason.value = item.reason || "";
+  setDisciplineEditing(index);
+}
+
 function foodTotals() {
   return state.teams.map((item) => {
     const entries = state.foodDonations.filter((donation) => donation.teamId === item.id);
@@ -508,13 +531,14 @@ function renderAdminTables() {
   ));
 
   setHtml("disciplineTable", tableMarkup(
-    ["Turma", "Tipo", "Pontos", "Motivo", ""],
+    ["Turma", "Tipo", "Data", "Pontos", "Motivo", ""],
     state.discipline.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
       item.type,
+      formatDate(item.date),
       item.type === "Penalidade" ? `-${formatPoints(Math.abs(item.points || 0))}` : "0",
       item.reason,
-      `<button class="mini-action" data-delete-discipline="${index}" type="button">Excluir</button>`
+      `<button class="mini-action" data-edit-discipline="${index}" type="button">Editar</button> <button class="mini-action" data-delete-discipline="${index}" type="button">Excluir</button>`
     ])
   ));
 
@@ -633,14 +657,25 @@ on("foodForm", "submit", (event) => {
 on("disciplineForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
-  state.discipline.push({
+  const payload = {
     teamId: data.team,
     type: data.type,
+    date: data.date,
     points: data.type === "Penalidade" ? Math.abs(Number(data.points || 0)) : 0,
     reason: data.reason.trim()
-  });
+  };
+  if (data.editIndex !== "") state.discipline[Number(data.editIndex)] = payload;
+  else state.discipline.push(payload);
   event.currentTarget.reset();
+  setDisciplineEditing();
   saveState();
+});
+
+on("disciplineCancelEdit", "click", () => {
+  const form = byId("disciplineForm");
+  if (!form) return;
+  form.reset();
+  setDisciplineEditing();
 });
 
 document.addEventListener("click", (event) => {
@@ -665,7 +700,11 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.deleteDiscipline) {
     state.discipline.splice(Number(button.dataset.deleteDiscipline), 1);
+    setDisciplineEditing();
     saveState();
+  }
+  if (button.dataset.editDiscipline) {
+    loadDisciplineIntoForm(Number(button.dataset.editDiscipline));
   }
 });
 
