@@ -291,12 +291,22 @@ function isoDateOffset(days) {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   date.setDate(date.getDate() + days);
-  return date.toISOString().slice(0, 10);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function formatScheduleWindow(item) {
   if (item.time && item.endTime) return `${item.time} - ${item.endTime}`;
   return item.time || "Horário a definir";
+}
+
+function scheduleIsRealized(item) {
+  if (!item.date) return false;
+  const compareTime = item.endTime || item.time || "23:59";
+  const scheduleMoment = new Date(`${item.date}T${compareTime}`);
+  return !Number.isNaN(scheduleMoment.getTime()) && scheduleMoment.getTime() < Date.now();
 }
 
 function scheduleSourceLabel(item) {
@@ -308,12 +318,11 @@ function renderSchedules() {
   const root = byId("scheduleList");
   if (!root) return;
   const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time || ""}`.localeCompare(`${b.date} ${b.time || ""}`));
-  const today = isoDateOffset(0);
   const oldestRealized = isoDateOffset(-2);
   const manageSchedules = !document.body.classList.contains("public-page");
   const activeTab = root.dataset.activeTab || "upcoming";
-  const upcomingEntries = sorted.filter((item) => item.date >= today);
-  const realizedEntries = sorted.filter((item) => item.date < today && item.date >= oldestRealized);
+  const upcomingEntries = sorted.filter((item) => !scheduleIsRealized(item));
+  const realizedEntries = sorted.filter((item) => scheduleIsRealized(item) && item.date >= oldestRealized);
 
   const renderGroups = (entries, tabName) => {
     const groups = entries.reduce((acc, item) => {
