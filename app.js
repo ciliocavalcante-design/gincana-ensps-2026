@@ -6,6 +6,7 @@ const GITHUB_BRANCH = "main";
 const DATA_PATH = "data/gincana-data.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
 const CONTENTS_API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}`;
+let githubSaveTimer;
 
 const defaultData = {
   teams: [
@@ -101,8 +102,13 @@ function normalizeState(saved = {}) {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  setSyncStatus("Alterações salvas neste navegador. Para atualizar o site dos alunos, clique em Salvar no GitHub.");
   render();
+  if (localStorage.getItem(GITHUB_TOKEN_KEY)) {
+    setSyncStatus("Alterações salvas. Sincronizando com o GitHub...");
+    queueGithubSave();
+  } else {
+    setSyncStatus("Alterações salvas neste navegador. Para atualizar o site dos alunos, clique em Salvar no GitHub.");
+  }
 }
 
 function mutableState() {
@@ -118,6 +124,13 @@ function mutableState() {
 function setSyncStatus(message) {
   const status = byId("syncStatus");
   if (status) status.textContent = message;
+}
+
+function queueGithubSave() {
+  clearTimeout(githubSaveTimer);
+  githubSaveTimer = setTimeout(() => {
+    saveGithubData();
+  }, 700);
 }
 
 function byId(id) {
