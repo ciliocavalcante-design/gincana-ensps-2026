@@ -45,6 +45,22 @@ a {
     linear-gradient(135deg, #f97316 0%, #8b5cf6 19%, #fde047 36%, #16a34a 53%, #2563eb 70%, #050505 100%);
 }
 
+.workspace-page .hero {
+  min-height: 30vh;
+}
+
+.workspace-page .hero-content {
+  width: min(980px, 100%);
+}
+
+.workspace-page h1 {
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+}
+
+.public-page .admin-section {
+  display: none;
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -612,6 +628,39 @@ h1 {
   color: white;
 }
 
+.single-panel {
+  background: #080d18;
+}
+
+.single-panel .section-heading {
+  cursor: default;
+}
+
+.single-panel .section-heading:hover {
+  border-bottom-color: transparent;
+}
+
+.single-panel .section-body {
+  padding-top: 0;
+}
+
+.split-workspace {
+  display: grid;
+  grid-template-columns: minmax(320px, 460px) minmax(0, 1fr);
+  gap: 18px;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.rehearsal-form,
+.rehearsal-sync .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rehearsal-sync {
+  margin: 18px 0 0;
+}
+
 .admin-section .eyebrow {
   color: #5eead4;
 }
@@ -817,6 +866,10 @@ footer {
   .scoreboard {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .split-workspace {
+    grid-template-columns: 1fr;
   }
 
   .score-card {

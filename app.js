@@ -157,6 +157,21 @@ function byId(id) {
   return document.getElementById(id);
 }
 
+function setHtml(id, html) {
+  const element = byId(id);
+  if (element) element.innerHTML = html;
+}
+
+function setValue(id, value) {
+  const element = byId(id);
+  if (element) element.value = value;
+}
+
+function on(id, eventName, handler) {
+  const element = byId(id);
+  if (element) element.addEventListener(eventName, handler);
+}
+
 function team(id) {
   return state.teams.find((item) => item.id === id);
 }
@@ -182,7 +197,7 @@ function totals() {
 }
 
 function renderScoreboard() {
-  byId("scoreboard").innerHTML = ["Categoria 1", "Categoria 2"].map((category) => {
+  setHtml("scoreboard", ["Categoria 1", "Categoria 2"].map((category) => {
     const categoryTeams = totals().filter((item) => item.category === category);
     return `
       <div class="score-category">
@@ -201,11 +216,11 @@ function renderScoreboard() {
         </div>
       </div>
     `;
-  }).join("");
+  }).join(""));
 }
 
 function renderTeams() {
-  byId("teamsGrid").innerHTML = state.teams.map((item) => `
+  setHtml("teamsGrid", state.teams.map((item) => `
     <article class="team-card" style="--team-color:${item.color}">
       <div class="team-swatch"></div>
       <div class="team-card-body">
@@ -214,11 +229,11 @@ function renderTeams() {
         <p>${item.category}</p>
       </div>
     </article>
-  `).join("");
+  `).join(""));
 }
 
 function renderEvents() {
-  byId("eventsGrid").innerHTML = state.events.map((item, index) => {
+  setHtml("eventsGrid", state.events.map((item, index) => {
     const color = state.teams[index % state.teams.length].color;
     return `
       <article class="event-card" style="--team-color:${color}">
@@ -227,12 +242,12 @@ function renderEvents() {
         <p>Máximo: ${formatPoints(item.max)} pontos</p>
       </article>
     `;
-  }).join("");
+  }).join(""));
 }
 
 function renderSchedules() {
   const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-  byId("scheduleList").innerHTML = sorted.length ? sorted.map((item) => {
+  setHtml("scheduleList", sorted.length ? sorted.map((item) => {
     const itemTeam = team(item.teamId);
     return `
       <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
@@ -240,12 +255,12 @@ function renderSchedules() {
         <p>${item.activity || "Ensaio"} • ${item.place || "ENSPS"}</p>
       </article>
     `;
-  }).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`;
+  }).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`);
 }
 
 function renderDiscipline() {
   const entries = [...state.discipline].reverse();
-  byId("disciplineList").innerHTML = entries.length ? entries.map((item) => {
+  setHtml("disciplineList", entries.length ? entries.map((item) => {
     const itemTeam = team(item.teamId);
     return `
       <article class="discipline-item" style="border-left:8px solid ${itemTeam.color}">
@@ -254,7 +269,7 @@ function renderDiscipline() {
         <p>${item.type === "Penalidade" ? `Desconto: ${formatPoints(Math.abs(item.points || 0))} pontos` : "Sem desconto aplicado"}</p>
       </article>
     `;
-  }).join("") : `<div class="empty-state">Nenhuma advertência ou penalidade registrada.</div>`;
+  }).join("") : `<div class="empty-state">Nenhuma advertência ou penalidade registrada.</div>`);
 }
 
 function foodTotals() {
@@ -271,7 +286,7 @@ function foodTotals() {
 
 function renderFoodDonations() {
   const ranking = foodTotals();
-  byId("foodRanking").innerHTML = ranking.map((item, index) => `
+  setHtml("foodRanking", ranking.map((item, index) => `
     <article class="food-rank-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
       <div class="rank">${index + 1}º</div>
       <div>
@@ -283,9 +298,9 @@ function renderFoodDonations() {
         <span>tokens</span>
       </div>
     </article>
-  `).join("");
+  `).join(""));
 
-  byId("foodPanel").innerHTML = state.teams.map((item) => {
+  setHtml("foodPanel", state.teams.map((item) => {
     const totalsByFood = state.foodTypes.map((food) => {
       const quantity = state.foodDonations
         .filter((donation) => donation.teamId === item.id && donation.foodId === food.id)
@@ -311,7 +326,7 @@ function renderFoodDonations() {
         ` : `<div class="empty-state">Nenhum alimento lançado para esta turma.</div>`}
       </article>
     `;
-  }).join("");
+  }).join(""));
 }
 
 function materialFor(teamId, material) {
@@ -329,7 +344,7 @@ function materialStatus(teamId, material) {
 }
 
 function renderMaterials() {
-  byId("materialsOverview").innerHTML = state.materialTypes.map((material, index) => {
+  setHtml("materialsOverview", state.materialTypes.map((material, index) => {
     const done = state.teams.filter((item) => materialStatus(item.id, material) === "Entregue").length;
     const partial = state.teams.filter((item) => materialStatus(item.id, material) === "Parcial").length;
     const color = state.teams[index % state.teams.length].color;
@@ -339,9 +354,9 @@ function renderMaterials() {
         <p>${done} turmas entregues • ${partial} parciais • ${state.teams.length - done - partial} pendentes</p>
       </article>
     `;
-  }).join("");
+  }).join(""));
 
-  byId("materialsList").innerHTML = state.teams.map((item) => `
+  setHtml("materialsList", state.teams.map((item) => `
     <article class="material-team" style="--team-color:${item.color}">
       <header>
         <h3>${item.name}</h3>
@@ -366,11 +381,11 @@ function renderMaterials() {
         }).join("")}
       </ul>
     </article>
-  `).join("");
+  `).join(""));
 }
 
 function renderAdminTables() {
-  byId("pointsTable").innerHTML = tableMarkup(
+  setHtml("pointsTable", tableMarkup(
     ["Turma", "Prova", "Pontos", "Observação", ""],
     state.scores.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
@@ -379,9 +394,9 @@ function renderAdminTables() {
       item.note || "",
       `<button class="mini-action" data-delete-score="${index}" type="button">Excluir</button>`
     ])
-  );
+  ));
 
-  byId("scheduleTable").innerHTML = tableMarkup(
+  setHtml("scheduleTable", tableMarkup(
     ["Turma", "Data", "Horário", "Atividade", "Local", ""],
     state.schedules.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
@@ -391,9 +406,9 @@ function renderAdminTables() {
       item.place || "",
       `<button class="mini-action" data-delete-schedule="${index}" type="button">Excluir</button>`
     ])
-  );
+  ));
 
-  byId("materialsTable").innerHTML = tableMarkup(
+  setHtml("materialsTable", tableMarkup(
     ["Turma", "Material", "Situação", "Data", "Valor/Detalhe", "Observação", ""],
     state.materials.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
@@ -404,9 +419,9 @@ function renderAdminTables() {
       item.note || "",
       `<button class="mini-action" data-delete-material="${index}" type="button">Excluir</button>`
     ])
-  );
+  ));
 
-  byId("foodTable").innerHTML = tableMarkup(
+  setHtml("foodTable", tableMarkup(
     ["Turma", "Item", "Quantidade", "Tokens", "Data", "Observação", ""],
     state.foodDonations.map((item, index) => {
       const food = foodById(item.foodId);
@@ -421,9 +436,9 @@ function renderAdminTables() {
         `<button class="mini-action" data-delete-food="${index}" type="button">Excluir</button>`
       ];
     })
-  );
+  ));
 
-  byId("disciplineTable").innerHTML = tableMarkup(
+  setHtml("disciplineTable", tableMarkup(
     ["Turma", "Tipo", "Pontos", "Motivo", ""],
     state.discipline.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
@@ -432,9 +447,9 @@ function renderAdminTables() {
       item.reason,
       `<button class="mini-action" data-delete-discipline="${index}" type="button">Excluir</button>`
     ])
-  );
+  ));
 
-  byId("dataPreview").value = JSON.stringify(state, null, 2);
+  setValue("dataPreview", JSON.stringify(state, null, 2));
 }
 
 function tableMarkup(headers, rows) {
@@ -483,11 +498,11 @@ document.querySelectorAll(".tab-button").forEach((button) => {
     document.querySelectorAll(".tab-button").forEach((item) => item.classList.remove("active"));
     document.querySelectorAll(".admin-panel").forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
-    byId(button.dataset.panel).classList.add("active");
+    byId(button.dataset.panel)?.classList.add("active");
   });
 });
 
-byId("pointsForm").addEventListener("submit", (event) => {
+on("pointsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const existing = state.scores.find((item) => item.teamId === data.team && item.eventId === data.event);
@@ -498,7 +513,7 @@ byId("pointsForm").addEventListener("submit", (event) => {
   saveState();
 });
 
-byId("scheduleForm").addEventListener("submit", (event) => {
+on("scheduleForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   state.schedules.push({
@@ -513,7 +528,7 @@ byId("scheduleForm").addEventListener("submit", (event) => {
   saveState();
 });
 
-byId("materialsForm").addEventListener("submit", (event) => {
+on("materialsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const existing = state.materials.find((item) => item.teamId === data.team && item.material === data.material);
@@ -531,7 +546,7 @@ byId("materialsForm").addEventListener("submit", (event) => {
   saveState();
 });
 
-byId("foodForm").addEventListener("submit", (event) => {
+on("foodForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   state.foodDonations.push({
@@ -545,7 +560,7 @@ byId("foodForm").addEventListener("submit", (event) => {
   saveState();
 });
 
-byId("disciplineForm").addEventListener("submit", (event) => {
+on("disciplineForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   state.discipline.push({
@@ -584,7 +599,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-byId("exportData").addEventListener("click", () => {
+on("exportData", "click", () => {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -593,7 +608,7 @@ byId("exportData").addEventListener("click", () => {
   URL.revokeObjectURL(link.href);
 });
 
-byId("importData").addEventListener("change", async (event) => {
+on("importData", "change", async (event) => {
   const [file] = event.target.files;
   if (!file) return;
   const imported = JSON.parse(await file.text());
@@ -601,7 +616,7 @@ byId("importData").addEventListener("change", async (event) => {
   saveState();
 });
 
-byId("saveAdminAccess").addEventListener("click", () => {
+on("saveAdminAccess", "click", () => {
   const url = byId("workerUrl").value.trim().replace(/\/+$/, "");
   const secret = byId("adminSecret").value.trim();
   if (!url || !secret) {
@@ -614,23 +629,23 @@ byId("saveAdminAccess").addEventListener("click", () => {
   setSyncStatus("Acesso de administrador guardado neste navegador.");
 });
 
-byId("clearAdminAccess").addEventListener("click", () => {
+on("clearAdminAccess", "click", () => {
   localStorage.removeItem(WORKER_URL_KEY);
   localStorage.removeItem(ADMIN_SECRET_KEY);
-  byId("workerUrl").value = "";
-  byId("adminSecret").value = "";
+  setValue("workerUrl", "");
+  setValue("adminSecret", "");
   setSyncStatus("Acesso de administrador removido deste navegador.");
 });
 
-byId("loadGithubData").addEventListener("click", () => {
+on("loadGithubData", "click", () => {
   loadRemoteData({ announce: true });
 });
 
-byId("saveGithubData").addEventListener("click", () => {
+on("saveGithubData", "click", () => {
   saveRemoteData();
 });
 
-byId("resetData").addEventListener("click", () => {
+on("resetData", "click", () => {
   if (!confirm("Restaurar os dados de exemplo e apagar alterações locais?")) return;
   state = structuredClone(defaultData);
   saveState();
@@ -705,5 +720,5 @@ async function saveRemoteData() {
 }
 
 render();
-byId("workerUrl").value = workerUrl();
+setValue("workerUrl", workerUrl());
 loadRemoteData();
