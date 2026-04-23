@@ -1,0 +1,9 @@
+name = "gincana-ensps-2026"
+main = "src/index.js"
+compatibility_date = "2026-04-23"
+
+[vars]
+GITHUB_OWNER = "ciliocavalcante-design"
+GITHUB_REPO = "gincana-ensps-2026"
+GITHUB_BRANCH = "main"
+GITHUB_DATA_PATH = "data/gincana-data.json"

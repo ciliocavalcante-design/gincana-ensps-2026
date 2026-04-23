@@ -1,14 +1,15 @@
 const STORAGE_KEY = "gincana-ensps-2026-v1";
-const GITHUB_TOKEN_KEY = "gincana-ensps-2026-github-token";
+const WORKER_URL_KEY = "gincana-ensps-2026-worker-url";
+const ADMIN_SECRET_KEY = "gincana-ensps-2026-admin-secret";
 const GITHUB_OWNER = "ciliocavalcante-design";
 const GITHUB_REPO = "gincana-ensps-2026";
 const GITHUB_BRANCH = "main";
 const DATA_PATH = "data/gincana-data.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
-const CONTENTS_API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}`;
-let githubSaveTimer;
-let githubSaveInProgress = false;
-let githubSavePending = false;
+let remoteSaveTimer;
+let remoteSaveInProgress = false;
+let remoteSavePending = false;
+localStorage.removeItem("gincana-ensps-2026-github-token");
 
 const defaultData = {
   teams: [
@@ -105,11 +106,11 @@ function normalizeState(saved = {}) {
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   render();
-  if (localStorage.getItem(GITHUB_TOKEN_KEY)) {
-    setSyncStatus("Alterações salvas. Sincronizando com o GitHub...");
-    queueGithubSave();
+  if (hasRemoteAccess()) {
+    setSyncStatus("Alterações salvas. Sincronizando online...");
+    queueRemoteSave();
   } else {
-    setSyncStatus("Alterações salvas neste navegador. Para atualizar o site dos alunos, clique em Salvar no GitHub.");
+    setSyncStatus("Alterações salvas neste navegador. Configure o Worker e a senha para atualizar o site dos alunos.");
   }
 }
 
@@ -128,19 +129,28 @@ function setSyncStatus(message) {
   if (status) status.textContent = message;
 }
 
-function queueGithubSave() {
-  clearTimeout(githubSaveTimer);
-  githubSaveTimer = setTimeout(() => {
-    saveGithubData();
+function queueRemoteSave() {
+  clearTimeout(remoteSaveTimer);
+  remoteSaveTimer = setTimeout(() => {
+    saveRemoteData();
   }, 700);
 }
 
-function githubHeaders(token) {
-  return {
-    Accept: "application/vnd.github+json",
-    Authorization: `Bearer ${token}`,
-    "X-GitHub-Api-Version": "2022-11-28"
-  };
+function workerUrl() {
+  return (localStorage.getItem(WORKER_URL_KEY) || "").trim().replace(/\/+$/, "");
+}
+
+function adminSecret() {
+  return (localStorage.getItem(ADMIN_SECRET_KEY) || "").trim();
+}
+
+function hasRemoteAccess() {
+  return Boolean(workerUrl() && adminSecret());
+}
+
+function workerEndpoint(path) {
+  const base = workerUrl();
+  return base ? `${base}${path}` : "";
 }
 
 function byId(id) {
@@ -489,7 +499,7 @@ byId("scheduleForm").addEventListener("submit", (event) => {
     activity: data.activity.trim()
   });
   event.currentTarget.reset();
-  setSyncStatus("Ensaio salvo. Sincronizando com o GitHub...");
+  setSyncStatus("Ensaio salvo. Sincronizando online...");
   saveState();
 });
 
@@ -581,29 +591,33 @@ byId("importData").addEventListener("change", async (event) => {
   saveState();
 });
 
-byId("saveGithubToken").addEventListener("click", () => {
-  const token = byId("githubToken").value.trim();
-  if (!token) {
-    setSyncStatus("Cole o token antes de guardar.");
+byId("saveAdminAccess").addEventListener("click", () => {
+  const url = byId("workerUrl").value.trim().replace(/\/+$/, "");
+  const secret = byId("adminSecret").value.trim();
+  if (!url || !secret) {
+    setSyncStatus("Informe a URL do Worker e a senha de administrador antes de guardar.");
     return;
   }
-  localStorage.setItem(GITHUB_TOKEN_KEY, token);
-  byId("githubToken").value = "";
-  setSyncStatus("Token guardado neste navegador.");
+  localStorage.setItem(WORKER_URL_KEY, url);
+  localStorage.setItem(ADMIN_SECRET_KEY, secret);
+  byId("adminSecret").value = "";
+  setSyncStatus("Acesso de administrador guardado neste navegador.");
 });
 
-byId("clearGithubToken").addEventListener("click", () => {
-  localStorage.removeItem(GITHUB_TOKEN_KEY);
-  byId("githubToken").value = "";
-  setSyncStatus("Token removido deste navegador.");
+byId("clearAdminAccess").addEventListener("click", () => {
+  localStorage.removeItem(WORKER_URL_KEY);
+  localStorage.removeItem(ADMIN_SECRET_KEY);
+  byId("workerUrl").value = "";
+  byId("adminSecret").value = "";
+  setSyncStatus("Acesso de administrador removido deste navegador.");
 });
 
 byId("loadGithubData").addEventListener("click", () => {
-  loadGithubData({ announce: true });
+  loadRemoteData({ announce: true });
 });
 
 byId("saveGithubData").addEventListener("click", () => {
-  saveGithubData();
+  saveRemoteData();
 });
 
 byId("resetData").addEventListener("click", () => {
@@ -612,104 +626,74 @@ byId("resetData").addEventListener("click", () => {
   saveState();
 });
 
-function base64Encode(text) {
-  const bytes = new TextEncoder().encode(text);
-  let binary = "";
-  bytes.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-  return btoa(binary);
-}
-
-async function loadGithubData(options = {}) {
+async function loadRemoteData(options = {}) {
   try {
-    setSyncStatus("Carregando dados do GitHub...");
-    const response = await fetch(`${RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`GitHub respondeu ${response.status}`);
-    const data = await response.json();
+    const endpoint = workerEndpoint("/data");
+    setSyncStatus(endpoint ? "Carregando dados online pelo Cloudflare..." : "Carregando dados públicos do GitHub...");
+    const response = await fetch(`${endpoint || RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`servidor respondeu ${response.status}`);
+    const payload = await response.json();
+    const data = payload?.data || payload;
     state = normalizeState(data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
-    setSyncStatus("Dados carregados do GitHub.");
+    setSyncStatus(endpoint ? "Dados carregados pelo Cloudflare." : "Dados públicos carregados do GitHub.");
   } catch (error) {
     if (options.announce) {
-      setSyncStatus(`Não foi possível carregar do GitHub: ${error.message}`);
+      setSyncStatus(`Não foi possível carregar os dados online: ${error.message}`);
     } else {
-      setSyncStatus("Usando dados salvos neste navegador. O GitHub não respondeu agora.");
+      setSyncStatus("Usando dados salvos neste navegador. O banco online não respondeu agora.");
       render();
     }
   }
 }
 
-async function saveGithubData() {
-  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
-  if (!token) {
-    setSyncStatus("Informe e guarde um token do GitHub antes de salvar.");
+async function saveRemoteData() {
+  const endpoint = workerEndpoint("/data");
+  const secret = adminSecret();
+  if (!endpoint || !secret) {
+    setSyncStatus("Informe e guarde a URL do Worker e a senha de administrador antes de salvar online.");
     return;
   }
 
-  if (githubSaveInProgress) {
-    githubSavePending = true;
+  if (remoteSaveInProgress) {
+    remoteSavePending = true;
     setSyncStatus("Já existe um salvamento em andamento. Vou salvar novamente em seguida.");
     return;
   }
 
-  githubSaveInProgress = true;
+  remoteSaveInProgress = true;
 
   try {
-    await writeGithubData(token);
+    setSyncStatus("Salvando dados online pelo Cloudflare...");
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Admin-Secret": secret
+      },
+      body: JSON.stringify({
+        data: mutableState(),
+        reason: "Update gincana data"
+      })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.ok === false) {
+      throw new Error(payload.error || `servidor respondeu ${response.status}`);
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    setSyncStatus("Dados salvos no GitHub. Os alunos verão a atualização ao recarregar a página.");
+    setSyncStatus("Dados salvos no GitHub pelo Cloudflare. Os alunos verão a atualização ao recarregar a página.");
   } catch (error) {
-    setSyncStatus(`Não foi possível salvar no GitHub: ${error.message}`);
+    setSyncStatus(`Não foi possível salvar online: ${error.message}`);
   } finally {
-    githubSaveInProgress = false;
-    if (githubSavePending) {
-      githubSavePending = false;
-      queueGithubSave();
+    remoteSaveInProgress = false;
+    if (remoteSavePending) {
+      remoteSavePending = false;
+      queueRemoteSave();
     }
   }
-}
-
-async function writeGithubData(token) {
-  let lastError;
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
-    try {
-      setSyncStatus(attempt === 1 ? "Buscando versão atual do arquivo no GitHub..." : "Conflito detectado. Recarregando versão atual e tentando novamente...");
-      const currentResponse = await fetch(`${CONTENTS_API_URL}?ref=${GITHUB_BRANCH}&t=${Date.now()}`, {
-        cache: "no-store",
-        headers: githubHeaders(token)
-      });
-      if (!currentResponse.ok) throw new Error(`não consegui ler o arquivo (${currentResponse.status})`);
-      const currentFile = await currentResponse.json();
-      const content = `${JSON.stringify(mutableState(), null, 2)}\n`;
-
-      setSyncStatus("Salvando dados no GitHub...");
-      const saveResponse = await fetch(CONTENTS_API_URL, {
-        method: "PUT",
-        headers: {
-          ...githubHeaders(token),
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: "Update gincana data",
-          content: base64Encode(content),
-          sha: currentFile.sha,
-          branch: GITHUB_BRANCH
-        })
-      });
-      if (saveResponse.ok) return;
-
-      const details = await saveResponse.json().catch(() => ({}));
-      lastError = new Error(details.message || `GitHub respondeu ${saveResponse.status}`);
-      if (saveResponse.status !== 409) throw lastError;
-    } catch (error) {
-      lastError = error;
-      if (!String(error.message || "").includes("does not match")) throw error;
-    }
-  }
-  throw lastError || new Error("conflito ao salvar no GitHub");
 }
 
 render();
-loadGithubData();
+byId("workerUrl").value = workerUrl();
+loadRemoteData();

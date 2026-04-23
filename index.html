@@ -271,19 +271,23 @@
 
         <div class="admin-panel" id="settingsPanel">
           <div class="sync-box">
-            <h3>Banco de dados no GitHub</h3>
-            <p>O token fica salvo apenas neste navegador. Use os botões abaixo caso queira carregar ou salvar manualmente.</p>
+            <h3>Banco de dados online</h3>
+            <p>O token do GitHub fica protegido no Cloudflare Worker. Aqui você guarda apenas a URL do Worker e a senha de administrador.</p>
             <div class="form-grid sync-grid">
               <label class="wide">
-                Token do GitHub
-                <input id="githubToken" type="password" autocomplete="off" placeholder="Cole aqui um token fine-grained com Contents: Read and write">
+                URL do Worker
+                <input id="workerUrl" type="url" autocomplete="off" placeholder="https://gincana-ensps-2026.seu-subdominio.workers.dev">
               </label>
-              <button class="button primary" id="saveGithubToken" type="button">Guardar token</button>
-              <button class="button ghost" id="clearGithubToken" type="button">Limpar token</button>
+              <label class="wide">
+                Senha de administrador
+                <input id="adminSecret" type="password" autocomplete="off" placeholder="Senha criada no Cloudflare como ADMIN_SECRET">
+              </label>
+              <button class="button primary" id="saveAdminAccess" type="button">Guardar acesso</button>
+              <button class="button ghost" id="clearAdminAccess" type="button">Limpar acesso</button>
             </div>
             <div class="settings-actions">
-              <button class="button primary" id="loadGithubData" type="button">Carregar do GitHub</button>
-              <button class="button primary" id="saveGithubData" type="button">Salvar no GitHub</button>
+              <button class="button primary" id="loadGithubData" type="button">Carregar online</button>
+              <button class="button primary" id="saveGithubData" type="button">Salvar online</button>
             </div>
           </div>
           <div class="settings-actions">
@@ -302,7 +306,7 @@
 
   <footer>
     <strong>Gincana Socioesportiva e Cultural ENSPS 2026</strong>
-    <span>Dados salvos neste navegador até a publicação com banco de dados.</span>
+    <span>Dados sincronizados pelo GitHub com proteção via Cloudflare.</span>
   </footer>
 
   <script src="app.js"></script>
