@@ -211,14 +211,15 @@ h1 {
 }
 
 .section-heading {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 18px;
   width: min(1180px, 100%);
   min-height: 46px;
   margin: 0 auto;
   padding: 7px 0 9px;
+  padding-inline-start: 0;
   border-bottom: 1px solid transparent;
   cursor: pointer;
   list-style: none;
@@ -229,8 +230,15 @@ h1 {
   border-bottom-color: rgba(255, 255, 255, 0.14);
 }
 
+.section-heading::marker,
 .section-heading::-webkit-details-marker {
+  content: "";
   display: none;
+}
+
+.section-heading > span:first-child {
+  justify-self: start;
+  margin: 0;
 }
 
 .section-title {
