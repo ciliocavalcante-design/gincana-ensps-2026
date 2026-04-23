@@ -1,4 +1,11 @@
 const STORAGE_KEY = "gincana-ensps-2026-v1";
+const GITHUB_TOKEN_KEY = "gincana-ensps-2026-github-token";
+const GITHUB_OWNER = "ciliocavalcante-design";
+const GITHUB_REPO = "gincana-ensps-2026";
+const GITHUB_BRANCH = "main";
+const DATA_PATH = "data/gincana-data.json";
+const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
+const CONTENTS_API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}`;
 
 const defaultData = {
   teams: [
@@ -94,7 +101,23 @@ function normalizeState(saved = {}) {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  setSyncStatus("Alterações salvas neste navegador. Para atualizar o site dos alunos, clique em Salvar no GitHub.");
   render();
+}
+
+function mutableState() {
+  return {
+    scores: state.scores,
+    schedules: state.schedules,
+    materials: state.materials,
+    foodDonations: state.foodDonations,
+    discipline: state.discipline
+  };
+}
+
+function setSyncStatus(message) {
+  const status = byId("syncStatus");
+  if (status) status.textContent = message;
 }
 
 function byId(id) {
@@ -534,10 +557,112 @@ byId("importData").addEventListener("change", async (event) => {
   saveState();
 });
 
+byId("saveGithubToken").addEventListener("click", () => {
+  const token = byId("githubToken").value.trim();
+  if (!token) {
+    setSyncStatus("Cole o token antes de guardar.");
+    return;
+  }
+  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  byId("githubToken").value = "";
+  setSyncStatus("Token guardado neste navegador.");
+});
+
+byId("clearGithubToken").addEventListener("click", () => {
+  localStorage.removeItem(GITHUB_TOKEN_KEY);
+  byId("githubToken").value = "";
+  setSyncStatus("Token removido deste navegador.");
+});
+
+byId("loadGithubData").addEventListener("click", () => {
+  loadGithubData({ announce: true });
+});
+
+byId("saveGithubData").addEventListener("click", () => {
+  saveGithubData();
+});
+
 byId("resetData").addEventListener("click", () => {
   if (!confirm("Restaurar os dados de exemplo e apagar alterações locais?")) return;
   state = structuredClone(defaultData);
   saveState();
 });
 
+function base64Encode(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
+}
+
+async function loadGithubData(options = {}) {
+  try {
+    setSyncStatus("Carregando dados do GitHub...");
+    const response = await fetch(`${RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`GitHub respondeu ${response.status}`);
+    const data = await response.json();
+    state = normalizeState(data);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+    setSyncStatus("Dados carregados do GitHub.");
+  } catch (error) {
+    if (options.announce) {
+      setSyncStatus(`Não foi possível carregar do GitHub: ${error.message}`);
+    } else {
+      setSyncStatus("Usando dados salvos neste navegador. O GitHub não respondeu agora.");
+      render();
+    }
+  }
+}
+
+async function saveGithubData() {
+  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+  if (!token) {
+    setSyncStatus("Informe e guarde um token do GitHub antes de salvar.");
+    return;
+  }
+
+  try {
+    setSyncStatus("Buscando versão atual do arquivo no GitHub...");
+    const currentResponse = await fetch(`${CONTENTS_API_URL}?ref=${GITHUB_BRANCH}`, {
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${token}`,
+        "X-GitHub-Api-Version": "2022-11-28"
+      }
+    });
+    if (!currentResponse.ok) throw new Error(`não consegui ler o arquivo (${currentResponse.status})`);
+    const currentFile = await currentResponse.json();
+    const content = `${JSON.stringify(mutableState(), null, 2)}\n`;
+
+    setSyncStatus("Salvando dados no GitHub...");
+    const saveResponse = await fetch(CONTENTS_API_URL, {
+      method: "PUT",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-GitHub-Api-Version": "2022-11-28"
+      },
+      body: JSON.stringify({
+        message: "Update gincana data",
+        content: base64Encode(content),
+        sha: currentFile.sha,
+        branch: GITHUB_BRANCH
+      })
+    });
+    if (!saveResponse.ok) {
+      const details = await saveResponse.json().catch(() => ({}));
+      throw new Error(details.message || `GitHub respondeu ${saveResponse.status}`);
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    setSyncStatus("Dados salvos no GitHub. Os alunos verão a atualização ao recarregar a página.");
+  } catch (error) {
+    setSyncStatus(`Não foi possível salvar no GitHub: ${error.message}`);
+  }
+}
+
 render();
+loadGithubData();

@@ -269,6 +269,22 @@
         </div>
 
         <div class="admin-panel" id="settingsPanel">
+          <div class="sync-box">
+            <h3>Banco de dados no GitHub</h3>
+            <p id="syncStatus">Carregando dados...</p>
+            <div class="form-grid sync-grid">
+              <label class="wide">
+                Token do GitHub
+                <input id="githubToken" type="password" autocomplete="off" placeholder="Cole aqui um token fine-grained com Contents: Read and write">
+              </label>
+              <button class="button primary" id="saveGithubToken" type="button">Guardar token</button>
+              <button class="button ghost" id="clearGithubToken" type="button">Limpar token</button>
+            </div>
+            <div class="settings-actions">
+              <button class="button primary" id="loadGithubData" type="button">Carregar do GitHub</button>
+              <button class="button primary" id="saveGithubData" type="button">Salvar no GitHub</button>
+            </div>
+          </div>
           <div class="settings-actions">
             <button class="button primary" id="exportData" type="button">Exportar JSON</button>
             <label class="button ghost file-button">

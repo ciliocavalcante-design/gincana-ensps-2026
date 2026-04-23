@@ -1,0 +1,44 @@
+{
+  "scores": [
+    {
+      "teamId": "6",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "7",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "8",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "9",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "1",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "2",
+      "eventId": "solidaria",
+      "points": 0,
+      "note": "Aguardando apuração"
+    }
+  ],
+  "schedules": [],
+  "materials": [],
+  "foodDonations": [],
+  "discipline": []
+}
