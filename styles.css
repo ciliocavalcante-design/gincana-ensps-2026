@@ -306,6 +306,7 @@ h1 {
 }
 
 .scoreboard,
+.event-results,
 .teams-grid,
 .events-grid,
 .schedule-list,
@@ -323,6 +324,110 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+}
+
+.event-results {
+  display: grid;
+  gap: 12px;
+}
+
+.event-result-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-neutral);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.event-result-card > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.event-result-card > summary::marker,
+.event-result-card > summary::-webkit-details-marker {
+  display: none;
+  content: "";
+}
+
+.event-result-card > summary strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.event-result-card > summary small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.event-result-card[open] .event-result-arrow {
+  transform: rotate(180deg);
+}
+
+.event-result-body {
+  display: grid;
+  gap: 10px;
+  padding: 0 18px 18px;
+}
+
+.event-result-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.event-result-row.top-three {
+  border-left: 8px solid var(--team-color);
+}
+
+.event-result-place {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--team-color);
+  font-weight: 900;
+}
+
+.event-result-row h4 {
+  margin: 0 0 4px;
+  font-size: 1.04rem;
+}
+
+.event-result-row p,
+.event-result-row small {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+}
+
+.event-result-row small {
+  margin-top: 4px;
+  font-size: 0.82rem;
+}
+
+.event-result-points {
+  min-width: 52px;
+  text-align: right;
+  color: var(--metric-color, var(--ink));
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .score-category {
@@ -930,6 +1035,15 @@ footer {
   .scoreboard {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .event-result-row {
+    grid-template-columns: 46px 1fr;
+  }
+
+  .event-result-points {
+    grid-column: 2;
+    text-align: left;
   }
 
   .split-workspace {
