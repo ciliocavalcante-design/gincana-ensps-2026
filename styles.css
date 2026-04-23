@@ -553,10 +553,40 @@ h1 {
   gap: 4px;
 }
 
+.schedule-item-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+
 .schedule-item h3 small {
   color: #d1d5db;
   font-size: 0.84rem;
   font-weight: 700;
+}
+
+.schedule-delete {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 0;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.schedule-delete:hover {
+  color: white;
+  background: rgba(239, 68, 68, 0.16);
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
 .team-card p,
@@ -599,6 +629,48 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 14px;
+}
+
+.schedule-list {
+  grid-template-columns: 1fr;
+}
+
+.schedule-day-group {
+  display: grid;
+  gap: 12px;
+}
+
+.schedule-day-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.schedule-day-header h3,
+.schedule-day-header span {
+  margin: 0;
+}
+
+.schedule-day-header h3 {
+  font-size: 1.05rem;
+  color: #f8fafc;
+}
+
+.schedule-day-header span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.schedule-day-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
 }
 
 .food-ranking {
@@ -865,6 +937,14 @@ h1 {
 
 .schedule-board-heading p {
   color: var(--muted);
+}
+
+.rehearsal-actions {
+  margin-top: 14px;
+}
+
+.rehearsal-actions .button {
+  width: 100%;
 }
 
 .admin-section .eyebrow {
@@ -1310,6 +1390,16 @@ footer {
   .rehearsals-page .schedule-list {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .schedule-day-header {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .schedule-day-list {
+    grid-template-columns: 1fr;
   }
 
   .rehearsals-page .schedule-item {

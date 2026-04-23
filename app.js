@@ -278,21 +278,40 @@ function renderEventResults() {
 
 function renderSchedules() {
   const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-  setHtml("scheduleList", sorted.length ? sorted.map((item) => {
-    const itemTeam = team(item.teamId);
-    const activity = item.activity || "Ensaio";
-    const place = item.place || "ENSPS";
-    return `
-      <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
-        <h3>
-          <span>${itemTeam.name}</span>
-          <small>${formatDate(item.date)} às ${item.time}</small>
-        </h3>
-        <p class="schedule-activity">${activity}</p>
-        <p class="schedule-meta">${place}</p>
-      </article>
-    `;
-  }).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`);
+  const groups = sorted.reduce((acc, item) => {
+    if (!acc[item.date]) acc[item.date] = [];
+    acc[item.date].push({ item, index: state.schedules.indexOf(item) });
+    return acc;
+  }, {});
+
+  setHtml("scheduleList", sorted.length ? Object.entries(groups).map(([date, entries]) => `
+    <section class="schedule-day-group">
+      <header class="schedule-day-header">
+        <h3>${formatDate(date)}</h3>
+        <span>${entries.length} ensaio${entries.length > 1 ? "s" : ""}</span>
+      </header>
+      <div class="schedule-day-list">
+        ${entries.map(({ item, index }) => {
+          const itemTeam = team(item.teamId);
+          const activity = item.activity || "Ensaio";
+          const place = item.place || "ENSPS";
+          return `
+            <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
+              <div class="schedule-item-top">
+                <h3>
+                  <span>${itemTeam.name}</span>
+                  <small>${item.time}</small>
+                </h3>
+                <button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>
+              </div>
+              <p class="schedule-activity">${activity}</p>
+              <p class="schedule-meta">${place}</p>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`);
 }
 
 function renderDiscipline() {
@@ -651,10 +670,6 @@ on("importData", "change", async (event) => {
   const imported = JSON.parse(await file.text());
   state = normalizeState(imported);
   saveState();
-});
-
-on("loadGithubData", "click", () => {
-  loadRemoteData({ announce: true });
 });
 
 on("saveGithubData", "click", () => {
