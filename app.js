@@ -7,6 +7,8 @@ const DATA_PATH = "data/gincana-data.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
 const CONTENTS_API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}`;
 let githubSaveTimer;
+let githubSaveInProgress = false;
+let githubSavePending = false;
 
 const defaultData = {
   teams: [
@@ -131,6 +133,14 @@ function queueGithubSave() {
   githubSaveTimer = setTimeout(() => {
     saveGithubData();
   }, 700);
+}
+
+function githubHeaders(token) {
+  return {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28"
+  };
 }
 
 function byId(id) {
@@ -638,44 +648,67 @@ async function saveGithubData() {
     return;
   }
 
-  try {
-    setSyncStatus("Buscando versão atual do arquivo no GitHub...");
-    const currentResponse = await fetch(`${CONTENTS_API_URL}?ref=${GITHUB_BRANCH}`, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28"
-      }
-    });
-    if (!currentResponse.ok) throw new Error(`não consegui ler o arquivo (${currentResponse.status})`);
-    const currentFile = await currentResponse.json();
-    const content = `${JSON.stringify(mutableState(), null, 2)}\n`;
+  if (githubSaveInProgress) {
+    githubSavePending = true;
+    setSyncStatus("Já existe um salvamento em andamento. Vou salvar novamente em seguida.");
+    return;
+  }
 
-    setSyncStatus("Salvando dados no GitHub...");
-    const saveResponse = await fetch(CONTENTS_API_URL, {
-      method: "PUT",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "X-GitHub-Api-Version": "2022-11-28"
-      },
-      body: JSON.stringify({
-        message: "Update gincana data",
-        content: base64Encode(content),
-        sha: currentFile.sha,
-        branch: GITHUB_BRANCH
-      })
-    });
-    if (!saveResponse.ok) {
-      const details = await saveResponse.json().catch(() => ({}));
-      throw new Error(details.message || `GitHub respondeu ${saveResponse.status}`);
-    }
+  githubSaveInProgress = true;
+
+  try {
+    await writeGithubData(token);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     setSyncStatus("Dados salvos no GitHub. Os alunos verão a atualização ao recarregar a página.");
   } catch (error) {
     setSyncStatus(`Não foi possível salvar no GitHub: ${error.message}`);
+  } finally {
+    githubSaveInProgress = false;
+    if (githubSavePending) {
+      githubSavePending = false;
+      queueGithubSave();
+    }
   }
+}
+
+async function writeGithubData(token) {
+  let lastError;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      setSyncStatus(attempt === 1 ? "Buscando versão atual do arquivo no GitHub..." : "Conflito detectado. Recarregando versão atual e tentando novamente...");
+      const currentResponse = await fetch(`${CONTENTS_API_URL}?ref=${GITHUB_BRANCH}&t=${Date.now()}`, {
+        cache: "no-store",
+        headers: githubHeaders(token)
+      });
+      if (!currentResponse.ok) throw new Error(`não consegui ler o arquivo (${currentResponse.status})`);
+      const currentFile = await currentResponse.json();
+      const content = `${JSON.stringify(mutableState(), null, 2)}\n`;
+
+      setSyncStatus("Salvando dados no GitHub...");
+      const saveResponse = await fetch(CONTENTS_API_URL, {
+        method: "PUT",
+        headers: {
+          ...githubHeaders(token),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "Update gincana data",
+          content: base64Encode(content),
+          sha: currentFile.sha,
+          branch: GITHUB_BRANCH
+        })
+      });
+      if (saveResponse.ok) return;
+
+      const details = await saveResponse.json().catch(() => ({}));
+      lastError = new Error(details.message || `GitHub respondeu ${saveResponse.status}`);
+      if (saveResponse.status !== 409) throw lastError;
+    } catch (error) {
+      lastError = error;
+      if (!String(error.message || "").includes("does not match")) throw error;
+    }
+  }
+  throw lastError || new Error("conflito ao salvar no GitHub");
 }
 
 render();
