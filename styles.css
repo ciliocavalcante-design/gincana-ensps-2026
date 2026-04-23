@@ -999,6 +999,26 @@ footer {
     padding-bottom: 18px;
   }
 
+  .workspace-page .hero {
+    padding-top: 16px;
+    padding-bottom: 14px;
+  }
+
+  .workspace-page .hero-content {
+    width: min(100%, 620px);
+    text-align: center;
+  }
+
+  .workspace-page h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 0.94;
+  }
+
+  .workspace-page .hero-content > p:not(.eyebrow) {
+    margin-top: 10px;
+    font-size: 0.98rem;
+  }
+
   .hero-actions {
     gap: 10px;
   }
@@ -1048,6 +1068,67 @@ footer {
 
   .split-workspace {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .single-panel .section-heading,
+  .admin-section .section-heading {
+    min-height: auto;
+    padding-top: 2px;
+    padding-bottom: 10px;
+  }
+
+  .admin-shell {
+    border-radius: 12px;
+  }
+
+  .admin-sync-status {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .admin-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+    padding: 12px 12px 0;
+    background: rgba(0, 0, 0, 0.14);
+  }
+
+  .tab-button {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 10px;
+    font-size: 0.92rem;
+    text-align: center;
+  }
+
+  .admin-panel {
+    padding: 14px;
+  }
+
+  .admin-panel.active {
+    display: grid;
+    gap: 14px;
+  }
+
+  .sync-box {
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 14px;
+  }
+
+  .settings-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .settings-actions .button,
+  .settings-actions .file-button {
+    width: 100%;
   }
 
   .score-card {
@@ -1079,9 +1160,62 @@ footer {
 
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   label.wide {
     grid-column: auto;
+  }
+
+  label {
+    gap: 6px;
+    font-size: 0.94rem;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height: 46px;
+    padding: 0 11px;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 220px;
+    padding: 12px;
+  }
+
+  .rehearsal-form,
+  .rehearsal-sync .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rehearsal-sync {
+    margin-top: 14px;
+  }
+
+  .table-wrap {
+    margin-top: 6px;
+    border-radius: 10px;
+  }
+
+  table {
+    min-width: 560px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    font-size: 0.92rem;
+  }
+
+  .mini-action {
+    min-height: 32px;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  .schedule-list {
+    gap: 10px;
   }
 }
