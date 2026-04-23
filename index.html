@@ -17,10 +17,12 @@
         <span>ENSPS</span>
       </a>
       <a href="#placar">Placar</a>
-      <a href="#provas">Provas</a>
-      <a href="#arrecadacao">Arrecadação</a>
-      <a href="#entregas">Entregas</a>
       <a href="#ensaios">Ensaios</a>
+      <a href="#arrecadacao">Arrecadação</a>
+      <a href="#comissao">Comissão</a>
+      <a href="#entregas">Entregas</a>
+      <a href="#cores">Turmas</a>
+      <a href="#provas">Provas</a>
     </nav>
     <div id="inicio" class="hero-content-wrap">
       <div class="hero-content">
@@ -48,7 +50,65 @@
       </details>
     </section>
 
-    <section class="section band">
+    <section id="ensaios" class="section band">
+      <details class="section-toggle">
+        <summary class="section-heading">
+          <span>
+            <span class="eyebrow">Organização</span>
+            <span class="section-title">Ensaios agendados</span>
+          </span>
+          <span class="toggle-arrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div id="scheduleList" class="schedule-list section-body"></div>
+      </details>
+    </section>
+
+    <section id="arrecadacao" class="section band">
+      <details class="section-toggle">
+        <summary class="section-heading">
+          <span>
+            <span class="eyebrow">Prova solidária</span>
+            <span class="section-title">Arrecadação de alimentos</span>
+          </span>
+          <span class="toggle-arrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="section-body">
+          <div id="foodRanking" class="food-ranking"></div>
+          <div id="foodPanel" class="food-panel"></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="comissao" class="section">
+      <details class="section-toggle">
+        <summary class="section-heading">
+          <span>
+            <span class="eyebrow">Comissão</span>
+            <span class="section-title">Advertências e penalidades</span>
+          </span>
+          <span class="toggle-arrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div id="disciplineList" class="discipline-list section-body"></div>
+      </details>
+    </section>
+
+    <section id="entregas" class="section">
+      <details class="section-toggle">
+        <summary class="section-heading">
+          <span>
+            <span class="eyebrow">Controle</span>
+            <span class="section-title">Entrega de materiais</span>
+          </span>
+          <span class="toggle-arrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="section-body">
+          <div id="materialsOverview" class="materials-overview"></div>
+          <div id="materialsList" class="materials-list"></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="cores" class="section band">
       <details class="section-toggle">
         <summary class="section-heading">
           <span>
@@ -71,64 +131,6 @@
           <span class="toggle-arrow" aria-hidden="true">⌄</span>
         </summary>
         <div id="eventsGrid" class="events-grid section-body"></div>
-      </details>
-    </section>
-
-    <section id="arrecadacao" class="section band">
-      <details class="section-toggle">
-        <summary class="section-heading">
-          <span>
-            <span class="eyebrow">Prova solidária</span>
-            <span class="section-title">Arrecadação de alimentos</span>
-          </span>
-          <span class="toggle-arrow" aria-hidden="true">⌄</span>
-        </summary>
-        <div class="section-body">
-          <div id="foodRanking" class="food-ranking"></div>
-          <div id="foodPanel" class="food-panel"></div>
-        </div>
-      </details>
-    </section>
-
-    <section id="entregas" class="section">
-      <details class="section-toggle">
-        <summary class="section-heading">
-          <span>
-            <span class="eyebrow">Controle</span>
-            <span class="section-title">Entrega de materiais</span>
-          </span>
-          <span class="toggle-arrow" aria-hidden="true">⌄</span>
-        </summary>
-        <div class="section-body">
-          <div id="materialsOverview" class="materials-overview"></div>
-          <div id="materialsList" class="materials-list"></div>
-        </div>
-      </details>
-    </section>
-
-    <section id="ensaios" class="section band">
-      <details class="section-toggle">
-        <summary class="section-heading">
-          <span>
-            <span class="eyebrow">Organização</span>
-            <span class="section-title">Ensaios agendados</span>
-          </span>
-          <span class="toggle-arrow" aria-hidden="true">⌄</span>
-        </summary>
-        <div id="scheduleList" class="schedule-list section-body"></div>
-      </details>
-    </section>
-
-    <section class="section">
-      <details class="section-toggle">
-        <summary class="section-heading">
-          <span>
-            <span class="eyebrow">Comissão</span>
-            <span class="section-title">Advertências e penalidades</span>
-          </span>
-          <span class="toggle-arrow" aria-hidden="true">⌄</span>
-        </summary>
-        <div id="disciplineList" class="discipline-list section-body"></div>
       </details>
     </section>
   </main>
