@@ -287,43 +287,126 @@ function renderEventResults() {
   }).join(""));
 }
 
-function renderSchedules() {
-  const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-  const groups = sorted.reduce((acc, item) => {
-    if (!acc[item.date]) acc[item.date] = [];
-    acc[item.date].push({ item, index: state.schedules.indexOf(item) });
-    return acc;
-  }, {});
+function isoDateOffset(days) {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
+}
 
-  setHtml("scheduleList", sorted.length ? Object.entries(groups).map(([date, entries]) => `
-    <section class="schedule-day-group">
-      <header class="schedule-day-header">
-        <h3>${formatDate(date)}</h3>
-        <span>${entries.length} ensaio${entries.length > 1 ? "s" : ""}</span>
-      </header>
-      <div class="schedule-day-list">
-        ${entries.map(({ item, index }) => {
-          const itemTeam = team(item.teamId);
-          const activity = item.activity || "Ensaio";
-          const place = item.place || "ENSPS";
-          const showDelete = document.body.classList.contains("rehearsals-page");
-          return `
-            <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
-              <div class="schedule-item-top">
-                <h3>
-                  <span>${itemTeam.name}</span>
-                  <small>${item.time}</small>
-                </h3>
-                ${showDelete ? `<button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>` : ""}
-              </div>
-              <p class="schedule-activity">${activity}</p>
-              <p class="schedule-meta">${place}</p>
-            </article>
-          `;
-        }).join("")}
+function formatScheduleWindow(item) {
+  if (item.time && item.endTime) return `${item.time} - ${item.endTime}`;
+  return item.time || "Horário a definir";
+}
+
+function renderSchedules() {
+  const root = byId("scheduleList");
+  if (!root) return;
+  const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time || ""}`.localeCompare(`${b.date} ${b.time || ""}`));
+  const today = isoDateOffset(0);
+  const oldestRealized = isoDateOffset(-2);
+  const manageSchedules = !document.body.classList.contains("public-page");
+  const activeTab = root.dataset.activeTab || "upcoming";
+  const upcomingEntries = sorted.filter((item) => item.date >= today);
+  const realizedEntries = sorted.filter((item) => item.date < today && item.date >= oldestRealized);
+
+  const renderGroups = (entries, tabName) => {
+    const groups = entries.reduce((acc, item) => {
+      if (!acc[item.date]) acc[item.date] = [];
+      acc[item.date].push({ item, index: state.schedules.indexOf(item) });
+      return acc;
+    }, {});
+
+    const content = Object.entries(groups).map(([date, groupedEntries]) => `
+      <section class="schedule-day-group">
+        <header class="schedule-day-header">
+          <h3>${formatDate(date)}</h3>
+          <span>${groupedEntries.length} ensaio${groupedEntries.length > 1 ? "s" : ""}</span>
+        </header>
+        <div class="schedule-day-list">
+          ${groupedEntries.map(({ item, index }) => {
+            const itemTeam = team(item.teamId);
+            const activity = item.activity || "Ensaio";
+            const place = item.place || "ENSPS";
+            return `
+              <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
+                <div class="schedule-item-top">
+                  <h3>
+                    <span>${itemTeam.name}</span>
+                    <small>${formatScheduleWindow(item)}</small>
+                  </h3>
+                  ${manageSchedules ? `
+                    <div class="schedule-item-actions">
+                      <button class="schedule-action" data-edit-schedule="${index}" type="button">Editar</button>
+                      <button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>
+                    </div>
+                  ` : ""}
+                </div>
+                <p class="schedule-activity">${activity}</p>
+                <p class="schedule-meta">${place}</p>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `).join("");
+
+    return `
+      <div class="schedule-tab-panel${activeTab === tabName ? " active" : ""}" data-schedule-panel="${tabName}">
+        ${content || `<div class="empty-state">${tabName === "realized" ? "Nenhum ensaio realizado nos dois últimos dias." : "Nenhum ensaio agendado ainda."}</div>`}
       </div>
-    </section>
-  `).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`);
+    `;
+  };
+
+  root.dataset.activeTab = activeTab;
+
+  if (!manageSchedules) {
+    root.innerHTML = renderGroups(upcomingEntries, "upcoming");
+    return;
+  }
+
+  root.innerHTML = `
+    <div class="schedule-tabs">
+      <button class="schedule-tab-button${activeTab === "upcoming" ? " active" : ""}" data-schedule-tab="upcoming" type="button">Agendados</button>
+      <button class="schedule-tab-button${activeTab === "realized" ? " active" : ""}" data-schedule-tab="realized" type="button">Realizados</button>
+    </div>
+    ${renderGroups(upcomingEntries, "upcoming")}
+    ${renderGroups(realizedEntries, "realized")}
+  `;
+}
+
+function setScheduleEditing(index = "") {
+  const form = byId("scheduleForm");
+  if (!form) return;
+  form.elements.editIndex.value = index === "" ? "" : String(index);
+  form.elements.preset.value = "";
+  const isEditing = index !== "";
+  const submitButton = byId("scheduleSubmit");
+  const cancelButton = byId("scheduleCancelEdit");
+  if (submitButton) submitButton.textContent = isEditing ? "Salvar ensaio" : "Agendar ensaio";
+  if (cancelButton) cancelButton.hidden = !isEditing;
+}
+
+function loadScheduleIntoForm(index) {
+  const form = byId("scheduleForm");
+  const item = state.schedules[index];
+  if (!form || !item) return;
+  form.elements.team.value = item.teamId;
+  form.elements.date.value = item.date || "";
+  form.elements.time.value = item.time || "";
+  form.elements.endTime.value = item.endTime || "";
+  form.elements.place.value = item.place || "ENSPS";
+  form.elements.activity.value = item.activity || "";
+  form.elements.preset.value = "";
+  setScheduleEditing(index);
+}
+
+function applySchedulePreset(rawValue) {
+  const form = byId("scheduleForm");
+  if (!form || !rawValue) return;
+  const [start, end] = rawValue.split("|");
+  form.elements.time.value = start || "";
+  form.elements.endTime.value = end || "";
 }
 
 function renderDiscipline() {
@@ -489,14 +572,15 @@ function renderAdminTables() {
   ));
 
   setHtml("scheduleTable", tableMarkup(
-    ["Turma", "Data", "Horário", "Atividade", "Local", ""],
+    ["Turma", "Data", "Início", "Fim", "Atividade", "Local", ""],
     state.schedules.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
       formatDate(item.date),
       item.time,
+      item.endTime || "",
       item.activity || "",
       item.place || "",
-      `<button class="mini-action" data-delete-schedule="${index}" type="button">Excluir</button>`
+      `<button class="mini-action" data-edit-schedule="${index}" type="button">Editar</button> <button class="mini-action" data-delete-schedule="${index}" type="button">Excluir</button>`
     ])
   ));
 
@@ -610,16 +694,33 @@ on("pointsForm", "submit", (event) => {
 on("scheduleForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
-  state.schedules.push({
+  const payload = {
     teamId: data.team,
     date: data.date,
     time: data.time,
+    endTime: data.endTime,
     place: data.place.trim(),
     activity: data.activity.trim()
-  });
+  };
+  if (data.editIndex !== "") state.schedules[Number(data.editIndex)] = payload;
+  else state.schedules.push(payload);
   event.currentTarget.reset();
+  setScheduleEditing();
   setSyncStatus("Ensaio salvo. Sincronizando online...");
   saveState();
+});
+
+on("scheduleCancelEdit", "click", () => {
+  const form = byId("scheduleForm");
+  if (!form) return;
+  form.reset();
+  setScheduleEditing();
+});
+
+on("scheduleForm", "change", (event) => {
+  if (event.target.name === "preset") {
+    applySchedulePreset(event.target.value);
+  }
 });
 
 on("materialsForm", "submit", (event) => {
@@ -682,13 +783,26 @@ document.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
 
+  if (button.dataset.scheduleTab) {
+    const root = byId("scheduleList");
+    if (root) {
+      root.dataset.activeTab = button.dataset.scheduleTab;
+      renderSchedules();
+    }
+    return;
+  }
+
   if (button.dataset.deleteScore) {
     state.scores.splice(Number(button.dataset.deleteScore), 1);
     saveState();
   }
   if (button.dataset.deleteSchedule) {
     state.schedules.splice(Number(button.dataset.deleteSchedule), 1);
+    setScheduleEditing();
     saveState();
+  }
+  if (button.dataset.editSchedule) {
+    loadScheduleIntoForm(Number(button.dataset.editSchedule));
   }
   if (button.dataset.deleteMaterial) {
     state.materials.splice(Number(button.dataset.deleteMaterial), 1);
@@ -814,5 +928,7 @@ function applyResponsiveDefaults() {
 }
 
 render();
+setScheduleEditing();
+setDisciplineEditing();
 applyResponsiveDefaults();
 loadRemoteData();

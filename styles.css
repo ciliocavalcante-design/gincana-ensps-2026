@@ -586,6 +586,12 @@ h1 {
   gap: 12px;
 }
 
+.schedule-item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .schedule-item h3 small {
   color: #d1d5db;
   font-size: 0.84rem;
@@ -613,6 +619,28 @@ h1 {
   color: white;
   background: rgba(239, 68, 68, 0.16);
   border-color: rgba(239, 68, 68, 0.4);
+}
+
+.schedule-action {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #d1d5db;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.schedule-action:hover {
+  color: white;
+  border-color: rgba(187, 247, 208, 0.35);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .team-card p,
@@ -696,6 +724,46 @@ h1 {
 .schedule-day-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.schedule-tabs {
+  display: inline-flex;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.schedule-tab-button {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #d1d5db;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.schedule-tab-button.active {
+  color: #03110a;
+  background: var(--brand);
+  border-color: transparent;
+}
+
+.schedule-tab-panel {
+  display: none;
+}
+
+.schedule-tab-panel.active {
+  display: grid;
   gap: 12px;
 }
 
@@ -929,8 +997,8 @@ h1 {
 
 .split-workspace {
   display: grid;
-  grid-template-columns: minmax(320px, 460px) minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: minmax(420px, 520px) minmax(0, 1fr);
+  gap: 22px;
   width: min(1180px, 100%);
   margin: 0 auto;
 }
@@ -938,6 +1006,14 @@ h1 {
 .rehearsal-form,
 .rehearsal-sync .form-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rehearsal-form {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#schedulePanel .form-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .rehearsal-sync {
@@ -948,6 +1024,10 @@ h1 {
   display: grid;
   gap: 14px;
   align-content: start;
+}
+
+.admin-schedule-board {
+  margin-top: 18px;
 }
 
 .schedule-board-heading {
@@ -1403,6 +1483,16 @@ footer {
     gap: 12px;
   }
 
+  .schedule-tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .schedule-tab-button {
+    width: 100%;
+  }
+
   .schedule-board-heading {
     padding-top: 2px;
   }
@@ -1435,6 +1525,16 @@ footer {
     padding: 14px;
     border-left-width: 6px !important;
     border-radius: 12px;
+  }
+
+  .schedule-item-actions {
+    gap: 6px;
+  }
+
+  .schedule-action {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 0.8rem;
   }
 
   .rehearsals-page .schedule-item h3 {
