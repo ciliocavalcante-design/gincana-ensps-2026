@@ -77,6 +77,12 @@
       "type": "Advertência",
       "points": 0,
       "reason": "Barulho no intervalo"
+    },
+    {
+      "teamId": "7",
+      "type": "Advertência",
+      "points": 0,
+      "reason": "Barulho no intervalo"
     }
   ]
 }
