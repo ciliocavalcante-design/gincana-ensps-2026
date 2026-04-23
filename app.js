@@ -224,10 +224,9 @@ function renderTeams() {
 }
 
 function renderEvents() {
-  setHtml("eventsGrid", state.events.map((item, index) => {
-    const color = state.teams[index % state.teams.length].color;
+  setHtml("eventsGrid", state.events.map((item) => {
     return `
-      <article class="event-card" style="--team-color:${color}">
+      <article class="event-card neutral-card">
         <h3>${item.name}</h3>
         <p>${item.group}</p>
         <p>Máximo: ${formatPoints(item.max)} pontos</p>
@@ -335,12 +334,11 @@ function materialStatus(teamId, material) {
 }
 
 function renderMaterials() {
-  setHtml("materialsOverview", state.materialTypes.map((material, index) => {
+  setHtml("materialsOverview", state.materialTypes.map((material) => {
     const done = state.teams.filter((item) => materialStatus(item.id, material) === "Entregue").length;
     const partial = state.teams.filter((item) => materialStatus(item.id, material) === "Parcial").length;
-    const color = state.teams[index % state.teams.length].color;
     return `
-      <article class="material-summary" style="--team-color:${color}">
+      <article class="material-summary neutral-card">
         <h3>${material}</h3>
         <p>${done} turmas entregues • ${partial} parciais • ${state.teams.length - done - partial} pendentes</p>
       </article>

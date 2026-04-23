@@ -429,6 +429,10 @@ h1 {
   border-top: 8px solid var(--team-color);
 }
 
+.neutral-card {
+  border-top-color: #6b7280;
+}
+
 .schedule-list,
 .discipline-list,
 .food-ranking,
