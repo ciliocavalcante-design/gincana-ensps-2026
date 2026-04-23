@@ -57,10 +57,17 @@
               <label>Início<input name="time" type="time" required></label>
               <label>Fim<input name="endTime" type="time"></label>
               <label>Local<input name="place" type="text" value="ENSPS"></label>
-              <label class="wide">Atividade<input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores"></label>
+              <label class="wide">Atividade<input name="activity" type="text" list="scheduleActivities" placeholder="Dança típica, líderes de torcida, professores"></label>
               <button class="button primary" id="scheduleSubmit" type="submit">Agendar ensaio</button>
               <button class="button ghost" id="scheduleCancelEdit" type="button" hidden>Cancelar edição</button>
             </form>
+            <datalist id="scheduleActivities">
+              <option value="Dança das Líderes de Torcida"></option>
+              <option value="Dança dos Professores"></option>
+              <option value="Dança Típica"></option>
+              <option value="Story"></option>
+              <option value="Organização"></option>
+            </datalist>
             <div class="rehearsal-actions">
               <button class="button primary" id="saveGithubData" type="button">Salvar online</button>
             </div>

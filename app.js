@@ -299,6 +299,11 @@ function formatScheduleWindow(item) {
   return item.time || "Horário a definir";
 }
 
+function scheduleSourceLabel(item) {
+  if (item.createdBy === "admin") return "Agendado com prof. Cílio";
+  return "Agendado com Vitória";
+}
+
 function renderSchedules() {
   const root = byId("scheduleList");
   if (!root) return;
@@ -343,7 +348,7 @@ function renderSchedules() {
                   ` : ""}
                 </div>
                 <p class="schedule-activity">${activity}</p>
-                <p class="schedule-meta">${place}</p>
+                <p class="schedule-meta">${place} • ${scheduleSourceLabel(item)}</p>
               </article>
             `;
           }).join("")}
@@ -694,13 +699,15 @@ on("pointsForm", "submit", (event) => {
 on("scheduleForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
+  const existing = data.editIndex !== "" ? state.schedules[Number(data.editIndex)] : null;
   const payload = {
     teamId: data.team,
     date: data.date,
     time: data.time,
     endTime: data.endTime,
     place: data.place.trim(),
-    activity: data.activity.trim()
+    activity: data.activity.trim(),
+    createdBy: existing?.createdBy || (document.body.classList.contains("rehearsals-page") ? "victoria" : "admin")
   };
   if (data.editIndex !== "") state.schedules[Number(data.editIndex)] = payload;
   else state.schedules.push(payload);

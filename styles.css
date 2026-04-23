@@ -1009,11 +1009,38 @@ h1 {
 }
 
 .rehearsal-form {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 #schedulePanel .form-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rehearsal-form label.wide,
+#schedulePanel .form-grid label.wide {
+  grid-column: span 2;
+}
+
+.rehearsal-form #scheduleSubmit,
+.rehearsal-form #scheduleCancelEdit,
+.rehearsal-actions,
+#schedulePanel #scheduleSubmit,
+#schedulePanel #scheduleCancelEdit {
+  align-self: end;
+}
+
+.rehearsal-actions {
+  display: grid;
+  margin-top: 18px;
+}
+
+.rehearsals-page .admin-panel.active {
+  gap: 18px;
+}
+
+.rehearsals-page .admin-shell,
+#schedulePanel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0));
 }
 
 .rehearsal-sync {
