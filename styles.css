@@ -1096,22 +1096,42 @@ h1 {
   gap: 8px;
 }
 
-.activity-input-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 170px;
-  gap: 10px;
+.activity-combo {
+  position: relative;
+}
+
+.activity-combo input {
+  padding-right: 52px;
+}
+
+.activity-combo select {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 46px;
+  min-height: calc(100% - 2px);
+  border: 0;
+  border-left: 1px solid #344054;
+  border-radius: 0 8px 8px 0;
+  padding: 0 0 0 6px;
+  color: #d1d5db;
+  background: #090f1a;
+  text-align: center;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 @media (min-width: 761px) {
   .rehearsal-form,
   #schedulePanel .form-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 16px;
   }
 
   .rehearsal-form label:not(.wide),
   #schedulePanel .form-grid label:not(.wide) {
-    grid-column: span 2;
+    grid-column: span 3;
   }
 
   .rehearsal-form label.wide,
@@ -1119,17 +1139,16 @@ h1 {
     grid-column: span 6;
   }
 
-  .activity-input-row {
-    grid-template-columns: minmax(0, 1fr) 190px;
+  .rehearsal-form #scheduleSubmit,
+  #schedulePanel #scheduleSubmit {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 
-  .rehearsal-form #scheduleSubmit,
   .rehearsal-form #scheduleCancelEdit,
-  #schedulePanel #scheduleSubmit,
   #schedulePanel #scheduleCancelEdit {
-    grid-column: span 2;
-    justify-self: start;
-    min-width: 190px;
+    grid-column: 1 / -1;
+    width: 100%;
   }
 }
 
@@ -1560,9 +1579,8 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .activity-input-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .activity-combo input {
+    padding-right: 52px;
   }
 
   .schedule-shell {
