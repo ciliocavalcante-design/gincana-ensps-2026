@@ -98,6 +98,12 @@
       "type": "Advertência",
       "points": 0,
       "reason": "Barulho no intervalo"
+    },
+    {
+      "teamId": "7",
+      "type": "Penalidade",
+      "points": 5,
+      "reason": "Mau comportamento no intervalo"
     }
   ]
 }
