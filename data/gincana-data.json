@@ -46,7 +46,16 @@
       "activity": "Dança dos professores"
     }
   ],
-  "materials": [],
+  "materials": [
+    {
+      "teamId": "6",
+      "material": "Ficha de inscrição",
+      "status": "Entregue",
+      "date": "2026-04-20",
+      "amount": "",
+      "note": ""
+    }
+  ],
   "foodDonations": [
     {
       "teamId": "6",
