@@ -64,16 +64,10 @@
       "reason": "Mau comportamento"
     },
     {
-      "teamId": "7",
-      "type": "Advertência",
-      "points": 0,
-      "reason": "Gritaria no intervalo"
-    },
-    {
       "teamId": "8",
       "type": "Advertência",
       "points": 0,
-      "reason": "Gritaria no intervalo"
+      "reason": "Barulho no intervalo"
     }
   ]
 }
