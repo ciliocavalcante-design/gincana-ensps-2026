@@ -291,16 +291,24 @@ h1 {
 .toggle-arrow {
   width: 26px;
   height: 26px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   border: 1px solid var(--line);
   border-radius: 50%;
   color: #bbf7d0;
   background: rgba(255, 255, 255, 0.055);
-  font-size: 1.05rem;
+  font-size: 0;
   font-weight: 900;
+  line-height: 1;
   transition: transform 180ms ease, background 180ms ease;
+}
+
+.toggle-arrow::before {
+  content: "▾";
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .section-toggle[open] .toggle-arrow {
@@ -801,7 +809,10 @@ h1 {
 
 .material-summary {
   padding: 18px;
-  border-top: 8px solid var(--team-color);
+}
+
+.material-summary.neutral-card {
+  border-top: 8px solid #6b7280;
 }
 
 .material-summary h3,

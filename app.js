@@ -306,6 +306,7 @@ function renderSchedules() {
           const itemTeam = team(item.teamId);
           const activity = item.activity || "Ensaio";
           const place = item.place || "ENSPS";
+          const showDelete = document.body.classList.contains("rehearsals-page");
           return `
             <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
               <div class="schedule-item-top">
@@ -313,7 +314,7 @@ function renderSchedules() {
                   <span>${itemTeam.name}</span>
                   <small>${item.time}</small>
                 </h3>
-                <button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>
+                ${showDelete ? `<button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>` : ""}
               </div>
               <p class="schedule-activity">${activity}</p>
               <p class="schedule-meta">${place}</p>
@@ -760,5 +761,17 @@ async function saveRemoteData() {
   }
 }
 
+function applyResponsiveDefaults() {
+  if (!document.body.classList.contains("public-page")) return;
+  const scoreboardToggle = document.querySelector("#placar .section-toggle");
+  if (!scoreboardToggle) return;
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    scoreboardToggle.removeAttribute("open");
+  } else {
+    scoreboardToggle.setAttribute("open", "");
+  }
+}
+
 render();
+applyResponsiveDefaults();
 loadRemoteData();
