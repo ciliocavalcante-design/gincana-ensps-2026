@@ -220,9 +220,13 @@ h1 {
   margin: 0 auto;
   padding: 7px 0 9px;
   padding-inline-start: 0;
+  padding-left: 0;
+  text-indent: 0;
   border-bottom: 1px solid transparent;
   cursor: pointer;
   list-style: none;
+  appearance: none;
+  -webkit-appearance: none;
   transition: border-color 160ms ease, color 160ms ease;
 }
 
@@ -237,8 +241,10 @@ h1 {
 }
 
 .section-heading > span:first-child {
+  display: block;
   justify-self: start;
   margin: 0;
+  padding: 0;
 }
 
 .section-title {
