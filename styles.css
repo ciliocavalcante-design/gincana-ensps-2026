@@ -59,6 +59,14 @@ a {
   font-size: clamp(2.4rem, 5vw, 4.8rem);
 }
 
+.rehearsals-page .hero {
+  min-height: 24vh;
+}
+
+.rehearsals-page .hero-content {
+  width: min(720px, 100%);
+}
+
 .public-page .admin-section {
   display: none;
 }
@@ -540,12 +548,33 @@ h1 {
   margin: 0 0 8px;
 }
 
+.schedule-item h3 {
+  display: grid;
+  gap: 4px;
+}
+
+.schedule-item h3 small {
+  color: #d1d5db;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
 .team-card p,
 .event-card p,
 .schedule-item p,
 .discipline-item p {
   margin: 0;
   color: var(--muted);
+}
+
+.schedule-activity {
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.schedule-meta {
+  margin-top: 6px;
+  font-size: 0.88rem;
 }
 
 .team-card strong {
@@ -814,6 +843,30 @@ h1 {
   margin: 18px 0 0;
 }
 
+.schedule-board {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.schedule-board-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.schedule-board-heading h2,
+.schedule-board-heading p {
+  margin: 0;
+}
+
+.schedule-board-heading h2 {
+  font-size: 1.3rem;
+}
+
+.schedule-board-heading p {
+  color: var(--muted);
+}
+
 .admin-section .eyebrow {
   color: #5eead4;
 }
@@ -1004,9 +1057,32 @@ footer {
     padding-bottom: 14px;
   }
 
+  .rehearsals-page .hero {
+    min-height: auto;
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+
   .workspace-page .hero-content {
     width: min(100%, 620px);
     text-align: center;
+  }
+
+  .rehearsals-page .topbar {
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .rehearsals-page .topbar a {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+
+  .rehearsals-page .brand-link img {
+    width: 24px;
+    height: 24px;
   }
 
   .workspace-page h1 {
@@ -1014,9 +1090,29 @@ footer {
     line-height: 0.94;
   }
 
+  .rehearsals-page h1 {
+    font-size: clamp(2.1rem, 11vw, 3.1rem);
+  }
+
   .workspace-page .hero-content > p:not(.eyebrow) {
     margin-top: 10px;
     font-size: 0.98rem;
+  }
+
+  .rehearsals-page .hero-content-wrap {
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .rehearsals-page .hero-content > p:not(.eyebrow) {
+    max-width: 24ch;
+    margin-top: 8px;
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  .rehearsals-page .section {
+    padding-top: 8px;
   }
 
   .hero-actions {
@@ -1194,9 +1290,63 @@ footer {
     margin-top: 14px;
   }
 
+  .schedule-board {
+    gap: 12px;
+  }
+
+  .schedule-board-heading {
+    padding-top: 2px;
+  }
+
+  .schedule-board-heading h2 {
+    font-size: 1.1rem;
+  }
+
+  .schedule-board-heading p {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .rehearsals-page .schedule-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .rehearsals-page .schedule-item {
+    padding: 14px;
+    border-left-width: 6px !important;
+    border-radius: 12px;
+  }
+
+  .rehearsals-page .schedule-item h3 {
+    margin-bottom: 10px;
+  }
+
+  .rehearsals-page .schedule-item h3 span {
+    font-size: 1rem;
+  }
+
+  .rehearsals-page .schedule-item h3 small {
+    font-size: 0.8rem;
+  }
+
+  .rehearsals-page .schedule-activity {
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+
+  .rehearsals-page .schedule-meta {
+    margin-top: 8px;
+    font-size: 0.82rem;
+  }
+
   .table-wrap {
     margin-top: 6px;
     border-radius: 10px;
+  }
+
+  .rehearsals-page .table-wrap {
+    display: none;
   }
 
   table {

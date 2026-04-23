@@ -280,10 +280,16 @@ function renderSchedules() {
   const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
   setHtml("scheduleList", sorted.length ? sorted.map((item) => {
     const itemTeam = team(item.teamId);
+    const activity = item.activity || "Ensaio";
+    const place = item.place || "ENSPS";
     return `
       <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
-        <h3>${itemTeam.name} • ${formatDate(item.date)} às ${item.time}</h3>
-        <p>${item.activity || "Ensaio"} • ${item.place || "ENSPS"}</p>
+        <h3>
+          <span>${itemTeam.name}</span>
+          <small>${formatDate(item.date)} às ${item.time}</small>
+        </h3>
+        <p class="schedule-activity">${activity}</p>
+        <p class="schedule-meta">${place}</p>
       </article>
     `;
   }).join("") : `<div class="empty-state">Nenhum ensaio agendado ainda.</div>`);
