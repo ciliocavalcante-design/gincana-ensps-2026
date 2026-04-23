@@ -1564,11 +1564,51 @@ footer {
 
   .rehearsal-form,
   .rehearsal-sync .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .rehearsal-form #scheduleSubmit,
+  .rehearsal-form label {
+    grid-column: auto;
+  }
+
+  .rehearsal-form label:has(select[name="team"]) {
+    order: 1;
+  }
+
+  .rehearsal-form label:has(input[name="date"]) {
+    order: 2;
+  }
+
+  .rehearsal-form label:has(select[name="preset"]) {
+    order: 3;
+  }
+
+  .rehearsal-form label:has(input[name="place"]) {
+    order: 4;
+  }
+
+  .rehearsal-form label:has(input[name="time"]) {
+    order: 5;
+  }
+
+  .rehearsal-form label:has(input[name="endTime"]) {
+    order: 6;
+  }
+
+  .rehearsal-form label.wide {
+    order: 7;
+    grid-column: 1 / -1;
+  }
+
+  .rehearsal-form #scheduleSubmit {
+    order: 8;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
   .rehearsal-form #scheduleCancelEdit {
+    order: 9;
+    grid-column: 1 / -1;
     width: 100%;
   }
 
