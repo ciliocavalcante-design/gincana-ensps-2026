@@ -623,7 +623,10 @@ on("resetData", "click", () => {
 async function loadRemoteData(options = {}) {
   try {
     setSyncStatus("Carregando dados online...");
-    const response = await fetch(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    let response = await fetch(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok && usesPagesApi()) {
+      response = await fetch(`${RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    }
     if (!response.ok) throw new Error(`servidor respondeu ${response.status}`);
     const payload = await response.json();
     const data = payload?.data || payload;
