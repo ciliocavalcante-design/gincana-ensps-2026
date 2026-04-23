@@ -182,16 +182,26 @@ function totals() {
 }
 
 function renderScoreboard() {
-  byId("scoreboard").innerHTML = totals().map((item, index) => `
-    <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-      <div class="rank">${index + 1}º</div>
-      <div>
-        <h3>${item.name}</h3>
-        <p>${item.theme} • ${item.category}${item.penalties ? ` • -${item.penalties} em penalidades` : ""}</p>
+  byId("scoreboard").innerHTML = ["Categoria 1", "Categoria 2"].map((category) => {
+    const categoryTeams = totals().filter((item) => item.category === category);
+    return `
+      <div class="score-category">
+        <h3>${category}</h3>
+        <div class="score-category-list">
+          ${categoryTeams.map((item, index) => `
+            <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
+              <div class="rank">${index + 1}º</div>
+              <div>
+                <h4>${item.name}</h4>
+                <p>${item.theme}${item.penalties ? ` • -${item.penalties} em penalidades` : ""}</p>
+              </div>
+              <div class="score-total">${formatPoints(item.total)}</div>
+            </article>
+          `).join("")}
+        </div>
       </div>
-      <div class="score-total">${formatPoints(item.total)}</div>
-    </article>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function renderTeams() {
