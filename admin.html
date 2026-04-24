@@ -44,7 +44,9 @@
           <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios</button>
           <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
           <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
+          <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
           <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
+          <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
           <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
         </div>
 
@@ -153,6 +155,29 @@
             <button class="button ghost" id="disciplineCancelEdit" type="button" hidden>Cancelar edição</button>
           </form>
           <div class="table-wrap"><table id="disciplineTable"></table></div>
+        </div>
+
+        <div class="admin-panel" id="participantsPanel">
+          <form id="participantsForm" class="form-grid participants-form">
+            <label>Turma<select name="team" required></select></label>
+            <label>Atividade<select name="activity" required></select></label>
+            <label class="wide">Nomes<textarea name="names" placeholder="Um nome por linha"></textarea></label>
+            <button class="button primary" type="submit">Salvar participantes</button>
+          </form>
+          <div id="participantsOverview" class="participants-overview"></div>
+        </div>
+
+        <div class="admin-panel" id="bonusPanel">
+          <form id="bonusForm" class="form-grid">
+            <input name="editIndex" type="hidden" value="">
+            <label>Turma<select name="team" required></select></label>
+            <label>Data<input name="date" type="date"></label>
+            <label>Pontos<input name="points" type="number" min="0" step="0.5" value="0" required></label>
+            <label class="wide">Motivo<input name="reason" type="text" required placeholder="Ex.: colaboração, organização, destaque da equipe"></label>
+            <button class="button primary" id="bonusSubmit" type="submit">Registrar bônus</button>
+            <button class="button ghost" id="bonusCancelEdit" type="button" hidden>Cancelar edição</button>
+          </form>
+          <div class="table-wrap"><table id="bonusTable"></table></div>
         </div>
 
         <div class="admin-panel" id="settingsPanel">

@@ -79,7 +79,8 @@ const defaultData = {
   participants: [],
   materials: [],
   foodDonations: [],
-  discipline: []
+  discipline: [],
+  bonuses: []
 };
 
 let state = loadState();
@@ -108,7 +109,8 @@ function normalizeState(saved = {}) {
     participants: Array.isArray(saved.participants) ? saved.participants : base.participants,
     materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
-    discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline
+    discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
+    bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses
   };
 }
 
@@ -130,7 +132,8 @@ function mutableState() {
     participants: state.participants,
     materials: state.materials,
     foodDonations: state.foodDonations,
-    discipline: state.discipline
+    discipline: state.discipline,
+    bonuses: state.bonuses
   };
 }
 
@@ -202,7 +205,10 @@ function totals() {
     const penalties = state.discipline
       .filter((entry) => entry.teamId === item.id && entry.type === "Penalidade")
       .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
-    return { ...item, total: positive - penalties, penalties };
+    const bonuses = state.bonuses
+      .filter((entry) => entry.teamId === item.id)
+      .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
+    return { ...item, total: positive + bonuses - penalties, penalties, bonuses };
   }).sort((a, b) => b.total - a.total);
 }
 
@@ -546,6 +552,28 @@ function loadDisciplineIntoForm(index) {
   setDisciplineEditing(index);
 }
 
+function setBonusEditing(index = "") {
+  const form = byId("bonusForm");
+  if (!form) return;
+  form.elements.editIndex.value = index === "" ? "" : String(index);
+  const isEditing = index !== "";
+  const submitButton = byId("bonusSubmit");
+  const cancelButton = byId("bonusCancelEdit");
+  if (submitButton) submitButton.textContent = isEditing ? "Salvar bônus" : "Registrar bônus";
+  if (cancelButton) cancelButton.hidden = !isEditing;
+}
+
+function loadBonusIntoForm(index) {
+  const form = byId("bonusForm");
+  const item = state.bonuses[index];
+  if (!form || !item) return;
+  form.elements.team.value = item.teamId;
+  form.elements.date.value = item.date || "";
+  form.elements.points.value = Math.abs(Number(item.points || 0));
+  form.elements.reason.value = item.reason || "";
+  setBonusEditing(index);
+}
+
 function foodTotals() {
   return state.teams.map((item) => {
     const entries = state.foodDonations.filter((donation) => donation.teamId === item.id);
@@ -746,6 +774,17 @@ function renderAdminTables() {
     ])
   ));
 
+  setHtml("bonusTable", tableMarkup(
+    ["Turma", "Data", "Pontos", "Motivo", ""],
+    state.bonuses.map((item, index) => [
+      team(item.teamId)?.name || item.teamId,
+      formatDate(item.date),
+      `+${formatPoints(Math.abs(item.points || 0))}`,
+      item.reason,
+      `<button class="mini-action" data-edit-bonus="${index}" type="button">Editar</button> <button class="mini-action" data-delete-bonus="${index}" type="button">Excluir</button>`
+    ])
+  ));
+
   setValue("dataPreview", JSON.stringify(state, null, 2));
 }
 
@@ -935,6 +974,29 @@ on("disciplineCancelEdit", "click", () => {
   setDisciplineEditing();
 });
 
+on("bonusForm", "submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const payload = {
+    teamId: data.team,
+    date: data.date,
+    points: Math.abs(Number(data.points || 0)),
+    reason: data.reason.trim()
+  };
+  if (data.editIndex !== "") state.bonuses[Number(data.editIndex)] = payload;
+  else state.bonuses.push(payload);
+  event.currentTarget.reset();
+  setBonusEditing();
+  saveState();
+});
+
+on("bonusCancelEdit", "click", () => {
+  const form = byId("bonusForm");
+  if (!form) return;
+  form.reset();
+  setBonusEditing();
+});
+
 document.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
@@ -985,6 +1047,14 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.editDiscipline) {
     loadDisciplineIntoForm(Number(button.dataset.editDiscipline));
+  }
+  if (button.dataset.deleteBonus) {
+    state.bonuses.splice(Number(button.dataset.deleteBonus), 1);
+    setBonusEditing();
+    saveState();
+  }
+  if (button.dataset.editBonus) {
+    loadBonusIntoForm(Number(button.dataset.editBonus));
   }
 });
 
