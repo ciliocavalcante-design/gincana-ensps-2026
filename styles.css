@@ -1494,6 +1494,38 @@ h1 {
   justify-items: center;
 }
 
+.admin-page .admin-panel h2,
+.admin-page .admin-panel h3,
+.admin-page .admin-panel p,
+.admin-page .schedule-item,
+.admin-page .discipline-item,
+.admin-page .food-rank-card,
+.admin-page .food-team header,
+.admin-page .material-summary,
+.admin-page .material-team header,
+.admin-page .sync-box {
+  text-align: center;
+}
+
+.admin-page .schedule-item-top {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.admin-page .schedule-item-actions {
+  justify-content: center;
+}
+
+.admin-page .food-rank-card,
+.admin-page .material-team li,
+.admin-page .food-team li {
+  text-align: center;
+}
+
+.admin-page .food-team li strong {
+  text-align: center;
+}
+
 .sync-box {
   display: grid;
   gap: 12px;
