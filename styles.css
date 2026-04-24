@@ -1265,6 +1265,11 @@ h1 {
     justify-self: end;
   }
 
+  .rehearsals-page .participants-shell,
+  .rehearsals-page .discipline-shell {
+    grid-column: 1 / -1;
+  }
+
   .participants-form {
     grid-template-columns: minmax(160px, 220px) minmax(220px, 320px) minmax(0, 1fr);
   }
