@@ -1971,6 +1971,11 @@ footer {
     width: 100%;
   }
 
+  .admin-page #schedulePanel #scheduleSubmit {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
   .rehearsal-form #scheduleCancelEdit {
     order: 9;
     grid-column: 1 / -1;
