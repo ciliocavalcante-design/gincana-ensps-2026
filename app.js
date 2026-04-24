@@ -353,12 +353,12 @@ function scheduleSourceLabel(item) {
   return "Agendado com Vitória";
 }
 
-function participantRecord(activity = "") {
-  return state.participants.find((item) => item.activity === activity);
+function participantRecord(teamId = "", activity = "") {
+  return state.participants.find((item) => item.teamId === teamId && item.activity === activity);
 }
 
-function participantLines(activity = "") {
-  return (participantRecord(activity)?.names || "")
+function participantLines(teamId = "", activity = "") {
+  return (participantRecord(teamId, activity)?.names || "")
     .split(/\r?\n/)
     .map((name) => name.trim())
     .filter(Boolean);
@@ -392,7 +392,7 @@ function renderSchedules() {
             const itemTeam = team(item.teamId);
             const activity = item.activity || "Ensaio";
             const place = item.place || "ENSPS";
-            const participants = participantLines(activity);
+            const participants = participantLines(item.teamId, activity);
             const participantsId = `participants-${tabName}-${index}`;
             return `
               <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
@@ -489,15 +489,14 @@ function applyActivityPreset(rawValue) {
   form.elements.activityPreset.value = "";
 }
 
-function loadParticipantsIntoForm(activity) {
+function loadParticipantsIntoForm() {
   const form = byId("participantsForm");
-  if (!form || !activity) return;
-  form.elements.names.value = participantRecord(activity)?.names || "";
+  if (!form) return;
+  form.elements.names.value = participantRecord(form.elements.team.value, form.elements.activity.value)?.names || "";
 }
 
 function syncParticipantsForm() {
-  const form = byId("participantsForm");
-  if (form) loadParticipantsIntoForm(form.elements.activity.value);
+  loadParticipantsIntoForm();
 }
 
 function renderDiscipline() {
@@ -653,14 +652,20 @@ function renderMaterials() {
 function renderParticipants() {
   const root = byId("participantsOverview");
   if (!root) return;
-  root.innerHTML = SCHEDULE_ACTIVITIES.map((activity) => {
-    const names = participantLines(activity);
+  root.innerHTML = state.teams.map((item) => {
+    const activityBlocks = SCHEDULE_ACTIVITIES.map((activity) => {
+      const names = participantLines(item.id, activity);
+      return names.length ? `
+        <div class="participant-activity">
+          <strong>${activity}</strong>
+          <ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>
+        </div>
+      ` : "";
+    }).join("");
     return `
-      <article class="participant-card">
-        <h3>${activity}</h3>
-        ${names.length
-          ? `<ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`
-          : `<p>Sem participantes cadastrados.</p>`}
+      <article class="participant-card" style="--team-color:${item.color}">
+        <h3>${item.name}</h3>
+        ${activityBlocks || `<p>Sem participantes cadastrados.</p>`}
       </article>
     `;
   }).join("");
@@ -759,7 +764,7 @@ function fillSelects() {
     if (current) select.value = current;
     if (!select.dataset.loadedParticipants) {
       select.dataset.loadedParticipants = "true";
-      loadParticipantsIntoForm(select.value);
+      loadParticipantsIntoForm();
     }
   });
 }
@@ -846,8 +851,8 @@ on("scheduleForm", "change", (event) => {
 });
 
 on("participantsForm", "change", (event) => {
-  if (event.target.name === "activity") {
-    loadParticipantsIntoForm(event.target.value);
+  if (event.target.name === "team" || event.target.name === "activity") {
+    loadParticipantsIntoForm();
   }
 });
 
@@ -855,10 +860,11 @@ on("participantsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const payload = {
+    teamId: data.team,
     activity: data.activity,
     names: data.names.trim()
   };
-  const existing = participantRecord(payload.activity);
+  const existing = participantRecord(payload.teamId, payload.activity);
   if (existing) Object.assign(existing, payload);
   else state.participants.push(payload);
   setSyncStatus("Participantes salvos. Sincronizando online...");

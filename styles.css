@@ -700,6 +700,7 @@ h1 {
 
 .participant-card {
   border: 1px solid var(--line);
+  border-top: 8px solid var(--team-color, #6b7280);
   border-radius: 8px;
   padding: 14px;
   background: var(--surface-neutral);
@@ -717,6 +718,16 @@ h1 {
 
 .participant-card p {
   color: var(--muted);
+}
+
+.participant-activity + .participant-activity {
+  margin-top: 12px;
+}
+
+.participant-activity strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #f8fafc;
 }
 
 .team-card p,
@@ -1253,7 +1264,7 @@ h1 {
   }
 
   .participants-form {
-    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    grid-template-columns: minmax(160px, 220px) minmax(220px, 320px) minmax(0, 1fr);
   }
 
   .participants-form label.wide {
