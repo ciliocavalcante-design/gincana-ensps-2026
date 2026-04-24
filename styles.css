@@ -1126,17 +1126,50 @@ h1 {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+  color: transparent;
+  font-size: 0;
+}
+
+.activity-combo select option {
+  color: #f8fafc;
+  background: #090f1a;
+  font-size: 1rem;
+}
+
+.activity-combo::after {
+  content: "⌄";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-52%);
+  color: #d1d5db;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
 }
 
 @media (min-width: 761px) {
   .rehearsals-page .split-workspace {
-    grid-template-columns: minmax(380px, 470px) minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
   .rehearsals-page .schedule-shell > .section-heading {
-    min-height: 74px;
-    padding: 12px 18px;
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    min-height: 88px;
+    padding: 14px 18px;
+    text-align: center;
+  }
+
+  .rehearsals-page .schedule-shell > .section-heading > span:first-child {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .rehearsals-page .schedule-shell > .section-heading .toggle-arrow {
+    grid-column: 3;
+    justify-self: end;
   }
 
   .rehearsals-page .schedule-shell .section-title {
@@ -1216,6 +1249,42 @@ h1 {
     order: 9;
     grid-column: 1 / -1;
     width: 100%;
+  }
+
+  .rehearsal-form .schedule-team,
+  #schedulePanel .schedule-team {
+    order: 1;
+  }
+
+  .rehearsal-form .schedule-date,
+  #schedulePanel .schedule-date {
+    order: 2;
+  }
+
+  .rehearsal-form .schedule-preset,
+  #schedulePanel .schedule-preset {
+    order: 3;
+  }
+
+  .rehearsal-form .schedule-place,
+  #schedulePanel .schedule-place {
+    order: 4;
+  }
+
+  .rehearsal-form .schedule-start,
+  #schedulePanel .schedule-start {
+    order: 5;
+  }
+
+  .rehearsal-form .schedule-end,
+  #schedulePanel .schedule-end {
+    order: 6;
+  }
+
+  .rehearsal-form .schedule-activity-field,
+  #schedulePanel .schedule-activity-field {
+    order: 7;
+    grid-column: 1 / -1;
   }
 
   .rehearsals-page .table-wrap {

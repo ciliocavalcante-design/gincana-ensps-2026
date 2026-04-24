@@ -20,7 +20,6 @@
     </nav>
     <div class="hero-content-wrap">
       <div class="hero-content">
-        <p class="eyebrow">Organização</p>
         <h1>Ensaios</h1>
         <p>Página focada para marcar horários e acompanhar a agenda das turmas.</p>
       </div>
@@ -43,9 +42,9 @@
             <div class="admin-panel active">
               <form id="scheduleForm" class="form-grid rehearsal-form">
                 <input name="editIndex" type="hidden" value="">
-                <label>Turma<select name="team" required></select></label>
-                <label>Data<input name="date" type="date" required></label>
-                <label>
+                <label class="schedule-team">Turma<select name="team" required></select></label>
+                <label class="schedule-date">Data<input name="date" type="date" required></label>
+                <label class="schedule-preset">
                   Horário padrão
                   <select name="preset">
                     <option value="">Selecionar</option>
@@ -55,10 +54,10 @@
                     <option value="14:30|16:30">14h30-16h30</option>
                   </select>
                 </label>
-                <label>Início<input name="time" type="time" required></label>
-                <label>Fim<input name="endTime" type="time"></label>
-                <label>Local<input name="place" type="text" value="ENSPS"></label>
-                <label class="wide activity-field">
+                <label class="schedule-start">Início<input name="time" type="time" required></label>
+                <label class="schedule-end">Fim<input name="endTime" type="time"></label>
+                <label class="schedule-place">Local<input name="place" type="text" value="ENSPS"></label>
+                <label class="wide activity-field schedule-activity-field">
                   <span>Atividade</span>
                   <div class="activity-combo">
                     <input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores">

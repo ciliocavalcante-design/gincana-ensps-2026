@@ -427,6 +427,7 @@ function applyActivityPreset(rawValue) {
   const form = byId("scheduleForm");
   if (!form || !rawValue) return;
   form.elements.activity.value = rawValue;
+  form.elements.activityPreset.value = "";
 }
 
 function renderDiscipline() {
