@@ -1140,8 +1140,8 @@ h1 {
   content: "⌄";
   position: absolute;
   top: 50%;
-  right: 18px;
-  transform: translateY(-52%);
+  right: 23px;
+  transform: translate(50%, -50%);
   color: #d1d5db;
   font-size: 1rem;
   font-weight: 900;
@@ -1156,13 +1156,13 @@ h1 {
   }
 
   .rehearsals-page .schedule-shell:not([open]) {
-    min-height: 126px;
+    min-height: 112px;
   }
 
   .rehearsals-page .schedule-shell > .section-heading {
     grid-template-columns: 42px minmax(0, 1fr) 42px;
-    min-height: 96px;
-    padding: 14px 18px;
+    min-height: 86px;
+    padding: 12px 18px;
     text-align: center;
   }
 
