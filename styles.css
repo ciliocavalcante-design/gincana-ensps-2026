@@ -1003,6 +1003,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(380px, 480px) minmax(0, 1fr);
   gap: 18px;
+  align-items: start;
   width: min(1180px, 100%);
   margin: 0 auto;
 }
@@ -1092,6 +1093,11 @@ h1 {
   padding: 12px 14px 14px;
 }
 
+.form-grid > label,
+.form-grid > button {
+  min-width: 0;
+}
+
 .activity-field {
   gap: 8px;
 }
@@ -1123,6 +1129,30 @@ h1 {
 }
 
 @media (min-width: 761px) {
+  .rehearsals-page .split-workspace {
+    grid-template-columns: minmax(380px, 470px) minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .rehearsals-page .schedule-shell > .section-heading {
+    min-height: 74px;
+    padding: 12px 18px;
+  }
+
+  .rehearsals-page .schedule-shell .section-title {
+    font-size: 1.55rem;
+    line-height: 1.05;
+  }
+
+  .rehearsals-page .schedule-shell .eyebrow {
+    margin-bottom: 4px;
+    font-size: 0.72rem;
+  }
+
+  .rehearsals-page .schedule-shell > .section-body {
+    padding: 16px 18px 18px;
+  }
+
   .rehearsal-form,
   #schedulePanel .form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1137,6 +1167,67 @@ h1 {
   .rehearsal-form label.wide,
   #schedulePanel .form-grid label.wide {
     grid-column: 1 / -1;
+  }
+
+  .rehearsal-form label:has(select[name="team"]),
+  #schedulePanel .form-grid label:has(select[name="team"]) {
+    order: 1;
+  }
+
+  .rehearsal-form label:has(input[name="date"]),
+  #schedulePanel .form-grid label:has(input[name="date"]) {
+    order: 2;
+  }
+
+  .rehearsal-form label:has(select[name="preset"]),
+  #schedulePanel .form-grid label:has(select[name="preset"]) {
+    order: 3;
+  }
+
+  .rehearsal-form label:has(input[name="place"]),
+  #schedulePanel .form-grid label:has(input[name="place"]) {
+    order: 4;
+  }
+
+  .rehearsal-form label:has(input[name="time"]),
+  #schedulePanel .form-grid label:has(input[name="time"]) {
+    order: 5;
+  }
+
+  .rehearsal-form label:has(input[name="endTime"]),
+  #schedulePanel .form-grid label:has(input[name="endTime"]) {
+    order: 6;
+  }
+
+  .rehearsal-form label.wide,
+  #schedulePanel .form-grid label.wide {
+    order: 7;
+  }
+
+  .rehearsal-form #scheduleSubmit,
+  #schedulePanel #scheduleSubmit {
+    order: 8;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .rehearsal-form #scheduleCancelEdit,
+  #schedulePanel #scheduleCancelEdit {
+    order: 9;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .rehearsals-page .table-wrap {
+    display: none;
+  }
+
+  .rehearsals-page .schedule-board-heading p {
+    font-size: 0.95rem;
+  }
+
+  .rehearsals-page .schedule-day-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
