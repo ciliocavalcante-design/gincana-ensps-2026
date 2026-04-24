@@ -119,6 +119,29 @@
             <div id="participantsOverview" class="participants-overview"></div>
           </div>
         </details>
+
+        <details class="discipline-shell schedule-shell section-toggle">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Conduta</span>
+              <span class="section-title">Advertências</span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <div class="schedule-board-heading">
+              <p>Registre ocorrências de ensaio com penalidades pré-definidas.</p>
+            </div>
+            <form id="quickDisciplineForm" class="form-grid quick-discipline-form">
+              <label>Turma<select name="team" required></select></label>
+              <label>Nível<select name="level" required></select></label>
+              <label>Data<input name="date" type="date"></label>
+              <label class="wide">Descrição<input name="reason" type="text" required placeholder="Ex.: atraso, ausência, comportamento no ensaio"></label>
+              <button class="button primary" type="submit">Registrar penalidade</button>
+            </form>
+            <div id="disciplineList" class="discipline-list"></div>
+          </div>
+        </details>
       </div>
     </section>
   </main>

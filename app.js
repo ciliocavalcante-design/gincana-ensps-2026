@@ -13,6 +13,12 @@ const SCHEDULE_ACTIVITIES = [
   "Story",
   "Organização"
 ];
+const DISCIPLINE_LEVELS = [
+  { id: "leve", label: "Leve", points: 1 },
+  { id: "media", label: "Média", points: 2 },
+  { id: "grave", label: "Grave", points: 3 },
+  { id: "recorrente", label: "Erro Recorrente", points: 5 }
+];
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
@@ -197,6 +203,10 @@ function foodById(id) {
   return state.foodTypes.find((item) => item.id === id);
 }
 
+function disciplineLevelById(id) {
+  return DISCIPLINE_LEVELS.find((item) => item.id === id) || DISCIPLINE_LEVELS[0];
+}
+
 function totals() {
   return state.teams.map((item) => {
     const positive = state.scores
@@ -359,6 +369,12 @@ function scheduleSourceLabel(item) {
   return "Agendado com Vitória";
 }
 
+function disciplineSourceLabel(item) {
+  if (item.createdBy === "admin") return "Registrado por Prof. Cílio";
+  if (item.createdBy === "victoria") return "Registrado por Vitória";
+  return "";
+}
+
 function participantRecord(teamId = "", activity = "") {
   return state.participants.find((item) => item.teamId === teamId && item.activity === activity);
 }
@@ -518,12 +534,14 @@ function renderDiscipline() {
   setHtml("disciplineList", entries.length ? entries.map((item) => {
     const itemTeam = team(item.teamId);
     const dateLabel = item.date ? formatDate(item.date) : "Data não informada";
+    const source = disciplineSourceLabel(item);
     return `
       <article class="discipline-item" style="border-left:8px solid ${itemTeam.color}">
-        <h3>${item.type} • ${itemTeam.name}</h3>
+        <h3>${item.type}${item.levelLabel ? ` ${item.levelLabel}` : ""} • ${itemTeam.name}</h3>
         <p>${dateLabel}</p>
         <p>${item.reason}</p>
         <p>${item.type === "Penalidade" ? `Desconto: ${formatPoints(Math.abs(item.points || 0))} pontos` : "Sem desconto aplicado"}</p>
+        ${source ? `<p>${source}</p>` : ""}
       </article>
     `;
   }).join("") : `<div class="empty-state">Nenhuma advertência ou penalidade registrada.</div>`);
@@ -763,13 +781,14 @@ function renderAdminTables() {
   ));
 
   setHtml("disciplineTable", tableMarkup(
-    ["Turma", "Tipo", "Data", "Pontos", "Motivo", ""],
+    ["Turma", "Tipo", "Data", "Pontos", "Motivo", "Registro", ""],
     state.discipline.map((item, index) => [
       team(item.teamId)?.name || item.teamId,
-      item.type,
+      item.levelLabel ? `${item.type} ${item.levelLabel}` : item.type,
       formatDate(item.date),
       item.type === "Penalidade" ? `-${formatPoints(Math.abs(item.points || 0))}` : "0",
       item.reason,
+      disciplineSourceLabel(item),
       `<button class="mini-action" data-edit-discipline="${index}" type="button">Editar</button> <button class="mini-action" data-delete-discipline="${index}" type="button">Excluir</button>`
     ])
   ));
@@ -804,6 +823,11 @@ function fillSelects() {
   });
   document.querySelectorAll('select[name="food"]').forEach((select) => {
     select.innerHTML = state.foodTypes.map((item) => `<option value="${item.id}">${item.name} • ${item.tokens} tokens</option>`).join("");
+  });
+  document.querySelectorAll('select[name="level"]').forEach((select) => {
+    const current = select.value;
+    select.innerHTML = DISCIPLINE_LEVELS.map((item) => `<option value="${item.id}">${item.label} • ${item.points} ponto${item.points > 1 ? "s" : ""}</option>`).join("");
+    if (current) select.value = current;
   });
   document.querySelectorAll('#participantsForm select[name="activity"]').forEach((select) => {
     const current = select.value;
@@ -972,6 +996,25 @@ on("disciplineCancelEdit", "click", () => {
   if (!form) return;
   form.reset();
   setDisciplineEditing();
+});
+
+on("quickDisciplineForm", "submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const level = disciplineLevelById(data.level);
+  state.discipline.push({
+    teamId: data.team,
+    type: "Penalidade",
+    date: data.date,
+    points: level.points,
+    reason: data.reason.trim(),
+    level: level.id,
+    levelLabel: level.label,
+    createdBy: document.body.classList.contains("admin-page") ? "admin" : "victoria"
+  });
+  event.currentTarget.reset();
+  setSyncStatus("Penalidade registrada. Sincronizando online...");
+  saveState();
 });
 
 on("bonusForm", "submit", (event) => {

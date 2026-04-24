@@ -154,6 +154,13 @@
             <button class="button primary" id="disciplineSubmit" type="submit">Registrar</button>
             <button class="button ghost" id="disciplineCancelEdit" type="button" hidden>Cancelar edição</button>
           </form>
+          <form id="quickDisciplineForm" class="form-grid quick-discipline-form">
+            <label>Turma<select name="team" required></select></label>
+            <label>Nível<select name="level" required></select></label>
+            <label>Data<input name="date" type="date"></label>
+            <label class="wide">Descrição<input name="reason" type="text" required placeholder="Ex.: atraso, comportamento, ensaio sem aviso"></label>
+            <button class="button primary" type="submit">Registrar penalidade rápida</button>
+          </form>
           <div class="table-wrap"><table id="disciplineTable"></table></div>
         </div>
 

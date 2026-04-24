@@ -687,6 +687,12 @@ h1 {
   margin-top: 12px;
 }
 
+.quick-discipline-form {
+  margin-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 16px;
+}
+
 .participants-form textarea {
   min-height: 160px;
 }
@@ -1272,6 +1278,18 @@ h1 {
   }
 
   .participants-form .button {
+    grid-column: 1 / -1;
+  }
+
+  .quick-discipline-form {
+    grid-template-columns: minmax(140px, 200px) minmax(190px, 260px) minmax(150px, 210px) minmax(0, 1fr);
+  }
+
+  .quick-discipline-form label.wide {
+    grid-column: span 1;
+  }
+
+  .quick-discipline-form .button {
     grid-column: 1 / -1;
   }
 
