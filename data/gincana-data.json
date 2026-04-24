@@ -146,6 +146,14 @@
       "date": "2026-04-22",
       "amount": "",
       "note": ""
+    },
+    {
+      "teamId": "2",
+      "material": "Relatório de estratégia de trabalho",
+      "status": "Entregue",
+      "date": "2026-04-22",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
