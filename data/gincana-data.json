@@ -213,51 +213,5 @@
     }
   ],
   "bonuses": [],
-  "evaluations": [
-    {
-      "id": "1777054293126-dc518af265ffc8",
-      "eventId": "lideres",
-      "category": "Categoria 1",
-      "judge": "TESTE",
-      "submittedAt": "2026-04-24T18:11:33.126Z",
-      "scores": [
-        {
-          "teamId": "8",
-          "criteria": {
-            "Coreografia": 10,
-            "Criatividade": 9,
-            "Organização": 10
-          },
-          "note": "",
-          "total": 29,
-          "placement": 1,
-          "gincanaPoints": 30
-        },
-        {
-          "teamId": "7",
-          "criteria": {
-            "Coreografia": 8,
-            "Criatividade": 8,
-            "Organização": 9
-          },
-          "note": "",
-          "total": 25,
-          "placement": 2,
-          "gincanaPoints": 20
-        },
-        {
-          "teamId": "6",
-          "criteria": {
-            "Coreografia": 7,
-            "Criatividade": 7,
-            "Organização": 9
-          },
-          "note": "",
-          "total": 23,
-          "placement": 3,
-          "gincanaPoints": 10
-        }
-      ]
-    }
-  ]
+  "evaluations": []
 }
