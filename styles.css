@@ -1526,6 +1526,16 @@ h1 {
   text-align: center;
 }
 
+.admin-page .form-grid label {
+  text-align: center;
+}
+
+.admin-page .form-grid input,
+.admin-page .form-grid select,
+.admin-page .form-grid textarea {
+  text-align: left;
+}
+
 .sync-box {
   display: grid;
   gap: 12px;
