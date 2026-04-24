@@ -1155,9 +1155,13 @@ h1 {
     gap: 20px;
   }
 
+  .rehearsals-page .schedule-shell:not([open]) {
+    min-height: 126px;
+  }
+
   .rehearsals-page .schedule-shell > .section-heading {
     grid-template-columns: 42px minmax(0, 1fr) 42px;
-    min-height: 88px;
+    min-height: 96px;
     padding: 14px 18px;
     text-align: center;
   }
@@ -1186,19 +1190,19 @@ h1 {
     padding: 16px 18px 18px;
   }
 
-  .rehearsal-form,
-  #schedulePanel .form-grid {
+  .rehearsals-page form.rehearsal-form.form-grid,
+  body #schedulePanel form.form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
   }
 
-  .rehearsal-form label:not(.wide),
-  #schedulePanel .form-grid label:not(.wide) {
+  .rehearsals-page form.rehearsal-form.form-grid label:not(.wide),
+  body #schedulePanel form.form-grid label:not(.wide) {
     grid-column: span 1;
   }
 
-  .rehearsal-form label.wide,
-  #schedulePanel .form-grid label.wide {
+  .rehearsals-page form.rehearsal-form.form-grid label.wide,
+  body #schedulePanel form.form-grid label.wide {
     grid-column: 1 / -1;
   }
 
@@ -1251,38 +1255,38 @@ h1 {
     width: 100%;
   }
 
-  .rehearsal-form .schedule-team,
-  #schedulePanel .schedule-team {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-team,
+  body #schedulePanel form.form-grid .schedule-team {
     order: 1;
   }
 
-  .rehearsal-form .schedule-date,
-  #schedulePanel .schedule-date {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-date,
+  body #schedulePanel form.form-grid .schedule-date {
     order: 2;
   }
 
-  .rehearsal-form .schedule-preset,
-  #schedulePanel .schedule-preset {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-preset,
+  body #schedulePanel form.form-grid .schedule-preset {
     order: 3;
   }
 
-  .rehearsal-form .schedule-place,
-  #schedulePanel .schedule-place {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-place,
+  body #schedulePanel form.form-grid .schedule-place {
     order: 4;
   }
 
-  .rehearsal-form .schedule-start,
-  #schedulePanel .schedule-start {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-start,
+  body #schedulePanel form.form-grid .schedule-start {
     order: 5;
   }
 
-  .rehearsal-form .schedule-end,
-  #schedulePanel .schedule-end {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-end,
+  body #schedulePanel form.form-grid .schedule-end {
     order: 6;
   }
 
-  .rehearsal-form .schedule-activity-field,
-  #schedulePanel .schedule-activity-field {
+  .rehearsals-page form.rehearsal-form.form-grid .schedule-activity-field,
+  body #schedulePanel form.form-grid .schedule-activity-field {
     order: 7;
     grid-column: 1 / -1;
   }
@@ -1415,6 +1419,7 @@ textarea {
   color: white;
   background: #090f1a;
   font: inherit;
+  color-scheme: dark;
 }
 
 input:focus,
