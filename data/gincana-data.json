@@ -35,6 +35,24 @@
       "eventId": "solidaria",
       "points": 0,
       "note": "Aguardando apuração"
+    },
+    {
+      "teamId": "8",
+      "eventId": "lideres",
+      "points": 30,
+      "note": "1º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 1 • TESTE"
+    },
+    {
+      "teamId": "7",
+      "eventId": "lideres",
+      "points": 20,
+      "note": "2º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 1 • TESTE"
+    },
+    {
+      "teamId": "6",
+      "eventId": "lideres",
+      "points": 10,
+      "note": "3º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 1 • TESTE"
     }
   ],
   "schedules": [
