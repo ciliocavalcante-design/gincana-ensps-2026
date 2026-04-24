@@ -24,35 +24,35 @@ const JUDGING_EVENTS = [
     id: "lideres",
     eventId: "lideres",
     name: "Dança das Líderes de Torcida",
-    max: 30,
+    pointsByPlace: [30, 20, 10],
     criteria: ["Coreografia", "Criatividade", "Organização"]
   },
   {
     id: "comida",
     eventId: "comida",
     name: "Comida Típica",
-    max: 15,
+    pointsByPlace: [15, 10, 5],
     criteria: ["Fidelidade ao tema", "Sabor", "Apresentação do prato"]
   },
   {
     id: "professores",
     eventId: "professor-1000",
     name: "Dança dos Professores",
-    max: 50,
+    pointsByPlace: [50, 30, 20],
     criteria: ["Coreografia", "Criatividade", "Organização", "Desempenho do professor"]
   },
   {
     id: "danca",
     eventId: "danca",
     name: "Dança Típica",
-    max: 50,
+    pointsByPlace: [50, 30, 20],
     criteria: ["Afinidade ao tema", "Organização", "Figurino/Acessórios", "Coreografia"]
   },
   {
     id: "grito",
     eventId: "grito",
     name: "Grito de Guerra",
-    max: 10,
+    pointsByPlace: [10, 5, 0],
     criteria: ["Animação", "Clareza", "Criatividade", "Organização"]
   }
 ];
@@ -436,9 +436,15 @@ function evaluationTotal(entry) {
   return Object.values(entry.criteria || {}).reduce((sum, value) => sum + Number(value || 0), 0);
 }
 
-function normalizedEvaluationPoints(entry, definition) {
-  const maxRaw = Math.max(1, (definition?.criteria.length || 1) * 10);
-  return Number(((evaluationTotal(entry) / maxRaw) * Number(definition?.max || 0)).toFixed(1));
+function rankEvaluationScores(scores = [], definition = {}) {
+  return [...scores]
+    .map((score) => ({ ...score, total: Number(score.total ?? evaluationTotal(score)) }))
+    .sort((a, b) => b.total - a.total || scheduleTeamRank(a.teamId) - scheduleTeamRank(b.teamId))
+    .map((score, index) => ({
+      ...score,
+      placement: index + 1,
+      gincanaPoints: Number(definition.pointsByPlace?.[index] || 0)
+    }));
 }
 
 function participantRecord(teamId = "", activity = "") {
@@ -823,6 +829,7 @@ function renderEvaluationResults() {
   root.innerHTML = entries.length ? entries.map((evaluation, indexFromEnd) => {
     const index = state.evaluations.length - 1 - indexFromEnd;
     const definition = judgingEventById(evaluation.eventId);
+    const rankedScores = rankEvaluationScores(evaluation.scores, definition);
     return `
       <article class="evaluation-result-card">
         <header>
@@ -833,11 +840,12 @@ function renderEvaluationResults() {
         <div class="table-wrap">
           <table>
             ${tableMarkup(
-              ["Turma", "Total bruto", `Convertido (${definition?.max || 0})`, "Observações"],
-              evaluation.scores.map((score) => [
+              ["Colocação", "Turma", "Pontos dos jurados", "Pontos da gincana", "Observações"],
+              rankedScores.map((score) => [
+                `${score.placement}º`,
                 team(score.teamId)?.name || score.teamId,
                 formatPoints(score.total),
-                formatPoints(score.points),
+                formatPoints(score.gincanaPoints),
                 escapeHtml(score.note || "")
               ])
             )}
@@ -1041,16 +1049,16 @@ on("evaluationForm", "submit", (event) => {
       note: data[`${item.id}__note`]?.trim() || ""
     };
     entry.total = evaluationTotal(entry);
-    entry.points = normalizedEvaluationPoints(entry, definition);
     return entry;
   });
+  const rankedScores = rankEvaluationScores(scores, definition);
   state.evaluations.push({
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     eventId: definition.id,
     category: data.category,
     judge: data.judge.trim(),
     submittedAt: new Date().toISOString(),
-    scores
+    scores: rankedScores
   });
   form.reset();
   renderEvaluationSheet();
@@ -1281,13 +1289,13 @@ document.addEventListener("click", (event) => {
     const evaluation = state.evaluations[Number(button.dataset.publishEvaluation)];
     const definition = judgingEventById(evaluation?.eventId);
     if (evaluation && definition?.eventId) {
-      evaluation.scores.forEach((score) => {
+      rankEvaluationScores(evaluation.scores, definition).forEach((score) => {
         const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
         const payload = {
           teamId: score.teamId,
           eventId: definition.eventId,
-          points: Number(score.points || 0),
-          note: `Avaliação online: ${definition.name} • ${evaluation.category} • ${evaluation.judge || "Jurado"}`
+          points: Number(score.gincanaPoints || 0),
+          note: `${score.placement}º lugar • Avaliação online: ${definition.name} • ${evaluation.category} • ${evaluation.judge || "Jurado"}`
         };
         if (existing) Object.assign(existing, payload);
         else state.scores.push(payload);
