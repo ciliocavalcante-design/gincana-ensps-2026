@@ -1492,6 +1492,12 @@ footer {
 }
 
 @media (max-width: 760px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   .hero {
     min-height: auto;
     padding-top: 24px;
@@ -1722,6 +1728,12 @@ footer {
     font-size: 16px;
   }
 
+  input[type="date"],
+  input[type="time"] {
+    min-width: 0;
+    text-align: center;
+  }
+
   textarea {
     min-height: 220px;
     padding: 12px;
@@ -1786,7 +1798,19 @@ footer {
   }
 
   .schedule-shell > .section-heading {
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
     padding: 10px 14px 12px;
+    text-align: center;
+  }
+
+  .schedule-shell > .section-heading > span:first-child {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .schedule-shell > .section-heading .toggle-arrow {
+    grid-column: 3;
+    justify-self: end;
   }
 
   .schedule-shell > .section-body {
@@ -1813,6 +1837,7 @@ footer {
 
   .schedule-board-heading {
     padding-top: 2px;
+    text-align: center;
   }
 
   .schedule-board-heading h2 {
@@ -1830,9 +1855,10 @@ footer {
   }
 
   .schedule-day-header {
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     gap: 4px;
+    text-align: center;
   }
 
   .schedule-day-list {
@@ -1843,6 +1869,16 @@ footer {
     padding: 14px;
     border-left-width: 6px !important;
     border-radius: 12px;
+    text-align: center;
+  }
+
+  .rehearsals-page .schedule-item-top {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .rehearsals-page .schedule-item-actions {
+    justify-content: center;
   }
 
   .schedule-item-actions {
