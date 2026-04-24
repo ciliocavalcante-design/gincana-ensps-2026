@@ -19,6 +19,43 @@ const DISCIPLINE_LEVELS = [
   { id: "grave", label: "Grave", points: 3 },
   { id: "recorrente", label: "Erro Recorrente", points: 5 }
 ];
+const JUDGING_EVENTS = [
+  {
+    id: "lideres",
+    eventId: "lideres",
+    name: "Dança das Líderes de Torcida",
+    max: 30,
+    criteria: ["Coreografia", "Criatividade", "Organização"]
+  },
+  {
+    id: "comida",
+    eventId: "comida",
+    name: "Comida Típica",
+    max: 15,
+    criteria: ["Fidelidade ao tema", "Sabor", "Apresentação do prato"]
+  },
+  {
+    id: "professores",
+    eventId: "professor-1000",
+    name: "Dança dos Professores",
+    max: 50,
+    criteria: ["Coreografia", "Criatividade", "Organização", "Desempenho do professor"]
+  },
+  {
+    id: "danca",
+    eventId: "danca",
+    name: "Dança Típica",
+    max: 50,
+    criteria: ["Afinidade ao tema", "Organização", "Figurino/Acessórios", "Coreografia"]
+  },
+  {
+    id: "grito",
+    eventId: "grito",
+    name: "Grito de Guerra",
+    max: 10,
+    criteria: ["Animação", "Clareza", "Criatividade", "Organização"]
+  }
+];
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
@@ -86,7 +123,8 @@ const defaultData = {
   materials: [],
   foodDonations: [],
   discipline: [],
-  bonuses: []
+  bonuses: [],
+  evaluations: []
 };
 
 let state = loadState();
@@ -116,7 +154,8 @@ function normalizeState(saved = {}) {
     materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
     discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
-    bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses
+    bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses,
+    evaluations: Array.isArray(saved.evaluations) ? saved.evaluations : base.evaluations
   };
 }
 
@@ -139,7 +178,8 @@ function mutableState() {
     materials: state.materials,
     foodDonations: state.foodDonations,
     discipline: state.discipline,
-    bonuses: state.bonuses
+    bonuses: state.bonuses,
+    evaluations: state.evaluations
   };
 }
 
@@ -197,6 +237,10 @@ function team(id) {
 
 function eventById(id) {
   return state.events.find((item) => item.id === id);
+}
+
+function judgingEventById(id) {
+  return JUDGING_EVENTS.find((item) => item.id === id);
 }
 
 function foodById(id) {
@@ -373,6 +417,28 @@ function disciplineSourceLabel(item) {
   if (item.createdBy === "admin") return "Registrado por Prof. Cílio";
   if (item.createdBy === "victoria") return "Registrado por Vitória";
   return "";
+}
+
+function categoryTeams(category) {
+  return state.teams.filter((item) => item.category === category);
+}
+
+function criterionId(value = "") {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function evaluationTotal(entry) {
+  return Object.values(entry.criteria || {}).reduce((sum, value) => sum + Number(value || 0), 0);
+}
+
+function normalizedEvaluationPoints(entry, definition) {
+  const maxRaw = Math.max(1, (definition?.criteria.length || 1) * 10);
+  return Number(((evaluationTotal(entry) / maxRaw) * Number(definition?.max || 0)).toFixed(1));
 }
 
 function participantRecord(teamId = "", activity = "") {
@@ -725,6 +791,67 @@ function renderParticipants() {
   }).join("");
 }
 
+function renderEvaluationSheet() {
+  const form = byId("evaluationForm");
+  const root = byId("evaluationSheet");
+  if (!form || !root) return;
+  const definition = judgingEventById(form.elements.event.value) || JUDGING_EVENTS[0];
+  const teams = categoryTeams(form.elements.category.value);
+  root.innerHTML = teams.map((item) => `
+    <article class="evaluation-team" style="--team-color:${item.color}">
+      <header>
+        <h3>${item.name}</h3>
+        <p>${item.theme}</p>
+      </header>
+      <div class="evaluation-criteria">
+        ${definition.criteria.map((criterion) => `
+          <label>
+            ${criterion}
+            <input name="${item.id}__${criterionId(criterion)}" type="number" min="0" max="10" step="0.5" required>
+          </label>
+        `).join("")}
+      </div>
+      <label>Observações<input name="${item.id}__note" type="text" placeholder="Opcional"></label>
+    </article>
+  `).join("");
+}
+
+function renderEvaluationResults() {
+  const root = byId("evaluationResults");
+  if (!root) return;
+  const entries = [...state.evaluations].reverse();
+  root.innerHTML = entries.length ? entries.map((evaluation, indexFromEnd) => {
+    const index = state.evaluations.length - 1 - indexFromEnd;
+    const definition = judgingEventById(evaluation.eventId);
+    return `
+      <article class="evaluation-result-card">
+        <header>
+          <span class="eyebrow">${evaluation.category}</span>
+          <h3>${definition?.name || evaluation.eventId}</h3>
+          <p>Jurado: ${escapeHtml(evaluation.judge || "Não informado")} • ${new Date(evaluation.submittedAt).toLocaleString("pt-BR")}</p>
+        </header>
+        <div class="table-wrap">
+          <table>
+            ${tableMarkup(
+              ["Turma", "Total bruto", `Convertido (${definition?.max || 0})`, "Observações"],
+              evaluation.scores.map((score) => [
+                team(score.teamId)?.name || score.teamId,
+                formatPoints(score.total),
+                formatPoints(score.points),
+                escapeHtml(score.note || "")
+              ])
+            )}
+          </table>
+        </div>
+        <div class="settings-actions">
+          ${definition?.eventId ? `<button class="button primary" data-publish-evaluation="${index}" type="button">Lançar no placar</button>` : ""}
+          <button class="button ghost" data-delete-evaluation="${index}" type="button">Excluir avaliação</button>
+        </div>
+      </article>
+    `;
+  }).join("") : `<div class="empty-state">Nenhuma avaliação recebida ainda.</div>`;
+}
+
 function renderAdminTables() {
   setHtml("pointsTable", tableMarkup(
     ["Turma", "Prova", "Pontos", "Observação", ""],
@@ -821,6 +948,11 @@ function fillSelects() {
   document.querySelectorAll('select[name="event"]').forEach((select) => {
     select.innerHTML = state.events.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
   });
+  document.querySelectorAll('#evaluationForm select[name="event"]').forEach((select) => {
+    const current = select.value;
+    select.innerHTML = JUDGING_EVENTS.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
+    if (current) select.value = current;
+  });
   document.querySelectorAll('select[name="food"]').forEach((select) => {
     select.innerHTML = state.foodTypes.map((item) => `<option value="${item.id}">${item.name} • ${item.tokens} tokens</option>`).join("");
   });
@@ -860,6 +992,8 @@ function render() {
   renderFoodDonations();
   renderMaterials();
   renderParticipants();
+  renderEvaluationSheet();
+  renderEvaluationResults();
   renderDiscipline();
   renderAdminTables();
 }
@@ -881,6 +1015,46 @@ on("pointsForm", "submit", (event) => {
   if (existing) Object.assign(existing, payload);
   else state.scores.push(payload);
   event.currentTarget.reset();
+  saveState();
+});
+
+on("evaluationForm", "change", (event) => {
+  if (event.target.name === "event" || event.target.name === "category") {
+    renderEvaluationSheet();
+  }
+});
+
+on("evaluationForm", "submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form));
+  const definition = judgingEventById(data.event);
+  if (!definition) return;
+  const scores = categoryTeams(data.category).map((item) => {
+    const criteria = {};
+    definition.criteria.forEach((criterion) => {
+      criteria[criterion] = Number(data[`${item.id}__${criterionId(criterion)}`] || 0);
+    });
+    const entry = {
+      teamId: item.id,
+      criteria,
+      note: data[`${item.id}__note`]?.trim() || ""
+    };
+    entry.total = evaluationTotal(entry);
+    entry.points = normalizedEvaluationPoints(entry, definition);
+    return entry;
+  });
+  state.evaluations.push({
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    eventId: definition.id,
+    category: data.category,
+    judge: data.judge.trim(),
+    submittedAt: new Date().toISOString(),
+    scores
+  });
+  form.reset();
+  renderEvaluationSheet();
+  setSyncStatus("Avaliação enviada. Sincronizando online...");
   saveState();
 });
 
@@ -1098,6 +1272,28 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.editBonus) {
     loadBonusIntoForm(Number(button.dataset.editBonus));
+  }
+  if (button.dataset.deleteEvaluation) {
+    state.evaluations.splice(Number(button.dataset.deleteEvaluation), 1);
+    saveState();
+  }
+  if (button.dataset.publishEvaluation) {
+    const evaluation = state.evaluations[Number(button.dataset.publishEvaluation)];
+    const definition = judgingEventById(evaluation?.eventId);
+    if (evaluation && definition?.eventId) {
+      evaluation.scores.forEach((score) => {
+        const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
+        const payload = {
+          teamId: score.teamId,
+          eventId: definition.eventId,
+          points: Number(score.points || 0),
+          note: `Avaliação online: ${definition.name} • ${evaluation.category} • ${evaluation.judge || "Jurado"}`
+        };
+        if (existing) Object.assign(existing, payload);
+        else state.scores.push(payload);
+      });
+      saveState();
+    }
   }
 });
 

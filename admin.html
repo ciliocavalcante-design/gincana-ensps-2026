@@ -18,6 +18,7 @@
       </a>
       <a href="index.html">Página geral</a>
       <a href="ensaios.html">Ensaios</a>
+      <a href="avaliacao.html">Avaliação</a>
     </nav>
     <div class="hero-content-wrap">
       <div class="hero-content">
@@ -44,6 +45,7 @@
           <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
           <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
           <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
+          <button class="tab-button" data-panel="judgingPanel" type="button">Avaliações</button>
           <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
           <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
           <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
@@ -171,6 +173,15 @@
             <button class="button primary" type="submit">Salvar participantes</button>
           </form>
           <div id="participantsOverview" class="participants-overview"></div>
+        </div>
+
+        <div class="admin-panel" id="judgingPanel">
+          <div class="schedule-board-heading">
+            <span class="eyebrow">Comissão julgadora</span>
+            <h2>Avaliações recebidas</h2>
+            <p>Confira as notas finalizadas pelos jurados e lance manualmente no placar quando estiver pronto.</p>
+          </div>
+          <div id="evaluationResults" class="evaluation-results"></div>
         </div>
 
         <div class="admin-panel" id="bonusPanel">

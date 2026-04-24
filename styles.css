@@ -736,6 +736,58 @@ h1 {
   color: #f8fafc;
 }
 
+.evaluation-form {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+}
+
+.evaluation-sheet,
+.evaluation-results {
+  display: grid;
+  gap: 14px;
+}
+
+.evaluation-team,
+.evaluation-result-card {
+  border: 1px solid var(--line);
+  border-top: 8px solid var(--team-color, #6b7280);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--surface-neutral);
+}
+
+.evaluation-team header,
+.evaluation-result-card header {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.evaluation-team h3,
+.evaluation-team p,
+.evaluation-result-card h3,
+.evaluation-result-card p {
+  margin: 0;
+}
+
+.evaluation-team p,
+.evaluation-result-card p {
+  color: var(--muted);
+}
+
+.evaluation-criteria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.evaluation-result-card .settings-actions {
+  margin-top: 14px;
+}
+
 .team-card p,
 .event-card p,
 .schedule-item p,
