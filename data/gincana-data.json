@@ -53,15 +53,6 @@
       "endTime": "16:30",
       "place": "ENSPS",
       "activity": "Ensaio das líderes de Torcida"
-    },
-    {
-      "teamId": "2",
-      "date": "2026-04-27",
-      "time": "14:30",
-      "endTime": "16:30",
-      "place": "ENSPS",
-      "activity": "Dança das Líderes de Torcida",
-      "createdBy": "victoria"
     }
   ],
   "participants": [],
