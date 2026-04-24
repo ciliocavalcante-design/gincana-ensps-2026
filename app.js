@@ -357,6 +357,14 @@ function participantRecord(teamId = "", activity = "") {
   return state.participants.find((item) => item.teamId === teamId && item.activity === activity);
 }
 
+function normalizeParticipantNames(value = "") {
+  return String(value)
+    .split(/\r?\n/)
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
 function participantLines(teamId = "", activity = "") {
   return (participantRecord(teamId, activity)?.names || "")
     .split(/\r?\n/)
@@ -862,11 +870,11 @@ on("participantsForm", "submit", (event) => {
   const payload = {
     teamId: data.team,
     activity: data.activity,
-    names: data.names.trim()
+    names: normalizeParticipantNames(data.names)
   };
-  const existing = participantRecord(payload.teamId, payload.activity);
-  if (existing) Object.assign(existing, payload);
-  else state.participants.push(payload);
+  state.participants = state.participants.filter((item) => item.teamId !== payload.teamId || item.activity !== payload.activity);
+  if (payload.names) state.participants.push(payload);
+  event.currentTarget.elements.names.value = payload.names;
   setSyncStatus("Participantes salvos. Sincronizando online...");
   saveState();
 });
