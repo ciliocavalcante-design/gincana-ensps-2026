@@ -97,6 +97,27 @@
             <div class="table-wrap"><table id="scheduleTable"></table></div>
           </div>
         </details>
+
+        <details class="participants-shell schedule-shell section-toggle">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Presença</span>
+              <span class="section-title">Participantes</span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <div class="schedule-board-heading">
+              <p>Cadastre, se quiser, os alunos previstos para cada atividade.</p>
+            </div>
+            <form id="participantsForm" class="form-grid participants-form">
+              <label>Atividade<select name="activity" required></select></label>
+              <label class="wide">Nomes<textarea name="names" placeholder="Um nome por linha"></textarea></label>
+              <button class="button primary" type="submit">Salvar participantes</button>
+            </form>
+            <div id="participantsOverview" class="participants-overview"></div>
+          </div>
+        </details>
       </div>
     </section>
   </main>

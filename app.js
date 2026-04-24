@@ -5,6 +5,14 @@ const GITHUB_BRANCH = "main";
 const DATA_PATH = "data/gincana-data.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
 const PAGES_DATA_URL = "/api/data";
+const TEAM_ORDER = ["6", "7", "8", "9", "1", "2"];
+const SCHEDULE_ACTIVITIES = [
+  "Dança das Líderes de Torcida",
+  "Dança dos Professores",
+  "Dança Típica",
+  "Story",
+  "Organização"
+];
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
@@ -68,6 +76,7 @@ const defaultData = {
     { teamId: "2", eventId: "solidaria", points: 0, note: "Aguardando apuração" }
   ],
   schedules: [],
+  participants: [],
   materials: [],
   foodDonations: [],
   discipline: []
@@ -96,6 +105,7 @@ function normalizeState(saved = {}) {
     events: base.events,
     scores: Array.isArray(saved.scores) ? saved.scores : base.scores,
     schedules: Array.isArray(saved.schedules) ? saved.schedules : base.schedules,
+    participants: Array.isArray(saved.participants) ? saved.participants : base.participants,
     materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
     discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline
@@ -117,6 +127,7 @@ function mutableState() {
   return {
     scores: state.scores,
     schedules: state.schedules,
+    participants: state.participants,
     materials: state.materials,
     foodDonations: state.foodDonations,
     discipline: state.discipline
@@ -160,6 +171,15 @@ function setValue(id, value) {
 function on(id, eventName, handler) {
   const element = byId(id);
   if (element) element.addEventListener(eventName, handler);
+}
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function team(id) {
@@ -302,6 +322,25 @@ function formatScheduleWindow(item) {
   return item.time || "Horário a definir";
 }
 
+function scheduleTeamRank(teamId) {
+  const index = TEAM_ORDER.indexOf(teamId);
+  return index === -1 ? TEAM_ORDER.length : index;
+}
+
+function compareSchedules(a, b) {
+  const dateCompare = (a.date || "").localeCompare(b.date || "");
+  if (dateCompare !== 0) return dateCompare;
+  const timeCompare = (a.time || "").localeCompare(b.time || "");
+  if (timeCompare !== 0) return timeCompare;
+  return scheduleTeamRank(a.teamId) - scheduleTeamRank(b.teamId);
+}
+
+function sortedScheduleEntries() {
+  return state.schedules
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => compareSchedules(a.item, b.item));
+}
+
 function scheduleIsRealized(item) {
   if (!item.date) return false;
   const compareTime = item.endTime || item.time || "23:59";
@@ -314,20 +353,31 @@ function scheduleSourceLabel(item) {
   return "Agendado com Vitória";
 }
 
+function participantRecord(activity = "") {
+  return state.participants.find((item) => item.activity === activity);
+}
+
+function participantLines(activity = "") {
+  return (participantRecord(activity)?.names || "")
+    .split(/\r?\n/)
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
 function renderSchedules() {
   const root = byId("scheduleList");
   if (!root) return;
-  const sorted = [...state.schedules].sort((a, b) => `${a.date} ${a.time || ""}`.localeCompare(`${b.date} ${b.time || ""}`));
+  const sorted = sortedScheduleEntries();
   const oldestRealized = isoDateOffset(-2);
   const manageSchedules = !document.body.classList.contains("public-page");
   const activeTab = root.dataset.activeTab || "upcoming";
-  const upcomingEntries = sorted.filter((item) => !scheduleIsRealized(item));
-  const realizedEntries = sorted.filter((item) => scheduleIsRealized(item) && item.date >= oldestRealized);
+  const upcomingEntries = sorted.filter(({ item }) => !scheduleIsRealized(item));
+  const realizedEntries = sorted.filter(({ item }) => scheduleIsRealized(item) && item.date >= oldestRealized);
 
   const renderGroups = (entries, tabName) => {
-    const groups = entries.reduce((acc, item) => {
+    const groups = entries.reduce((acc, { item, index }) => {
       if (!acc[item.date]) acc[item.date] = [];
-      acc[item.date].push({ item, index: state.schedules.indexOf(item) });
+      acc[item.date].push({ item, index });
       return acc;
     }, {});
 
@@ -342,6 +392,8 @@ function renderSchedules() {
             const itemTeam = team(item.teamId);
             const activity = item.activity || "Ensaio";
             const place = item.place || "ENSPS";
+            const participants = participantLines(activity);
+            const participantsId = `participants-${tabName}-${index}`;
             return `
               <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
                 <div class="schedule-item-top">
@@ -358,6 +410,13 @@ function renderSchedules() {
                 </div>
                 <p class="schedule-activity">${activity}</p>
                 <p class="schedule-meta">${place} • ${scheduleSourceLabel(item)}</p>
+                ${!manageSchedules && participants.length ? `
+                  <button class="schedule-participants-toggle" data-toggle-participants="${participantsId}" type="button">Ver participantes</button>
+                  <div class="schedule-participants" id="${participantsId}" hidden>
+                    <strong>Participantes</strong>
+                    <ul>${participants.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>
+                  </div>
+                ` : ""}
               </article>
             `;
           }).join("")}
@@ -428,6 +487,17 @@ function applyActivityPreset(rawValue) {
   if (!form || !rawValue) return;
   form.elements.activity.value = rawValue;
   form.elements.activityPreset.value = "";
+}
+
+function loadParticipantsIntoForm(activity) {
+  const form = byId("participantsForm");
+  if (!form || !activity) return;
+  form.elements.names.value = participantRecord(activity)?.names || "";
+}
+
+function syncParticipantsForm() {
+  const form = byId("participantsForm");
+  if (form) loadParticipantsIntoForm(form.elements.activity.value);
 }
 
 function renderDiscipline() {
@@ -580,6 +650,22 @@ function renderMaterials() {
   `).join(""));
 }
 
+function renderParticipants() {
+  const root = byId("participantsOverview");
+  if (!root) return;
+  root.innerHTML = SCHEDULE_ACTIVITIES.map((activity) => {
+    const names = participantLines(activity);
+    return `
+      <article class="participant-card">
+        <h3>${activity}</h3>
+        ${names.length
+          ? `<ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`
+          : `<p>Sem participantes cadastrados.</p>`}
+      </article>
+    `;
+  }).join("");
+}
+
 function renderAdminTables() {
   setHtml("pointsTable", tableMarkup(
     ["Turma", "Prova", "Pontos", "Observação", ""],
@@ -594,7 +680,7 @@ function renderAdminTables() {
 
   setHtml("scheduleTable", tableMarkup(
     ["Turma", "Data", "Início", "Fim", "Atividade", "Local", ""],
-    state.schedules.map((item, index) => [
+    sortedScheduleEntries().map(({ item, index }) => [
       team(item.teamId)?.name || item.teamId,
       formatDate(item.date),
       item.time,
@@ -667,6 +753,15 @@ function fillSelects() {
   document.querySelectorAll('select[name="food"]').forEach((select) => {
     select.innerHTML = state.foodTypes.map((item) => `<option value="${item.id}">${item.name} • ${item.tokens} tokens</option>`).join("");
   });
+  document.querySelectorAll('#participantsForm select[name="activity"]').forEach((select) => {
+    const current = select.value;
+    select.innerHTML = SCHEDULE_ACTIVITIES.map((item) => `<option value="${item}">${item}</option>`).join("");
+    if (current) select.value = current;
+    if (!select.dataset.loadedParticipants) {
+      select.dataset.loadedParticipants = "true";
+      loadParticipantsIntoForm(select.value);
+    }
+  });
 }
 
 function formatPoints(value) {
@@ -688,6 +783,7 @@ function render() {
   renderSchedules();
   renderFoodDonations();
   renderMaterials();
+  renderParticipants();
   renderDiscipline();
   renderAdminTables();
 }
@@ -747,6 +843,26 @@ on("scheduleForm", "change", (event) => {
   if (event.target.name === "activityPreset") {
     applyActivityPreset(event.target.value);
   }
+});
+
+on("participantsForm", "change", (event) => {
+  if (event.target.name === "activity") {
+    loadParticipantsIntoForm(event.target.value);
+  }
+});
+
+on("participantsForm", "submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const payload = {
+    activity: data.activity,
+    names: data.names.trim()
+  };
+  const existing = participantRecord(payload.activity);
+  if (existing) Object.assign(existing, payload);
+  else state.participants.push(payload);
+  setSyncStatus("Participantes salvos. Sincronizando online...");
+  saveState();
 });
 
 on("materialsForm", "submit", (event) => {
@@ -818,6 +934,16 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (button.dataset.toggleParticipants) {
+    const panel = byId(button.dataset.toggleParticipants);
+    if (panel) {
+      const isHidden = panel.hidden;
+      panel.hidden = !isHidden;
+      button.textContent = isHidden ? "Ocultar participantes" : "Ver participantes";
+    }
+    return;
+  }
+
   if (button.dataset.deleteScore) {
     state.scores.splice(Number(button.dataset.deleteScore), 1);
     saveState();
@@ -863,6 +989,7 @@ on("importData", "change", async (event) => {
   const imported = JSON.parse(await file.text());
   state = normalizeState(imported);
   saveState();
+  syncParticipantsForm();
 });
 
 on("saveGithubData", "click", () => {
@@ -888,6 +1015,7 @@ async function loadRemoteData(options = {}) {
     state = normalizeState(data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
+    syncParticipantsForm();
     setSyncStatus("Dados carregados.");
   } catch (error) {
     if (options.announce) {

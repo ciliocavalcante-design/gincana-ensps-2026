@@ -647,6 +647,78 @@ h1 {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.schedule-participants-toggle {
+  width: fit-content;
+  min-height: 34px;
+  margin-top: 12px;
+  border: 1px solid rgba(187, 247, 208, 0.35);
+  border-radius: 999px;
+  padding: 0 14px;
+  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.1);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.schedule-participants {
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(2, 6, 23, 0.32);
+}
+
+.schedule-participants strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #f8fafc;
+}
+
+.schedule-participants ul,
+.participant-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.participants-form {
+  margin-top: 12px;
+}
+
+.participants-form textarea {
+  min-height: 160px;
+}
+
+.participants-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.participant-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface-neutral);
+}
+
+.participant-card h3,
+.participant-card p {
+  margin: 0;
+}
+
+.participant-card h3 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.participant-card p {
+  color: var(--muted);
+}
+
 .team-card p,
 .event-card p,
 .schedule-item p,
@@ -1174,6 +1246,22 @@ h1 {
   .rehearsals-page .schedule-shell > .section-heading .toggle-arrow {
     grid-column: 3;
     justify-self: end;
+  }
+
+  .rehearsals-page .participants-shell {
+    grid-column: 1 / -1;
+  }
+
+  .participants-form {
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  }
+
+  .participants-form label.wide {
+    grid-column: span 1;
+  }
+
+  .participants-form .button {
+    grid-column: 1 / -1;
   }
 
   .rehearsals-page .schedule-shell .section-title {
@@ -1879,6 +1967,11 @@ footer {
 
   .rehearsals-page .schedule-item-actions {
     justify-content: center;
+  }
+
+  .schedule-participants-toggle {
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .schedule-item-actions {
