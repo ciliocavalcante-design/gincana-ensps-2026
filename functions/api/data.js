@@ -109,6 +109,20 @@ function normalizeJudgeCode(value = "") {
   return String(value).trim().toUpperCase().replace(/\s+/g, "-");
 }
 
+function normalizedJudgeCodes(values = []) {
+  return values.map(normalizeJudgeCode).filter(Boolean);
+}
+
+function judgeCanEvaluate(data, code, eventId) {
+  const days = Array.isArray(data.judgingDays) ? data.judgingDays : [];
+  return days.some((day) => (
+    day.active !== false
+    && Array.isArray(day.eventIds)
+    && day.eventIds.includes(eventId)
+    && normalizedJudgeCodes(day.judgeCodes || []).includes(code)
+  ));
+}
+
 async function appendEvaluation(config, evaluation, reason) {
   if (!evaluation || typeof evaluation !== "object" || Array.isArray(evaluation)) {
     throw new Error("Envie uma avaliação válida.");
@@ -122,12 +136,18 @@ async function appendEvaluation(config, evaluation, reason) {
       const data = current.data && typeof current.data === "object" ? current.data : {};
       data.evaluations = Array.isArray(data.evaluations) ? data.evaluations : [];
       data.judges = Array.isArray(data.judges) ? data.judges : [];
+      data.judgingDays = Array.isArray(data.judgingDays) ? data.judgingDays : [];
 
       const code = normalizeJudgeCode(evaluation.judgeCode);
       if (code) {
         const judge = data.judges.find((item) => normalizeJudgeCode(item.code) === code);
         if (!judge || judge.active === false) {
           const error = new Error("Código de jurado não autorizado.");
+          error.status = 403;
+          throw error;
+        }
+        if (!judgeCanEvaluate(data, code, evaluation.eventId)) {
+          const error = new Error("Esta prova não está liberada para este jurado.");
           error.status = 403;
           throw error;
         }

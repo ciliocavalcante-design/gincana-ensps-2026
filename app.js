@@ -126,6 +126,7 @@ const defaultData = {
   discipline: [],
   bonuses: [],
   judges: [],
+  judgingDays: [],
   evaluations: []
 };
 
@@ -158,6 +159,7 @@ function normalizeState(saved = {}) {
     discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
     bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses,
     judges: Array.isArray(saved.judges) ? saved.judges : base.judges,
+    judgingDays: Array.isArray(saved.judgingDays) ? saved.judgingDays : base.judgingDays,
     evaluations: Array.isArray(saved.evaluations) ? saved.evaluations : base.evaluations
   };
 }
@@ -183,6 +185,7 @@ function mutableState() {
     discipline: state.discipline,
     bonuses: state.bonuses,
     judges: state.judges,
+    judgingDays: state.judgingDays,
     evaluations: state.evaluations
   };
 }
@@ -264,6 +267,39 @@ function judgingCategories() {
   return ["Categoria 1", "Categoria 2"];
 }
 
+function normalizedJudgeCodes(values = []) {
+  return values.map(normalizeJudgeCode).filter(Boolean);
+}
+
+function activeJudgingDaysForJudge(code) {
+  const normalized = normalizeJudgeCode(code);
+  return state.judgingDays.filter((day) => (
+    day.active !== false
+    && normalizedJudgeCodes(day.judgeCodes || []).includes(normalized)
+  ));
+}
+
+function judgingAssignmentsForJudge(judge) {
+  if (!judgeIsActive(judge)) return [];
+  const assignments = activeJudgingDaysForJudge(judge.code).flatMap((day) => {
+    const eventIds = Array.isArray(day.eventIds) ? day.eventIds : [];
+    return eventIds.flatMap((eventId) => judgingCategories().map((category) => ({
+      eventId,
+      eventName: judgingEventById(eventId)?.name || eventId,
+      category,
+      dayId: day.id,
+      dayName: day.name || formatDate(day.date) || "Dia de apresentação"
+    })));
+  });
+  const seen = new Set();
+  return assignments.filter((item) => {
+    const key = `${item.eventId}::${item.category}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function hasJudgeEvaluation(code, eventId, category) {
   const normalized = normalizeJudgeCode(code);
   return state.evaluations.some((item) => (
@@ -275,11 +311,8 @@ function hasJudgeEvaluation(code, eventId, category) {
 
 function pendingJudgingCombos(judge) {
   if (!judgeIsActive(judge)) return [];
-  return JUDGING_EVENTS.flatMap((event) => judgingCategories().map((category) => ({
-    eventId: event.id,
-    eventName: event.name,
-    category
-  }))).filter((combo) => !hasJudgeEvaluation(judge.code, combo.eventId, combo.category));
+  return judgingAssignmentsForJudge(judge)
+    .filter((combo) => !hasJudgeEvaluation(judge.code, combo.eventId, combo.category));
 }
 
 function judgeCompletedCount(code) {
@@ -892,7 +925,14 @@ function renderJudgeAccess() {
     return;
   }
   const pending = pendingJudgingCombos(judge);
+  const assignments = judgingAssignmentsForJudge(judge);
   form.dataset.judgeCode = normalizeJudgeCode(judge.code);
+  if (!assignments.length) {
+    form.hidden = true;
+    status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong>, nenhuma prova foi liberada para seu código ainda.`;
+    renderEvaluationSheet();
+    return;
+  }
   if (!pending.length) {
     form.hidden = true;
     status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong>, todas as suas avaliações foram concluídas.`;
@@ -948,7 +988,7 @@ function playJudgeWelcome(judge) {
       access.classList.remove("soft-hidden");
       form.classList.remove("soft-hidden");
     }, 520);
-  }, 2700);
+  }, 5700);
 }
 
 function renderEvaluationResults() {
@@ -990,7 +1030,30 @@ function renderEvaluationResults() {
   }).join("") : `<div class="empty-state">Nenhuma avaliação recebida ainda.</div>`;
 }
 
+function renderJudgingDayControls() {
+  const eventsRoot = byId("judgingDayEvents");
+  const judgesRoot = byId("judgingDayJudges");
+  if (eventsRoot) {
+    eventsRoot.innerHTML = JUDGING_EVENTS.map((item) => `
+      <label class="choice-pill">
+        <input name="eventIds" type="checkbox" value="${item.id}">
+        <span>${item.name}</span>
+      </label>
+    `).join("");
+  }
+  if (judgesRoot) {
+    judgesRoot.innerHTML = state.judges.length ? state.judges.map((item) => `
+      <label class="choice-pill">
+        <input name="judgeCodes" type="checkbox" value="${escapeHtml(normalizeJudgeCode(item.code))}">
+        <span>${escapeHtml(item.name)} <small>${escapeHtml(normalizeJudgeCode(item.code))}</small></span>
+      </label>
+    `).join("") : `<p class="empty-inline">Cadastre jurados antes de criar o dia.</p>`;
+  }
+}
+
 function renderAdminTables() {
+  renderJudgingDayControls();
+
   setHtml("pointsTable", tableMarkup(
     ["Turma", "Prova", "Pontos", "Observação", ""],
     state.scores.map((item, index) => [
@@ -1070,16 +1133,33 @@ function renderAdminTables() {
   ));
 
   setHtml("judgesTable", tableMarkup(
-    ["Jurado", "Código", "Status", "Concluídas", ""],
+    ["Jurado", "Código", "Status", "Liberadas", "Concluídas", ""],
     state.judges.map((item, index) => {
       const done = state.evaluations.filter((evaluation) => normalizeJudgeCode(evaluation.judgeCode) === normalizeJudgeCode(item.code)).length;
-      const total = JUDGING_EVENTS.length * judgingCategories().length;
+      const assigned = judgingAssignmentsForJudge(item).length;
       return [
         escapeHtml(item.name),
         `<code>${escapeHtml(normalizeJudgeCode(item.code))}</code>`,
         item.active === false ? "Inativo" : "Ativo",
-        `${done}/${total}`,
+        assigned,
+        `${done}/${assigned}`,
         `<button class="mini-action" data-toggle-judge="${index}" type="button">${item.active === false ? "Ativar" : "Pausar"}</button> <button class="mini-action" data-delete-judge="${index}" type="button">Excluir</button>`
+      ];
+    })
+  ));
+
+  setHtml("judgingDaysTable", tableMarkup(
+    ["Dia", "Data", "Status", "Provas", "Jurados", ""],
+    state.judgingDays.map((item, index) => {
+      const events = (item.eventIds || []).map((id) => judgingEventById(id)?.name || id).join(", ");
+      const judges = normalizedJudgeCodes(item.judgeCodes || []).map((code) => judgeByCode(code)?.name || code).join(", ");
+      return [
+        escapeHtml(item.name || "Dia de apresentação"),
+        formatDate(item.date),
+        item.active === false ? "Pausado" : "Liberado",
+        escapeHtml(events || "Nenhuma prova"),
+        escapeHtml(judges || "Nenhum jurado"),
+        `<button class="mini-action" data-toggle-judging-day="${index}" type="button">${item.active === false ? "Liberar" : "Pausar"}</button> <button class="mini-action" data-delete-judging-day="${index}" type="button">Excluir</button>`
       ];
     })
   ));
@@ -1212,6 +1292,12 @@ on("evaluationForm", "submit", async (event) => {
       form.hidden = true;
       return;
     }
+    const allowed = judgingAssignmentsForJudge(judge).some((item) => item.eventId === definition.id && item.category === data.category);
+    if (!allowed) {
+      setSyncStatus("Esta prova não está liberada para este jurado.");
+      renderJudgeAccess();
+      return;
+    }
     if (hasJudgeEvaluation(judge.code, definition.id, data.category)) {
       setSyncStatus("Esta ficha já foi enviada por este jurado. Vou atualizar as pendências.");
       renderJudgeAccess();
@@ -1270,6 +1356,30 @@ on("judgeForm", "submit", (event) => {
   else state.judges.push(payload);
   event.currentTarget.reset();
   const activeInput = event.currentTarget.elements.active;
+  if (activeInput) activeInput.checked = true;
+  saveState();
+});
+
+on("judgingDayForm", "submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const eventIds = data.getAll("eventIds");
+  const judgeCodes = normalizedJudgeCodes(data.getAll("judgeCodes"));
+  if (!eventIds.length || !judgeCodes.length) {
+    setSyncStatus("Escolha pelo menos uma prova e um jurado para criar o dia.");
+    return;
+  }
+  state.judgingDays.push({
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    name: String(data.get("name") || "").trim(),
+    date: String(data.get("date") || ""),
+    eventIds,
+    judgeCodes,
+    active: data.get("active") === "on"
+  });
+  form.reset();
+  const activeInput = form.elements.active;
   if (activeInput) activeInput.checked = true;
   saveState();
 });
@@ -1506,6 +1616,17 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.deleteJudge) {
     state.judges.splice(Number(button.dataset.deleteJudge), 1);
+    saveState();
+  }
+  if (button.dataset.toggleJudgingDay) {
+    const day = state.judgingDays[Number(button.dataset.toggleJudgingDay)];
+    if (day) {
+      day.active = day.active === false;
+      saveState();
+    }
+  }
+  if (button.dataset.deleteJudgingDay) {
+    state.judgingDays.splice(Number(button.dataset.deleteJudgingDay), 1);
     saveState();
   }
   if (button.dataset.publishEvaluation) {
