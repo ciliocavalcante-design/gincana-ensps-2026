@@ -201,6 +201,12 @@
       "name": "JURADO 1",
       "code": "J001",
       "active": true
+    },
+    {
+      "id": "1777134175008-6bd07d77fbf63",
+      "name": "JURADO 2",
+      "code": "J002",
+      "active": true
     }
   ],
   "judgingDays": [
