@@ -28,6 +28,13 @@ const JUDGING_EVENTS = [
     criteria: ["Coreografia", "Criatividade", "Organização"]
   },
   {
+    id: "blusa",
+    eventId: "blusa",
+    name: "Blusa da equipe",
+    pointsByPlace: [10, 5, 0],
+    criteria: ["Afinidade ao tema", "Criatividade", "Design"]
+  },
+  {
     id: "comida",
     eventId: "comida",
     name: "Comida Típica",
