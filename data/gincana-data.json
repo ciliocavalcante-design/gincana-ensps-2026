@@ -89,6 +89,24 @@
       "eventId": "blusa",
       "points": 0,
       "note": "3º lugar • Avaliação online: Blusa da equipe • Categoria 1 • JURADO 1"
+    },
+    {
+      "teamId": "2",
+      "eventId": "blusa",
+      "points": 10,
+      "note": "1º lugar • Avaliação online: Blusa da equipe • Categoria 2 • JURADO 1"
+    },
+    {
+      "teamId": "9",
+      "eventId": "blusa",
+      "points": 5,
+      "note": "2º lugar • Avaliação online: Blusa da equipe • Categoria 2 • JURADO 1"
+    },
+    {
+      "teamId": "1",
+      "eventId": "blusa",
+      "points": 0,
+      "note": "3º lugar • Avaliação online: Blusa da equipe • Categoria 2 • JURADO 1"
     }
   ],
   "schedules": [
