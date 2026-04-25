@@ -138,15 +138,7 @@
       "note": ""
     }
   ],
-  "foodDonations": [
-    {
-      "teamId": "6",
-      "foodId": "leite-po",
-      "quantity": 5,
-      "date": "2026-04-25",
-      "note": ""
-    }
-  ],
+  "foodDonations": [],
   "discipline": [
     {
       "teamId": "9",
