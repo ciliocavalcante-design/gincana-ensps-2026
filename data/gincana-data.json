@@ -212,7 +212,9 @@
         "lideres",
         "blusa"
       ],
-      "judgeCodes": [],
+      "judgeCodes": [
+        "J001"
+      ],
       "active": true
     }
   ],
