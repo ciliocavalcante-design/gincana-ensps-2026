@@ -219,7 +219,8 @@
         "blusa"
       ],
       "judgeCodes": [
-        "J001"
+        "J001",
+        "J002"
       ],
       "active": true
     }
