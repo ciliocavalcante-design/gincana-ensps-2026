@@ -10,20 +10,18 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="workspace-page admin-page">
-  <header class="hero">
-    <nav class="topbar" aria-label="Navegação principal">
-      <a href="index.html" class="brand-link" aria-label="Página geral">
-        <img src="assets/logo-ensps.png" alt="Logo ENSPS">
-        <span>ENSPS</span>
-      </a>
-      <a href="index.html">Página geral</a>
-      <a href="ensaios.html">Ensaios</a>
-      <a href="avaliacao.html">Avaliação</a>
-    </nav>
-    <div class="hero-content-wrap">
-      <div class="hero-content">
+  <header class="hero admin-hero">
+    <div class="hero-content-wrap admin-hero-content-wrap">
+      <img class="hero-logo admin-hero-logo" src="assets/logo-ensps.png" alt="Logo ENSPS">
+      <div class="hero-content admin-hero-content">
         <h1>Administrador</h1>
+        <p class="hero-subtitle">Gincana Socioesportiva e Cultural ENSPS 2026</p>
         <p>Pontuações, arrecadação, entregas, advertências e dados online.</p>
+        <nav class="topbar admin-hero-nav" aria-label="Navegação principal">
+          <a href="index.html">Página Geral</a>
+          <a href="ensaios.html">Ensaios</a>
+          <a href="avaliacao.html">Avaliação</a>
+        </nav>
       </div>
     </div>
   </header>
@@ -37,30 +35,53 @@
         </span>
       </div>
 
-      <div class="admin-shell section-body">
-        <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
-        <div class="admin-tabs" role="tablist" aria-label="Ferramentas de administração">
-          <button class="tab-button active" data-panel="pointsPanel" type="button">Pontuações</button>
-          <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios</button>
-          <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
-          <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
-          <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
-          <button class="tab-button" data-panel="judgingPanel" type="button">Avaliações</button>
-          <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
-          <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
-          <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
+      <div class="admin-shell section-body admin-dashboard">
+        <div class="admin-sidebar">
+          <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
+          <div class="admin-tabs" role="tablist" aria-label="Ferramentas de administração">
+            <button class="tab-button active" data-panel="pointsPanel" type="button">Pontuações</button>
+            <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios</button>
+            <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
+            <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
+            <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
+            <button class="tab-button" data-panel="judgingPanel" type="button">Avaliações</button>
+            <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
+            <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
+            <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
+          </div>
         </div>
 
-        <div class="admin-panel active" id="pointsPanel">
-          <form id="pointsForm" class="form-grid">
-            <label>Turma<select name="team" required></select></label>
-            <label>Prova<select name="event" required></select></label>
-            <label>Pontos<input name="points" type="number" step="0.5" required></label>
-            <label class="wide">Observação<input name="note" type="text" placeholder="Ex.: 1º lugar, bônus, revisão da banca"></label>
-            <button class="button primary" type="submit">Salvar pontuação</button>
-          </form>
-          <div class="table-wrap"><table id="pointsTable"></table></div>
-        </div>
+        <div class="admin-main">
+          <div class="admin-panel active" id="pointsPanel">
+            
+            <div class="points-forms-container" style="display: grid; gap: 24px; margin-bottom: 24px;">
+              <div class="panel-card">
+                <h3 style="margin: 0 0 12px; color: #93c5fd;">Lançamento por Colocação</h3>
+                <form id="batchPointsForm" class="form-grid">
+                  <label>Prova<select name="event" required></select></label>
+                  <label>Categoria<select name="category" required></select></label>
+                  <div id="pointsPlacements" class="wide choice-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 12px 0;">
+                    <div class="empty-state" style="padding: 12px;">Selecione a prova e categoria para abrir as colocações.</div>
+                  </div>
+                  <label class="wide">Observação<input name="note" type="text" placeholder="Ex.: lançamento oficial da banca"></label>
+                  <button class="button primary" type="submit">Salvar pontuações em lote</button>
+                </form>
+              </div>
+
+              <div class="panel-card">
+                <h3 style="margin: 0 0 12px; color: #cbd5e1;">Lançamento Avulso (Manual)</h3>
+                <form id="pointsForm" class="form-grid">
+                  <label>Turma<select name="team" required></select></label>
+                  <label>Prova<select name="event" required></select></label>
+                  <label>Pontos<input name="points" type="number" step="0.5" required></label>
+                  <label class="wide">Observação<input name="note" type="text" placeholder="Ex.: correção, bônus, revisão"></label>
+                  <button class="button ghost" type="submit" style="width: 100%;">Salvar avulso</button>
+                </form>
+              </div>
+            </div>
+
+            <div class="table-wrap"><table id="pointsTable"></table></div>
+          </div>
 
         <div class="admin-panel" id="schedulePanel">
           <form id="scheduleForm" class="form-grid">
@@ -238,6 +259,7 @@
             <button class="button danger" id="resetData" type="button">Restaurar exemplo</button>
           </div>
           <textarea id="dataPreview" readonly spellcheck="false"></textarea>
+        </div>
         </div>
       </div>
     </section>
