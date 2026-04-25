@@ -181,6 +181,17 @@
             <h2>Avaliações recebidas</h2>
             <p>Confira as notas finalizadas pelos jurados e lance manualmente no placar quando estiver pronto.</p>
           </div>
+          <div class="sync-box judge-admin-box">
+            <h3>Jurados autorizados</h3>
+            <p>Cadastre um código para cada jurado. Cada código só consegue enviar uma vez por prova e categoria.</p>
+            <form id="judgeForm" class="form-grid">
+              <label>Nome do jurado<input name="name" type="text" required placeholder="Ex.: Jurado 1"></label>
+              <label>Código<input name="code" type="text" required placeholder="Ex.: JURADO-01"></label>
+              <label class="check-label"><input name="active" type="checkbox" checked> Ativo</label>
+              <button class="button primary" type="submit">Salvar jurado</button>
+            </form>
+            <div class="table-wrap"><table id="judgesTable"></table></div>
+          </div>
           <div id="evaluationResults" class="evaluation-results"></div>
         </div>
 

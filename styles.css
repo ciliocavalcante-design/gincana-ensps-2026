@@ -742,6 +742,48 @@ h1 {
   padding: 18px;
 }
 
+.judge-access {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  text-align: center;
+}
+
+.judge-access p {
+  margin: 0;
+  color: #d1d5db;
+  font-weight: 800;
+}
+
+.judge-access-form {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.judge-admin-box {
+  text-align: center;
+}
+
+.judge-admin-box .form-grid {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.check-label {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.check-label input {
+  width: 20px;
+  min-height: 20px;
+}
+
 .evaluation-sheet,
 .evaluation-results {
   display: grid;
@@ -1949,6 +1991,10 @@ footer {
   .form-grid {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .judge-access-form {
+    grid-template-columns: 1fr;
   }
 
   label.wide {

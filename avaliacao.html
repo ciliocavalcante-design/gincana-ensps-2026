@@ -36,9 +36,15 @@
       </div>
       <div class="admin-shell section-body">
         <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
-        <form id="evaluationForm" class="evaluation-form">
+        <div id="judgeAccess" class="judge-access">
+          <p id="judgeStatus">Digite o código recebido para acessar as fichas pendentes.</p>
+          <form id="judgeAccessForm" class="form-grid judge-access-form">
+            <label>Código do jurado<input name="code" type="text" required placeholder="Ex.: JURADO-01" autocomplete="off"></label>
+            <button class="button primary" type="submit">Entrar</button>
+          </form>
+        </div>
+        <form id="evaluationForm" class="evaluation-form" hidden>
           <div class="form-grid">
-            <label>Nome do jurado<input name="judge" type="text" required placeholder="Digite seu nome"></label>
             <label>Prova<select name="event" required></select></label>
             <label>Categoria<select name="category" required><option>Categoria 1</option><option>Categoria 2</option></select></label>
           </div>

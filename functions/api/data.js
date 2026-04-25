@@ -105,6 +105,84 @@ async function writeGithubData(config, data, reason) {
   throw lastError || new Error("Conflito ao salvar no GitHub.");
 }
 
+function normalizeJudgeCode(value = "") {
+  return String(value).trim().toUpperCase().replace(/\s+/g, "-");
+}
+
+async function appendEvaluation(config, evaluation, reason) {
+  if (!evaluation || typeof evaluation !== "object" || Array.isArray(evaluation)) {
+    throw new Error("Envie uma avaliação válida.");
+  }
+
+  let lastError;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const current = await readGithubData(config);
+      const data = current.data && typeof current.data === "object" ? current.data : {};
+      data.evaluations = Array.isArray(data.evaluations) ? data.evaluations : [];
+      data.judges = Array.isArray(data.judges) ? data.judges : [];
+
+      const code = normalizeJudgeCode(evaluation.judgeCode);
+      if (code) {
+        const judge = data.judges.find((item) => normalizeJudgeCode(item.code) === code);
+        if (!judge || judge.active === false) {
+          const error = new Error("Código de jurado não autorizado.");
+          error.status = 403;
+          throw error;
+        }
+        const duplicate = data.evaluations.some((item) => (
+          normalizeJudgeCode(item.judgeCode) === code
+          && item.eventId === evaluation.eventId
+          && item.category === evaluation.category
+        ));
+        if (duplicate) {
+          const error = new Error("Esta avaliação já foi enviada por este jurado.");
+          error.status = 409;
+          throw error;
+        }
+      }
+
+      data.evaluations.push({
+        ...evaluation,
+        judgeCode: code
+      });
+
+      const content = `${JSON.stringify(data, null, 2)}\n`;
+      const body = {
+        message: reason || "Append judging evaluation",
+        content: toBase64Utf8(content),
+        branch: config.branch
+      };
+      if (current.sha) body.sha = current.sha;
+
+      const response = await githubRequest(config, `${GITHUB_API_BASE}/repos/${config.owner}/${config.repo}/contents/${config.path}`, {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        return {
+          ok: true,
+          sha: payload.content?.sha || "",
+          path: payload.content?.path || config.path,
+          data
+        };
+      }
+
+      lastError = new Error(payload.message || `GitHub PUT falhou (${response.status})`);
+      if (response.status !== 409) throw lastError;
+    } catch (error) {
+      lastError = error;
+      if (error.status === 409) throw error;
+      if (!String(error.message || "").includes("does not match")) throw error;
+    }
+  }
+
+  throw lastError || new Error("Conflito ao salvar avaliação.");
+}
+
 export async function onRequestGet(context) {
   try {
     const config = getConfig(context.env);
@@ -125,6 +203,10 @@ export async function onRequestPost(context) {
   try {
     const config = getConfig(context.env);
     const body = await context.request.json().catch(() => ({}));
+    if (body?.action === "appendEvaluation") {
+      const saved = await appendEvaluation(config, body.evaluation, body.reason);
+      return json(saved);
+    }
     const data = body?.data;
 
     if (!data || typeof data !== "object" || Array.isArray(data)) {
@@ -134,6 +216,6 @@ export async function onRequestPost(context) {
     const saved = await writeGithubData(config, data, body.reason);
     return json(saved);
   } catch (error) {
-    return json({ ok: false, error: error.message || "Erro ao salvar dados." }, 500);
+    return json({ ok: false, error: error.message || "Erro ao salvar dados." }, error.status || 500);
   }
 }

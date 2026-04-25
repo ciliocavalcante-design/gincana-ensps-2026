@@ -124,6 +124,7 @@ const defaultData = {
   foodDonations: [],
   discipline: [],
   bonuses: [],
+  judges: [],
   evaluations: []
 };
 
@@ -155,6 +156,7 @@ function normalizeState(saved = {}) {
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
     discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
     bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses,
+    judges: Array.isArray(saved.judges) ? saved.judges : base.judges,
     evaluations: Array.isArray(saved.evaluations) ? saved.evaluations : base.evaluations
   };
 }
@@ -179,6 +181,7 @@ function mutableState() {
     foodDonations: state.foodDonations,
     discipline: state.discipline,
     bonuses: state.bonuses,
+    judges: state.judges,
     evaluations: state.evaluations
   };
 }
@@ -241,6 +244,41 @@ function eventById(id) {
 
 function judgingEventById(id) {
   return JUDGING_EVENTS.find((item) => item.id === id);
+}
+
+function normalizeJudgeCode(value = "") {
+  return String(value).trim().toUpperCase().replace(/\s+/g, "-");
+}
+
+function judgeByCode(code) {
+  const normalized = normalizeJudgeCode(code);
+  return state.judges.find((item) => normalizeJudgeCode(item.code) === normalized);
+}
+
+function judgeIsActive(judge) {
+  return judge && judge.active !== false;
+}
+
+function judgingCategories() {
+  return ["Categoria 1", "Categoria 2"];
+}
+
+function hasJudgeEvaluation(code, eventId, category) {
+  const normalized = normalizeJudgeCode(code);
+  return state.evaluations.some((item) => (
+    normalizeJudgeCode(item.judgeCode) === normalized
+    && item.eventId === eventId
+    && item.category === category
+  ));
+}
+
+function pendingJudgingCombos(judge) {
+  if (!judgeIsActive(judge)) return [];
+  return JUDGING_EVENTS.flatMap((event) => judgingCategories().map((category) => ({
+    eventId: event.id,
+    eventName: event.name,
+    category
+  }))).filter((combo) => !hasJudgeEvaluation(judge.code, combo.eventId, combo.category));
 }
 
 function foodById(id) {
@@ -801,6 +839,10 @@ function renderEvaluationSheet() {
   const form = byId("evaluationForm");
   const root = byId("evaluationSheet");
   if (!form || !root) return;
+  if (document.body.classList.contains("judge-page") && form.hidden) {
+    root.innerHTML = "";
+    return;
+  }
   const definition = judgingEventById(form.elements.event.value) || JUDGING_EVENTS[0];
   const teams = categoryTeams(form.elements.category.value);
   root.innerHTML = teams.map((item) => `
@@ -820,6 +862,57 @@ function renderEvaluationSheet() {
       <label>Observações<input name="${item.id}__note" type="text" placeholder="Opcional"></label>
     </article>
   `).join("");
+}
+
+function renderJudgeAccess() {
+  if (!document.body.classList.contains("judge-page")) return;
+  const form = byId("evaluationForm");
+  const gate = byId("judgeAccess");
+  const status = byId("judgeStatus");
+  if (!form || !gate || !status) return;
+  const code = sessionStorage.getItem("gincana-judge-code") || form.dataset.judgeCode || "";
+  const judge = judgeByCode(code);
+  if (!judgeIsActive(judge)) {
+    form.hidden = true;
+    form.dataset.judgeCode = "";
+    status.innerHTML = state.judges.length
+      ? "Digite o código recebido para acessar as fichas pendentes."
+      : "Nenhum jurado cadastrado ainda. Cadastre os códigos no painel do administrador.";
+    renderEvaluationSheet();
+    return;
+  }
+  const pending = pendingJudgingCombos(judge);
+  form.dataset.judgeCode = normalizeJudgeCode(judge.code);
+  if (!pending.length) {
+    form.hidden = true;
+    status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong>, todas as suas avaliações foram concluídas.`;
+    renderEvaluationSheet();
+    return;
+  }
+  form.hidden = false;
+  status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong> • ${pending.length} ficha${pending.length > 1 ? "s" : ""} pendente${pending.length > 1 ? "s" : ""}.`;
+  updateJudgeEvaluationOptions();
+}
+
+function updateJudgeEvaluationOptions() {
+  const form = byId("evaluationForm");
+  if (!form || !document.body.classList.contains("judge-page")) return;
+  const judge = judgeByCode(form.dataset.judgeCode);
+  const pending = pendingJudgingCombos(judge);
+  const eventSelect = form.elements.event;
+  const categorySelect = form.elements.category;
+  if (!eventSelect || !categorySelect) return;
+  const currentEvent = eventSelect.value;
+  const pendingEvents = JUDGING_EVENTS.filter((event) => pending.some((item) => item.eventId === event.id));
+  eventSelect.innerHTML = pendingEvents.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
+  if (pendingEvents.some((item) => item.id === currentEvent)) eventSelect.value = currentEvent;
+  const selectedEvent = eventSelect.value || pendingEvents[0]?.id || "";
+  const categories = pending
+    .filter((item) => item.eventId === selectedEvent)
+    .map((item) => item.category);
+  const currentCategory = categorySelect.value;
+  categorySelect.innerHTML = categories.map((item) => `<option>${item}</option>`).join("");
+  if (categories.includes(currentCategory)) categorySelect.value = currentCategory;
 }
 
 function renderEvaluationResults() {
@@ -853,6 +946,7 @@ function renderEvaluationResults() {
         </div>
         <div class="settings-actions">
           ${definition?.eventId ? `<button class="button primary" data-publish-evaluation="${index}" type="button">Lançar no placar</button>` : ""}
+          ${evaluation.judgeCode ? `<button class="button ghost" data-reopen-evaluation="${index}" type="button">Reabrir para este jurado</button>` : ""}
           <button class="button ghost" data-delete-evaluation="${index}" type="button">Excluir avaliação</button>
         </div>
       </article>
@@ -939,6 +1033,21 @@ function renderAdminTables() {
     ])
   ));
 
+  setHtml("judgesTable", tableMarkup(
+    ["Jurado", "Código", "Status", "Concluídas", ""],
+    state.judges.map((item, index) => {
+      const done = state.evaluations.filter((evaluation) => normalizeJudgeCode(evaluation.judgeCode) === normalizeJudgeCode(item.code)).length;
+      const total = JUDGING_EVENTS.length * judgingCategories().length;
+      return [
+        escapeHtml(item.name),
+        `<code>${escapeHtml(normalizeJudgeCode(item.code))}</code>`,
+        item.active === false ? "Inativo" : "Ativo",
+        `${done}/${total}`,
+        `<button class="mini-action" data-toggle-judge="${index}" type="button">${item.active === false ? "Ativar" : "Pausar"}</button> <button class="mini-action" data-delete-judge="${index}" type="button">Excluir</button>`
+      ];
+    })
+  ));
+
   setValue("dataPreview", JSON.stringify(state, null, 2));
 }
 
@@ -957,6 +1066,7 @@ function fillSelects() {
     select.innerHTML = state.events.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
   });
   document.querySelectorAll('#evaluationForm select[name="event"]').forEach((select) => {
+    if (document.body.classList.contains("judge-page")) return;
     const current = select.value;
     select.innerHTML = JUDGING_EVENTS.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
     if (current) select.value = current;
@@ -1000,6 +1110,7 @@ function render() {
   renderFoodDonations();
   renderMaterials();
   renderParticipants();
+  renderJudgeAccess();
   renderEvaluationSheet();
   renderEvaluationResults();
   renderDiscipline();
@@ -1026,18 +1137,49 @@ on("pointsForm", "submit", (event) => {
   saveState();
 });
 
+on("judgeAccessForm", "submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const code = normalizeJudgeCode(data.code);
+  const judge = judgeByCode(code);
+  if (!judgeIsActive(judge)) {
+    setSyncStatus("Código não encontrado ou desativado. Confira com a organização.");
+    return;
+  }
+  sessionStorage.setItem("gincana-judge-code", code);
+  setSyncStatus("Código aceito. Escolha a ficha pendente e envie sua avaliação.");
+  renderJudgeAccess();
+});
+
 on("evaluationForm", "change", (event) => {
-  if (event.target.name === "event" || event.target.name === "category") {
+  if (event.target.name === "event") {
+    updateJudgeEvaluationOptions();
+    renderEvaluationSheet();
+  }
+  if (event.target.name === "category") {
     renderEvaluationSheet();
   }
 });
 
-on("evaluationForm", "submit", (event) => {
+on("evaluationForm", "submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
   const data = Object.fromEntries(new FormData(form));
   const definition = judgingEventById(data.event);
   if (!definition) return;
+  const judge = document.body.classList.contains("judge-page") ? judgeByCode(form.dataset.judgeCode) : null;
+  if (document.body.classList.contains("judge-page")) {
+    if (!judgeIsActive(judge)) {
+      setSyncStatus("Código de jurado inválido. Entre novamente.");
+      form.hidden = true;
+      return;
+    }
+    if (hasJudgeEvaluation(judge.code, definition.id, data.category)) {
+      setSyncStatus("Esta ficha já foi enviada por este jurado. Vou atualizar as pendências.");
+      renderJudgeAccess();
+      return;
+    }
+  }
   const scores = categoryTeams(data.category).map((item) => {
     const criteria = {};
     definition.criteria.forEach((criterion) => {
@@ -1052,17 +1194,45 @@ on("evaluationForm", "submit", (event) => {
     return entry;
   });
   const rankedScores = rankEvaluationScores(scores, definition);
-  state.evaluations.push({
+  const evaluation = {
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     eventId: definition.id,
     category: data.category,
-    judge: data.judge.trim(),
+    judge: judge?.name || data.judge?.trim() || "",
+    judgeCode: judge ? normalizeJudgeCode(judge.code) : "",
     submittedAt: new Date().toISOString(),
     scores: rankedScores
-  });
+  };
+  state.evaluations.push(evaluation);
   form.reset();
-  renderEvaluationSheet();
+  if (judge) form.dataset.judgeCode = normalizeJudgeCode(judge.code);
   setSyncStatus("Avaliação enviada. Sincronizando online...");
+  if (document.body.classList.contains("judge-page")) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+    await saveEvaluationRemote(evaluation);
+  } else {
+    saveState();
+  }
+});
+
+on("judgeForm", "submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const code = normalizeJudgeCode(data.code || data.name);
+  if (!code) return;
+  const existing = judgeByCode(code);
+  const payload = {
+    id: existing?.id || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    name: data.name.trim(),
+    code,
+    active: data.active === "on"
+  };
+  if (existing) Object.assign(existing, payload);
+  else state.judges.push(payload);
+  event.currentTarget.reset();
+  const activeInput = event.currentTarget.elements.active;
+  if (activeInput) activeInput.checked = true;
   saveState();
 });
 
@@ -1285,6 +1455,21 @@ document.addEventListener("click", (event) => {
     state.evaluations.splice(Number(button.dataset.deleteEvaluation), 1);
     saveState();
   }
+  if (button.dataset.reopenEvaluation) {
+    state.evaluations.splice(Number(button.dataset.reopenEvaluation), 1);
+    saveState();
+  }
+  if (button.dataset.toggleJudge) {
+    const judge = state.judges[Number(button.dataset.toggleJudge)];
+    if (judge) {
+      judge.active = judge.active === false;
+      saveState();
+    }
+  }
+  if (button.dataset.deleteJudge) {
+    state.judges.splice(Number(button.dataset.deleteJudge), 1);
+    saveState();
+  }
   if (button.dataset.publishEvaluation) {
     const evaluation = state.evaluations[Number(button.dataset.publishEvaluation)];
     const definition = judgingEventById(evaluation?.eventId);
@@ -1354,6 +1539,44 @@ async function loadRemoteData(options = {}) {
     } else {
       setSyncStatus("Usando dados salvos neste navegador. O banco online não respondeu agora.");
       render();
+    }
+  }
+}
+
+async function saveEvaluationRemote(evaluation) {
+  if (!canSaveOnline()) {
+    setSyncStatus("Avaliação salva neste navegador. Abra pelo Cloudflare Pages para salvar online.");
+    return;
+  }
+  try {
+    setSyncStatus("Enviando avaliação online...");
+    const response = await fetch(PAGES_DATA_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: "appendEvaluation",
+        evaluation,
+        reason: `Avaliação online: ${evaluation.judge || "Jurado"}`
+      })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.ok === false) {
+      throw new Error(payload.error || `servidor respondeu ${response.status}`);
+    }
+    if (payload.data) {
+      state = normalizeState(payload.data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+    setSyncStatus("Avaliação enviada online. A organização já pode acompanhar no admin.");
+  } catch (error) {
+    if (String(error.message || "").includes("já foi enviada")) {
+      await loadRemoteData();
+      setSyncStatus("Esta ficha já foi enviada por este jurado. A lista foi atualizada.");
+    } else {
+      setSyncStatus(`Não foi possível salvar online: ${error.message}`);
     }
   }
 }
