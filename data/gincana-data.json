@@ -53,6 +53,24 @@
       "eventId": "lideres",
       "points": 10,
       "note": "3º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 1 • JURADO 1"
+    },
+    {
+      "teamId": "2",
+      "eventId": "lideres",
+      "points": 30,
+      "note": "1º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 2 • JURADO 1"
+    },
+    {
+      "teamId": "1",
+      "eventId": "lideres",
+      "points": 20,
+      "note": "2º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 2 • JURADO 1"
+    },
+    {
+      "teamId": "9",
+      "eventId": "lideres",
+      "points": 10,
+      "note": "3º lugar • Avaliação online: Dança das Líderes de Torcida • Categoria 2 • JURADO 1"
     }
   ],
   "schedules": [
