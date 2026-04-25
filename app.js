@@ -63,6 +63,51 @@ const JUDGING_EVENTS = [
     criteria: ["Animação", "Clareza", "Criatividade", "Organização"]
   }
 ];
+
+const EVENT_POINTS_BY_PLACE = {
+  solidaria: [50, 30, 20],
+  comportamento: [20, 10, 5],
+  "adesao-blusa": [35, 20, 10],
+  futsal: [30, 20, 10],
+  professor: [10, 5, 0],
+  carimba: [20, 10, 5],
+  volei: [10, 5, 0],
+  lideres: [30, 20, 10],
+  blusa: [10, 5, 0],
+  corrida: [10, 5, 0],
+  tesouro: [10, 5, 0],
+  soletrando: [10, 5, 0],
+  quiz: [10, 5, 0],
+  story: [10, 5, 0],
+  grito: [10, 5, 0],
+  comida: [15, 10, 5],
+  danca: [50, 30, 20],
+  "professor-1000": [50, 30, 20]
+};
+
+function eventPointsByPlace(eventId) {
+  const judgingDef = judgingEventById(eventId);
+  return EVENT_POINTS_BY_PLACE[eventId] || judgingDef?.pointsByPlace || [];
+}
+
+function updateBatchPlacementOptions(form) {
+  const root = byId("pointsPlacements");
+  if (!form || !root) return;
+  const selects = Array.from(root.querySelectorAll('select[name^="place-"]'));
+  const selected = selects
+    .map((select) => select.value)
+    .filter(Boolean);
+
+  selects.forEach((select) => {
+    Array.from(select.options).forEach((option) => {
+      if (!option.value) return;
+      const unavailable = selected.includes(option.value) && option.value !== select.value;
+      option.hidden = unavailable;
+      option.disabled = unavailable;
+    });
+  });
+}
+
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
@@ -1001,40 +1046,83 @@ function playJudgeWelcome(judge) {
 function renderEvaluationResults() {
   const root = byId("evaluationResults");
   if (!root) return;
-  const entries = [...state.evaluations].reverse();
-  root.innerHTML = entries.length ? entries.map((evaluation, indexFromEnd) => {
-    const index = state.evaluations.length - 1 - indexFromEnd;
-    const definition = judgingEventById(evaluation.eventId);
-    const rankedScores = rankEvaluationScores(evaluation.scores, definition);
+  
+  const grouped = {};
+  state.evaluations.forEach((evaluation, index) => {
+    const key = `${evaluation.eventId}|${evaluation.category}`;
+    if (!grouped[key]) {
+      grouped[key] = {
+        key,
+        eventId: evaluation.eventId,
+        category: evaluation.category,
+        definition: judgingEventById(evaluation.eventId),
+        judges: [],
+        evaluations: [],
+        launched: true,
+        scoresByTeam: {}
+      };
+    }
+    const group = grouped[key];
+    group.evaluations.push(index);
+    group.judges.push(evaluation.judge || "Jurado");
+    if (!evaluation.launched) group.launched = false;
+    
+    evaluation.scores.forEach((score) => {
+      if (!group.scoresByTeam[score.teamId]) {
+        group.scoresByTeam[score.teamId] = { teamId: score.teamId, total: 0, notes: [] };
+      }
+      group.scoresByTeam[score.teamId].total += Number(score.total || 0);
+      if (score.note) group.scoresByTeam[score.teamId].notes.push(`${evaluation.judge || "Jurado"}: ${score.note}`);
+    });
+  });
+  
+  const groups = Object.values(grouped).reverse();
+  const pending = groups.filter((g) => !g.launched);
+  const launched = groups.filter((g) => g.launched);
+  
+  const renderGroup = (group) => {
+    const aggregatedScores = Object.values(group.scoresByTeam);
+    const rankedScores = rankEvaluationScores(aggregatedScores, group.definition);
     return `
       <article class="evaluation-result-card">
         <header>
-          <span class="eyebrow">${evaluation.category}</span>
-          <h3>${definition?.name || evaluation.eventId}</h3>
-          <p>Jurado: ${escapeHtml(evaluation.judge || "Não informado")} • ${new Date(evaluation.submittedAt).toLocaleString("pt-BR")}</p>
+          <span class="eyebrow">${group.category}</span>
+          <h3>${group.definition?.name || group.eventId}</h3>
+          <p>Consolidado de ${group.judges.length} jurado(s): ${escapeHtml(group.judges.join(", "))}</p>
         </header>
         <div class="table-wrap">
           <table>
             ${tableMarkup(
-              ["Colocação", "Turma", "Pontos dos jurados", "Pontos da gincana", "Observações"],
+              ["Colocação", "Turma", "Pontos dos jurados (Soma)", "Pontos da gincana", "Observações"],
               rankedScores.map((score) => [
                 `${score.placement}º`,
                 team(score.teamId)?.name || score.teamId,
                 formatPoints(score.total),
                 formatPoints(score.gincanaPoints),
-                escapeHtml(score.note || "")
+                escapeHtml(score.notes.join(" | "))
               ])
             )}
           </table>
         </div>
         <div class="settings-actions">
-          ${definition?.eventId ? `<button class="button primary" data-publish-evaluation="${index}" type="button">Lançar no placar</button>` : ""}
-          ${evaluation.judgeCode ? `<button class="button ghost" data-reopen-evaluation="${index}" type="button">Reabrir para este jurado</button>` : ""}
-          <button class="button ghost" data-delete-evaluation="${index}" type="button">Excluir avaliação</button>
+          ${!group.launched && group.definition?.eventId ? `<button class="button primary" data-publish-group="${group.key}" type="button">Lançar resultado consolidado</button>` : ""}
+          ${group.evaluations.map((idx) => `<button class="button ghost" data-delete-evaluation="${idx}" type="button">Excluir ${escapeHtml(state.evaluations[idx].judge || "")}</button>`).join("")}
         </div>
       </article>
     `;
-  }).join("") : `<div class="empty-state">Nenhuma avaliação recebida ainda.</div>`;
+  };
+
+  root.innerHTML = `
+    <div style="margin-bottom: 24px;">
+      ${pending.length ? pending.map(renderGroup).join("") : `<div class="empty-state">Nenhuma ficha pendente para lançamento.</div>`}
+    </div>
+    ${launched.length ? `
+      <h3 style="margin-bottom: 12px; color: #93c5fd;">Histórico de Resultados Lançados</h3>
+      <div style="opacity: 0.8; filter: grayscale(0.5);">
+        ${launched.map(renderGroup).join("")}
+      </div>
+    ` : ""}
+  `;
 }
 
 function renderJudgingDayControls() {
@@ -1198,8 +1286,17 @@ function fillSelects() {
   document.querySelectorAll('select[name="team"]').forEach((select) => {
     select.innerHTML = state.teams.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
   });
-  document.querySelectorAll('select[name="event"]').forEach((select) => {
+  document.querySelectorAll('select[name="event"]:not(#batchPointsForm select)').forEach((select) => {
     select.innerHTML = state.events.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
+  });
+  document.querySelectorAll('#batchPointsForm select[name="event"]').forEach((select) => {
+    select.innerHTML = '<option value="">Selecione a prova...</option>' + state.events.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
+    select.value = "";
+  });
+  document.querySelectorAll('#batchPointsForm select[name="category"]').forEach((select) => {
+    const current = select.value || "Categoria 1";
+    select.innerHTML = judgingCategories().map((item) => `<option value="${item}">${item}</option>`).join("");
+    select.value = judgingCategories().includes(current) ? current : "Categoria 1";
   });
   document.querySelectorAll('#evaluationForm select[name="event"]').forEach((select) => {
     if (document.body.classList.contains("judge-page")) return;
@@ -1271,6 +1368,76 @@ on("pointsForm", "submit", (event) => {
   else state.scores.push(payload);
   event.currentTarget.reset();
   saveState();
+});
+
+on("batchPointsForm", "submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const eventId = data.get("event");
+  const category = data.get("category");
+  const note = data.get("note")?.trim() || "Lançamento em lote";
+
+  let savedAny = false;
+  for (let [key, value] of data.entries()) {
+    if (key.startsWith("place-") && value) {
+      const points = Number(data.get(`points-${key.split("-")[1]}`));
+      const teamId = value;
+      const existing = state.scores.find((item) => item.teamId === teamId && item.eventId === eventId);
+      const payload = { teamId, eventId, points, note };
+      if (existing) Object.assign(existing, payload);
+      else state.scores.push(payload);
+      savedAny = true;
+    }
+  }
+  
+  if (savedAny) {
+    form.reset();
+    byId("pointsPlacements").innerHTML = `<div class="empty-state" style="padding: 12px;">Selecione a prova e categoria para abrir as colocações.</div>`;
+    saveState();
+  }
+});
+
+on("batchPointsForm", "change", (event) => {
+  const form = event.currentTarget;
+  if (event.target.name === "event" || event.target.name === "category") {
+    const eventId = form.elements.event.value;
+    const category = form.elements.category.value;
+    const root = byId("pointsPlacements");
+    if (!eventId || !category || !root) {
+      if (root) root.innerHTML = `<div class="empty-state" style="padding: 12px;">Selecione a prova e categoria para abrir as colocações.</div>`;
+      return;
+    }
+    
+    const teams = categoryTeams(category);
+    const teamOptions = `<option value="">Selecionar turma</option>` + teams.map(t => `<option value="${t.id}">${t.name}</option>`).join("");
+    
+    const defPoints = eventPointsByPlace(eventId);
+    const numPlaces = Math.max(1, teams.length);
+    const eventMax = Number(eventById(eventId)?.max || 0);
+    const pointsArray = Array.from({ length: numPlaces }, (_, i) => {
+      if (defPoints[i] !== undefined) return defPoints[i];
+      if (defPoints.length > 0) return 0;
+      if (i === 0) return eventMax;
+      return 0;
+    });
+    
+    root.innerHTML = pointsArray.map((pts, idx) => `
+      <div class="placement-card">
+        <label>${idx + 1}º Lugar
+          <select name="place-${idx}">${teamOptions}</select>
+        </label>
+        <label>Pontos
+          <input name="points-${idx}" type="number" step="0.5" value="${pts}">
+        </label>
+      </div>
+    `).join("");
+    updateBatchPlacementOptions(form);
+  }
+
+  if (event.target.name && event.target.name.startsWith("place-")) {
+    updateBatchPlacementOptions(form);
+  }
 });
 
 on("judgeAccessForm", "submit", (event) => {
@@ -1667,23 +1834,35 @@ document.addEventListener("click", (event) => {
       saveState();
     }
   }
-  if (button.dataset.publishEvaluation) {
-    const evaluation = state.evaluations[Number(button.dataset.publishEvaluation)];
-    const definition = judgingEventById(evaluation?.eventId);
-    if (evaluation && definition?.eventId) {
-      rankEvaluationScores(evaluation.scores, definition).forEach((score) => {
-        const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
-        const payload = {
-          teamId: score.teamId,
-          eventId: definition.eventId,
-          points: Number(score.gincanaPoints || 0),
-          note: `${score.placement}º lugar • Avaliação online: ${definition.name} • ${evaluation.category} • ${evaluation.judge || "Jurado"}`
-        };
-        if (existing) Object.assign(existing, payload);
-        else state.scores.push(payload);
+  if (button.dataset.publishGroup) {
+    const key = button.dataset.publishGroup;
+    const groupEvals = state.evaluations.filter((ev) => `${ev.eventId}|${ev.category}` === key);
+    if (!groupEvals.length) return;
+    const definition = judgingEventById(groupEvals[0].eventId);
+    if (!definition?.eventId) return;
+
+    const scoresByTeam = {};
+    groupEvals.forEach((evaluation) => {
+      evaluation.launched = true;
+      evaluation.scores.forEach((score) => {
+        if (!scoresByTeam[score.teamId]) scoresByTeam[score.teamId] = { teamId: score.teamId, total: 0 };
+        scoresByTeam[score.teamId].total += Number(score.total || 0);
       });
-      saveState();
-    }
+    });
+
+    const aggregatedScores = Object.values(scoresByTeam);
+    rankEvaluationScores(aggregatedScores, definition).forEach((score) => {
+      const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
+      const payload = {
+        teamId: score.teamId,
+        eventId: definition.eventId,
+        points: Number(score.gincanaPoints || 0),
+        note: `${score.placement}º lugar • Consolidado online: ${definition.name} • ${groupEvals[0].category}`
+      };
+      if (existing) Object.assign(existing, payload);
+      else state.scores.push(payload);
+    });
+    saveState();
   }
 });
 
