@@ -195,5 +195,13 @@
     }
   ],
   "bonuses": [],
+  "judges": [
+    {
+      "id": "1777128182960-2257a68c7bf718",
+      "name": "JURADO 1",
+      "code": "J001",
+      "active": true
+    }
+  ],
   "evaluations": []
 }
