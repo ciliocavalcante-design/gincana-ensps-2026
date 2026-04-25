@@ -455,6 +455,52 @@
           "gincanaPoints": 10
         }
       ]
+    },
+    {
+      "id": "1777141529336-3b7d8269dba1a8",
+      "eventId": "lideres",
+      "category": "Categoria 2",
+      "judge": "JURADO 2",
+      "judgeCode": "J002",
+      "submittedAt": "2026-04-25T18:25:29.336Z",
+      "scores": [
+        {
+          "teamId": "1",
+          "criteria": {
+            "Coreografia": 10,
+            "Criatividade": 10,
+            "Organização": 10
+          },
+          "note": "",
+          "total": 30,
+          "placement": 1,
+          "gincanaPoints": 30
+        },
+        {
+          "teamId": "9",
+          "criteria": {
+            "Coreografia": 9,
+            "Criatividade": 9,
+            "Organização": 8
+          },
+          "note": "",
+          "total": 26,
+          "placement": 2,
+          "gincanaPoints": 20
+        },
+        {
+          "teamId": "2",
+          "criteria": {
+            "Coreografia": 8,
+            "Criatividade": 8,
+            "Organização": 8
+          },
+          "note": "",
+          "total": 24,
+          "placement": 3,
+          "gincanaPoints": 10
+        }
+      ]
     }
   ]
 }
