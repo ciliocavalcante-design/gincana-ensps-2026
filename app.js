@@ -59,6 +59,7 @@ const JUDGING_EVENTS = [
 let remoteSaveTimer;
 let remoteSaveInProgress = false;
 let remoteSavePending = false;
+let welcomeAnimationTimer;
 localStorage.removeItem("gincana-ensps-2026-github-token");
 
 const defaultData = {
@@ -279,6 +280,15 @@ function pendingJudgingCombos(judge) {
     eventName: event.name,
     category
   }))).filter((combo) => !hasJudgeEvaluation(judge.code, combo.eventId, combo.category));
+}
+
+function judgeCompletedCount(code) {
+  const normalized = normalizeJudgeCode(code);
+  return state.evaluations.filter((item) => normalizeJudgeCode(item.judgeCode) === normalized).length;
+}
+
+function welcomeStorageKey(code) {
+  return `gincana-welcome-seen-${normalizeJudgeCode(code)}`;
 }
 
 function foodById(id) {
@@ -916,6 +926,31 @@ function updateJudgeEvaluationOptions() {
   if (categories.includes(currentCategory)) categorySelect.value = currentCategory;
 }
 
+function playJudgeWelcome(judge) {
+  const welcome = byId("judgeWelcome");
+  const access = byId("judgeAccess");
+  const form = byId("evaluationForm");
+  if (!welcome || !access || !form || !judge) return;
+  const code = normalizeJudgeCode(judge.code);
+  if (judgeCompletedCount(code) > 0 || sessionStorage.getItem(welcomeStorageKey(code))) return;
+
+  sessionStorage.setItem(welcomeStorageKey(code), "true");
+  welcome.hidden = false;
+  welcome.classList.remove("leaving");
+  access.classList.add("soft-hidden");
+  form.classList.add("soft-hidden");
+  clearTimeout(welcomeAnimationTimer);
+  welcomeAnimationTimer = setTimeout(() => {
+    welcome.classList.add("leaving");
+    setTimeout(() => {
+      welcome.hidden = true;
+      welcome.classList.remove("leaving");
+      access.classList.remove("soft-hidden");
+      form.classList.remove("soft-hidden");
+    }, 520);
+  }, 2700);
+}
+
 function renderEvaluationResults() {
   const root = byId("evaluationResults");
   if (!root) return;
@@ -1149,7 +1184,9 @@ on("judgeAccessForm", "submit", (event) => {
   }
   sessionStorage.setItem("gincana-judge-code", code);
   setSyncStatus("Código aceito. Escolha a ficha pendente e envie sua avaliação.");
+  const shouldWelcome = judgeCompletedCount(code) === 0 && !sessionStorage.getItem(welcomeStorageKey(code));
   renderJudgeAccess();
+  if (shouldWelcome) playJudgeWelcome(judge);
 });
 
 on("evaluationForm", "change", (event) => {
