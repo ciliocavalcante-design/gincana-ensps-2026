@@ -1,24 +1,5 @@
 {
-  "scores": [
-    {
-      "teamId": "9",
-      "eventId": "solidaria",
-      "points": 0,
-      "note": "Aguardando apuração"
-    },
-    {
-      "teamId": "1",
-      "eventId": "solidaria",
-      "points": 0,
-      "note": "Aguardando apuração"
-    },
-    {
-      "teamId": "2",
-      "eventId": "solidaria",
-      "points": 0,
-      "note": "Aguardando apuração"
-    }
-  ],
+  "scores": [],
   "schedules": [
     {
       "teamId": "7",
