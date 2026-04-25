@@ -905,7 +905,7 @@ function renderEvaluationSheet() {
         ${definition.criteria.map((criterion) => `
           <label>
             ${criterion}
-            <input name="${item.id}__${criterionId(criterion)}" type="number" min="0" max="10" step="0.5" required>
+            <input name="${item.id}__${criterionId(criterion)}" type="number" min="6" max="10" step="0.5" placeholder="6 a 10" required>
           </label>
         `).join("")}
       </div>
