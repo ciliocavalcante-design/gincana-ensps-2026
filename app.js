@@ -1039,7 +1039,6 @@ function renderEvaluationResults() {
 
 function renderJudgingDayControls() {
   const eventsRoot = byId("judgingDayEvents");
-  const judgesRoot = byId("judgingDayJudges");
   if (eventsRoot) {
     eventsRoot.innerHTML = JUDGING_EVENTS.map((item) => `
       <label class="choice-pill">
@@ -1047,14 +1046,6 @@ function renderJudgingDayControls() {
         <span>${item.name}</span>
       </label>
     `).join("");
-  }
-  if (judgesRoot) {
-    judgesRoot.innerHTML = state.judges.length ? state.judges.map((item) => `
-      <label class="choice-pill">
-        <input name="judgeCodes" type="checkbox" value="${escapeHtml(normalizeJudgeCode(item.code))}">
-        <span>${escapeHtml(item.name)} <small>${escapeHtml(normalizeJudgeCode(item.code))}</small></span>
-      </label>
-    `).join("") : `<p class="empty-inline">Cadastre jurados antes de criar o dia.</p>`;
   }
 }
 
@@ -1159,13 +1150,35 @@ function renderAdminTables() {
     ["Dia", "Data", "Status", "Provas", "Jurados", ""],
     state.judgingDays.map((item, index) => {
       const events = (item.eventIds || []).map((id) => judgingEventById(id)?.name || id).join(", ");
-      const judges = normalizedJudgeCodes(item.judgeCodes || []).map((code) => judgeByCode(code)?.name || code).join(", ");
+      const selectedCodes = normalizedJudgeCodes(item.judgeCodes || []);
+      const judges = selectedCodes.map((code) => {
+        const judge = judgeByCode(code);
+        return `
+          <span class="inline-token">
+            ${escapeHtml(judge?.name || code)}
+            <button data-remove-day-judge="${index}" data-judge-code="${escapeHtml(code)}" type="button" aria-label="Remover jurado">×</button>
+          </span>
+        `;
+      }).join("");
+      const options = state.judges
+        .filter((judge) => !selectedCodes.includes(normalizeJudgeCode(judge.code)))
+        .map((judge) => `<option value="${escapeHtml(normalizeJudgeCode(judge.code))}">${escapeHtml(judge.name)} • ${escapeHtml(normalizeJudgeCode(judge.code))}</option>`)
+        .join("");
+      const addJudge = options ? `
+        <div class="table-add-judge">
+          <select data-day-judge-select="${index}" aria-label="Adicionar jurado ao dia">
+            <option value="">Adicionar jurado</option>
+            ${options}
+          </select>
+          <button class="mini-action" data-add-day-judge="${index}" type="button">Adicionar</button>
+        </div>
+      ` : `<small class="muted-text">Todos os jurados cadastrados foram adicionados.</small>`;
       return [
         escapeHtml(item.name || "Dia de apresentação"),
         formatDate(item.date),
         item.active === false ? "Pausado" : "Liberado",
         escapeHtml(events || "Nenhuma prova"),
-        escapeHtml(judges || "Nenhum jurado"),
+        `<div class="day-judges-cell">${judges || `<small class="muted-text">Nenhum jurado adicionado.</small>`}${addJudge}</div>`,
         `<button class="mini-action" data-toggle-judging-day="${index}" type="button">${item.active === false ? "Liberar" : "Pausar"}</button> <button class="mini-action" data-delete-judging-day="${index}" type="button">Excluir</button>`
       ];
     })
@@ -1372,9 +1385,8 @@ on("judgingDayForm", "submit", (event) => {
   const form = event.currentTarget;
   const data = new FormData(form);
   const eventIds = data.getAll("eventIds");
-  const judgeCodes = normalizedJudgeCodes(data.getAll("judgeCodes"));
-  if (!eventIds.length || !judgeCodes.length) {
-    setSyncStatus("Escolha pelo menos uma prova e um jurado para criar o dia.");
+  if (!eventIds.length) {
+    setSyncStatus("Escolha pelo menos uma prova para criar o dia.");
     return;
   }
   state.judgingDays.push({
@@ -1382,7 +1394,7 @@ on("judgingDayForm", "submit", (event) => {
     name: String(data.get("name") || "").trim(),
     date: String(data.get("date") || ""),
     eventIds,
-    judgeCodes,
+    judgeCodes: [],
     active: data.get("active") === "on"
   });
   form.reset();
@@ -1635,6 +1647,25 @@ document.addEventListener("click", (event) => {
   if (button.dataset.deleteJudgingDay) {
     state.judgingDays.splice(Number(button.dataset.deleteJudgingDay), 1);
     saveState();
+  }
+  if (button.dataset.addDayJudge) {
+    const index = Number(button.dataset.addDayJudge);
+    const day = state.judgingDays[index];
+    const select = document.querySelector(`select[data-day-judge-select="${index}"]`);
+    const code = normalizeJudgeCode(select?.value || "");
+    if (day && code) {
+      const codes = normalizedJudgeCodes(day.judgeCodes || []);
+      if (!codes.includes(code)) day.judgeCodes = [...codes, code];
+      saveState();
+    }
+  }
+  if (button.dataset.removeDayJudge) {
+    const day = state.judgingDays[Number(button.dataset.removeDayJudge)];
+    const code = normalizeJudgeCode(button.dataset.judgeCode);
+    if (day) {
+      day.judgeCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+      saveState();
+    }
   }
   if (button.dataset.publishEvaluation) {
     const evaluation = state.evaluations[Number(button.dataset.publishEvaluation)];

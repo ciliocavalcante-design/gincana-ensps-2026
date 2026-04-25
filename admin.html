@@ -194,7 +194,7 @@
           </div>
           <div class="sync-box judge-admin-box">
             <h3>Dias de apresentação</h3>
-            <p>Escolha quais provas estarão disponíveis em cada dia e quais jurados poderão avaliá-las.</p>
+            <p>Crie o dia com as provas. Depois, adicione os jurados na lista do dia criado.</p>
             <form id="judgingDayForm" class="form-grid judging-day-form">
               <label>Nome do dia<input name="name" type="text" required placeholder="Ex.: Apresentações da tarde"></label>
               <label>Data<input name="date" type="date"></label>
@@ -202,10 +202,6 @@
               <div class="wide choice-group">
                 <h4>Provas liberadas</h4>
                 <div id="judgingDayEvents" class="choice-grid"></div>
-              </div>
-              <div class="wide choice-group">
-                <h4>Jurados deste dia</h4>
-                <div id="judgingDayJudges" class="choice-grid"></div>
               </div>
               <button class="button primary" type="submit">Salvar dia</button>
             </form>

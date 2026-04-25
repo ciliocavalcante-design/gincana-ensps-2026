@@ -968,6 +968,54 @@ h1 {
   color: var(--muted);
 }
 
+.day-judges-cell {
+  display: grid;
+  gap: 8px;
+  min-width: 260px;
+}
+
+.inline-token {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  border: 1px solid rgba(134, 239, 172, 0.32);
+  border-radius: 999px;
+  padding: 5px 8px 5px 12px;
+  color: #d1fae5;
+  background: rgba(34, 197, 94, 0.12);
+  font-weight: 800;
+}
+
+.inline-token button {
+  width: 22px;
+  min-height: 22px;
+  border: 0;
+  border-radius: 999px;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.table-add-judge {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.table-add-judge select {
+  min-height: 36px;
+  font-size: 0.9rem;
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
 .evaluation-sheet,
 .evaluation-results {
   display: grid;
