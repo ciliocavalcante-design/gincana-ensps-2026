@@ -1418,14 +1418,16 @@ h1 {
   background: #080d18;
 }
 
-.single-panel .section-heading {
+.judge-page .single-panel .section-heading,
+.admin-page .single-panel .section-heading {
   cursor: default;
   display: flex;
   justify-content: center;
   text-align: center;
 }
 
-.single-panel .section-heading:hover {
+.judge-page .single-panel .section-heading:hover,
+.admin-page .single-panel .section-heading:hover {
   border-bottom-color: transparent;
 }
 
@@ -1775,6 +1777,40 @@ h1 {
   width: 100%;
 }
 
+
+.admin-hero {
+  min-height: 34vh;
+  justify-content: center;
+}
+
+.admin-hero-content-wrap {
+  min-height: 100%;
+  gap: 12px;
+}
+
+.admin-hero-logo {
+  width: clamp(82px, 8vw, 118px);
+}
+
+.admin-hero-content {
+  display: grid;
+  justify-items: center;
+}
+
+.admin-hero-nav {
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.admin-hero-nav a {
+  min-width: 132px;
+  justify-content: center;
+}
+
+.admin-hero-nav .brand-link {
+  display: none;
+}
+
 .admin-section .eyebrow {
   color: #5eead4;
 }
@@ -1796,13 +1832,49 @@ h1 {
   text-align: center;
 }
 
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+  .admin-dashboard {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
+  }
+  .admin-sidebar {
+    position: sticky;
+    top: 24px;
+  }
+}
+
 .admin-tabs {
   display: flex;
-  justify-content: center;
   gap: 8px;
-  padding: 12px;
+  padding: 16px;
   overflow-x: auto;
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--surface-neutral);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+.placement-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: #d1d5db;
+  background: #080d18;
+  text-align: center;
+}
+@media (min-width: 1024px) {
+  .admin-tabs {
+    flex-direction: column;
+    overflow-x: visible;
+  }
 }
 
 .tab-button {
@@ -1810,16 +1882,23 @@ h1 {
   min-height: 40px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   border: 0;
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 0 14px;
   color: #d1d5db;
   background: transparent;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  font: inherit;
-  font-weight: 800;
-  text-align: center;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+@media (max-width: 1023px) {
+  .tab-button {
+    justify-content: center;
+    border-radius: 999px;
+  }
 }
 
 .tab-button.active {
@@ -2041,6 +2120,34 @@ footer {
 }
 
 @media (max-width: 760px) {
+
+  .admin-hero {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .admin-hero-nav {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .admin-hero-nav a {
+    min-width: 0;
+    flex: 1 1 120px;
+    justify-content: center;
+  }
+
+  .admin-page .admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .admin-page .admin-tabs {
+    justify-content: flex-start;
+    padding: 12px;
+  }
   html,
   body {
     max-width: 100%;
@@ -2503,5 +2610,72 @@ footer {
 
   .schedule-list {
     gap: 10px;
+  }
+}
+
+/* Ajustes do lançamento por colocação */
+#pointsPanel .panel-card:first-child {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+#pointsPanel .panel-card:first-child h3 {
+  text-align: center;
+}
+
+#batchPointsForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+#batchPointsForm > label:not(.wide) {
+  order: 1;
+}
+
+#batchPointsForm #pointsPlacements {
+  order: 2;
+  grid-column: 1 / -1;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+  gap: 14px !important;
+  margin: 4px 0 0 !important;
+}
+
+#batchPointsForm > label.wide {
+  order: 3;
+  grid-column: 1 / -1;
+}
+
+#batchPointsForm > button {
+  order: 4;
+  grid-column: 1 / -1;
+  width: min(420px, 100%);
+  justify-self: center;
+}
+
+.placement-card {
+  min-height: 0;
+  padding: 16px;
+}
+
+.placement-card label {
+  font-weight: 900;
+}
+
+.placement-card input,
+.placement-card select {
+  text-align: center;
+  font-weight: 900;
+}
+
+.tab-button {
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  #batchPointsForm {
+    grid-template-columns: 1fr;
   }
 }
