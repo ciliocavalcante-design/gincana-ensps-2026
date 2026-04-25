@@ -892,6 +892,7 @@ function renderJudgeAccess() {
   form.hidden = false;
   status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong> • ${pending.length} ficha${pending.length > 1 ? "s" : ""} pendente${pending.length > 1 ? "s" : ""}.`;
   updateJudgeEvaluationOptions();
+  renderEvaluationSheet();
 }
 
 function updateJudgeEvaluationOptions() {
