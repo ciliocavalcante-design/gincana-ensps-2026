@@ -225,5 +225,52 @@
       "active": true
     }
   ],
-  "evaluations": []
+  "evaluations": [
+    {
+      "id": "1777141233541-7405d0fb21bc6",
+      "eventId": "lideres",
+      "category": "Categoria 1",
+      "judge": "JURADO 1",
+      "judgeCode": "J001",
+      "submittedAt": "2026-04-25T18:20:33.541Z",
+      "scores": [
+        {
+          "teamId": "8",
+          "criteria": {
+            "Coreografia": 8,
+            "Criatividade": 9,
+            "Organização": 10
+          },
+          "note": "",
+          "total": 27,
+          "placement": 1,
+          "gincanaPoints": 30
+        },
+        {
+          "teamId": "6",
+          "criteria": {
+            "Coreografia": 6,
+            "Criatividade": 10,
+            "Organização": 9
+          },
+          "note": "Equipe com gestos vulgares",
+          "total": 25,
+          "placement": 2,
+          "gincanaPoints": 20
+        },
+        {
+          "teamId": "7",
+          "criteria": {
+            "Coreografia": 7,
+            "Criatividade": 8,
+            "Organização": 9
+          },
+          "note": "",
+          "total": 24,
+          "placement": 3,
+          "gincanaPoints": 10
+        }
+      ]
+    }
+  ]
 }
