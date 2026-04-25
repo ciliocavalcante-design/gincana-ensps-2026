@@ -203,6 +203,18 @@
       "active": true
     }
   ],
-  "judgingDays": [],
+  "judgingDays": [
+    {
+      "id": "1777134150640-527fb009a6cd5",
+      "name": "Provas Esportivas",
+      "date": "2026-05-22",
+      "eventIds": [
+        "lideres",
+        "blusa"
+      ],
+      "judgeCodes": [],
+      "active": true
+    }
+  ],
   "evaluations": []
 }
