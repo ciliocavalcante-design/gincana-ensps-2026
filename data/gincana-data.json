@@ -1,18 +1,6 @@
 {
   "scores": [
     {
-      "teamId": "7",
-      "eventId": "solidaria",
-      "points": 35,
-      "note": "Lançamento em lote"
-    },
-    {
-      "teamId": "8",
-      "eventId": "solidaria",
-      "points": 20,
-      "note": "Lançamento em lote"
-    },
-    {
       "teamId": "9",
       "eventId": "solidaria",
       "points": 0,
