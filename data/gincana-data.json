@@ -186,6 +186,19 @@
         "J002"
       ],
       "active": true
+    },
+    {
+      "id": "1777210329978-20e8b5463c96b8",
+      "name": "Provas Culturais",
+      "date": "2026-05-29",
+      "eventIds": [
+        "grito",
+        "comida",
+        "danca",
+        "professores"
+      ],
+      "judgeCodes": [],
+      "active": true
     }
   ],
   "evaluations": [],
