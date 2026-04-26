@@ -217,7 +217,8 @@
       ],
       "judgeCodes": [
         "J003",
-        "J004"
+        "J004",
+        "J005"
       ],
       "active": true
     }
