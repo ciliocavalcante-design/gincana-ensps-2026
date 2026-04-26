@@ -34,17 +34,6 @@
       "place": "ENSPS",
       "activity": "Dança dos professores",
       "createdBy": "admin"
-    },
-    {
-      "teamId": "6",
-      "date": "2026-04-27",
-      "time": "10:40",
-      "endTime": "11:30",
-      "place": "ENSPS",
-      "activity": "Dança das Líderes de Torcida",
-      "createdBy": "leader",
-      "acceptedBy": "victoria",
-      "requestId": "1777220253394-60a1c3951a7e68"
     }
   ],
   "participants": [],
