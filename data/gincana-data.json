@@ -268,7 +268,7 @@
             "note": ""
           },
           "danca": {
-            "afinidade-ao-tema": "",
+            "afinidade-ao-tema": "5",
             "organizacao": "",
             "figurino-acessorios": "",
             "coreografia": "",
@@ -320,7 +320,7 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T14:28:52.629Z"
+      "updatedAt": "2026-04-26T19:04:21.361Z"
     }
   ],
   "leadershipClaims": [],
