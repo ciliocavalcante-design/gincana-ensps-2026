@@ -323,6 +323,27 @@
       "updatedAt": "2026-04-26T14:28:52.629Z"
     }
   ],
+  "leadershipClaims": [],
+  "leadershipRequests": [
+    {
+      "id": "1777219179018-3e17e47c14378",
+      "teamId": "6",
+      "type": "Reclamação",
+      "message": "TESTE TESTE",
+      "status": "Pendente",
+      "response": "",
+      "createdAt": "2026-04-26T15:59:39.018Z",
+      "updatedAt": "2026-04-26T15:59:39.018Z"
+    }
+  ],
+  "leadershipCodes": {
+    "482ENSPS731": "6",
+    "915ENSPS204": "7",
+    "367ENSPS849": "8",
+    "638ENSPS125": "9",
+    "274ENSPS596": "1",
+    "829ENSPS463": "2"
+  },
   "evaluations": [],
   "judgingEventOrder": [
     "lideres",
