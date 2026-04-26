@@ -325,6 +325,22 @@
   ],
   "leadershipClaims": [],
   "leadershipRequests": [],
+  "scheduleRequests": [
+    {
+      "id": "1777220253394-60a1c3951a7e68",
+      "teamId": "6",
+      "date": "2026-04-27",
+      "time": "10:40",
+      "endTime": "11:30",
+      "place": "ENSPS",
+      "activity": "Dança das Líderes de Torcida",
+      "note": "",
+      "status": "pending",
+      "requestedBy": "leader",
+      "createdAt": "2026-04-26T16:17:33.394Z",
+      "updatedAt": "2026-04-26T16:17:33.398Z"
+    }
+  ],
   "leadershipCodes": {
     "482ENSPS731": "6",
     "915ENSPS204": "7",
