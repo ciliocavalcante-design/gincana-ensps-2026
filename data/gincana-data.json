@@ -215,7 +215,9 @@
         "danca",
         "professores"
       ],
-      "judgeCodes": [],
+      "judgeCodes": [
+        "J003"
+      ],
       "active": true
     }
   ],
