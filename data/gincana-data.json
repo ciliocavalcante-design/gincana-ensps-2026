@@ -324,18 +324,7 @@
     }
   ],
   "leadershipClaims": [],
-  "leadershipRequests": [
-    {
-      "id": "1777219179018-3e17e47c14378",
-      "teamId": "6",
-      "type": "Reclamação",
-      "message": "TESTE TESTE",
-      "status": "Visto",
-      "response": "",
-      "createdAt": "2026-04-26T15:59:39.018Z",
-      "updatedAt": "2026-04-26T15:59:49.567Z"
-    }
-  ],
+  "leadershipRequests": [],
   "leadershipCodes": {
     "482ENSPS731": "6",
     "915ENSPS204": "7",
