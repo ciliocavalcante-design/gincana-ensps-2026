@@ -234,6 +234,17 @@
         "danca"
       ],
       "active": true
+    },
+    {
+      "id": "1777212645628-9ea7be82bd10d",
+      "name": "Bloco Cultural 2",
+      "category": "Categoria 2",
+      "eventIds": [
+        "grito",
+        "comida",
+        "danca"
+      ],
+      "active": true
     }
   ],
   "evaluations": [],
