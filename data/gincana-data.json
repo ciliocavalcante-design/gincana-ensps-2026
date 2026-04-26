@@ -340,20 +340,6 @@
       "createdAt": "2026-04-26T16:17:33.394Z",
       "updatedAt": "2026-04-26T17:07:55.448Z",
       "approvedBy": "victoria"
-    },
-    {
-      "id": "1777222408238-b30cd49264d258",
-      "teamId": "6",
-      "date": "2026-04-27",
-      "time": "14:30",
-      "endTime": "16:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "note": "",
-      "status": "pending",
-      "requestedBy": "leader",
-      "createdAt": "2026-04-26T16:53:28.238Z",
-      "updatedAt": "2026-04-26T16:53:28.239Z"
     }
   ],
   "leadershipCodes": {
