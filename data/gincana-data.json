@@ -255,14 +255,14 @@
       "draft": {
         "6": {
           "grito": {
-            "animacao": "",
+            "animacao": "8",
             "clareza": "8",
             "criatividade": "8",
             "organizacao": "8",
-            "note": "Teste"
+            "note": "8"
           },
           "comida": {
-            "fidelidade-ao-tema": "9",
+            "fidelidade-ao-tema": "8",
             "sabor": "9",
             "apresentacao-do-prato": "9",
             "note": "9"
@@ -285,7 +285,7 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T14:20:39.210Z"
+      "updatedAt": "2026-04-26T14:20:42.792Z"
     }
   ],
   "evaluations": [],
