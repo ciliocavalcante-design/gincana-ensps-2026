@@ -223,7 +223,19 @@
       "active": true
     }
   ],
-  "judgingBlocks": [],
+  "judgingBlocks": [
+    {
+      "id": "1777212632362-709cbeeb5cbc9",
+      "name": "Bloco Cultural",
+      "category": "Categoria 1",
+      "eventIds": [
+        "grito",
+        "comida",
+        "danca"
+      ],
+      "active": true
+    }
+  ],
   "evaluations": [],
   "judgingEventOrder": [
     "lideres",
