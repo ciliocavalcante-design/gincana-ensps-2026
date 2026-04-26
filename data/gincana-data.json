@@ -182,6 +182,12 @@
       "name": "JURADO 4",
       "code": "J004",
       "active": true
+    },
+    {
+      "id": "1777210363062-866d27bdecc0f8",
+      "name": "JURADO 5",
+      "code": "J005",
+      "active": true
     }
   ],
   "judgingDays": [
