@@ -272,6 +272,55 @@
           "gincanaPoints": 20
         }
       ]
+    },
+    {
+      "id": "1777210594545-ab5ccea5f20d98",
+      "eventId": "danca",
+      "category": "Categoria 1",
+      "judge": "JURADO 4",
+      "judgeCode": "J004",
+      "submittedAt": "2026-04-26T13:36:34.546Z",
+      "scores": [
+        {
+          "teamId": "6",
+          "criteria": {
+            "Afinidade ao tema": 9,
+            "Organização": 9,
+            "Figurino/Acessórios": 9,
+            "Coreografia": 9
+          },
+          "note": "",
+          "total": 36,
+          "placement": 1,
+          "gincanaPoints": 50
+        },
+        {
+          "teamId": "7",
+          "criteria": {
+            "Afinidade ao tema": 8,
+            "Organização": 8,
+            "Figurino/Acessórios": 8,
+            "Coreografia": 8
+          },
+          "note": "",
+          "total": 32,
+          "placement": 2,
+          "gincanaPoints": 30
+        },
+        {
+          "teamId": "8",
+          "criteria": {
+            "Afinidade ao tema": 7,
+            "Organização": 7,
+            "Figurino/Acessórios": 7,
+            "Coreografia": 7
+          },
+          "note": "",
+          "total": 28,
+          "placement": 3,
+          "gincanaPoints": 20
+        }
+      ]
     }
   ],
   "judgingEventOrder": [
