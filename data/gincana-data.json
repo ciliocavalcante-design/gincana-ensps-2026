@@ -188,5 +188,13 @@
       "active": true
     }
   ],
-  "evaluations": []
+  "evaluations": [],
+  "judgingEventOrder": [
+    "lideres",
+    "blusa",
+    "comida",
+    "professores",
+    "grito",
+    "danca"
+  ]
 }
