@@ -262,30 +262,43 @@
             "note": "8"
           },
           "comida": {
-            "fidelidade-ao-tema": "8",
-            "sabor": "9",
-            "apresentacao-do-prato": "9",
-            "note": "9"
+            "fidelidade-ao-tema": "7",
+            "sabor": "7",
+            "apresentacao-do-prato": "7",
+            "note": "7"
           },
           "danca": {
-            "afinidade-ao-tema": "9",
-            "organizacao": "9",
-            "figurino-acessorios": "9",
-            "coreografia": "9",
-            "note": "9"
+            "afinidade-ao-tema": "7",
+            "organizacao": "7",
+            "figurino-acessorios": "7",
+            "coreografia": "7",
+            "note": "7"
           }
         },
         "7": {
           "grito": {
-            "animacao": "9",
-            "clareza": "9",
-            "criatividade": "9",
-            "organizacao": "9",
-            "note": "9"
+            "animacao": "7",
+            "clareza": "7",
+            "criatividade": "7",
+            "organizacao": "7",
+            "note": "7"
+          },
+          "comida": {
+            "fidelidade-ao-tema": "7",
+            "sabor": "7",
+            "apresentacao-do-prato": "7",
+            "note": "7"
+          },
+          "danca": {
+            "afinidade-ao-tema": "7",
+            "organizacao": "7",
+            "figurino-acessorios": "7",
+            "coreografia": "7",
+            "note": "7"
           }
         }
       },
-      "updatedAt": "2026-04-26T14:20:42.792Z"
+      "updatedAt": "2026-04-26T14:20:50.376Z"
     }
   ],
   "evaluations": [],
