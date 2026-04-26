@@ -302,25 +302,25 @@
             "animacao": "",
             "clareza": "",
             "criatividade": "",
-            "organizacao": "7",
-            "note": "7"
+            "organizacao": "",
+            "note": ""
           },
           "comida": {
-            "fidelidade-ao-tema": "7",
-            "sabor": "7",
-            "apresentacao-do-prato": "7",
-            "note": "7"
+            "fidelidade-ao-tema": "",
+            "sabor": "",
+            "apresentacao-do-prato": "",
+            "note": ""
           },
           "danca": {
-            "afinidade-ao-tema": "7",
-            "organizacao": "7",
-            "figurino-acessorios": "7",
-            "coreografia": "7",
-            "note": "7"
+            "afinidade-ao-tema": "",
+            "organizacao": "",
+            "figurino-acessorios": "",
+            "coreografia": "",
+            "note": ""
           }
         }
       },
-      "updatedAt": "2026-04-26T14:28:48.909Z"
+      "updatedAt": "2026-04-26T14:28:52.629Z"
     }
   ],
   "evaluations": [],
