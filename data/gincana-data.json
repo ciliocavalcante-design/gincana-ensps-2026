@@ -255,7 +255,7 @@
       "draft": {
         "6": {
           "grito": {
-            "animacao": "8",
+            "animacao": "",
             "clareza": "8",
             "criatividade": "8",
             "organizacao": "8",
@@ -320,7 +320,7 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T14:20:55.426Z"
+      "updatedAt": "2026-04-26T14:28:35.000Z"
     }
   ],
   "evaluations": [],
