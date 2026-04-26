@@ -223,56 +223,8 @@
       "active": true
     }
   ],
+  "judgingBlocks": [],
   "evaluations": [
-    {
-      "id": "1777210476996-a7a7de683bb48",
-      "eventId": "danca",
-      "category": "Categoria 1",
-      "judge": "JURADO 3",
-      "judgeCode": "J003",
-      "submittedAt": "2026-04-26T13:34:36.996Z",
-      "scores": [
-        {
-          "teamId": "6",
-          "criteria": {
-            "Afinidade ao tema": 10,
-            "Organização": 6,
-            "Figurino/Acessórios": 10,
-            "Coreografia": 10
-          },
-          "note": "",
-          "total": 36,
-          "placement": 1,
-          "gincanaPoints": 50
-        },
-        {
-          "teamId": "7",
-          "criteria": {
-            "Afinidade ao tema": 9,
-            "Organização": 9,
-            "Figurino/Acessórios": 9,
-            "Coreografia": 9
-          },
-          "note": "",
-          "total": 36,
-          "placement": 2,
-          "gincanaPoints": 30
-        },
-        {
-          "teamId": "8",
-          "criteria": {
-            "Afinidade ao tema": 8,
-            "Organização": 8,
-            "Figurino/Acessórios": 8,
-            "Coreografia": 8
-          },
-          "note": "",
-          "total": 32,
-          "placement": 3,
-          "gincanaPoints": 20
-        }
-      ]
-    },
     {
       "id": "1777210594545-ab5ccea5f20d98",
       "eventId": "danca",
