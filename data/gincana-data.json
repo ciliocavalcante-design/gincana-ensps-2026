@@ -229,9 +229,9 @@
       "name": "Bloco Cultural",
       "category": "Categoria 1",
       "eventIds": [
-        "grito",
         "comida",
-        "danca"
+        "danca",
+        "grito"
       ],
       "active": true
     },
@@ -240,11 +240,52 @@
       "name": "Bloco Cultural 2",
       "category": "Categoria 2",
       "eventIds": [
-        "grito",
         "comida",
-        "danca"
+        "danca",
+        "grito"
       ],
       "active": true
+    }
+  ],
+  "evaluationDrafts": [
+    {
+      "key": "J005::1777212632362-709cbeeb5cbc9",
+      "judgeCode": "J005",
+      "blockId": "1777212632362-709cbeeb5cbc9",
+      "draft": {
+        "6": {
+          "grito": {
+            "animacao": "",
+            "clareza": "8",
+            "criatividade": "8",
+            "organizacao": "8",
+            "note": "Teste"
+          },
+          "comida": {
+            "fidelidade-ao-tema": "9",
+            "sabor": "9",
+            "apresentacao-do-prato": "9",
+            "note": "9"
+          },
+          "danca": {
+            "afinidade-ao-tema": "9",
+            "organizacao": "9",
+            "figurino-acessorios": "9",
+            "coreografia": "9",
+            "note": "9"
+          }
+        },
+        "7": {
+          "grito": {
+            "animacao": "9",
+            "clareza": "9",
+            "criatividade": "9",
+            "organizacao": "9",
+            "note": "9"
+          }
+        }
+      },
+      "updatedAt": "2026-04-26T14:20:39.210Z"
     }
   ],
   "evaluations": [],
