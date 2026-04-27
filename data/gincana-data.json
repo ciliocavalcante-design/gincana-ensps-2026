@@ -120,6 +120,86 @@
       "teamId": "1",
       "activity": "Meu Professor Vale 1000",
       "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
+    },
+    {
+      "teamId": "6",
+      "activity": "Prova Solidária",
+      "names": "Livia\nRafaela\nMaria Clara Santos"
+    },
+    {
+      "teamId": "6",
+      "activity": "Futsal",
+      "names": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo levi"
+    },
+    {
+      "teamId": "6",
+      "activity": "Desafio do Professor",
+      "names": "padrinho"
+    },
+    {
+      "teamId": "6",
+      "activity": "Carimba",
+      "names": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira"
+    },
+    {
+      "teamId": "6",
+      "activity": "Vôlei",
+      "names": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Dança das Líderes",
+      "names": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Blusa da Equipe",
+      "names": "maria Heloísa\nRafaela Silva\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Corrida Maluca",
+      "names": "João Lucas Caetano\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Caça ao Tesouro",
+      "names": "Maria Luísa\nJoão Lucas mania"
+    },
+    {
+      "teamId": "6",
+      "activity": "Soletrando",
+      "names": "Rafaela\nMiguel"
+    },
+    {
+      "teamId": "6",
+      "activity": "Quiz",
+      "names": "Rafaela\nMaria Luísa"
+    },
+    {
+      "teamId": "6",
+      "activity": "Story Criativo",
+      "names": "Heloísa\nRafaela\nLiz\nLevi\nCaetano\nJoão Lucas maia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Grito de Guerra",
+      "names": "Heloísa\nRafaela\nLivia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Comida Típica",
+      "names": "Maria Heloísa\nMaria Livia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Dança Típica",
+      "names": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nLevi"
+    },
+    {
+      "teamId": "6",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
     }
   ],
   "materials": [
@@ -466,6 +546,31 @@
         "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
       },
       "updatedAt": "2026-04-27T12:07:36.998Z"
+    },
+    {
+      "teamId": "6",
+      "leader": "heloísa",
+      "viceLeader": "a rafaela",
+      "padrinho": "Prof. Eduardo",
+      "participants": {
+        "Prova Solidária": "Livia\nRafaela\nMaria Clara Santos",
+        "Futsal": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo levi",
+        "Desafio do Professor": "padrinho",
+        "Carimba": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira",
+        "Vôlei": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria",
+        "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
+        "Blusa da Equipe": "maria Heloísa\nRafaela Silva\nLiz Maria",
+        "Corrida Maluca": "João Lucas Caetano\nLiz Maria",
+        "Caça ao Tesouro": "Maria Luísa\nJoão Lucas mania",
+        "Soletrando": "Rafaela\nMiguel",
+        "Quiz": "Rafaela\nMaria Luísa",
+        "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nCaetano\nJoão Lucas maia",
+        "Grito de Guerra": "Heloísa\nRafaela\nLivia",
+        "Comida Típica": "Maria Heloísa\nMaria Livia",
+        "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nLevi",
+        "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
+      },
+      "updatedAt": "2026-04-27T12:45:28.545Z"
     }
   ],
   "strategyReports": [
