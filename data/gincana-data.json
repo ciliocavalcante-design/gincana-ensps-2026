@@ -806,17 +806,17 @@
           "descricao": ""
         },
         "Vôlei": {
-          "responsavel": "",
+          "responsavel": "Rafaela e heloisa",
           "custo": "",
           "descricao": ""
         },
         "Dança das Líderes": {
-          "responsavel": "",
+          "responsavel": "Heloisa",
           "custo": "",
           "descricao": ""
         },
         "Blusa da Equipe": {
-          "responsavel": "",
+          "responsavel": "Heloísa",
           "custo": "",
           "descricao": ""
         },
@@ -869,7 +869,7 @@
       "totalProvas": "",
       "totalCamisa": "",
       "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:53:26.741Z"
+      "updatedAt": "2026-04-27T12:56:00.764Z"
     }
   ],
   "leadershipCodes": {
