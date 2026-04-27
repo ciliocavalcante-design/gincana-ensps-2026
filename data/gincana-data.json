@@ -564,94 +564,94 @@
         },
         "Comportamento": {
           "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
+          "custo": "0",
+          "descricao": "0"
         },
         "Adesão da Blusa": {
           "responsavel": "Leticia Ribeiro",
-          "custo": "",
-          "descricao": ""
+          "custo": "0",
+          "descricao": "0"
         },
         "Futsal": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Pedro Jorge",
+          "custo": "0",
+          "descricao": "0"
         },
         "Desafio do Professor": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Thayna",
+          "custo": "0",
+          "descricao": "0"
         },
         "Carimba": {
           "responsavel": "Davi",
-          "custo": "",
-          "descricao": ""
+          "custo": "0",
+          "descricao": "0"
         },
         "Vôlei": {
           "responsavel": "Maria Mel",
-          "custo": "",
-          "descricao": ""
+          "custo": "0",
+          "descricao": "0"
         },
         "Dança das Líderes": {
           "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
+          "custo": "70",
+          "descricao": "0"
         },
         "Blusa da Equipe": {
-          "responsavel": "",
+          "responsavel": "Letícia Ribeiro",
           "custo": "",
           "descricao": ""
         },
         "Corrida Maluca": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Marcio Miguel",
+          "custo": "0",
+          "descricao": "0"
         },
         "Caça ao Tesouro": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Lara Colares",
+          "custo": "0",
+          "descricao": "0"
         },
         "Soletrando": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Luiza",
+          "custo": "0",
+          "descricao": "0"
         },
         "Quiz": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Letícia Ribeiro",
+          "custo": "0",
+          "descricao": "0"
         },
         "Story Criativo": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Letícia Ribeiro",
+          "custo": "40",
+          "descricao": "0"
         },
         "Grito de Guerra": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Thayna",
+          "custo": "0",
+          "descricao": "0"
         },
         "Comida Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Letícia Ribeiro",
+          "custo": "100",
+          "descricao": "0"
         },
         "Dança Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Letícia Ribeiro",
+          "custo": "280",
+          "descricao": "0"
         },
         "Meu Professor Vale 1000": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Letícia Ribeiro",
+          "custo": "30",
+          "descricao": "0"
         }
       },
       "totalProvas": "",
       "totalCamisa": "",
-      "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:10:15.895Z"
+      "cotaAluno": "65",
+      "updatedAt": "2026-04-27T12:22:16.655Z"
     }
   ],
   "leadershipCodes": {
