@@ -553,6 +553,105 @@
       "totalCamisa": "32",
       "cotaAluno": "35",
       "updatedAt": "2026-04-27T12:08:28.740Z"
+    },
+    {
+      "teamId": "7",
+      "rows": {
+        "Prova Solidária": {
+          "responsavel": "Leticia Ribeiro",
+          "custo": "0",
+          "descricao": "0"
+        },
+        "Comportamento": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Adesão da Blusa": {
+          "responsavel": "Leticia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Futsal": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Desafio do Professor": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Carimba": {
+          "responsavel": "Davi",
+          "custo": "",
+          "descricao": ""
+        },
+        "Vôlei": {
+          "responsavel": "Maria Mel",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança das Líderes": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Blusa da Equipe": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Corrida Maluca": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Caça ao Tesouro": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Soletrando": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Quiz": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Story Criativo": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Grito de Guerra": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comida Típica": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança Típica": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Meu Professor Vale 1000": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        }
+      },
+      "totalProvas": "",
+      "totalCamisa": "",
+      "cotaAluno": "",
+      "updatedAt": "2026-04-27T12:09:44.594Z"
     }
   ],
   "leadershipCodes": {
