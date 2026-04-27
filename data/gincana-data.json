@@ -736,7 +736,7 @@
         "Dança Típica": "Fernanda Nascimento\nM Clara Arrais\nAlice Maria\nLara Braz\nVictoria Falcão\nM Júlia Ximenes\nRita Laise",
         "Meu Professor Vale 1000": "Ruan Lima\nVictor Gabriel\nAlice Maria\nLara Braz\nRita Laise\nM Júlia Ximenes\nSofia Oliveira\nNilson Martins\nIan Oliveira"
       },
-      "updatedAt": "2026-04-27T21:09:13.843Z"
+      "updatedAt": "2026-04-27T21:10:06.337Z"
     }
   ],
   "strategyReports": [
@@ -1045,6 +1045,16 @@
     "638ENSPS125": "9",
     "274ENSPS596": "1",
     "829ENSPS463": "2"
+  },
+  "teacherCodes": {
+    "PROF6A": "6",
+    "PROF7T": "7",
+    "PROF7M": "7",
+    "PROF8E": "8",
+    "PROF9A": "9",
+    "PROF1A": "1",
+    "PROF1D": "1",
+    "PROF2R": "2"
   },
   "evaluations": [],
   "judgingEventOrder": [
