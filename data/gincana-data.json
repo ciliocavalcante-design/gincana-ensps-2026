@@ -821,55 +821,55 @@
           "descricao": ""
         },
         "Corrida Maluca": {
-          "responsavel": "Li Zé",
+          "responsavel": "Liz Maria",
           "custo": "",
           "descricao": ""
         },
         "Caça ao Tesouro": {
-          "responsavel": "",
+          "responsavel": "Luisa",
           "custo": "",
           "descricao": ""
         },
         "Soletrando": {
-          "responsavel": "",
+          "responsavel": "Rafaela",
           "custo": "",
           "descricao": ""
         },
         "Quiz": {
-          "responsavel": "",
+          "responsavel": "Rafaela",
           "custo": "",
           "descricao": ""
         },
         "Story Criativo": {
-          "responsavel": "",
+          "responsavel": "Rafaela e Heloísa",
           "custo": "",
           "descricao": ""
         },
         "Grito de Guerra": {
-          "responsavel": "",
+          "responsavel": "Heloísa Livia Rafaela",
           "custo": "",
           "descricao": ""
         },
         "Comida Típica": {
-          "responsavel": "",
+          "responsavel": "Livia e Heloísa",
           "custo": "",
           "descricao": ""
         },
         "Dança Típica": {
-          "responsavel": "",
+          "responsavel": "Heloisa",
           "custo": "",
           "descricao": ""
         },
         "Meu Professor Vale 1000": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
+          "responsavel": "Padrinho",
+          "custo": "25",
+          "descricao": "260"
         }
       },
-      "totalProvas": "",
-      "totalCamisa": "",
-      "cotaAluno": "",
-      "updatedAt": "2026-04-27T13:00:29.083Z"
+      "totalProvas": "17",
+      "totalCamisa": "37",
+      "cotaAluno": "25",
+      "updatedAt": "2026-04-27T13:09:16.841Z"
     }
   ],
   "leadershipCodes": {
