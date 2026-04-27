@@ -786,22 +786,22 @@
           "descricao": ""
         },
         "Adesão da Blusa": {
-          "responsavel": "",
+          "responsavel": "Heloísa",
           "custo": "",
           "descricao": ""
         },
         "Futsal": {
-          "responsavel": "",
+          "responsavel": "levi é Caetano",
           "custo": "",
           "descricao": ""
         },
         "Desafio do Professor": {
-          "responsavel": "",
+          "responsavel": "Padrinho",
           "custo": "",
           "descricao": ""
         },
         "Carimba": {
-          "responsavel": "",
+          "responsavel": "Liz Maria",
           "custo": "",
           "descricao": ""
         },
@@ -869,7 +869,7 @@
       "totalProvas": "",
       "totalCamisa": "",
       "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:51:12.835Z"
+      "updatedAt": "2026-04-27T12:53:26.741Z"
     }
   ],
   "leadershipCodes": {
