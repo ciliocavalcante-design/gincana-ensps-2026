@@ -47,84 +47,79 @@
   ],
   "participants": [
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Prova Solidária",
-      "names": "A sala toda"
+      "names": "Jamilly, Isabel e colaboração da sala"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Futsal",
-      "names": "Pedro Jorge\nPedro Miguel\nPedro Ian\nJoão Lucas\nGustavo Correia\nDavi\nMiguel Nascimento\nGustavo Pinheiro\nHiarley"
+      "names": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)"
     },
     {
-      "teamId": "7",
-      "activity": "Desafio do Professor",
-      "names": "Thayna"
-    },
-    {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Carimba",
-      "names": "Miguel Alves\nLucas Gonçalves\nDavi\nMelissa\nLevi\nEduardo\nEsther\nAbiner"
+      "names": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Vôlei",
-      "names": "Bianca Bessa\nBianca Vieira\nLetícia Ribeiro\nLara Colares\nMaria Mel\nMariana\nJulia Almeida\nMelissa\nMaria Alice\nEmilly\nMarcio Miguel\nFrancisco"
+      "names": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Dança das Líderes",
-      "names": "Bianca Vieira\nMaria Alice\nMaria Leticia\nAlexia\nCecilia\nMaria Bianka"
+      "names": "Isabel , klyssia, Isadora e maily"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Blusa da Equipe",
-      "names": "Maria Bianka\nMaria Alice"
+      "names": "Kayo e Fernanda"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Corrida Maluca",
-      "names": "Emilly\nLevi\nLara\nCecilia\nMarcio"
+      "names": "Kayo , Márcio, João Vitor e Ariel"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Caça ao Tesouro",
-      "names": "Lara\nMariana\nMarcio\nMaria Alice"
+      "names": "Fernanda e Davih"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Soletrando",
-      "names": "Ana Luiza"
+      "names": "Lara e sara"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Quiz",
-      "names": "Gustavo Pinheiro\nMelina"
+      "names": "João Vitor e jamilly"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Story Criativo",
-      "names": "Letícia Ribeiro\nBianca Bessa\nMaria Alice\nBianca Vieira\nMaria Bianka\nMaria Mel\nLara\nMariana\nPedro jorge\nDavi\nMaria Letícia\nMarcio Miguel"
+      "names": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Grito de Guerra",
-      "names": "Thayna"
+      "names": "Ariel"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Comida Típica",
-      "names": "Ana Letícia Ribeiro\nMaria Bianka\nMaria Alice"
+      "names": "Lívia e Fernanda"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Dança Típica",
-      "names": "Letícia Ribeiro\nPedro Jorge\nMaria Alice\nMelissa\nMarina\nDavi\nJoão Lucas\nMiguel Nascimento\nMariana\nLivia"
+      "names": "João Vitor, Robert , Isabel , Fernanda, klyssia"
     },
     {
-      "teamId": "7",
+      "teamId": "1",
       "activity": "Meu Professor Vale 1000",
-      "names": "Emilly\nDavi\nMariana\nAlice\nPedro Jorge\nMelissa\nMaria Bianka\nBianca Bessa\nMarcio Miguel\nLaura\nCecilia\nAlexia\nEsther\nMarina\nLara\nLivia\nMaria Leticia\nLetícia Ribeiro\nMaria Mel"
+      "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
     }
   ],
   "materials": [
@@ -434,53 +429,53 @@
   ],
   "registrationForms": [
     {
-      "teamId": "7",
-      "leader": "Letícia",
-      "viceLeader": "",
-      "padrinho": "Prof. Thayna",
+      "teamId": "1",
+      "leader": "Jamilly",
+      "viceLeader": "Isabel",
+      "padrinho": "Prof. Amanda e Diogo",
       "participants": {
-        "Prova Solidária": "A sala toda",
-        "Futsal": "Pedro Jorge\nPedro Miguel\nPedro Ian\nJoão Lucas\nGustavo Correia\nDavi\nMiguel Nascimento\nGustavo Pinheiro\nHiarley",
-        "Desafio do Professor": "Thayna",
-        "Carimba": "Miguel Alves\nLucas Gonçalves\nDavi\nMelissa\nLevi\nEduardo\nEsther\nAbiner",
-        "Vôlei": "Bianca Bessa\nBianca Vieira\nLetícia Ribeiro\nLara Colares\nMaria Mel\nMariana\nJulia Almeida\nMelissa\nMaria Alice\nEmilly\nMarcio Miguel\nFrancisco",
-        "Dança das Líderes": "Bianca Vieira\nMaria Alice\nMaria Leticia\nAlexia\nCecilia\nMaria Bianka",
-        "Blusa da Equipe": "Maria Bianka\nMaria Alice",
-        "Corrida Maluca": "Emilly\nLevi\nLara\nCecilia\nMarcio",
-        "Caça ao Tesouro": "Lara\nMariana\nMarcio\nMaria Alice",
-        "Soletrando": "Ana Luiza",
-        "Quiz": "Gustavo Pinheiro\nMelina",
-        "Story Criativo": "Letícia Ribeiro\nBianca Bessa\nMaria Alice\nBianca Vieira\nMaria Bianka\nMaria Mel\nLara\nMariana\nPedro jorge\nDavi\nMaria Letícia\nMarcio Miguel",
-        "Grito de Guerra": "Thayna",
-        "Comida Típica": "Ana Letícia Ribeiro\nMaria Bianka\nMaria Alice",
-        "Dança Típica": "Letícia Ribeiro\nPedro Jorge\nMaria Alice\nMelissa\nMarina\nDavi\nJoão Lucas\nMiguel Nascimento\nMariana\nLivia",
-        "Meu Professor Vale 1000": "Emilly\nDavi\nMariana\nAlice\nPedro Jorge\nMelissa\nMaria Bianka\nBianca Bessa\nMarcio Miguel\nLaura\nCecilia\nAlexia\nEsther\nMarina\nLara\nLivia\nMaria Leticia\nLetícia Ribeiro\nMaria Mel"
+        "Prova Solidária": "Jamilly, Isabel e colaboração da sala",
+        "Futsal": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)",
+        "Desafio do Professor": "",
+        "Carimba": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda",
+        "Vôlei": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel",
+        "Dança das Líderes": "Isabel , klyssia, Isadora e maily",
+        "Blusa da Equipe": "Kayo e Fernanda",
+        "Corrida Maluca": "Kayo , Márcio, João Vitor e Ariel",
+        "Caça ao Tesouro": "Fernanda e Davih",
+        "Soletrando": "Lara e sara",
+        "Quiz": "João Vitor e jamilly",
+        "Story Criativo": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo",
+        "Grito de Guerra": "Ariel",
+        "Comida Típica": "Lívia e Fernanda",
+        "Dança Típica": "João Vitor, Robert , Isabel , Fernanda, klyssia",
+        "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
       },
-      "updatedAt": "2026-04-27T12:04:37.801Z"
+      "updatedAt": "2026-04-27T12:07:36.998Z"
     }
   ],
   "strategyReports": [
     {
-      "teamId": "7",
+      "teamId": "1",
       "rows": {
         "Prova Solidária": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "0",
-          "descricao": "0"
+          "responsavel": "Jamilly",
+          "custo": "0.0",
+          "descricao": "Nenhum"
         },
         "Comportamento": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "0",
-          "descricao": "0"
+          "responsavel": "Jamilly",
+          "custo": "0.0",
+          "descricao": "Nenhum"
         },
         "Adesão da Blusa": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "0",
-          "descricao": "0"
+          "responsavel": "Jamilly vitória",
+          "custo": "32.00",
+          "descricao": ""
         },
         "Futsal": {
-          "responsavel": "Pedro Jorge",
-          "custo": "",
+          "responsavel": "Ariel",
+          "custo": "0.0",
           "descricao": ""
         },
         "Desafio do Professor": {
@@ -489,75 +484,75 @@
           "descricao": ""
         },
         "Carimba": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Ariel",
+          "custo": "0.0",
           "descricao": ""
         },
         "Vôlei": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Jamilly",
+          "custo": "0.0",
           "descricao": ""
         },
         "Dança das Líderes": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Isabel",
+          "custo": "155",
           "descricao": ""
         },
         "Blusa da Equipe": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Fernanda",
+          "custo": "0.0",
           "descricao": ""
         },
         "Corrida Maluca": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Ariel",
+          "custo": "0.0",
           "descricao": ""
         },
         "Caça ao Tesouro": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Fernanda",
+          "custo": "0.0",
           "descricao": ""
         },
         "Soletrando": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Lara",
+          "custo": "0.0",
           "descricao": ""
         },
         "Quiz": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "João Vitor",
+          "custo": "0.0",
           "descricao": ""
         },
         "Story Criativo": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Jamilly",
+          "custo": "0.0",
           "descricao": ""
         },
         "Grito de Guerra": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Ariel",
+          "custo": "0.0",
           "descricao": ""
         },
         "Comida Típica": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Jamilly",
+          "custo": "100",
           "descricao": ""
         },
         "Dança Típica": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Isabel",
+          "custo": "180",
           "descricao": ""
         },
         "Meu Professor Vale 1000": {
-          "responsavel": "",
-          "custo": "",
+          "responsavel": "Isabel",
+          "custo": "80",
           "descricao": ""
         }
       },
-      "totalProvas": "",
-      "totalCamisa": "",
-      "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:08:25.200Z"
+      "totalProvas": "665",
+      "totalCamisa": "32",
+      "cotaAluno": "35",
+      "updatedAt": "2026-04-27T12:08:28.740Z"
     }
   ],
   "leadershipCodes": {
