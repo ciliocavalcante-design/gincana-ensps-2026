@@ -345,6 +345,16 @@
       "date": "2026-04-24",
       "points": 10,
       "reason": "Uso indevido de redes sociais, celular na escola por parte da turma e comportamento indevido para com o professor"
+    },
+    {
+      "teamId": "1",
+      "type": "Penalidade",
+      "date": "2026-04-27",
+      "points": 2,
+      "reason": "Alunos presentes na quadra fora do horário autorizado, com registro de uso indevido de celular e redes sociais.",
+      "level": "media",
+      "levelLabel": "Média",
+      "createdBy": "victoria"
     }
   ],
   "bonuses": [],
