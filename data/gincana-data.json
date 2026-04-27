@@ -821,7 +821,7 @@
           "descricao": ""
         },
         "Corrida Maluca": {
-          "responsavel": "",
+          "responsavel": "Li Zé",
           "custo": "",
           "descricao": ""
         },
@@ -869,7 +869,7 @@
       "totalProvas": "",
       "totalCamisa": "",
       "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:59:56.293Z"
+      "updatedAt": "2026-04-27T13:00:29.083Z"
     }
   ],
   "leadershipCodes": {
