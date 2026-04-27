@@ -264,7 +264,7 @@
       "draft": {
         "6": {
           "grito": {
-            "animacao": "",
+            "animacao": "6",
             "clareza": "",
             "criatividade": "",
             "organizacao": "",
@@ -329,7 +329,7 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T19:04:33.551Z"
+      "updatedAt": "2026-04-27T11:52:47.535Z"
     }
   ],
   "leadershipClaims": [],
