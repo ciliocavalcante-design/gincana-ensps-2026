@@ -200,6 +200,11 @@
       "teamId": "6",
       "activity": "Meu Professor Vale 1000",
       "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
+    },
+    {
+      "teamId": "7",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
   ],
   "materials": [
@@ -571,6 +576,31 @@
         "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
       },
       "updatedAt": "2026-04-27T12:47:16.190Z"
+    },
+    {
+      "teamId": "7",
+      "leader": "Letícia",
+      "viceLeader": "",
+      "padrinho": "Prof. Thayna",
+      "participants": {
+        "Prova Solidária": "",
+        "Futsal": "",
+        "Desafio do Professor": "",
+        "Carimba": "",
+        "Vôlei": "",
+        "Dança das Líderes": "",
+        "Blusa da Equipe": "",
+        "Corrida Maluca": "",
+        "Caça ao Tesouro": "",
+        "Soletrando": "",
+        "Quiz": "",
+        "Story Criativo": "",
+        "Grito de Guerra": "",
+        "Comida Típica": "",
+        "Dança Típica": "",
+        "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
+      },
+      "updatedAt": "2026-04-27T13:11:39.967Z"
     }
   ],
   "strategyReports": [
@@ -821,55 +851,55 @@
           "descricao": ""
         },
         "Corrida Maluca": {
-          "responsavel": "Liz Maria",
+          "responsavel": "Li Zé",
           "custo": "",
           "descricao": ""
         },
         "Caça ao Tesouro": {
-          "responsavel": "Luisa",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Soletrando": {
-          "responsavel": "Rafaela",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Quiz": {
-          "responsavel": "Rafaela",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Story Criativo": {
-          "responsavel": "Rafaela e Heloísa",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Grito de Guerra": {
-          "responsavel": "Heloísa Livia Rafaela",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Comida Típica": {
-          "responsavel": "Livia e Heloísa",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Dança Típica": {
-          "responsavel": "Heloisa",
+          "responsavel": "",
           "custo": "",
           "descricao": ""
         },
         "Meu Professor Vale 1000": {
-          "responsavel": "Padrinho",
-          "custo": "25",
-          "descricao": "260"
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
         }
       },
-      "totalProvas": "17",
-      "totalCamisa": "37",
-      "cotaAluno": "25",
-      "updatedAt": "2026-04-27T13:09:16.841Z"
+      "totalProvas": "",
+      "totalCamisa": "",
+      "cotaAluno": "",
+      "updatedAt": "2026-04-27T13:00:29.083Z"
     }
   ],
   "leadershipCodes": {
