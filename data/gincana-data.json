@@ -225,6 +225,86 @@
       "teamId": "7",
       "activity": "Meu Professor Vale 1000",
       "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
+    },
+    {
+      "teamId": "9",
+      "activity": "Prova Solidária",
+      "names": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre"
+    },
+    {
+      "teamId": "9",
+      "activity": "Futsal",
+      "names": "Victor Gabriel\nRuan Lima\nIan Oliveira\nLucas dos Santos\nPedro Arthur"
+    },
+    {
+      "teamId": "9",
+      "activity": "Desafio do Professor",
+      "names": "Alexandre\nRuan Lima\nVictor Gabriel"
+    },
+    {
+      "teamId": "9",
+      "activity": "Carimba",
+      "names": "Ruan Lima\nPedro Arthur\nRita Antunes\nIan Oliveira\nCataryne Dias\nVictor Gabriel\nSofia Oliveira\nPedro Antônio\nNilson Martins"
+    },
+    {
+      "teamId": "9",
+      "activity": "Vôlei",
+      "names": "Cataryne Dias\nDeborah Briseno\nSofia Oliveira\nRuan Lima\nIan Oliveira\nVictor Gabriel\nRita Antunes\nReservas: M Júlia Ximenes\nVictoria Falcão\nLara Braz\nHylaiz\nIsabelle Lopes"
+    },
+    {
+      "teamId": "9",
+      "activity": "Dança das Líderes",
+      "names": "M Júlia Ferreira\nM Júlia Ximenes\nAlice Maria\nLara Braz\nM Eduarda"
+    },
+    {
+      "teamId": "9",
+      "activity": "Blusa da Equipe",
+      "names": "Ruan Lima\nVictor Gabriel\nM Júlia Correia\nCarolina Nobre"
+    },
+    {
+      "teamId": "9",
+      "activity": "Corrida Maluca",
+      "names": "Victor Gabriel\nRuan Lima\nCataryne Dias"
+    },
+    {
+      "teamId": "9",
+      "activity": "Caça ao Tesouro",
+      "names": "Rita Antunes\nEugênia\nLucas Eduardo\nCataryne Dias\nRita Laise"
+    },
+    {
+      "teamId": "9",
+      "activity": "Soletrando",
+      "names": "Pedro Arthur\nDaniel Mesquita"
+    },
+    {
+      "teamId": "9",
+      "activity": "Quiz",
+      "names": "Antônio Marques\nLara Braz\nPedro Arthur"
+    },
+    {
+      "teamId": "9",
+      "activity": "Story Criativo",
+      "names": "M Júlia Ferreira"
+    },
+    {
+      "teamId": "9",
+      "activity": "Grito de Guerra",
+      "names": "Victor Gabriel\nRuan Lima"
+    },
+    {
+      "teamId": "9",
+      "activity": "Comida Típica",
+      "names": "Lucas dos Santos"
+    },
+    {
+      "teamId": "9",
+      "activity": "Dança Típica",
+      "names": "Fernanda Nascimento\nM Clara Arrais\nAlice Maria\nLara Braz\nVictoria Falcão\nM Júlia Ximenes\nRita Laise"
+    },
+    {
+      "teamId": "9",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Ruan Lima\nVictor Gabriel\nAlice Maria\nLara Braz\nRita Laise\nM Júlia Ximenes\nSofia Oliveira\nNilson Martins\nIan Oliveira"
     }
   ],
   "materials": [
@@ -632,6 +712,31 @@
         "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
       },
       "updatedAt": "2026-04-27T13:11:39.967Z"
+    },
+    {
+      "teamId": "9",
+      "leader": "Carolina Nobre",
+      "viceLeader": "Eugênia",
+      "padrinho": "Prof. Alexandre",
+      "participants": {
+        "Prova Solidária": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre",
+        "Futsal": "Victor Gabriel\nRuan Lima\nIan Oliveira\nLucas dos Santos\nPedro Arthur",
+        "Desafio do Professor": "Alexandre\nRuan Lima\nVictor Gabriel",
+        "Carimba": "Ruan Lima\nPedro Arthur\nRita Antunes\nIan Oliveira\nCataryne Dias\nVictor Gabriel\nSofia Oliveira\nPedro Antônio\nNilson Martins",
+        "Vôlei": "Cataryne Dias\nDeborah Briseno\nSofia Oliveira\nRuan Lima\nIan Oliveira\nVictor Gabriel\nRita Antunes\nReservas: M Júlia Ximenes\nVictoria Falcão\nLara Braz\nHylaiz\nIsabelle Lopes",
+        "Dança das Líderes": "M Júlia Ferreira\nM Júlia Ximenes\nAlice Maria\nLara Braz\nM Eduarda",
+        "Blusa da Equipe": "Ruan Lima\nVictor Gabriel\nM Júlia Correia\nCarolina Nobre",
+        "Corrida Maluca": "Victor Gabriel\nRuan Lima\nCataryne Dias",
+        "Caça ao Tesouro": "Rita Antunes\nEugênia\nLucas Eduardo\nCataryne Dias\nRita Laise",
+        "Soletrando": "Pedro Arthur\nDaniel Mesquita",
+        "Quiz": "Antônio Marques\nLara Braz\nPedro Arthur",
+        "Story Criativo": "M Júlia Ferreira",
+        "Grito de Guerra": "Victor Gabriel\nRuan Lima",
+        "Comida Típica": "Lucas dos Santos",
+        "Dança Típica": "Fernanda Nascimento\nM Clara Arrais\nAlice Maria\nLara Braz\nVictoria Falcão\nM Júlia Ximenes\nRita Laise",
+        "Meu Professor Vale 1000": "Ruan Lima\nVictor Gabriel\nAlice Maria\nLara Braz\nRita Laise\nM Júlia Ximenes\nSofia Oliveira\nNilson Martins\nIan Oliveira"
+      },
+      "updatedAt": "2026-04-27T21:09:03.124Z"
     }
   ],
   "strategyReports": [
