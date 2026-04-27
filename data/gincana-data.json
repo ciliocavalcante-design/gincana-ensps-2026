@@ -52,6 +52,17 @@
       "place": "ENSPS",
       "activity": "Dança das Líderes de Torcida",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "6",
+      "date": "2026-04-29",
+      "time": "14:30",
+      "endTime": "16:30",
+      "place": "ENSPS",
+      "activity": "Dança Típica",
+      "createdBy": "leader",
+      "acceptedBy": "victoria",
+      "requestId": "1777292650626-ae5da125548a9"
     }
   ],
   "participants": [
@@ -529,10 +540,11 @@
       "place": "ENSPS",
       "activity": "Dança Típica",
       "note": "sem atrasados",
-      "status": "pending",
+      "status": "approved",
       "requestedBy": "leader",
       "createdAt": "2026-04-27T12:24:10.626Z",
-      "updatedAt": "2026-04-27T12:24:10.626Z"
+      "updatedAt": "2026-04-27T15:12:55.609Z",
+      "approvedBy": "victoria"
     }
   ],
   "registrationForms": [
