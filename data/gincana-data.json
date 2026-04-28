@@ -397,6 +397,11 @@
     },
     {
       "teamId": "8",
+      "activity": "Prova Solidária",
+      "names": "Isabelly"
+    },
+    {
+      "teamId": "8",
       "activity": "Futsal",
       "names": "Ryan"
     },
@@ -933,7 +938,7 @@
       "viceLeader": "Maria Lara",
       "padrinho": "Prof. Elayne",
       "participants": {
-        "Prova Solidária": "",
+        "Prova Solidária": "Isabelly",
         "Futsal": "Ryan",
         "Desafio do Professor": "Elayne",
         "Carimba": "Mikaely",
@@ -950,7 +955,7 @@
         "Dança Típica": "Isabelly",
         "Meu Professor Vale 1000": "Elayne e isabelly"
       },
-      "updatedAt": "2026-04-28T22:05:27.954Z"
+      "updatedAt": "2026-04-28T22:05:40.465Z"
     }
   ],
   "strategyReports": [
