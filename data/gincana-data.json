@@ -394,6 +394,81 @@
       "teamId": "2",
       "activity": "Meu Professor Vale 1000",
       "names": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
+    },
+    {
+      "teamId": "8",
+      "activity": "Futsal",
+      "names": "Ryan"
+    },
+    {
+      "teamId": "8",
+      "activity": "Desafio do Professor",
+      "names": "Elayne"
+    },
+    {
+      "teamId": "8",
+      "activity": "Carimba",
+      "names": "Mikaely"
+    },
+    {
+      "teamId": "8",
+      "activity": "Vôlei",
+      "names": "Lyvia"
+    },
+    {
+      "teamId": "8",
+      "activity": "Dança das Líderes",
+      "names": "Sophia"
+    },
+    {
+      "teamId": "8",
+      "activity": "Blusa da Equipe",
+      "names": "Isabelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Corrida Maluca",
+      "names": "Luiz Fernando"
+    },
+    {
+      "teamId": "8",
+      "activity": "Caça ao Tesouro",
+      "names": "Maria Lara e isabelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Soletrando",
+      "names": "Nalu"
+    },
+    {
+      "teamId": "8",
+      "activity": "Quiz",
+      "names": "Mikaely"
+    },
+    {
+      "teamId": "8",
+      "activity": "Story Criativo",
+      "names": "Maria Lara,Isabelly e Elayne"
+    },
+    {
+      "teamId": "8",
+      "activity": "Grito de Guerra",
+      "names": "Não definido ainda"
+    },
+    {
+      "teamId": "8",
+      "activity": "Comida Típica",
+      "names": "Lyvia"
+    },
+    {
+      "teamId": "8",
+      "activity": "Dança Típica",
+      "names": "Isabelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Elayne e isabelly"
     }
   ],
   "materials": [
@@ -851,6 +926,31 @@
         "Meu Professor Vale 1000": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
       },
       "updatedAt": "2026-04-28T19:49:21.515Z"
+    },
+    {
+      "teamId": "8",
+      "leader": "Isabelly",
+      "viceLeader": "Maria Lara",
+      "padrinho": "Prof. Elayne",
+      "participants": {
+        "Prova Solidária": "",
+        "Futsal": "Ryan",
+        "Desafio do Professor": "Elayne",
+        "Carimba": "Mikaely",
+        "Vôlei": "Lyvia",
+        "Dança das Líderes": "Sophia",
+        "Blusa da Equipe": "Isabelly",
+        "Corrida Maluca": "Luiz Fernando",
+        "Caça ao Tesouro": "Maria Lara e isabelly",
+        "Soletrando": "Nalu",
+        "Quiz": "Mikaely",
+        "Story Criativo": "Maria Lara,Isabelly e Elayne",
+        "Grito de Guerra": "Não definido ainda",
+        "Comida Típica": "Lyvia",
+        "Dança Típica": "Isabelly",
+        "Meu Professor Vale 1000": "Elayne e isabelly"
+      },
+      "updatedAt": "2026-04-28T22:05:27.954Z"
     }
   ],
   "strategyReports": [
@@ -1159,6 +1259,16 @@
     "638ENSPS125": "9",
     "274ENSPS596": "1",
     "829ENSPS463": "2"
+  },
+  "teacherCodes": {
+    "PROF6A": "6",
+    "PROF7T": "7",
+    "PROF7M": "7",
+    "PROF8E": "8",
+    "PROF9A": "9",
+    "PROF1A": "1",
+    "PROF1D": "1",
+    "PROF2R": "2"
   },
   "evaluations": [],
   "judgingEventOrder": [
