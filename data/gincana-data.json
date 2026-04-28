@@ -314,6 +314,86 @@
       "teamId": "9",
       "activity": "Meu Professor Vale 1000",
       "names": "Ruan Lima\nVictor Gabriel\nAlice Maria\nLara Braz\nRita Laise\nM Júlia Ximenes\nSofia Oliveira\nNilson Martins\nIan Oliveira"
+    },
+    {
+      "teamId": "2",
+      "activity": "Prova Solidária",
+      "names": "Clara"
+    },
+    {
+      "teamId": "2",
+      "activity": "Futsal",
+      "names": "Yago\nSamuel Fernandes\nMoisés\nJuan"
+    },
+    {
+      "teamId": "2",
+      "activity": "Desafio do Professor",
+      "names": "Rafaela"
+    },
+    {
+      "teamId": "2",
+      "activity": "Carimba",
+      "names": "Ana Nicolly\nLaila\nSamuel\nNicolly\nMaria Julia\nSamuel\nHenrique\nJuan\nYago\nKauê\nMoisés\nAnitta"
+    },
+    {
+      "teamId": "2",
+      "activity": "Vôlei",
+      "names": "Camila\nJames\nSamuel\nMoisés\nAnita\nYago"
+    },
+    {
+      "teamId": "2",
+      "activity": "Dança das Líderes",
+      "names": "Ana Nicolly\nLarissa\nLaila\nMariana\nLisley\nClara\nNicolly\nSamuel fernandes\nJames\nYago"
+    },
+    {
+      "teamId": "2",
+      "activity": "Blusa da Equipe",
+      "names": "Laila\nClara"
+    },
+    {
+      "teamId": "2",
+      "activity": "Corrida Maluca",
+      "names": "James\nJuan\nSamuel\nAnita\nLaila"
+    },
+    {
+      "teamId": "2",
+      "activity": "Caça ao Tesouro",
+      "names": "James\nMoisés"
+    },
+    {
+      "teamId": "2",
+      "activity": "Soletrando",
+      "names": "Juan\nMoisés"
+    },
+    {
+      "teamId": "2",
+      "activity": "Quiz",
+      "names": "Moisés\nJuan"
+    },
+    {
+      "teamId": "2",
+      "activity": "Story Criativo",
+      "names": "Ana Nicolly\nAnita\nClara"
+    },
+    {
+      "teamId": "2",
+      "activity": "Grito de Guerra",
+      "names": "Yago\nCamila"
+    },
+    {
+      "teamId": "2",
+      "activity": "Comida Típica",
+      "names": "Henrique\nLarissa"
+    },
+    {
+      "teamId": "2",
+      "activity": "Dança Típica",
+      "names": "Samuel Fernandes\nYago\nLisley\nClara\nLaila\nMariana\nAna nicolly\nJames\nLarissa\nLana\nAnita\nLivia"
+    },
+    {
+      "teamId": "2",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
     }
   ],
   "materials": [
@@ -746,6 +826,31 @@
         "Meu Professor Vale 1000": "Ruan Lima\nVictor Gabriel\nAlice Maria\nLara Braz\nRita Laise\nM Júlia Ximenes\nSofia Oliveira\nNilson Martins\nIan Oliveira"
       },
       "updatedAt": "2026-04-27T21:11:46.509Z"
+    },
+    {
+      "teamId": "2",
+      "leader": "Maria Clara",
+      "viceLeader": "Anita",
+      "padrinho": "Prof. Rafaely",
+      "participants": {
+        "Prova Solidária": "Clara",
+        "Futsal": "Yago\nSamuel Fernandes\nMoisés\nJuan",
+        "Desafio do Professor": "Rafaela",
+        "Carimba": "Ana Nicolly\nLaila\nSamuel\nNicolly\nMaria Julia\nSamuel\nHenrique\nJuan\nYago\nKauê\nMoisés\nAnitta",
+        "Vôlei": "Camila\nJames\nSamuel\nMoisés\nAnita\nYago",
+        "Dança das Líderes": "Ana Nicolly\nLarissa\nLaila\nMariana\nLisley\nClara\nNicolly\nSamuel fernandes\nJames\nYago",
+        "Blusa da Equipe": "Laila\nClara",
+        "Corrida Maluca": "James\nJuan\nSamuel\nAnita\nLaila",
+        "Caça ao Tesouro": "James\nMoisés",
+        "Soletrando": "Juan\nMoisés",
+        "Quiz": "Moisés\nJuan",
+        "Story Criativo": "Ana Nicolly\nAnita\nClara",
+        "Grito de Guerra": "Yago\nCamila",
+        "Comida Típica": "Henrique\nLarissa",
+        "Dança Típica": "Samuel Fernandes\nYago\nLisley\nClara\nLaila\nMariana\nAna nicolly\nJames\nLarissa\nLana\nAnita\nLivia",
+        "Meu Professor Vale 1000": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
+      },
+      "updatedAt": "2026-04-28T19:49:21.515Z"
     }
   ],
   "strategyReports": [
@@ -1054,16 +1159,6 @@
     "638ENSPS125": "9",
     "274ENSPS596": "1",
     "829ENSPS463": "2"
-  },
-  "teacherCodes": {
-    "PROF6A": "6",
-    "PROF7T": "7",
-    "PROF7M": "7",
-    "PROF8E": "8",
-    "PROF9A": "9",
-    "PROF1A": "1",
-    "PROF1D": "1",
-    "PROF2R": "2"
   },
   "evaluations": [],
   "judgingEventOrder": [
