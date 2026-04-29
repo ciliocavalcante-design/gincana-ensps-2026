@@ -799,7 +799,18 @@
       "updatedAt": "2026-04-26T19:04:33.551Z"
     }
   ],
-  "leadershipClaims": [],
+  "leadershipClaims": [
+    {
+      "id": "1777463934214-56f2861b840ad8",
+      "teamId": "1",
+      "disciplineIndex": 5,
+      "reason": "A sala do primeiro ano estava lá pois o horário de aula, tiram a foto dps do término das aulas , sem atrapalhar nenhuma atividade curricular",
+      "status": "Pendente",
+      "response": "",
+      "createdAt": "2026-04-29T11:58:54.215Z",
+      "updatedAt": "2026-04-29T11:58:54.226Z"
+    }
+  ],
   "leadershipRequests": [],
   "scheduleRequests": [
     {
