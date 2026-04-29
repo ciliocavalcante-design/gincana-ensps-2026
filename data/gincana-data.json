@@ -1182,105 +1182,6 @@
       "updatedAt": "2026-04-27T12:08:28.740Z"
     },
     {
-      "teamId": "7",
-      "rows": {
-        "Prova Solidária": {
-          "responsavel": "Leticia Ribeiro",
-          "custo": "0",
-          "descricao": "0"
-        },
-        "Comportamento": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
-        },
-        "Adesão da Blusa": {
-          "responsavel": "Leticia Ribeiro",
-          "custo": "",
-          "descricao": ""
-        },
-        "Futsal": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
-        },
-        "Desafio do Professor": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
-        },
-        "Carimba": {
-          "responsavel": "Davi",
-          "custo": "",
-          "descricao": ""
-        },
-        "Vôlei": {
-          "responsavel": "Maria Mel",
-          "custo": "",
-          "descricao": ""
-        },
-        "Dança das Líderes": {
-          "responsavel": "Letícia Ribeiro",
-          "custo": "",
-          "descricao": ""
-        },
-        "Blusa da Equipe": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Corrida Maluca": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Caça ao Tesouro": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Soletrando": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Quiz": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Story Criativo": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Grito de Guerra": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Comida Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Dança Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Meu Professor Vale 1000": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        }
-      },
-      "totalProvas": "",
-      "totalCamisa": "",
-      "cotaAluno": "",
-      "updatedAt": "2026-04-27T12:10:15.895Z"
-    },
-    {
       "teamId": "6",
       "rows": {
         "Prova Solidária": {
@@ -1378,6 +1279,105 @@
       "totalCamisa": "",
       "cotaAluno": "",
       "updatedAt": "2026-04-27T13:00:29.083Z"
+    },
+    {
+      "teamId": "7",
+      "rows": {
+        "Prova Solidária": {
+          "responsavel": "Leticia Ribeiro",
+          "custo": "0",
+          "descricao": "0"
+        },
+        "Comportamento": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Adesão da Blusa": {
+          "responsavel": "Leticia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Futsal": {
+          "responsavel": "Pedro Jorge",
+          "custo": "",
+          "descricao": ""
+        },
+        "Desafio do Professor": {
+          "responsavel": "Michael",
+          "custo": "",
+          "descricao": ""
+        },
+        "Carimba": {
+          "responsavel": "Davi",
+          "custo": "",
+          "descricao": ""
+        },
+        "Vôlei": {
+          "responsavel": "Maria Mel",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança das Líderes": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "70",
+          "descricao": ""
+        },
+        "Blusa da Equipe": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Corrida Maluca": {
+          "responsavel": "Lara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Caça ao Tesouro": {
+          "responsavel": "Mariana",
+          "custo": "",
+          "descricao": ""
+        },
+        "Soletrando": {
+          "responsavel": "Luiza",
+          "custo": "",
+          "descricao": ""
+        },
+        "Quiz": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        },
+        "Story Criativo": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "10",
+          "descricao": ""
+        },
+        "Grito de Guerra": {
+          "responsavel": "Michael",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comida Típica": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "100",
+          "descricao": ""
+        },
+        "Dança Típica": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "210",
+          "descricao": ""
+        },
+        "Meu Professor Vale 1000": {
+          "responsavel": "Letícia Ribeiro",
+          "custo": "",
+          "descricao": ""
+        }
+      },
+      "totalProvas": "1890",
+      "totalCamisa": "30",
+      "cotaAluno": "25",
+      "updatedAt": "2026-04-29T22:35:49.617Z"
     }
   ],
   "leadershipCodes": {
