@@ -183,11 +183,6 @@
       "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
     },
     {
-      "teamId": "7",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
-    },
-    {
       "teamId": "9",
       "activity": "Prova Solidária",
       "names": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre"
@@ -501,6 +496,86 @@
       "teamId": "1",
       "activity": "Meu Professor Vale 1000",
       "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
+    },
+    {
+      "teamId": "7",
+      "activity": "Prova Solidária",
+      "names": "A sala toda"
+    },
+    {
+      "teamId": "7",
+      "activity": "Futsal",
+      "names": "Pedro jorge\nPedro Miguel\nPedro Ian\nJoão Lucas\nGustavo Correa\nGustavo Pinheiro\nDavi\nMiguel Nascimento\nHiarley"
+    },
+    {
+      "teamId": "7",
+      "activity": "Desafio do Professor",
+      "names": "Michael"
+    },
+    {
+      "teamId": "7",
+      "activity": "Carimba",
+      "names": "Miguel Alves\nLucas Gonçalves\nDavi\nMelissa\nLevi\nEduardo Herbert\nEsther\nAbiner"
+    },
+    {
+      "teamId": "7",
+      "activity": "Vôlei",
+      "names": "Bianca Bessa\nBianca Vieira\nLetícia Ribeiro\nMaria Mel\nLara Colares\nMariana\nJulia\nMelissa\nFrancisco\nMarcio Miguel\nEmilly"
+    },
+    {
+      "teamId": "7",
+      "activity": "Dança das Líderes",
+      "names": "Bianca Vieira\nMaria Alice\nMaria Letícia\nAlexia\nCecília\nMaria Bianka"
+    },
+    {
+      "teamId": "7",
+      "activity": "Blusa da Equipe",
+      "names": "Maria Bianka\nMaria Alice"
+    },
+    {
+      "teamId": "7",
+      "activity": "Corrida Maluca",
+      "names": "Emilly\nLevi\nLara\nCecília"
+    },
+    {
+      "teamId": "7",
+      "activity": "Caça ao Tesouro",
+      "names": "Mariana\nLara"
+    },
+    {
+      "teamId": "7",
+      "activity": "Soletrando",
+      "names": "Ana Luiza"
+    },
+    {
+      "teamId": "7",
+      "activity": "Quiz",
+      "names": "Gustavo Pinheiro\nMelina"
+    },
+    {
+      "teamId": "7",
+      "activity": "Story Criativo",
+      "names": "Ana Letícia Ribeiro\nBianca Bessa\nMaria Bianka\nBianca Vieira\nMaria Mel\nMariana\nMaria Leticia\nMarcio Miguel\nPedro Jorge\nMaria Alice\nLara"
+    },
+    {
+      "teamId": "7",
+      "activity": "Grito de Guerra",
+      "names": "Thayna\nMichael"
+    },
+    {
+      "teamId": "7",
+      "activity": "Comida Típica",
+      "names": "Letícia Ribeiro\nMaria Bianka\nEmilly"
+    },
+    {
+      "teamId": "7",
+      "activity": "Dança Típica",
+      "names": "Marcio Miguel\nMelissa\nMiguel Nascimento\nMarina\nDavi\nJoão Lucas\nLivia\nPedro Jorge\nAlice"
+    },
+    {
+      "teamId": "7",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
   ],
   "materials": [
@@ -881,31 +956,6 @@
       "updatedAt": "2026-04-27T12:47:16.190Z"
     },
     {
-      "teamId": "7",
-      "leader": "Letícia",
-      "viceLeader": "",
-      "padrinho": "Prof. Thayna",
-      "participants": {
-        "Prova Solidária": "",
-        "Futsal": "",
-        "Desafio do Professor": "",
-        "Carimba": "",
-        "Vôlei": "",
-        "Dança das Líderes": "",
-        "Blusa da Equipe": "",
-        "Corrida Maluca": "",
-        "Caça ao Tesouro": "",
-        "Soletrando": "",
-        "Quiz": "",
-        "Story Criativo": "",
-        "Grito de Guerra": "",
-        "Comida Típica": "",
-        "Dança Típica": "",
-        "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
-      },
-      "updatedAt": "2026-04-27T13:11:39.967Z"
-    },
-    {
       "teamId": "9",
       "leader": "Carolina Nobre",
       "viceLeader": "Eugênia",
@@ -1004,6 +1054,31 @@
         "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
       },
       "updatedAt": "2026-04-29T12:04:31.546Z"
+    },
+    {
+      "teamId": "7",
+      "leader": "Letícia",
+      "viceLeader": "Maria Mel",
+      "padrinho": "Prof. Thayna",
+      "participants": {
+        "Prova Solidária": "A sala toda",
+        "Futsal": "Pedro jorge\nPedro Miguel\nPedro Ian\nJoão Lucas\nGustavo Correa\nGustavo Pinheiro\nDavi\nMiguel Nascimento\nHiarley",
+        "Desafio do Professor": "Michael",
+        "Carimba": "Miguel Alves\nLucas Gonçalves\nDavi\nMelissa\nLevi\nEduardo Herbert\nEsther\nAbiner",
+        "Vôlei": "Bianca Bessa\nBianca Vieira\nLetícia Ribeiro\nMaria Mel\nLara Colares\nMariana\nJulia\nMelissa\nFrancisco\nMarcio Miguel\nEmilly",
+        "Dança das Líderes": "Bianca Vieira\nMaria Alice\nMaria Letícia\nAlexia\nCecília\nMaria Bianka",
+        "Blusa da Equipe": "Maria Bianka\nMaria Alice",
+        "Corrida Maluca": "Emilly\nLevi\nLara\nCecília",
+        "Caça ao Tesouro": "Mariana\nLara",
+        "Soletrando": "Ana Luiza",
+        "Quiz": "Gustavo Pinheiro\nMelina",
+        "Story Criativo": "Ana Letícia Ribeiro\nBianca Bessa\nMaria Bianka\nBianca Vieira\nMaria Mel\nMariana\nMaria Leticia\nMarcio Miguel\nPedro Jorge\nMaria Alice\nLara",
+        "Grito de Guerra": "Thayna\nMichael",
+        "Comida Típica": "Letícia Ribeiro\nMaria Bianka\nEmilly",
+        "Dança Típica": "Marcio Miguel\nMelissa\nMiguel Nascimento\nMarina\nDavi\nJoão Lucas\nLivia\nPedro Jorge\nAlice",
+        "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
+      },
+      "updatedAt": "2026-04-29T22:27:09.679Z"
     }
   ],
   "strategyReports": [
