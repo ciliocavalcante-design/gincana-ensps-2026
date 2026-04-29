@@ -90,6 +90,15 @@
       "place": "ENSPS",
       "activity": "Dança das Líderes de Torcida",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "7",
+      "date": "2026-04-29",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança das Líderes de Torcida",
+      "createdBy": "victoria"
     }
   ],
   "participants": [
