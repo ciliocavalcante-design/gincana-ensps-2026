@@ -103,81 +103,6 @@
   ],
   "participants": [
     {
-      "teamId": "1",
-      "activity": "Prova Solidária",
-      "names": "Jamilly, Isabel e colaboração da sala"
-    },
-    {
-      "teamId": "1",
-      "activity": "Futsal",
-      "names": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)"
-    },
-    {
-      "teamId": "1",
-      "activity": "Carimba",
-      "names": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda"
-    },
-    {
-      "teamId": "1",
-      "activity": "Vôlei",
-      "names": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel"
-    },
-    {
-      "teamId": "1",
-      "activity": "Dança das Líderes",
-      "names": "Isabel , klyssia, Isadora e maily"
-    },
-    {
-      "teamId": "1",
-      "activity": "Blusa da Equipe",
-      "names": "Kayo e Fernanda"
-    },
-    {
-      "teamId": "1",
-      "activity": "Corrida Maluca",
-      "names": "Kayo , Márcio, João Vitor e Ariel"
-    },
-    {
-      "teamId": "1",
-      "activity": "Caça ao Tesouro",
-      "names": "Fernanda e Davih"
-    },
-    {
-      "teamId": "1",
-      "activity": "Soletrando",
-      "names": "Lara e sara"
-    },
-    {
-      "teamId": "1",
-      "activity": "Quiz",
-      "names": "João Vitor e jamilly"
-    },
-    {
-      "teamId": "1",
-      "activity": "Story Criativo",
-      "names": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo"
-    },
-    {
-      "teamId": "1",
-      "activity": "Grito de Guerra",
-      "names": "Ariel"
-    },
-    {
-      "teamId": "1",
-      "activity": "Comida Típica",
-      "names": "Lívia e Fernanda"
-    },
-    {
-      "teamId": "1",
-      "activity": "Dança Típica",
-      "names": "João Vitor, Robert , Isabel , Fernanda, klyssia"
-    },
-    {
-      "teamId": "1",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
-    },
-    {
       "teamId": "6",
       "activity": "Prova Solidária",
       "names": "Livia\nRafaela\nMaria Clara Santos"
@@ -501,6 +426,81 @@
       "teamId": "8",
       "activity": "Meu Professor Vale 1000",
       "names": "Elayne e isabelly"
+    },
+    {
+      "teamId": "1",
+      "activity": "Prova Solidária",
+      "names": "Jamilly, Isabel e colaboração da sala"
+    },
+    {
+      "teamId": "1",
+      "activity": "Futsal",
+      "names": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)"
+    },
+    {
+      "teamId": "1",
+      "activity": "Carimba",
+      "names": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda"
+    },
+    {
+      "teamId": "1",
+      "activity": "Vôlei",
+      "names": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel"
+    },
+    {
+      "teamId": "1",
+      "activity": "Dança das Líderes",
+      "names": "Isabel , klyssia e  Isadora"
+    },
+    {
+      "teamId": "1",
+      "activity": "Blusa da Equipe",
+      "names": "Kayo e Fernanda"
+    },
+    {
+      "teamId": "1",
+      "activity": "Corrida Maluca",
+      "names": "Kayo , Márcio, João Vitor e Ariel"
+    },
+    {
+      "teamId": "1",
+      "activity": "Caça ao Tesouro",
+      "names": "Fernanda e Davih"
+    },
+    {
+      "teamId": "1",
+      "activity": "Soletrando",
+      "names": "Lara e sara"
+    },
+    {
+      "teamId": "1",
+      "activity": "Quiz",
+      "names": "João Vitor e jamilly"
+    },
+    {
+      "teamId": "1",
+      "activity": "Story Criativo",
+      "names": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo"
+    },
+    {
+      "teamId": "1",
+      "activity": "Grito de Guerra",
+      "names": "Ariel"
+    },
+    {
+      "teamId": "1",
+      "activity": "Comida Típica",
+      "names": "Lívia e Fernanda"
+    },
+    {
+      "teamId": "1",
+      "activity": "Dança Típica",
+      "names": "João Vitor, Robert , Isabel , Fernanda, klyssia"
+    },
+    {
+      "teamId": "1",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
     }
   ],
   "materials": [
@@ -856,31 +856,6 @@
   ],
   "registrationForms": [
     {
-      "teamId": "1",
-      "leader": "Jamilly",
-      "viceLeader": "Isabel",
-      "padrinho": "Prof. Amanda e Diogo",
-      "participants": {
-        "Prova Solidária": "Jamilly, Isabel e colaboração da sala",
-        "Futsal": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)",
-        "Desafio do Professor": "",
-        "Carimba": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda",
-        "Vôlei": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel",
-        "Dança das Líderes": "Isabel , klyssia, Isadora e maily",
-        "Blusa da Equipe": "Kayo e Fernanda",
-        "Corrida Maluca": "Kayo , Márcio, João Vitor e Ariel",
-        "Caça ao Tesouro": "Fernanda e Davih",
-        "Soletrando": "Lara e sara",
-        "Quiz": "João Vitor e jamilly",
-        "Story Criativo": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo",
-        "Grito de Guerra": "Ariel",
-        "Comida Típica": "Lívia e Fernanda",
-        "Dança Típica": "João Vitor, Robert , Isabel , Fernanda, klyssia",
-        "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
-      },
-      "updatedAt": "2026-04-27T12:07:36.998Z"
-    },
-    {
       "teamId": "6",
       "leader": "heloísa",
       "viceLeader": "a rafaela",
@@ -1004,6 +979,31 @@
         "Meu Professor Vale 1000": "Elayne e isabelly"
       },
       "updatedAt": "2026-04-28T22:06:24.537Z"
+    },
+    {
+      "teamId": "1",
+      "leader": "Jamilly",
+      "viceLeader": "Isabel",
+      "padrinho": "Prof. Amanda e Diogo",
+      "participants": {
+        "Prova Solidária": "Jamilly, Isabel e colaboração da sala",
+        "Futsal": "Ariel , Thalys , kayo e Márcio, contação ( gêmeos)",
+        "Desafio do Professor": "",
+        "Carimba": "Isabel , klyssia, Lara , Maily , João Vitor, Ariel , Robert e Márcio\nReservar : jamilly e Fernanda",
+        "Vôlei": "João Vitor, Ariel, Thalys , kayo , Márcio, Lara , jamilly e Isabel",
+        "Dança das Líderes": "Isabel , klyssia e  Isadora",
+        "Blusa da Equipe": "Kayo e Fernanda",
+        "Corrida Maluca": "Kayo , Márcio, João Vitor e Ariel",
+        "Caça ao Tesouro": "Fernanda e Davih",
+        "Soletrando": "Lara e sara",
+        "Quiz": "João Vitor e jamilly",
+        "Story Criativo": "Isabel , klyssia, Isadora, Lara , Maily, jamilly, Thalys , Márcio e kayo",
+        "Grito de Guerra": "Ariel",
+        "Comida Típica": "Lívia e Fernanda",
+        "Dança Típica": "João Vitor, Robert , Isabel , Fernanda, klyssia",
+        "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
+      },
+      "updatedAt": "2026-04-29T12:04:31.546Z"
     }
   ],
   "strategyReports": [
