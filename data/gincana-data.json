@@ -99,6 +99,15 @@
       "place": "ENSPS",
       "activity": "Dança Típica",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "7",
+      "date": "2026-04-30",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança dos professores",
+      "createdBy": "admin"
     }
   ],
   "participants": [
