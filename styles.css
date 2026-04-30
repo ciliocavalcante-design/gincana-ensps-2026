@@ -4319,24 +4319,29 @@ header.hero-header > *,
     grid-row: 1;
   }
 
-  .rehearsals-page .rehearsal-card-schedule-list {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .rehearsals-page .rehearsal-card-requests {
+  .rehearsals-page .rehearsal-card-fixed {
     grid-column: 1;
     grid-row: 2;
   }
 
+  .rehearsals-page .rehearsal-card-schedule-list {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .rehearsals-page .rehearsal-card-requests {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
   .rehearsals-page .rehearsal-card-discipline {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 3;
   }
 
   .rehearsals-page .rehearsal-card-participants {
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 4;
   }
 
   .rehearsals-page .schedule-shell {
