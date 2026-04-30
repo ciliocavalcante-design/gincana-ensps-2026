@@ -117,6 +117,15 @@
       "place": "ENSPS",
       "activity": "Dança Típica",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "8",
+      "date": "2026-04-30",
+      "time": "10:40",
+      "endTime": "11:30",
+      "place": "ENSPS",
+      "activity": "Dança Típica",
+      "createdBy": "victoria"
     }
   ],
   "participants": [
