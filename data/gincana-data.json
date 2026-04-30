@@ -509,6 +509,16 @@
     },
     {
       "teamId": "7",
+      "activity": "Desafio do Professor",
+      "names": "PROF. MICHAEL"
+    },
+    {
+      "teamId": "7",
+      "activity": "Carimba",
+      "names": "LUCAS GONÇALVES\nDAVI\nMELISSA\nLEVI\nEDUARDO\nESTHER\nABNER"
+    },
+    {
+      "teamId": "7",
       "activity": "Meu Professor Vale 1000",
       "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
@@ -998,8 +1008,8 @@
       "participants": {
         "Prova Solidária": "SALA TODA",
         "Futsal": "PEDRO JORGE\nPEDRO MIGUEL\nPEDRO IAN\nJOÃO LUCAS\nGUSTAVO CORREIA\nGUSTAVO PINHEIRO\nDAVI\nMIGUEL NASCIMENTO\nHIARLEY",
-        "Desafio do Professor": "",
-        "Carimba": "",
+        "Desafio do Professor": "PROF. MICHAEL",
+        "Carimba": "LUCAS GONÇALVES\nDAVI\nMELISSA\nLEVI\nEDUARDO\nESTHER\nABNER",
         "Vôlei": "",
         "Dança das Líderes": "",
         "Blusa da Equipe": "",
@@ -1013,7 +1023,7 @@
         "Dança Típica": "",
         "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
       },
-      "updatedAt": "2026-04-30T10:30:25.434Z"
+      "updatedAt": "2026-04-30T10:31:07.262Z"
     }
   ],
   "strategyReports": [
