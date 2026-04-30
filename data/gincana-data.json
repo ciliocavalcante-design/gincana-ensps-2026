@@ -519,6 +519,31 @@
     },
     {
       "teamId": "7",
+      "activity": "Vôlei",
+      "names": "BIANCA BESSA\nBIANCA VIEIRA\nANA LETÍCIA RIBEIRO\nLARA COLARES\nMARIA MEL\nMARIANA BARROSO\nJÚLIA\nMELISSA\nFRANCISCO\nMÁRCIO MIGUEL\nMARIA ALICE\nEMILLY"
+    },
+    {
+      "teamId": "7",
+      "activity": "Dança das Líderes",
+      "names": "BIANCA VIEIRA\nMARIA ALICE\nMARIA LETÍCIA\nALEXIA\nANA CECÍLIA\nMARIA BIANKA"
+    },
+    {
+      "teamId": "7",
+      "activity": "Blusa da Equipe",
+      "names": "MARIA BIANKA\nMARIA ALICE"
+    },
+    {
+      "teamId": "7",
+      "activity": "Corrida Maluca",
+      "names": "EMILLY\nJOAO LEVI\nMÁRCIO\nLARA"
+    },
+    {
+      "teamId": "7",
+      "activity": "Caça ao Tesouro",
+      "names": "LARA\nMARIANA\nMÁRCIO\nANA LUÍZA"
+    },
+    {
+      "teamId": "7",
       "activity": "Meu Professor Vale 1000",
       "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
@@ -1010,11 +1035,11 @@
         "Futsal": "PEDRO JORGE\nPEDRO MIGUEL\nPEDRO IAN\nJOÃO LUCAS\nGUSTAVO CORREIA\nGUSTAVO PINHEIRO\nDAVI\nMIGUEL NASCIMENTO\nHIARLEY",
         "Desafio do Professor": "PROF. MICHAEL",
         "Carimba": "LUCAS GONÇALVES\nDAVI\nMELISSA\nLEVI\nEDUARDO\nESTHER\nABNER",
-        "Vôlei": "",
-        "Dança das Líderes": "",
-        "Blusa da Equipe": "",
-        "Corrida Maluca": "",
-        "Caça ao Tesouro": "",
+        "Vôlei": "BIANCA BESSA\nBIANCA VIEIRA\nANA LETÍCIA RIBEIRO\nLARA COLARES\nMARIA MEL\nMARIANA BARROSO\nJÚLIA\nMELISSA\nFRANCISCO\nMÁRCIO MIGUEL\nMARIA ALICE\nEMILLY",
+        "Dança das Líderes": "BIANCA VIEIRA\nMARIA ALICE\nMARIA LETÍCIA\nALEXIA\nANA CECÍLIA\nMARIA BIANKA",
+        "Blusa da Equipe": "MARIA BIANKA\nMARIA ALICE",
+        "Corrida Maluca": "EMILLY\nJOAO LEVI\nMÁRCIO\nLARA",
+        "Caça ao Tesouro": "LARA\nMARIANA\nMÁRCIO\nANA LUÍZA",
         "Soletrando": "",
         "Quiz": "",
         "Story Criativo": "",
@@ -1023,7 +1048,7 @@
         "Dança Típica": "",
         "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
       },
-      "updatedAt": "2026-04-30T10:31:07.262Z"
+      "updatedAt": "2026-04-30T10:34:05.387Z"
     }
   ],
   "strategyReports": [
