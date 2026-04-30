@@ -1024,7 +1024,7 @@ function renderSchedules() {
     ? sorted.filter(({ item }) => item.teamId === selectedTeamId)
     : sorted;
 
-  let activeTab = ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "today";
+  let activeTab = ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "";
   const today = todayIso();
   const isWeekend = [0, 6].includes(new Date().getDay());
   const todayEntries = isWeekend ? [] : filteredSorted.filter(({ item }) => item.date === today && !scheduleIsRealized(item));
@@ -1032,16 +1032,16 @@ function renderSchedules() {
   const realizedEntries = filteredSorted
     .filter(({ item }) => scheduleIsRealized(item))
     .sort((a, b) => compareSchedules(b.item, a.item));
-  if (!root.dataset.activeTab && todayEntries.length) {
+  if (!activeTab && todayEntries.length) {
     activeTab = "today";
-  } else if (!root.dataset.activeTab && upcomingEntries.length) {
+  } else if (!activeTab) {
     activeTab = "upcoming";
-  } else if (!root.dataset.activeTab && realizedEntries.length) {
-    activeTab = "realized";
   } else if (activeTab === "today" && !todayEntries.length) {
-    activeTab = upcomingEntries.length ? "upcoming" : "realized";
+    activeTab = "upcoming";
   } else if (activeTab === "upcoming" && !upcomingEntries.length && todayEntries.length) {
     activeTab = "today";
+  } else if (activeTab === "realized" && !root.dataset.userSelectedScheduleTab) {
+    activeTab = todayEntries.length ? "today" : "upcoming";
   }
 
   const renderGroups = (entries, tabName) => {
@@ -4312,6 +4312,7 @@ document.addEventListener("click", (event) => {
     const root = byId("scheduleList");
     if (root) {
       root.dataset.activeTab = button.dataset.scheduleTab;
+      root.dataset.userSelectedScheduleTab = "true";
       renderSchedules();
       renderAdminTables();
   renderScheduleRequests();
