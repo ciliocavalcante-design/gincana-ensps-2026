@@ -1202,6 +1202,33 @@ h1 {
   gap: 12px;
 }
 
+.fixed-schedule-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.fixed-schedule-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface-neutral);
+}
+
+.fixed-schedule-card div {
+  display: grid;
+  gap: 3px;
+}
+
+.fixed-schedule-card span,
+.fixed-schedule-card small {
+  color: var(--muted);
+}
+
 .food-ranking {
   margin-bottom: 18px;
 }
@@ -2493,7 +2520,8 @@ footer {
   .schedule-tabs {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    border-radius: 18px;
   }
 
   .schedule-tab-button {
@@ -6150,4 +6178,3 @@ header.hero-header > *,
     margin-left: 0;
   }
 }
-

@@ -81,6 +81,63 @@
           </div>
         </details>
 
+        <details class="admin-shell schedule-shell section-toggle rehearsal-card-fixed">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Recorrência</span>
+              <span class="section-title">Ensaios fixos</span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <div class="schedule-board-heading">
+              <p>Crie ensaios que se repetem no mesmo dia da semana e horário até a data definida.</p>
+            </div>
+            <form id="fixedScheduleForm" class="form-grid rehearsal-form fixed-schedule-form">
+              <label class="schedule-team">Turma<select name="team" required></select></label>
+              <label class="schedule-date">Dia da semana
+                <select name="weekday" required>
+                  <option value="1">Segunda-feira</option>
+                  <option value="2">Terça-feira</option>
+                  <option value="3">Quarta-feira</option>
+                  <option value="4">Quinta-feira</option>
+                  <option value="5">Sexta-feira</option>
+                </select>
+              </label>
+              <label class="schedule-preset">
+                Horário padrão
+                <select name="preset">
+                  <option value="">Selecionar</option>
+                  <option value="10:40|11:30">10h40-11h30</option>
+                  <option value="11:30|12:30">11h30-12h30</option>
+                  <option value="11:50|12:35">11h50-12h35</option>
+                  <option value="14:30|16:30">14h30-16h30</option>
+                </select>
+              </label>
+              <label class="schedule-place">Até<input name="untilDate" type="date" required></label>
+              <label class="schedule-start">Início<input name="time" type="time" required></label>
+              <label class="schedule-end">Fim<input name="endTime" type="time"></label>
+              <label class="schedule-place">Local<input name="place" type="text" value="ENSPS"></label>
+              <label class="wide activity-field schedule-activity-field">
+                <span>Atividade</span>
+                <div class="activity-combo">
+                  <input name="activity" type="text" placeholder="Dança típica, líderes de torcida, professores">
+                  <select name="activityPreset" aria-label="Sugestões de atividade">
+                    <option value="">⌄</option>
+                    <option value="Dança das Líderes de Torcida">Dança das Líderes de Torcida</option>
+                    <option value="Dança dos Professores">Dança dos Professores</option>
+                    <option value="Dança Típica">Dança Típica</option>
+                    <option value="Story">Story</option>
+                    <option value="Organização">Organização</option>
+                  </select>
+                </div>
+              </label>
+              <button class="button primary" type="submit">Criar ensaio fixo</button>
+            </form>
+            <div id="fixedScheduleList" class="fixed-schedule-list"></div>
+          </div>
+        </details>
+
         <details class="schedule-board schedule-shell section-toggle rehearsal-card-schedule-list">
           <summary class="section-heading">
             <span>

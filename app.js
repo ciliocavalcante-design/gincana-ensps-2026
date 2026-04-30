@@ -220,6 +220,7 @@ const defaultData = {
     { teamId: "2", eventId: "solidaria", points: 0, note: "Aguardando apuração" }
   ],
   schedules: [],
+  fixedSchedules: [],
   participants: [],
   materials: [],
   foodDonations: [],
@@ -263,6 +264,7 @@ function normalizeState(saved = {}) {
     events: base.events,
     scores: Array.isArray(saved.scores) ? saved.scores : base.scores,
     schedules: Array.isArray(saved.schedules) ? saved.schedules : base.schedules,
+    fixedSchedules: Array.isArray(saved.fixedSchedules) ? saved.fixedSchedules : base.fixedSchedules,
     participants: Array.isArray(saved.participants) ? saved.participants : base.participants,
     materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
@@ -304,6 +306,7 @@ function mutableState() {
   return {
     scores: state.scores,
     schedules: state.schedules,
+    fixedSchedules: state.fixedSchedules,
     participants: state.participants,
     materials: state.materials,
     foodDonations: state.foodDonations,
@@ -755,10 +758,24 @@ function isoDateOffset(days) {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   date.setDate(date.getDate() + days);
+  return isoDateFromDate(date);
+}
+
+function isoDateFromDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function localDateFromIso(value) {
+  const [year, month, day] = String(value || "").split("-").map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+}
+
+function todayIso() {
+  return isoDateOffset(0);
 }
 
 function formatScheduleWindow(item) {
@@ -779,9 +796,49 @@ function compareSchedules(a, b) {
   return scheduleTeamRank(a.teamId) - scheduleTeamRank(b.teamId);
 }
 
+function fixedScheduleOccurrences() {
+  const today = localDateFromIso(todayIso());
+  const horizon = new Date(today);
+  horizon.setDate(horizon.getDate() + 45);
+  return (state.fixedSchedules || []).flatMap((rule, ruleIndex) => {
+    if (rule.active === false || !rule.weekday || !rule.untilDate || !rule.teamId) return [];
+    const start = localDateFromIso(rule.startDate) || today;
+    const until = localDateFromIso(rule.untilDate);
+    if (!until) return [];
+    const cursor = new Date(Math.max(start.getTime(), today.getTime()));
+    const end = new Date(Math.min(until.getTime(), horizon.getTime()));
+    const entries = [];
+    while (cursor <= end) {
+      const weekday = cursor.getDay();
+      if (weekday >= 1 && weekday <= 5 && weekday === Number(rule.weekday)) {
+        entries.push({
+          item: {
+            teamId: rule.teamId,
+            date: isoDateFromDate(cursor),
+            time: rule.time,
+            endTime: rule.endTime,
+            place: rule.place || "ENSPS",
+            activity: rule.activity || "Ensaio fixo",
+            createdBy: "fixed",
+            fixedRuleId: rule.id,
+            isFixed: true
+          },
+          index: "",
+          fixedIndex: ruleIndex,
+          type: "fixed"
+        });
+      }
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return entries;
+  });
+}
+
 function sortedScheduleEntries() {
-  return state.schedules
-    .map((item, index) => ({ item, index }))
+  return [
+    ...state.schedules.map((item, index) => ({ item, index, type: "single" })),
+    ...fixedScheduleOccurrences()
+  ]
     .sort((a, b) => compareSchedules(a.item, b.item));
 }
 
@@ -793,6 +850,7 @@ function scheduleIsRealized(item) {
 }
 
 function scheduleSourceLabel(item) {
+  if (item.isFixed || item.createdBy === "fixed") return "Ensaio fixo";
   if (item.createdBy === "teacher" && item.acceptedBy === "admin") return "Marcado por professor e aceito por Prof. Cílio";
   if (item.createdBy === "teacher") return "Marcado por professor";
   if (item.createdBy === "leader" && item.acceptedBy === "admin") return "Marcado por líder e aceito por Prof. Cílio";
@@ -966,13 +1024,24 @@ function renderSchedules() {
     ? sorted.filter(({ item }) => item.teamId === selectedTeamId)
     : sorted;
 
-  let activeTab = ["upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "upcoming";
-  const upcomingEntries = filteredSorted.filter(({ item }) => !scheduleIsRealized(item));
+  let activeTab = ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "today";
+  const today = todayIso();
+  const isWeekend = [0, 6].includes(new Date().getDay());
+  const todayEntries = isWeekend ? [] : filteredSorted.filter(({ item }) => item.date === today && !scheduleIsRealized(item));
+  const upcomingEntries = filteredSorted.filter(({ item }) => !scheduleIsRealized(item) && item.date !== today);
   const realizedEntries = filteredSorted
     .filter(({ item }) => scheduleIsRealized(item))
     .sort((a, b) => compareSchedules(b.item, a.item));
-  if (!root.dataset.activeTab && !upcomingEntries.length && realizedEntries.length) {
+  if (!root.dataset.activeTab && todayEntries.length) {
+    activeTab = "today";
+  } else if (!root.dataset.activeTab && upcomingEntries.length) {
+    activeTab = "upcoming";
+  } else if (!root.dataset.activeTab && realizedEntries.length) {
     activeTab = "realized";
+  } else if (activeTab === "today" && !todayEntries.length) {
+    activeTab = upcomingEntries.length ? "upcoming" : "realized";
+  } else if (activeTab === "upcoming" && !upcomingEntries.length && todayEntries.length) {
+    activeTab = "today";
   }
 
   const renderGroups = (entries, tabName) => {
@@ -996,13 +1065,13 @@ function renderSchedules() {
             const participants = participantLinesForSchedule(item.teamId, activity);
             const participantsId = `participants-${tabName}-${index}`;
             return `
-              <article class="schedule-item" style="border-left:8px solid ${itemTeam.color}">
+              <article class="schedule-item" style="border-left:8px solid ${itemTeam?.color || "#64748b"}">
                 <div class="schedule-item-top">
                   <h3>
-                    <span>${itemTeam.name}</span>
+                    <span>${itemTeam?.name || item.teamId}</span>
                     <small>${formatScheduleWindow(item)}</small>
                   </h3>
-                  ${manageSchedules ? `
+                  ${manageSchedules && !item.isFixed ? `
                     <div class="schedule-item-actions">
                       <button class="schedule-action" data-edit-schedule="${index}" type="button">Editar</button>
                       <button class="schedule-delete" data-delete-schedule="${index}" type="button" aria-label="Excluir ensaio">×</button>
@@ -1036,9 +1105,11 @@ function renderSchedules() {
 
   root.innerHTML = `
     <div class="schedule-tabs">
-      <button class="schedule-tab-button${activeTab === "upcoming" ? " active" : ""}" data-schedule-tab="upcoming" type="button">Agendados</button>
+      <button class="schedule-tab-button${activeTab === "today" ? " active" : ""}" data-schedule-tab="today" type="button">Ensaios do dia</button>
+      <button class="schedule-tab-button${activeTab === "upcoming" ? " active" : ""}" data-schedule-tab="upcoming" type="button">Próximos ensaios</button>
       <button class="schedule-tab-button${activeTab === "realized" ? " active" : ""}" data-schedule-tab="realized" type="button">Realizados</button>
     </div>
+    ${renderGroups(todayEntries, "today")}
     ${renderGroups(upcomingEntries, "upcoming")}
     ${renderGroups(realizedEntries, "realized")}
   `;
@@ -1070,19 +1141,40 @@ function loadScheduleIntoForm(index) {
   setScheduleEditing(index);
 }
 
-function applySchedulePreset(rawValue) {
-  const form = byId("scheduleForm");
+function applySchedulePreset(rawValue, form = byId("scheduleForm")) {
   if (!form || !rawValue) return;
   const [start, end] = rawValue.split("|");
   form.elements.time.value = start || "";
   form.elements.endTime.value = end || "";
 }
 
-function applyActivityPreset(rawValue) {
-  const form = byId("scheduleForm");
+function applyActivityPreset(rawValue, form = byId("scheduleForm")) {
   if (!form || !rawValue) return;
   form.elements.activity.value = rawValue;
   form.elements.activityPreset.value = "";
+}
+
+function weekdayLabel(value) {
+  return ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][Number(value)] || "";
+}
+
+function renderFixedSchedules() {
+  const root = byId("fixedScheduleList");
+  if (!root) return;
+  const entries = state.fixedSchedules || [];
+  root.innerHTML = entries.length ? entries.map((item, index) => {
+    const itemTeam = team(item.teamId);
+    return `
+      <article class="fixed-schedule-card" style="border-left:8px solid ${itemTeam?.color || "#64748b"}">
+        <div>
+          <strong>${itemTeam?.name || item.teamId} • ${weekdayLabel(item.weekday)}</strong>
+          <span>${formatScheduleWindow(item)} • até ${formatDate(item.untilDate)}</span>
+          <small>${escapeHtml(item.activity || "Ensaio fixo")} • ${escapeHtml(item.place || "ENSPS")}</small>
+        </div>
+        <button class="mini-action" data-delete-fixed-schedule="${index}" type="button">Excluir</button>
+      </article>
+    `;
+  }).join("") : `<div class="empty-state">Nenhum ensaio fixo cadastrado.</div>`;
 }
 
 function loadParticipantsIntoForm() {
@@ -2554,9 +2646,14 @@ function renderAdminTables() {
   ));
 
   const scheduleRoot = byId("scheduleList");
-  const activeScheduleTab = ["upcoming", "realized"].includes(scheduleRoot?.dataset.activeTab) ? scheduleRoot.dataset.activeTab : "upcoming";
+  const activeScheduleTab = ["today", "upcoming", "realized"].includes(scheduleRoot?.dataset.activeTab) ? scheduleRoot.dataset.activeTab : "upcoming";
+  const currentDate = todayIso();
   const scheduleRows = sortedScheduleEntries()
-    .filter(({ item }) => activeScheduleTab === "realized" ? scheduleIsRealized(item) : !scheduleIsRealized(item))
+    .filter(({ item }) => {
+      if (activeScheduleTab === "realized") return scheduleIsRealized(item);
+      if (activeScheduleTab === "today") return item.date === currentDate && !scheduleIsRealized(item);
+      return item.date !== currentDate && !scheduleIsRealized(item);
+    })
     .sort((a, b) => activeScheduleTab === "realized" ? compareSchedules(b.item, a.item) : compareSchedules(a.item, b.item));
 
   setHtml("scheduleTable", tableMarkup(
@@ -2568,7 +2665,9 @@ function renderAdminTables() {
       item.endTime || "",
       item.activity || "",
       item.place || "",
-      `<button class="mini-action" data-edit-schedule="${index}" type="button">Editar</button> <button class="mini-action" data-delete-schedule="${index}" type="button">Excluir</button>`
+      item.isFixed
+        ? "Ensaio fixo"
+        : `<button class="mini-action" data-edit-schedule="${index}" type="button">Editar</button> <button class="mini-action" data-delete-schedule="${index}" type="button">Excluir</button>`
     ])
   ));
 
@@ -3235,6 +3334,7 @@ function render() {
   renderEvents();
   syncParticipantsFromRegistrationForms();
   renderSchedules();
+  renderFixedSchedules();
   renderFamilyParticipants();
   renderFamilyStudentSearch();
   renderFoodDonations();
@@ -3890,6 +3990,29 @@ on("scheduleForm", "submit", (event) => {
   saveState();
 });
 
+on("fixedScheduleForm", "submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form));
+  state.fixedSchedules.push({
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    teamId: data.team,
+    weekday: Number(data.weekday),
+    startDate: todayIso(),
+    untilDate: data.untilDate,
+    time: data.time,
+    endTime: data.endTime,
+    place: data.place.trim() || "ENSPS",
+    activity: data.activity.trim() || "Ensaio fixo",
+    createdBy: "victoria",
+    active: true
+  });
+  form.reset();
+  if (form.elements.place) form.elements.place.value = "ENSPS";
+  setSyncStatus("Ensaio fixo criado. Sincronizando online...");
+  saveState();
+});
+
 on("scheduleCancelEdit", "click", () => {
   const form = byId("scheduleForm");
   if (!form) return;
@@ -3899,10 +4022,19 @@ on("scheduleCancelEdit", "click", () => {
 
 on("scheduleForm", "change", (event) => {
   if (event.target.name === "preset") {
-    applySchedulePreset(event.target.value);
+    applySchedulePreset(event.target.value, event.currentTarget);
   }
   if (event.target.name === "activityPreset") {
-    applyActivityPreset(event.target.value);
+    applyActivityPreset(event.target.value, event.currentTarget);
+  }
+});
+
+on("fixedScheduleForm", "change", (event) => {
+  if (event.target.name === "preset") {
+    applySchedulePreset(event.target.value, event.currentTarget);
+  }
+  if (event.target.name === "activityPreset") {
+    applyActivityPreset(event.target.value, event.currentTarget);
   }
 });
 
@@ -4210,6 +4342,10 @@ document.addEventListener("click", (event) => {
   if (button.dataset.deleteSchedule) {
     state.schedules.splice(Number(button.dataset.deleteSchedule), 1);
     setScheduleEditing();
+    saveState();
+  }
+  if (button.dataset.deleteFixedSchedule) {
+    state.fixedSchedules.splice(Number(button.dataset.deleteFixedSchedule), 1);
     saveState();
   }
   if (button.dataset.editSchedule) {
