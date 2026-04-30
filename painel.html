@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+  <title>Painel do Projetor • Gincana ENSPS 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="projection-page">
+  <div class="projection-shine" aria-hidden="true"></div>
+
+<header class="projection-header">
+    <div class="projection-brand">
+      <img src="assets/logo-ensps.png" alt="Logo ENSPS">
+      <div>
+        <span class="eyebrow">Gincana ENSPS 2026</span>
+        <h1>Tudo Junto e Misturado</h1>
+      </div>
+    </div>
+
+    <nav class="projection-switch" aria-label="Visualização do painel">
+      <button class="active" data-projection-view="scoreboard" type="button">Placar Geral</button>
+      <button data-projection-view="food" type="button">Arrecadação</button>
+      <button data-projection-fullscreen type="button">Tela cheia</button>
+    </nav>
+
+    <p id="projectionUpdatedAt" class="projection-updated">Carregando dados...</p>
+  </header>
+
+  <main class="projection-main">
+    <section data-projection-panel="scoreboard" class="projection-panel">
+      <div class="projection-title">
+        <span>Ao vivo</span>
+        <h2>Placar Geral</h2>
+      </div>
+      <div id="projectionScoreboard" class="projection-scoreboard"></div>
+    </section>
+
+    <section data-projection-panel="food" class="projection-panel" hidden>
+      <div class="projection-title">
+        <span>Ao vivo</span>
+        <h2>Arrecadação de Alimentos</h2>
+      </div>
+      <div id="projectionFood" class="projection-food"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

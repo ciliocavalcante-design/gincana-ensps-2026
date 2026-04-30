@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ensaios • Gincana ENSPS 2026</title>
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+<title>Ensaios • Gincana ENSPS 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -11,15 +14,12 @@
 </head>
 <body class="workspace-page rehearsals-page">
   <header class="hero">
-    <nav class="topbar" aria-label="Navegação principal">
-      <a href="index.html" class="brand-link" aria-label="Página geral">
-        <img src="assets/logo-ensps.png" alt="Logo ENSPS">
-        <span>ENSPS</span>
-      </a>
+    <nav class="topbar" aria-label="Navegação principal" style="justify-content: center; margin-bottom: 16px;">
       <a href="index.html">Página geral</a>
     </nav>
     <div class="hero-content-wrap">
       <div class="hero-content">
+        <img src="assets/logo-ensps.png" alt="Logo ENSPS" style="height: 80px; margin: 0 auto 16px; display: block;">
         <h1>Ensaios</h1>
         <p>Página focada para marcar horários e acompanhar a agenda das turmas.</p>
       </div>
@@ -29,7 +29,7 @@
   <main>
     <section class="section single-panel">
       <div class="split-workspace section-body">
-        <details class="admin-shell schedule-shell section-toggle">
+        <details class="admin-shell schedule-shell section-toggle rehearsal-card-schedule-form">
           <summary class="section-heading">
             <span>
               <span class="eyebrow">Marcação</span>
@@ -81,7 +81,7 @@
           </div>
         </details>
 
-        <details class="schedule-board schedule-shell section-toggle">
+        <details class="schedule-board schedule-shell section-toggle rehearsal-card-schedule-list">
           <summary class="section-heading">
             <span>
               <span class="eyebrow">Agenda</span>
@@ -98,7 +98,24 @@
           </div>
         </details>
 
-        <details class="participants-shell schedule-shell section-toggle">
+        <details class="schedule-requests-shell schedule-shell section-toggle rehearsal-card-requests">
+          <summary class="section-heading">
+            <span>
+              <span class="eyebrow">Solicitações</span>
+              <span class="section-title">Pedidos das lideranças <span id="scheduleRequestsBadge" class="tab-alert-badge" hidden>0</span></span>
+            </span>
+            <span class="toggle-arrow" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="section-body">
+            <div class="schedule-board-heading">
+              <p>Solicitações de marcação de ensaios enviadas pelas lideranças.</p>
+            </div>
+            <div class="table-wrap"><table id="scheduleRequestsTable"></table></div>
+            <div id="scheduleRequestsCards" class="schedule-requests-cards"></div>
+          </div>
+        </details>
+
+        <details class="participants-shell schedule-shell section-toggle rehearsal-card-participants">
           <summary class="section-heading">
             <span>
               <span class="eyebrow">Presença</span>
@@ -120,7 +137,7 @@
           </div>
         </details>
 
-        <details class="discipline-shell schedule-shell section-toggle">
+        <details class="discipline-shell schedule-shell section-toggle rehearsal-card-discipline">
           <summary class="section-heading">
             <span>
               <span class="eyebrow">Conduta</span>

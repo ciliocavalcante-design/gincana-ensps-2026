@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+<title>Painel das Lideranças • Gincana ENSPS 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="workspace-page leadership-page">
+  <header class="hero leadership-hero">
+    <div class="hero-content-wrap">
+      <img class="hero-logo" src="assets/logo-ensps.png" alt="Logo ENSPS">
+      <div class="hero-content">
+        <span class="eyebrow">Gincana ENSPS 2026</span>
+        <h1>Painel das Lideranças</h1>
+        <p>Acompanhe arrecadação, pontuação, entregas, ocorrências e respostas da comissão.</p>
+        <div class="hero-actions leadership-actions">
+          <a class="button primary" href="index.html">Página Geral</a>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section admin-section single-panel leadership-section">
+      <div class="leadership-shell section-body">
+
+        <div id="leadershipWelcome" class="judge-welcome leadership-welcome" hidden aria-live="polite">
+          <div class="welcome-card leadership-welcome-card">
+            <img src="assets/logo-ensps.png" alt="">
+            <span class="eyebrow">Tudo Junto e Misturado 2026</span>
+            <h2 id="leadershipWelcomeTitle">Bem-vinda!</h2>
+            <p id="leadershipWelcomeText">Seu painel está pronto para acompanhar a turma com organização, liderança e responsabilidade.</p>
+            <div class="welcome-sparkles" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <section id="leadershipLoginBox" class="leadership-login-box">
+          <span class="eyebrow">Acesso restrito</span>
+          <h3>Acesso da liderança</h3>
+          <p>Digite o código da sua turma para acessar apenas o painel da sua série.</p>
+          <form id="leadershipLoginForm" class="form-grid leadership-login-form">
+            <label>Código da liderança<input name="code" type="text" required placeholder="Ex.: 000ENSPS000" autocomplete="off" inputmode="latin" pattern="[A-Z0-9]+" maxlength="12" data-uppercase-code></label>
+            <button class="button primary" type="submit">Entrar</button>
+          </form>
+          <p id="leadershipLoginStatus" class="muted-text">Solicite seu código à comissão organizadora.</p>
+        </section>
+
+        <section class="leadership-public-scoreboard">
+          <div class="section-heading leadership-public-heading">
+            <span>
+              <span class="eyebrow">Acesso público</span>
+              <span class="section-title">Placar geral</span>
+            </span>
+          </div>
+          <div id="scoreboard" class="scoreboard section-body" aria-live="polite"></div>
+        </section>
+
+        <section id="leadershipPrivateArea" hidden>
+          <div class="section-heading leadership-private-heading">
+            <span>
+              <span class="eyebrow">Acompanhamento</span>
+              <span class="section-title">Resumo da turma</span>
+            </span>
+          </div>
+
+          <div class="leadership-selector" hidden>
+            <label>
+              Série/turma liberada
+              <select id="leadershipTeamSelect"></select>
+            </label>
+          </div>
+
+        <section class="leadership-resources">
+          <article>
+            <h3>Envio de materiais</h3>
+            <p>Use este e-mail para enviar materiais, arquivos e comprovantes da gincana:</p>
+            <a href="mailto:ensps.contatos@gmail.com">ensps.contatos@gmail.com</a>
+          </article>
+          <article>
+            <h3>Documentos para baixar</h3>
+            <div class="settings-actions leadership-downloads">
+              <a class="button ghost" href="assets/logo-ensps.png" download>Baixar logo ENSPS</a>
+              <a class="button ghost" href="docs/oficio-arrecadacao-alimentos.pdf" download>Baixar ofício de arrecadação</a>
+              <a class="button ghost" href="docs/regulamento-tudo-junto-e-misturado-2026.pdf" download>Baixar regulamento da gincana</a>
+            </div>
+          </article>
+        </section>
+
+        <div id="leadershipDashboard" class="leadership-dashboard" aria-live="polite"></div>
+
+        <section id="leadershipClaimBox" class="leadership-card leadership-wide-card leadership-claim-box" hidden>
+          <h3>Contestar penalidade</h3>
+          <p>Explique o motivo da contestação. A comissão organizadora irá avaliar e responder.</p>
+          <form id="leadershipClaimForm" class="form-grid">
+            <input name="teamId" type="hidden">
+            <input name="disciplineIndex" type="hidden">
+            <label class="wide">Justificativa<textarea name="reason" required placeholder="Descreva o motivo da contestação"></textarea></label>
+            <button class="button primary" type="submit">Enviar contestação</button>
+          </form>
+        </section>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <nav id="leadershipBottomNav" class="leadership-bottom-nav" aria-label="Atalhos do painel">
+    <button class="active" data-leadership-mobile-tab="resumo" type="button">Resumo</button>
+    <button data-leadership-mobile-tab="materiais" type="button">Materiais</button>
+    <button data-leadership-mobile-tab="ensaios" type="button">Ensaios</button>
+    <button data-leadership-mobile-tab="fichas" type="button">Ficha</button>
+    <button data-leadership-mobile-tab="relatorio" type="button">Relatório</button>
+    <button data-leadership-mobile-tab="ocorrencias" type="button">Ocorrências</button>
+  </nav>
+
+  <footer><strong>Gincana Socioesportiva e Cultural ENSPS 2026</strong></footer>
+  <script src="app.js"></script>
+</body>
+</html>

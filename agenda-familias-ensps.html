@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+<title>Ensaios • Gincana ENSPS 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="public-page rehearsal-view-page">
+  <header class="hero rehearsal-view-hero">
+<div class="hero-content-wrap rehearsal-view-hero-wrap">
+      <img class="hero-logo" src="assets/logo-ensps.png" alt="Logo ENSPS">
+      <div class="hero-content">
+        <span class="eyebrow">Gincana ENSPS 2026</span>
+        <h1>Ensaios das Turmas</h1>
+        <div class="hero-actions rehearsal-view-actions">
+          <a class="button primary" href="index.html">Ir para Página Geral</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="ensaios" class="section rehearsal-view-section">
+      <div class="rehearsal-view-intro">
+        <p>Acompanhe os ensaios agendados, os ensaios realizados e os participantes por prova.</p>
+      </div>
+
+      <div class="family-view-tabs" aria-label="Alternar visualização da agenda">
+        <button class="active" data-family-view="agenda" type="button">Agenda de ensaios</button>
+        <button data-family-view="participantes" type="button">Participantes por prova</button>
+      </div>
+
+      <div class="family-view-panel active" data-family-panel="agenda">
+        <div class="rehearsal-filter-card" aria-label="Filtro de ensaios por turma">
+          <label>
+            Filtrar por série
+            <select id="scheduleTeamFilter">
+              <option value="">Todas as turmas</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="scheduleList" class="schedule-list section-body rehearsal-view-list" aria-live="polite"></div>
+      </div>
+
+      <div class="family-view-panel" data-family-panel="participantes">
+        <div class="family-search-card family-search-grid">
+          <label>
+            Filtrar por série
+            <select id="familyParticipantsTeamFilter">
+              <option value="">Todas as turmas</option>
+            </select>
+          </label>
+          <label>
+            Buscar aluno
+            <input id="familyStudentSearch" type="search" placeholder="Digite o nome do aluno">
+          </label>
+          <p>Use a busca para conferir se o aluno participa de alguma prova e se possui ensaio relacionado.</p>
+        </div>
+
+        <div id="familyStudentResults" class="family-student-results" aria-live="polite"></div>
+
+        <div class="schedule-board-heading family-participants-heading">
+          <span class="eyebrow">Participantes</span>
+          <h2>Participantes por prova</h2>
+          <p>Lista organizada por turma e por prova, conforme as fichas preenchidas pelas lideranças.</p>
+        </div>
+
+        <div id="familyParticipantsList" class="family-participants-list section-body" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><strong>Gincana Socioesportiva e Cultural ENSPS 2026</strong></footer>
+  <script src="app.js"></script>
+</body>
+</html>

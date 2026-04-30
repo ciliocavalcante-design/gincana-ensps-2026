@@ -1,0 +1,4 @@
+{
+  "adminPasswordHash": "7e66b5dd3d158d14ba3300cad5702ee6d72befaec37890eed25c91687bb649df",
+  "note": "Hash SHA-256 da senha do admin. A senha em texto claro não fica no código."
+}

@@ -3,13 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Administrador • Gincana ENSPS 2026</title>
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+<title>Administrador • Gincana ENSPS 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="workspace-page admin-page">
+<body class="workspace-page admin-page admin-locked">
+  <div id="adminAuthGate" class="admin-auth-gate" role="dialog" aria-modal="true" aria-labelledby="adminAuthTitle">
+    <form id="adminAuthForm" class="admin-auth-card">
+      <img src="assets/logo-ensps.png" alt="">
+      <span class="eyebrow">Acesso administrativo</span>
+      <h1 id="adminAuthTitle">Verificação rápida</h1>
+      <p>Digite sua senha para liberar o painel da comissão organizadora.</p>
+      <label>Senha do admin
+        <input id="adminPasswordInput" name="password" type="password" inputmode="numeric" autocomplete="current-password" required placeholder="••••">
+      </label>
+      <button class="button primary" type="submit">Entrar no admin</button>
+      <p id="adminAuthStatus" class="muted-text">Carregando verificação...</p>
+    </form>
+  </div>
+
   <header class="hero admin-hero">
     <div class="hero-content-wrap admin-hero-content-wrap">
       <img class="hero-logo admin-hero-logo" src="assets/logo-ensps.png" alt="Logo ENSPS">
@@ -38,15 +55,19 @@
       <div class="admin-shell section-body admin-dashboard">
         <div class="admin-sidebar">
           <p id="syncStatus" class="admin-sync-status">Carregando dados...</p>
+          <button class="admin-refresh-button" id="refreshAdminData" type="button">Atualizar dados</button>
           <div class="admin-tabs" role="tablist" aria-label="Ferramentas de administração">
             <button class="tab-button active" data-panel="pointsPanel" type="button">Pontuações</button>
-            <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios</button>
+            <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios <span id="scheduleRequestsBadge" class="tab-alert-badge" hidden>0</span></button>
             <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
             <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
             <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
             <button class="tab-button" data-panel="judgingPanel" type="button">Avaliações</button>
-            <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências</button>
+            <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências <span id="leadershipClaimsBadge" class="tab-alert-badge" hidden>0</span></button>
             <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
+            <button class="tab-button" data-panel="leadershipAdminPanel" type="button">Lideranças <span id="leadershipRequestsBadge" class="tab-alert-badge" hidden>0</span></button>
+            <button class="tab-button" data-panel="formsPanel" type="button">Fichas</button>
+            <button class="tab-button" data-panel="teachersAdminPanel" type="button">Professores</button>
             <button class="tab-button" data-panel="settingsPanel" type="button">Dados</button>
           </div>
         </div>
@@ -127,6 +148,11 @@
             <div id="scheduleList" class="schedule-list"></div>
           </div>
           <div class="table-wrap"><table id="scheduleTable"></table></div>
+          <div class="sync-box schedule-requests-admin">
+            <h3>Solicitações das lideranças</h3>
+            <p>Aprove para transformar em ensaio marcado ou recuse com observação. Pedidos de Dança dos Professores aparecem apenas aqui no admin.</p>
+            <div class="table-wrap"><table id="scheduleRequestsTable"></table></div>
+          </div>
         </div>
 
         <div class="admin-panel" id="foodPanelAdmin">
@@ -184,6 +210,12 @@
             <button class="button primary" type="submit">Registrar penalidade rápida</button>
           </form>
           <div class="table-wrap"><table id="disciplineTable"></table></div>
+
+          <div class="sync-box leadership-claims-admin">
+            <h3>Contestações das lideranças</h3>
+            <p>Analise as solicitações enviadas pelas lideranças e responda para que elas acompanhem o retorno no painel.</p>
+            <div class="table-wrap"><table id="leadershipClaimsTable"></table></div>
+          </div>
         </div>
 
         <div class="admin-panel" id="participantsPanel">
@@ -202,6 +234,40 @@
             <h2>Avaliações recebidas</h2>
             <p>Confira as notas finalizadas pelos jurados e lance manualmente no placar quando estiver pronto.</p>
           </div>
+
+          <div id="evaluationResults" class="evaluation-results"></div>
+
+          <div class="schedule-board-heading judging-config-heading">
+            <span class="eyebrow">Configuração</span>
+            <h2>Organização das fichas</h2>
+            <p>Defina a ordem das provas, cadastre jurados e libere os dias de apresentação.</p>
+          </div>
+
+          <div class="sync-box judge-admin-box judging-order-box">
+            <h3>Ordem das provas nas fichas</h3>
+            <p>Use os botões para definir a ordem em que as provas aparecem para os jurados e nos dias de apresentação.</p>
+            <div id="judgingOrderList" class="judging-order-list"></div>
+          </div>
+
+          <div class="sync-box judge-admin-box judging-block-box">
+            <h3>Blocos de avaliação</h3>
+            <p>Opcional: use blocos quando várias provas forem apresentadas por turma. Se não criar blocos, a avaliação continua no modelo normal por prova.</p>
+            <form id="judgingBlockForm" class="form-grid judging-day-form">
+              <label>Nome do bloco<input name="name" type="text" required placeholder="Ex.: Bloco Cultural - Categoria 1"></label>
+              <label>Categoria<select name="category" required><option>Categoria 1</option><option>Categoria 2</option></select></label>
+              <label class="check-label"><input name="active" type="checkbox" checked> Ativo</label>
+              <div class="wide choice-group">
+                <h4>Provas agrupadas por turma</h4>
+                <div id="judgingBlockEvents" class="choice-grid"></div>
+              </div>
+              <button class="button primary" type="submit">Salvar bloco</button>
+            </form>
+            <div class="table-wrap"><table id="judgingBlocksTable"></table></div>
+            <h3 style="margin-top:18px;">Rascunhos online</h3>
+            <p>Mostra os rascunhos salvos pelos jurados antes do envio final.</p>
+            <div class="table-wrap"><table id="judgingDraftsTable"></table></div>
+          </div>
+
           <div class="sync-box judge-admin-box">
             <h3>Jurados autorizados</h3>
             <p>Cadastre um código para cada jurado. Cada código só consegue enviar uma vez por prova e categoria.</p>
@@ -228,7 +294,6 @@
             </form>
             <div class="table-wrap"><table id="judgingDaysTable"></table></div>
           </div>
-          <div id="evaluationResults" class="evaluation-results"></div>
         </div>
 
         <div class="admin-panel" id="bonusPanel">
@@ -244,7 +309,54 @@
           <div class="table-wrap"><table id="bonusTable"></table></div>
         </div>
 
-        <div class="admin-panel" id="settingsPanel">
+        <div class="admin-panel" id="leadershipAdminPanel">
+            <div class="schedule-board-heading">
+              <span class="eyebrow">Lideranças</span>
+              <h2>Códigos, reclamações e pedidos</h2>
+              <p>Veja os códigos de acesso das lideranças e responda solicitações enviadas por cada turma.</p>
+            </div>
+
+            <div class="sync-box">
+              <h3>Códigos das lideranças</h3>
+              <p>Edite os códigos quando necessário. Evite divulgar esta tela fora da comissão.</p>
+              <div class="table-wrap"><table id="leadershipCodesTable"></table></div>
+            </div>
+
+            <div class="sync-box">
+              <h3>Reclamações e pedidos</h3>
+              <p>Marque como visto ou responda com observações para a liderança acompanhar no painel dela.</p>
+              <div class="table-wrap"><table id="leadershipRequestsTable"></table></div>
+            </div>
+          </div>
+
+          <div class="admin-panel" id="formsPanel">
+            <div class="schedule-board-heading">
+              <span class="eyebrow">Documentos das lideranças</span>
+              <h2>Ficha de inscrição e relatório de estratégia</h2>
+              <p>Dados preenchidos pelas lideranças, organizados por série.</p>
+            </div>
+            <div id="leadershipFormsAdmin" class="admin-leadership-forms"></div>
+          </div>
+
+          <div class="admin-panel" id="teachersAdminPanel">
+            <div class="schedule-board-heading">
+              <span class="eyebrow">Painel dos padrinhos</span>
+              <h2>Professores e códigos</h2>
+              <p>Visualize e altere os códigos de acesso dos professores padrinhos.</p>
+            </div>
+            <div class="sync-box">
+              <h3>Códigos dos professores</h3>
+              <p>Esses códigos liberam o acesso ao professores.html.</p>
+              <div class="table-wrap"><table id="teacherCodesTable"></table></div>
+            </div>
+            <div class="sync-box">
+              <h3>Solicitações dos professores</h3>
+              <p>Pedidos de ensaio da Dança dos Professores aparecem junto das solicitações de ensaio, mas também estão resumidos aqui.</p>
+              <div class="table-wrap"><table id="teacherRequestsTable"></table></div>
+            </div>
+          </div>
+
+          <div class="admin-panel" id="settingsPanel">
           <div class="sync-box">
             <h3>Banco de dados online</h3>
             <p>O login será feito pelo Cloudflare Access. Depois de autenticado, os botões abaixo carregam e salvam os dados online automaticamente.</p>
