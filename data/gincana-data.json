@@ -544,6 +544,21 @@
     },
     {
       "teamId": "7",
+      "activity": "Soletrando",
+      "names": "ANA LUÍZA"
+    },
+    {
+      "teamId": "7",
+      "activity": "Quiz",
+      "names": "GUSTAVO PINHEIRO\nMELINA"
+    },
+    {
+      "teamId": "7",
+      "activity": "Story Criativo",
+      "names": "ANA LETÍCIA RIBEIRO\nBIANCA BESSA\nMARIA ALICE\nBIANLA VIEIRA\nMARIA BIANKA\nMARIA MEL\nMARIANA BARROSO\nLARA"
+    },
+    {
+      "teamId": "7",
       "activity": "Meu Professor Vale 1000",
       "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
@@ -1040,15 +1055,15 @@
         "Blusa da Equipe": "MARIA BIANKA\nMARIA ALICE",
         "Corrida Maluca": "EMILLY\nJOAO LEVI\nMÁRCIO\nLARA",
         "Caça ao Tesouro": "LARA\nMARIANA\nMÁRCIO\nANA LUÍZA",
-        "Soletrando": "",
-        "Quiz": "",
-        "Story Criativo": "",
+        "Soletrando": "ANA LUÍZA",
+        "Quiz": "GUSTAVO PINHEIRO\nMELINA",
+        "Story Criativo": "ANA LETÍCIA RIBEIRO\nBIANCA BESSA\nMARIA ALICE\nBIANLA VIEIRA\nMARIA BIANKA\nMARIA MEL\nMARIANA BARROSO\nLARA",
         "Grito de Guerra": "",
         "Comida Típica": "",
         "Dança Típica": "",
         "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
       },
-      "updatedAt": "2026-04-30T10:34:41.687Z"
+      "updatedAt": "2026-04-30T10:35:46.640Z"
     }
   ],
   "strategyReports": [
