@@ -108,24 +108,6 @@
       "place": "ENSPS",
       "activity": "Dança dos professores",
       "createdBy": "admin"
-    },
-    {
-      "teamId": "8",
-      "date": "2026-04-30",
-      "time": "10:40",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "createdBy": "victoria"
-    },
-    {
-      "teamId": "6",
-      "date": "2026-04-30",
-      "time": "11:30",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "createdBy": "victoria"
     }
   ],
   "participants": [
@@ -735,7 +717,14 @@
       "createdBy": "victoria"
     }
   ],
-  "bonuses": [],
+  "bonuses": [
+    {
+      "teamId": "8",
+      "date": "2026-04-27",
+      "points": 5,
+      "reason": "Turma com menos alunos sem fardamento"
+    }
+  ],
   "judges": [
     {
       "id": "1777128182960-2257a68c7bf718",
