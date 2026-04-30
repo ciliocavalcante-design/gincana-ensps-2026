@@ -183,11 +183,6 @@
       "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
     },
     {
-      "teamId": "7",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
-    },
-    {
       "teamId": "9",
       "activity": "Prova Solidária",
       "names": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre"
@@ -501,6 +496,21 @@
       "teamId": "1",
       "activity": "Meu Professor Vale 1000",
       "names": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
+    },
+    {
+      "teamId": "7",
+      "activity": "Prova Solidária",
+      "names": "SALA TODA"
+    },
+    {
+      "teamId": "7",
+      "activity": "Futsal",
+      "names": "PEDRO JORGE\nPEDRO MIGUEL\nPEDRO IAN\nJOÃO LUCAS\nGUSTAVO CORREIA\nGUSTAVO PINHEIRO\nDAVI\nMIGUEL NASCIMENTO\nHIARLEY"
+    },
+    {
+      "teamId": "7",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
     }
   ],
   "materials": [
@@ -881,31 +891,6 @@
       "updatedAt": "2026-04-27T12:47:16.190Z"
     },
     {
-      "teamId": "7",
-      "leader": "Letícia",
-      "viceLeader": "",
-      "padrinho": "Prof. Thayna",
-      "participants": {
-        "Prova Solidária": "",
-        "Futsal": "",
-        "Desafio do Professor": "",
-        "Carimba": "",
-        "Vôlei": "",
-        "Dança das Líderes": "",
-        "Blusa da Equipe": "",
-        "Corrida Maluca": "",
-        "Caça ao Tesouro": "",
-        "Soletrando": "",
-        "Quiz": "",
-        "Story Criativo": "",
-        "Grito de Guerra": "",
-        "Comida Típica": "",
-        "Dança Típica": "",
-        "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
-      },
-      "updatedAt": "2026-04-27T13:11:39.967Z"
-    },
-    {
       "teamId": "9",
       "leader": "Carolina Nobre",
       "viceLeader": "Eugênia",
@@ -1004,6 +989,31 @@
         "Meu Professor Vale 1000": "Thalys , Ariel , Pedro , João Vitor, klyssia, Isadora , Isabel"
       },
       "updatedAt": "2026-04-29T12:04:31.546Z"
+    },
+    {
+      "teamId": "7",
+      "leader": "Letícia",
+      "viceLeader": "",
+      "padrinho": "Prof. Thayna",
+      "participants": {
+        "Prova Solidária": "SALA TODA",
+        "Futsal": "PEDRO JORGE\nPEDRO MIGUEL\nPEDRO IAN\nJOÃO LUCAS\nGUSTAVO CORREIA\nGUSTAVO PINHEIRO\nDAVI\nMIGUEL NASCIMENTO\nHIARLEY",
+        "Desafio do Professor": "",
+        "Carimba": "",
+        "Vôlei": "",
+        "Dança das Líderes": "",
+        "Blusa da Equipe": "",
+        "Corrida Maluca": "",
+        "Caça ao Tesouro": "",
+        "Soletrando": "",
+        "Quiz": "",
+        "Story Criativo": "",
+        "Grito de Guerra": "",
+        "Comida Típica": "",
+        "Dança Típica": "",
+        "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
+      },
+      "updatedAt": "2026-04-30T10:30:20.762Z"
     }
   ],
   "strategyReports": [
