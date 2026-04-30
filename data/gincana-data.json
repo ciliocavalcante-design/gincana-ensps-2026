@@ -733,6 +733,13 @@
       "level": "media",
       "levelLabel": "Média",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "8",
+      "type": "Penalidade",
+      "date": "2026-04-30",
+      "points": 5,
+      "reason": "Mau comportamento recorrente e generalizado em sala"
     }
   ],
   "bonuses": [
