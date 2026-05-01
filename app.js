@@ -302,6 +302,11 @@ function saveState() {
   }
 }
 
+function saveLocalStateOnly() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  render();
+}
+
 function mutableState() {
   return {
     scores: state.scores,
@@ -3579,7 +3584,7 @@ document.addEventListener("change", (event) => {
   saveLeadershipDraftFromForm(form);
 });
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   const form = event.target.closest("#leaderRegistrationForm");
   if (!form) return;
   event.preventDefault();
@@ -3589,16 +3594,17 @@ document.addEventListener("submit", (event) => {
   const teamId = payload.teamId;
 
   upsertRegistrationForm(payload);
-  clearLeadershipDraft("registration", teamId);
 
-  setSyncStatus("Ficha de inscrição salva. Participantes atualizados no painel de ensaios.");
-  saveState();
+  saveLocalStateOnly();
   restoreLeadershipMobileSection();
   scrollLeadershipActiveSection("fichas");
-  setSyncStatus("Ficha de inscrição salva. Você continua na aba Ficha.");
+  const savedOnline = await saveLeadershipRemote("registration", payload);
+  if (savedOnline) clearLeadershipDraft("registration", teamId);
+  restoreLeadershipMobileSection();
+  scrollLeadershipActiveSection("fichas");
 });
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   const form = event.target.closest("#leaderStrategyReportForm");
   if (!form) return;
   event.preventDefault();
@@ -3608,13 +3614,14 @@ document.addEventListener("submit", (event) => {
   const teamId = payload.teamId;
 
   upsertStrategyReport(payload);
-  clearLeadershipDraft("strategy", teamId);
 
-  setSyncStatus("Relatório de estratégia salvo para a comissão.");
-  saveState();
+  saveLocalStateOnly();
   restoreLeadershipMobileSection();
   scrollLeadershipActiveSection("relatorio");
-  setSyncStatus("Relatório de estratégia salvo. Você continua na aba Relatório.");
+  const savedOnline = await saveLeadershipRemote("strategy", payload);
+  if (savedOnline) clearLeadershipDraft("strategy", teamId);
+  restoreLeadershipMobileSection();
+  scrollLeadershipActiveSection("relatorio");
 });
 
 
@@ -4580,6 +4587,46 @@ async function saveEvaluationRemote(evaluation) {
     } else {
       setSyncStatus(`Não foi possível salvar online: ${error.message}`);
     }
+  }
+}
+
+async function saveLeadershipRemote(type, payload) {
+  if (!canSaveOnline()) {
+    setSyncStatus("Salvo neste aparelho. Abra pelo Cloudflare Pages para registrar online.");
+    return false;
+  }
+
+  const isRegistration = type === "registration";
+  const action = isRegistration ? "upsertRegistrationForm" : "upsertStrategyReport";
+  const label = isRegistration ? "ficha de inscrição" : "relatório de estratégia";
+
+  try {
+    setSyncStatus(`Enviando ${label} online...`);
+    const response = await fetch(dataApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action,
+        payload,
+        reason: `${isRegistration ? "Ficha" : "Relatório"} de liderança: ${payload.teamId || "turma"}`
+      })
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.ok === false) {
+      throw new Error(result.error || `servidor respondeu ${response.status}`);
+    }
+    if (result.data) {
+      state = normalizeState(result.data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+    setSyncStatus(`${isRegistration ? "Ficha de inscrição" : "Relatório de estratégia"} salvo online. O admin já pode acompanhar.`);
+    return true;
+  } catch (error) {
+    setSyncStatus(`Não foi possível salvar ${label} online: ${error.message}. O rascunho permanece neste aparelho.`);
+    return false;
   }
 }
 
