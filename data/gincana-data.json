@@ -1434,6 +1434,105 @@
       "totalCamisa": "30",
       "cotaAluno": "55",
       "updatedAt": "2026-04-30T10:40:29.514Z"
+    },
+    {
+      "teamId": "8",
+      "rows": {
+        "Prova Solidária": {
+          "responsavel": "Isabelly",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comportamento": {
+          "responsavel": "Maria Lara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Adesão da Blusa": {
+          "responsavel": "Isabelly",
+          "custo": "",
+          "descricao": ""
+        },
+        "Futsal": {
+          "responsavel": "Ryan",
+          "custo": "",
+          "descricao": ""
+        },
+        "Desafio do Professor": {
+          "responsavel": "Elayne",
+          "custo": "",
+          "descricao": ""
+        },
+        "Carimba": {
+          "responsavel": "Mikaely",
+          "custo": "",
+          "descricao": ""
+        },
+        "Vôlei": {
+          "responsavel": "Camila",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança das Líderes": {
+          "responsavel": "Isabelly",
+          "custo": "100",
+          "descricao": "Compra de pompons e adereços da dança"
+        },
+        "Blusa da Equipe": {
+          "responsavel": "Isabelly",
+          "custo": "",
+          "descricao": ""
+        },
+        "Corrida Maluca": {
+          "responsavel": "Luiz Fernando",
+          "custo": "",
+          "descricao": ""
+        },
+        "Caça ao Tesouro": {
+          "responsavel": "Maria Lara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Soletrando": {
+          "responsavel": "Nalu",
+          "custo": "",
+          "descricao": ""
+        },
+        "Quiz": {
+          "responsavel": "Mikaely",
+          "custo": "",
+          "descricao": ""
+        },
+        "Story Criativo": {
+          "responsavel": "Maria Lara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Grito de Guerra": {
+          "responsavel": "Elayne",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comida Típica": {
+          "responsavel": "Maria Lyvia",
+          "custo": "100",
+          "descricao": "Compra de materiais"
+        },
+        "Dança Típica": {
+          "responsavel": "Isabelly",
+          "custo": "150",
+          "descricao": "Compra de adereços"
+        },
+        "Meu Professor Vale 1000": {
+          "responsavel": "Isabelly e Elayne",
+          "custo": "100",
+          "descricao": "Compra de adereços"
+        }
+      },
+      "totalProvas": "",
+      "totalCamisa": "1.200",
+      "cotaAluno": "60",
+      "updatedAt": "2026-05-03T16:33:18.866Z"
     }
   ],
   "leadershipCodes": {
