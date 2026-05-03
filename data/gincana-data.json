@@ -1475,8 +1475,8 @@
         },
         "Dança das Líderes": {
           "responsavel": "Isabelly",
-          "custo": "100",
-          "descricao": "Compra de pompons e adereços da dança"
+          "custo": "",
+          "descricao": ""
         },
         "Blusa da Equipe": {
           "responsavel": "Isabelly",
@@ -1515,24 +1515,24 @@
         },
         "Comida Típica": {
           "responsavel": "Maria Lyvia",
-          "custo": "100",
-          "descricao": "Compra de materiais"
+          "custo": "",
+          "descricao": ""
         },
         "Dança Típica": {
           "responsavel": "Isabelly",
-          "custo": "150",
-          "descricao": "Compra de adereços"
+          "custo": "",
+          "descricao": ""
         },
         "Meu Professor Vale 1000": {
           "responsavel": "Isabelly e Elayne",
-          "custo": "100",
-          "descricao": "Compra de adereços"
+          "custo": "",
+          "descricao": ""
         }
       },
       "totalProvas": "",
-      "totalCamisa": "1.200",
-      "cotaAluno": "60",
-      "updatedAt": "2026-05-03T16:33:18.866Z"
+      "totalCamisa": "",
+      "cotaAluno": "",
+      "updatedAt": "2026-05-03T16:36:54.623Z"
     }
   ],
   "leadershipCodes": {
