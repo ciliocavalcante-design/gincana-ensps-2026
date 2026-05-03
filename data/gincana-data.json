@@ -385,86 +385,6 @@
       "names": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
     },
     {
-      "teamId": "8",
-      "activity": "Prova Solidária",
-      "names": "Isabelly"
-    },
-    {
-      "teamId": "8",
-      "activity": "Futsal",
-      "names": "Ryan"
-    },
-    {
-      "teamId": "8",
-      "activity": "Desafio do Professor",
-      "names": "Elayne"
-    },
-    {
-      "teamId": "8",
-      "activity": "Carimba",
-      "names": "Mikaely"
-    },
-    {
-      "teamId": "8",
-      "activity": "Vôlei",
-      "names": "Lyvia"
-    },
-    {
-      "teamId": "8",
-      "activity": "Dança das Líderes",
-      "names": "Sophia"
-    },
-    {
-      "teamId": "8",
-      "activity": "Blusa da Equipe",
-      "names": "Isabelly"
-    },
-    {
-      "teamId": "8",
-      "activity": "Corrida Maluca",
-      "names": "Luiz Fernando"
-    },
-    {
-      "teamId": "8",
-      "activity": "Caça ao Tesouro",
-      "names": "Maria Lara e isabelly"
-    },
-    {
-      "teamId": "8",
-      "activity": "Soletrando",
-      "names": "Nalu"
-    },
-    {
-      "teamId": "8",
-      "activity": "Quiz",
-      "names": "Mikaely"
-    },
-    {
-      "teamId": "8",
-      "activity": "Story Criativo",
-      "names": "Maria Lara,Isabelly e Elayne"
-    },
-    {
-      "teamId": "8",
-      "activity": "Grito de Guerra",
-      "names": "Não definido ainda"
-    },
-    {
-      "teamId": "8",
-      "activity": "Comida Típica",
-      "names": "Lyvia"
-    },
-    {
-      "teamId": "8",
-      "activity": "Dança Típica",
-      "names": "Isabelly"
-    },
-    {
-      "teamId": "8",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Elayne e isabelly"
-    },
-    {
       "teamId": "1",
       "activity": "Prova Solidária",
       "names": "Jamilly, Isabel e colaboração da sala"
@@ -618,6 +538,86 @@
       "teamId": "7",
       "activity": "Meu Professor Vale 1000",
       "names": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
+    },
+    {
+      "teamId": "8",
+      "activity": "Prova Solidária",
+      "names": "TODA A TURMA"
+    },
+    {
+      "teamId": "8",
+      "activity": "Futsal",
+      "names": "Titular\nRyan\nSamuel\nCaio.a\nJosé Gabriel\nAlexandre\nReservas\nMiguel Vasconcelos\nJoão Lucas\nRickson\nGustavo\nRyan"
+    },
+    {
+      "teamId": "8",
+      "activity": "Desafio do Professor",
+      "names": "Elayne"
+    },
+    {
+      "teamId": "8",
+      "activity": "Carimba",
+      "names": "Mikaelly\nMaria Lara\nBeatriz\nIsabelly\nPaulo César\nMaria Júlia\nMaria Luiza\nCamila"
+    },
+    {
+      "teamId": "8",
+      "activity": "Vôlei",
+      "names": "Maria Lyvia\nCamila\nCaio Audrey\nMaria Júlia\nRyan\nMaria Lara"
+    },
+    {
+      "teamId": "8",
+      "activity": "Dança das Líderes",
+      "names": "Sophia\nAneliese\nIsabelly\nBeatriz\nMaria Lara\nEvelyn\nMaria  Lyvia\nMikaelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Blusa da Equipe",
+      "names": "Isabelly\nMaria Lara"
+    },
+    {
+      "teamId": "8",
+      "activity": "Corrida Maluca",
+      "names": "Luiz Fernando\nRyan\nCamila"
+    },
+    {
+      "teamId": "8",
+      "activity": "Caça ao Tesouro",
+      "names": "Maria Lara\nisabelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Soletrando",
+      "names": "Nalu"
+    },
+    {
+      "teamId": "8",
+      "activity": "Quiz",
+      "names": "Mikaelly"
+    },
+    {
+      "teamId": "8",
+      "activity": "Story Criativo",
+      "names": "Maria Lara\nIsabelly e Elayne"
+    },
+    {
+      "teamId": "8",
+      "activity": "Grito de Guerra",
+      "names": "Toda a turma"
+    },
+    {
+      "teamId": "8",
+      "activity": "Comida Típica",
+      "names": "Maria Lyvia"
+    },
+    {
+      "teamId": "8",
+      "activity": "Dança Típica",
+      "names": "Isabelly\nNalu\nBeatriz\nMaria Lara\nSophia\nAneliese\nEvelyn\nMikaelly\nRyan\nSamuel"
+    },
+    {
+      "teamId": "8",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Isabelly\nMikaelly\nSophia\nEvelyn\nAneliese\nBeatriz\nMaria Lara\nJamily\nRyan\nMateus"
     }
   ],
   "materials": [
@@ -1062,31 +1062,6 @@
       "updatedAt": "2026-04-28T19:49:21.515Z"
     },
     {
-      "teamId": "8",
-      "leader": "Isabelly",
-      "viceLeader": "Maria Lara",
-      "padrinho": "Prof. Elayne",
-      "participants": {
-        "Prova Solidária": "Isabelly",
-        "Futsal": "Ryan",
-        "Desafio do Professor": "Elayne",
-        "Carimba": "Mikaely",
-        "Vôlei": "Lyvia",
-        "Dança das Líderes": "Sophia",
-        "Blusa da Equipe": "Isabelly",
-        "Corrida Maluca": "Luiz Fernando",
-        "Caça ao Tesouro": "Maria Lara e isabelly",
-        "Soletrando": "Nalu",
-        "Quiz": "Mikaely",
-        "Story Criativo": "Maria Lara,Isabelly e Elayne",
-        "Grito de Guerra": "Não definido ainda",
-        "Comida Típica": "Lyvia",
-        "Dança Típica": "Isabelly",
-        "Meu Professor Vale 1000": "Elayne e isabelly"
-      },
-      "updatedAt": "2026-04-28T22:06:24.537Z"
-    },
-    {
       "teamId": "1",
       "leader": "Jamilly",
       "viceLeader": "Isabel",
@@ -1135,6 +1110,31 @@
         "Meu Professor Vale 1000": "Emily\nDavi\nMariana\nMaria Alice\nPedro Jorge\nMelissa\nLaura\nAna Cecilia\nAlexia\nMarcio Miguel\nEsther\nMarina\nLara\nBianca Bessa\nLivia\nMaria Leticia\nLetícia Ribeiro\nMarina\nMaria Mel\nBianka"
       },
       "updatedAt": "2026-04-30T10:38:26.539Z"
+    },
+    {
+      "teamId": "8",
+      "leader": "Isabelly",
+      "viceLeader": "Maria Lara",
+      "padrinho": "Prof. Elayne",
+      "participants": {
+        "Prova Solidária": "TODA A TURMA",
+        "Futsal": "Titular\nRyan\nSamuel\nCaio.a\nJosé Gabriel\nAlexandre\nReservas\nMiguel Vasconcelos\nJoão Lucas\nRickson\nGustavo\nRyan",
+        "Desafio do Professor": "Elayne",
+        "Carimba": "Mikaelly\nMaria Lara\nBeatriz\nIsabelly\nPaulo César\nMaria Júlia\nMaria Luiza\nCamila",
+        "Vôlei": "Maria Lyvia\nCamila\nCaio Audrey\nMaria Júlia\nRyan\nMaria Lara",
+        "Dança das Líderes": "Sophia\nAneliese\nIsabelly\nBeatriz\nMaria Lara\nEvelyn\nMaria  Lyvia\nMikaelly",
+        "Blusa da Equipe": "Isabelly\nMaria Lara",
+        "Corrida Maluca": "Luiz Fernando\nRyan\nCamila",
+        "Caça ao Tesouro": "Maria Lara\nisabelly",
+        "Soletrando": "Nalu",
+        "Quiz": "Mikaelly",
+        "Story Criativo": "Maria Lara\nIsabelly e Elayne",
+        "Grito de Guerra": "Toda a turma",
+        "Comida Típica": "Maria Lyvia",
+        "Dança Típica": "Isabelly\nNalu\nBeatriz\nMaria Lara\nSophia\nAneliese\nEvelyn\nMikaelly\nRyan\nSamuel",
+        "Meu Professor Vale 1000": "Isabelly\nMikaelly\nSophia\nEvelyn\nAneliese\nBeatriz\nMaria Lara\nJamily\nRyan\nMateus"
+      },
+      "updatedAt": "2026-05-03T16:21:39.159Z"
     }
   ],
   "strategyReports": [
