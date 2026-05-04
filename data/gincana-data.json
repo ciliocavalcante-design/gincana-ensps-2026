@@ -576,11 +576,6 @@
     },
     {
       "teamId": "6",
-      "activity": "Story Criativo",
-      "names": "Heloísa\nRafaela\nLiz\nLevi\nCaetano\nJoão Lucas maia"
-    },
-    {
-      "teamId": "6",
       "activity": "Grito de Guerra",
       "names": "Heloísa\nRafaela\nLivia"
     },
@@ -1008,6 +1003,11 @@
       "teamId": "6",
       "activity": "Caça ao Tesouro",
       "names": "Maria Luísa\nJoão Lucas Maia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Story Criativo",
+      "names": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia"
     }
   ],
   "materials": [
@@ -1410,13 +1410,13 @@
         "Caça ao Tesouro": "Maria Luísa\nJoão Lucas Maia",
         "Soletrando": "Rafaela\nMiguel",
         "Quiz": "Rafaela\nMaria Luísa",
-        "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nCaetano\nJoão Lucas maia",
+        "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia",
         "Grito de Guerra": "Heloísa\nRafaela\nLivia",
         "Comida Típica": "Maria Heloísa\nMaria Livia",
         "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
         "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
       },
-      "updatedAt": "2026-05-04T18:55:46.189Z"
+      "updatedAt": "2026-05-04T18:56:06.789Z"
     },
     {
       "teamId": "9",
