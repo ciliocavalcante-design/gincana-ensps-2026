@@ -141,110 +141,6 @@
       "activity": "Dança das Líderes de Torcida",
       "createdBy": "victoria",
       "active": true
-    },
-    {
-      "id": "1777895118756-7682e425ea5838",
-      "teamId": "6",
-      "weekday": 1,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-29",
-      "time": "10:40",
-      "endTime": "12:00",
-      "place": "ENSPS",
-      "activity": "Dança dos professores",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895174116-7f3a8e825489e",
-      "teamId": "6",
-      "weekday": 1,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-21",
-      "time": "14:30",
-      "endTime": "16:30",
-      "place": "ENSPS",
-      "activity": "Dança das Líderes de Torcida",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895189154-ea423a31d148a8",
-      "teamId": "6",
-      "weekday": 2,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-29",
-      "time": "11:30",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895227691-7f191028dd142",
-      "teamId": "6",
-      "weekday": 3,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-29",
-      "time": "11:30",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895261465-e580a56368b818",
-      "teamId": "6",
-      "weekday": 3,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-22",
-      "time": "14:30",
-      "endTime": "16:30",
-      "place": "ENSPS",
-      "activity": "Dança das Líderes de Torcida",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895293949-3b79c4addc0388",
-      "teamId": "6",
-      "weekday": 4,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-29",
-      "time": "11:30",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança Típica",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895307636-96ddb87e499698",
-      "teamId": "6",
-      "weekday": 4,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-22",
-      "time": "14:30",
-      "endTime": "16:30",
-      "place": "ENSPS",
-      "activity": "Dança das Líderes de Torcida",
-      "createdBy": "victoria",
-      "active": true
-    },
-    {
-      "id": "1777895352020-0f0f923926e7b8",
-      "teamId": "6",
-      "weekday": 5,
-      "startDate": "2026-05-04",
-      "untilDate": "2026-05-29",
-      "time": "10:40",
-      "endTime": "12:00",
-      "place": "ENSPS",
-      "activity": "Dança dos Professores",
-      "createdBy": "victoria",
-      "active": true
     }
   ],
   "participants": [
@@ -866,6 +762,16 @@
       "date": "2026-04-30",
       "points": 0,
       "reason": "Grupo generalizado da sala não realizou as atividades da aula de Educação Física"
+    },
+    {
+      "teamId": "7",
+      "type": "Penalidade",
+      "date": "2026-05-04",
+      "points": 1,
+      "reason": "Conversa/Bagunça na fila, após o intervalo, durante a oração",
+      "level": "leve",
+      "levelLabel": "Leve",
+      "createdBy": "admin"
     }
   ],
   "bonuses": [
