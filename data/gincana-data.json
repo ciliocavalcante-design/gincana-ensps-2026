@@ -585,11 +585,6 @@
       "names": "Maria Heloísa\nMaria Livia"
     },
     {
-      "teamId": "6",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
-    },
-    {
       "teamId": "9",
       "activity": "Prova Solidária",
       "names": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre"
@@ -1008,6 +1003,11 @@
       "teamId": "6",
       "activity": "Story Criativo",
       "names": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
     }
   ],
   "materials": [
@@ -1414,9 +1414,9 @@
         "Grito de Guerra": "Heloísa\nRafaela\nLivia",
         "Comida Típica": "Maria Heloísa\nMaria Livia",
         "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
-        "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
+        "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
       },
-      "updatedAt": "2026-05-04T18:56:06.789Z"
+      "updatedAt": "2026-05-04T18:56:28.465Z"
     },
     {
       "teamId": "9",
