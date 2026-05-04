@@ -126,24 +126,6 @@
       "place": "ENSPS",
       "activity": "Dança Típica",
       "createdBy": "victoria"
-    },
-    {
-      "teamId": "8",
-      "date": "2026-05-06",
-      "time": "11:30",
-      "endTime": "12:30",
-      "place": "ENSPS",
-      "activity": "Dança dos Professores",
-      "createdBy": "admin"
-    },
-    {
-      "teamId": "8",
-      "date": "2026-05-08",
-      "time": "10:40",
-      "endTime": "11:30",
-      "place": "ENSPS",
-      "activity": "Dança dos Professores",
-      "createdBy": "admin"
     }
   ],
   "fixedSchedules": [
@@ -222,6 +204,19 @@
       "endTime": "16:30",
       "place": "ENSPS",
       "activity": "Dança das Líderes de Torcida",
+      "active": true,
+      "createdBy": "victoria"
+    },
+    {
+      "id": "1777905766703-e5d167edaab03",
+      "teamId": "6",
+      "weekday": 4,
+      "startDate": "2026-05-04",
+      "untilDate": "2026-05-29",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança Típica",
       "active": true,
       "createdBy": "victoria"
     }
