@@ -229,11 +229,6 @@
     },
     {
       "teamId": "6",
-      "activity": "Dança Típica",
-      "names": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nLevi"
-    },
-    {
-      "teamId": "6",
       "activity": "Meu Professor Vale 1000",
       "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
     },
@@ -631,6 +626,11 @@
       "teamId": "8",
       "activity": "Meu Professor Vale 1000",
       "names": "Isabelly\nMikaelly\nSophia\nEvelyn\nAneliese\nBeatriz\nMaria Lara\nJamily\nRyan\nMateus"
+    },
+    {
+      "teamId": "6",
+      "activity": "Dança Típica",
+      "names": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nLevi"
     }
   ],
   "materials": [
