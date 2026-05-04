@@ -232,6 +232,19 @@
       "activity": "Dança das Líderes de Torcida",
       "createdBy": "victoria",
       "active": true
+    },
+    {
+      "id": "1777895352020-0f0f923926e7b8",
+      "teamId": "6",
+      "weekday": 5,
+      "startDate": "2026-05-04",
+      "untilDate": "2026-05-29",
+      "time": "10:40",
+      "endTime": "12:00",
+      "place": "ENSPS",
+      "activity": "Dança dos Professores",
+      "createdBy": "victoria",
+      "active": true
     }
   ],
   "participants": [
