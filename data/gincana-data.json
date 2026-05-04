@@ -541,11 +541,6 @@
     },
     {
       "teamId": "6",
-      "activity": "Desafio do Professor",
-      "names": "padrinho"
-    },
-    {
-      "teamId": "6",
       "activity": "Carimba",
       "names": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira"
     },
@@ -1008,6 +1003,11 @@
       "teamId": "6",
       "activity": "Meu Professor Vale 1000",
       "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
+    },
+    {
+      "teamId": "6",
+      "activity": "Desafio do Professor",
+      "names": "Prof. Eduardo"
     }
   ],
   "materials": [
@@ -1401,7 +1401,7 @@
       "participants": {
         "Prova Solidária": "Livia\nRafaela\nMaria Clara Santos",
         "Futsal": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy",
-        "Desafio do Professor": "padrinho",
+        "Desafio do Professor": "Prof. Eduardo",
         "Carimba": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira",
         "Vôlei": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria",
         "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
@@ -1416,7 +1416,7 @@
         "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
         "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
       },
-      "updatedAt": "2026-05-04T18:56:28.465Z"
+      "updatedAt": "2026-05-04T18:56:43.730Z"
     },
     {
       "teamId": "9",
