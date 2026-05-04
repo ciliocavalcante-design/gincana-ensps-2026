@@ -180,6 +180,19 @@
       "activity": "Dança Típica",
       "active": true,
       "createdBy": "victoria"
+    },
+    {
+      "id": "1777904958326-71acc4de1adc7",
+      "teamId": "6",
+      "weekday": 3,
+      "startDate": "2026-05-04",
+      "untilDate": "2026-05-29",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança Típica",
+      "active": true,
+      "createdBy": "victoria"
     }
   ],
   "participants": [
