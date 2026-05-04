@@ -566,11 +566,6 @@
     },
     {
       "teamId": "6",
-      "activity": "Caça ao Tesouro",
-      "names": "Maria Luísa\nJoão Lucas mania"
-    },
-    {
-      "teamId": "6",
       "activity": "Soletrando",
       "names": "Rafaela\nMiguel"
     },
@@ -1008,6 +1003,11 @@
       "teamId": "6",
       "activity": "Blusa da Equipe",
       "names": "Maria Heloísa\nRafaela Silva\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Caça ao Tesouro",
+      "names": "Maria Luísa\nJoão Lucas Maia"
     }
   ],
   "materials": [
@@ -1407,7 +1407,7 @@
         "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
         "Blusa da Equipe": "Maria Heloísa\nRafaela Silva\nLiz Maria",
         "Corrida Maluca": "João Lucas Caetano\nLiz Maria",
-        "Caça ao Tesouro": "Maria Luísa\nJoão Lucas mania",
+        "Caça ao Tesouro": "Maria Luísa\nJoão Lucas Maia",
         "Soletrando": "Rafaela\nMiguel",
         "Quiz": "Rafaela\nMaria Luísa",
         "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nCaetano\nJoão Lucas maia",
@@ -1416,7 +1416,7 @@
         "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
         "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
       },
-      "updatedAt": "2026-05-04T18:55:39.397Z"
+      "updatedAt": "2026-05-04T18:55:46.189Z"
     },
     {
       "teamId": "9",
