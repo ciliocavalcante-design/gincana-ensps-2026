@@ -349,6 +349,19 @@
       "activity": "Dança Típica",
       "active": true,
       "createdBy": "victoria"
+    },
+    {
+      "id": "1777919509207-70a89c1fecb4d8",
+      "teamId": "8",
+      "weekday": 3,
+      "startDate": "2026-05-04",
+      "untilDate": "2026-05-29",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança dos Professores",
+      "active": true,
+      "createdBy": "victoria"
     }
   ],
   "participants": [
