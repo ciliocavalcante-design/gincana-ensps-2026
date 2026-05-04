@@ -245,6 +245,19 @@
       "activity": "Dança dos Professores",
       "active": true,
       "createdBy": "victoria"
+    },
+    {
+      "id": "1777905872989-bb1b5fbf846ea",
+      "teamId": "7",
+      "weekday": 1,
+      "startDate": "2026-05-04",
+      "untilDate": "2026-05-22",
+      "time": "10:40",
+      "endTime": "12:00",
+      "place": "ENSPS",
+      "activity": "Ensaio fixo",
+      "active": true,
+      "createdBy": "victoria"
     }
   ],
   "participants": [
