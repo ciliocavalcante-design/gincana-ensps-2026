@@ -561,11 +561,6 @@
     },
     {
       "teamId": "6",
-      "activity": "Blusa da Equipe",
-      "names": "maria Heloísa\nRafaela Silva\nLiz Maria"
-    },
-    {
-      "teamId": "6",
       "activity": "Corrida Maluca",
       "names": "João Lucas Caetano\nLiz Maria"
     },
@@ -1008,6 +1003,11 @@
       "teamId": "6",
       "activity": "Futsal",
       "names": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy"
+    },
+    {
+      "teamId": "6",
+      "activity": "Blusa da Equipe",
+      "names": "Maria Heloísa\nRafaela Silva\nLiz Maria"
     }
   ],
   "materials": [
@@ -1405,7 +1405,7 @@
         "Carimba": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira",
         "Vôlei": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria",
         "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
-        "Blusa da Equipe": "maria Heloísa\nRafaela Silva\nLiz Maria",
+        "Blusa da Equipe": "Maria Heloísa\nRafaela Silva\nLiz Maria",
         "Corrida Maluca": "João Lucas Caetano\nLiz Maria",
         "Caça ao Tesouro": "Maria Luísa\nJoão Lucas mania",
         "Soletrando": "Rafaela\nMiguel",
@@ -1416,7 +1416,7 @@
         "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
         "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nPadrinho"
       },
-      "updatedAt": "2026-05-04T18:54:52.094Z"
+      "updatedAt": "2026-05-04T18:55:39.397Z"
     },
     {
       "teamId": "9",
