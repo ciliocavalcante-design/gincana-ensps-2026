@@ -135,6 +135,15 @@
       "place": "ENSPS",
       "activity": "Dança dos Professores",
       "createdBy": "admin"
+    },
+    {
+      "teamId": "8",
+      "date": "2026-05-08",
+      "time": "10:40",
+      "endTime": "11:30",
+      "place": "ENSPS",
+      "activity": "Dança dos Professores",
+      "createdBy": "admin"
     }
   ],
   "fixedSchedules": [
