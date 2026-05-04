@@ -126,6 +126,15 @@
       "place": "ENSPS",
       "activity": "Dança Típica",
       "createdBy": "victoria"
+    },
+    {
+      "teamId": "8",
+      "date": "2026-05-06",
+      "time": "11:30",
+      "endTime": "12:30",
+      "place": "ENSPS",
+      "activity": "Dança dos Professores",
+      "createdBy": "admin"
     }
   ],
   "fixedSchedules": [
