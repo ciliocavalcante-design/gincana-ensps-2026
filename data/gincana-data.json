@@ -1176,6 +1176,13 @@
       "date": "2026-05-05",
       "points": 2,
       "reason": "Insubordinação e falta de respeito para com o professor"
+    },
+    {
+      "teamId": "9",
+      "type": "Penalidade",
+      "date": "2026-05-05",
+      "points": 2,
+      "reason": "Aluno fora da sala em horário de aula"
     }
   ],
   "bonuses": [
