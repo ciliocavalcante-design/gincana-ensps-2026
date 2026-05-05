@@ -1169,6 +1169,13 @@
       "date": "2026-05-05",
       "points": 2,
       "reason": "Insubordinação e falta de respeito para com o professor"
+    },
+    {
+      "teamId": "7",
+      "type": "Penalidade",
+      "date": "2026-05-05",
+      "points": 2,
+      "reason": "Insubordinação e falta de respeito para com o professor"
     }
   ],
   "bonuses": [
