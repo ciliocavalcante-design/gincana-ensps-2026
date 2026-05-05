@@ -995,11 +995,6 @@
     },
     {
       "teamId": "2",
-      "activity": "Story Criativo",
-      "names": "Ana Nicolly\nAnita\nClara"
-    },
-    {
-      "teamId": "2",
       "activity": "Grito de Guerra",
       "names": "Yago\nCamila"
     },
@@ -1017,6 +1012,11 @@
       "teamId": "2",
       "activity": "Meu Professor Vale 1000",
       "names": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
+    },
+    {
+      "teamId": "2",
+      "activity": "Story Criativo",
+      "names": "Ana Nicolly\nAnita\nJames Alan\nJoão Henrique\nLaila Rios\nLívia Íris\nMaria Clara\nMariana de Fátima\nSamuel Fernandes"
     }
   ],
   "materials": [
@@ -1572,13 +1572,13 @@
         "Caça ao Tesouro": "James\nMoisés",
         "Soletrando": "Juan\nMoisés",
         "Quiz": "Moisés\nJuan",
-        "Story Criativo": "Ana Nicolly\nAnita\nClara",
+        "Story Criativo": "Ana Nicolly\nAnita\nJames Alan\nJoão Henrique\nLaila Rios\nLívia Íris\nMaria Clara\nMariana de Fátima\nSamuel Fernandes",
         "Grito de Guerra": "Yago\nCamila",
         "Comida Típica": "Henrique\nLarissa",
         "Dança Típica": "Samuel Fernandes\nYago\nLisley\nClara\nLaila\nMariana\nAna nicolly\nJames\nLarissa\nLana\nAnita\nLivia",
         "Meu Professor Vale 1000": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
       },
-      "updatedAt": "2026-05-05T15:45:32.277Z"
+      "updatedAt": "2026-05-05T19:03:43.721Z"
     }
   ],
   "strategyReports": [
