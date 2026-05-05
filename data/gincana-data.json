@@ -1183,6 +1183,13 @@
       "date": "2026-05-05",
       "points": 2,
       "reason": "Aluno fora da sala em horário de aula"
+    },
+    {
+      "teamId": "2",
+      "type": "Penalidade",
+      "date": "2026-05-05",
+      "points": 4,
+      "reason": "2 pontos por aluna fora de sala em horário de aula"
     }
   ],
   "bonuses": [
