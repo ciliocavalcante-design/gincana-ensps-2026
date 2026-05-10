@@ -1280,9 +1280,9 @@
       "name": "Bloco Cultural",
       "category": "Categoria 1",
       "eventIds": [
+        "grito",
         "comida",
-        "danca",
-        "grito"
+        "danca"
       ],
       "active": true
     },
@@ -1291,9 +1291,9 @@
       "name": "Bloco Cultural 2",
       "category": "Categoria 2",
       "eventIds": [
+        "grito",
         "comida",
-        "danca",
-        "grito"
+        "danca"
       ],
       "active": true
     }
@@ -1427,6 +1427,20 @@
       "createdAt": "2026-04-27T12:24:10.626Z",
       "updatedAt": "2026-04-27T15:12:55.609Z",
       "approvedBy": "victoria"
+    },
+    {
+      "id": "1778449382097-8774617946dee",
+      "teamId": "2",
+      "date": "2026-05-13",
+      "time": "07:40",
+      "endTime": "08:35",
+      "place": "ENSPS",
+      "activity": "Dança dos Professores",
+      "note": "Ensaio extra com a professora",
+      "status": "pending",
+      "requestedBy": "leader",
+      "createdAt": "2026-05-10T21:43:02.097Z",
+      "updatedAt": "2026-05-10T21:43:02.097Z"
     }
   ],
   "registrationForms": [
