@@ -1977,6 +1977,105 @@
       "totalCamisa": "",
       "cotaAluno": "",
       "updatedAt": "2026-05-03T16:36:54.623Z"
+    },
+    {
+      "teamId": "2",
+      "rows": {
+        "Prova Solidária": {
+          "responsavel": "Clara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comportamento": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Adesão da Blusa": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Futsal": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Desafio do Professor": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Carimba": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Vôlei": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança das Líderes": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Blusa da Equipe": {
+          "responsavel": "Clara",
+          "custo": "20",
+          "descricao": "A blusa custará 20 reais por aluno"
+        },
+        "Corrida Maluca": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Caça ao Tesouro": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Soletrando": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Quiz": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Story Criativo": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Grito de Guerra": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comida Típica": {
+          "responsavel": "Clara",
+          "custo": "200",
+          "descricao": "O custa será de aproximadamente 200 pois iremos trazer um prato realmente típico e completo"
+        },
+        "Dança Típica": {
+          "responsavel": "Clara",
+          "custo": "150",
+          "descricao": "O custo pode se manter ou aumentar dado as condições de figurinos extras"
+        },
+        "Meu Professor Vale 1000": {
+          "responsavel": "",
+          "custo": "",
+          "descricao": ""
+        }
+      },
+      "totalProvas": "",
+      "totalCamisa": "440",
+      "cotaAluno": "50",
+      "updatedAt": "2026-05-10T21:41:28.704Z"
     }
   ],
   "leadershipCodes": {
