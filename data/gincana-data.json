@@ -1134,6 +1134,14 @@
       "date": "2026-05-10",
       "amount": "",
       "note": ""
+    },
+    {
+      "teamId": "7",
+      "material": "Remix dança dos professores",
+      "status": "Entregue",
+      "date": "2026-05-10",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
