@@ -1110,6 +1110,14 @@
       "date": "2026-04-22",
       "amount": "",
       "note": ""
+    },
+    {
+      "teamId": "1",
+      "material": "Remix dança típica",
+      "status": "Entregue",
+      "date": "2026-05-10",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
