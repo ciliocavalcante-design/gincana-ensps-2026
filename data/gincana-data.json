@@ -1238,6 +1238,14 @@
       "date": "2026-05-11",
       "amount": "",
       "note": ""
+    },
+    {
+      "teamId": "2",
+      "material": "Remix dança típica",
+      "status": "Parcial",
+      "date": "2026-05-11",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
