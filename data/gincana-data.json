@@ -555,51 +555,6 @@
   ],
   "participants": [
     {
-      "teamId": "6",
-      "activity": "Prova Solidária",
-      "names": "Livia\nRafaela\nMaria Clara Santos"
-    },
-    {
-      "teamId": "6",
-      "activity": "Carimba",
-      "names": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira"
-    },
-    {
-      "teamId": "6",
-      "activity": "Vôlei",
-      "names": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria"
-    },
-    {
-      "teamId": "6",
-      "activity": "Dança das Líderes",
-      "names": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria"
-    },
-    {
-      "teamId": "6",
-      "activity": "Corrida Maluca",
-      "names": "João Lucas Caetano\nLiz Maria"
-    },
-    {
-      "teamId": "6",
-      "activity": "Soletrando",
-      "names": "Rafaela\nMiguel"
-    },
-    {
-      "teamId": "6",
-      "activity": "Quiz",
-      "names": "Rafaela\nMaria Luísa"
-    },
-    {
-      "teamId": "6",
-      "activity": "Grito de Guerra",
-      "names": "Heloísa\nRafaela\nLivia"
-    },
-    {
-      "teamId": "6",
-      "activity": "Comida Típica",
-      "names": "Maria Heloísa\nMaria Livia"
-    },
-    {
       "teamId": "9",
       "activity": "Prova Solidária",
       "names": "Sofia Oliveira\nVictor Gabriel\nLivia Barroso\nCarolina Nobre"
@@ -915,41 +870,6 @@
       "names": "Isabelly\nMikaelly\nSophia\nEvelyn\nAneliese\nBeatriz\nMaria Lara\nJamily\nRyan\nMateus"
     },
     {
-      "teamId": "6",
-      "activity": "Dança Típica",
-      "names": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy"
-    },
-    {
-      "teamId": "6",
-      "activity": "Futsal",
-      "names": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy"
-    },
-    {
-      "teamId": "6",
-      "activity": "Blusa da Equipe",
-      "names": "Maria Heloísa\nRafaela Silva\nLiz Maria"
-    },
-    {
-      "teamId": "6",
-      "activity": "Caça ao Tesouro",
-      "names": "Maria Luísa\nJoão Lucas Maia"
-    },
-    {
-      "teamId": "6",
-      "activity": "Story Criativo",
-      "names": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia"
-    },
-    {
-      "teamId": "6",
-      "activity": "Meu Professor Vale 1000",
-      "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
-    },
-    {
-      "teamId": "6",
-      "activity": "Desafio do Professor",
-      "names": "Prof. Eduardo"
-    },
-    {
       "teamId": "2",
       "activity": "Prova Solidária",
       "names": "Clara"
@@ -1028,6 +948,86 @@
       "teamId": "2",
       "activity": "Story Criativo",
       "names": "Ana Nicolly\nAnita\nLaila Rios\nLívia Íris\nMaria Clara\nMariana de Fátima\nSamuel Fernandes\nSayonara"
+    },
+    {
+      "teamId": "6",
+      "activity": "Prova Solidária",
+      "names": "Livia\nRafaela\nMaria Clara Santos"
+    },
+    {
+      "teamId": "6",
+      "activity": "Futsal",
+      "names": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy"
+    },
+    {
+      "teamId": "6",
+      "activity": "Desafio do Professor",
+      "names": "Prof. Eduardo"
+    },
+    {
+      "teamId": "6",
+      "activity": "Carimba",
+      "names": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira"
+    },
+    {
+      "teamId": "6",
+      "activity": "Vôlei",
+      "names": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Dança das Líderes",
+      "names": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Blusa da Equipe",
+      "names": "Maria Heloísa\nRafaela Silva\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Corrida Maluca",
+      "names": "João Lucas Caetano\nLiz Maria"
+    },
+    {
+      "teamId": "6",
+      "activity": "Caça ao Tesouro",
+      "names": "Maria Luísa\nJoão Lucas Maia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Soletrando",
+      "names": "Rafaela\nMiguel"
+    },
+    {
+      "teamId": "6",
+      "activity": "Quiz",
+      "names": "Rafaela\nMaria Luísa"
+    },
+    {
+      "teamId": "6",
+      "activity": "Story Criativo",
+      "names": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Grito de Guerra",
+      "names": "Heloísa\nRafaela\nLivia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Comida Típica",
+      "names": "Maria Heloísa\nMaria Livia"
+    },
+    {
+      "teamId": "6",
+      "activity": "Dança Típica",
+      "names": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy"
+    },
+    {
+      "teamId": "6",
+      "activity": "Meu Professor Vale 1000",
+      "names": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nHeloísa\nProf. Eduardo"
     }
   ],
   "materials": [
@@ -1569,31 +1569,6 @@
   ],
   "registrationForms": [
     {
-      "teamId": "6",
-      "leader": "heloísa",
-      "viceLeader": "a rafaela",
-      "padrinho": "Prof. Eduardo",
-      "participants": {
-        "Prova Solidária": "Livia\nRafaela\nMaria Clara Santos",
-        "Futsal": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy",
-        "Desafio do Professor": "Prof. Eduardo",
-        "Carimba": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira",
-        "Vôlei": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria",
-        "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
-        "Blusa da Equipe": "Maria Heloísa\nRafaela Silva\nLiz Maria",
-        "Corrida Maluca": "João Lucas Caetano\nLiz Maria",
-        "Caça ao Tesouro": "Maria Luísa\nJoão Lucas Maia",
-        "Soletrando": "Rafaela\nMiguel",
-        "Quiz": "Rafaela\nMaria Luísa",
-        "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia",
-        "Grito de Guerra": "Heloísa\nRafaela\nLivia",
-        "Comida Típica": "Maria Heloísa\nMaria Livia",
-        "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
-        "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nLevi\nCaetano\nHeloísa\nProf. Eduardo"
-      },
-      "updatedAt": "2026-05-04T18:56:43.730Z"
-    },
-    {
       "teamId": "9",
       "leader": "Carolina Nobre",
       "viceLeader": "Eugênia",
@@ -1717,6 +1692,31 @@
         "Meu Professor Vale 1000": "Rafaela\nClara\nLisley\nMariana\nLaila\nSayonara\nAna nicolly\nLarissa Diaz\nLivia\nBeatriz\nAnita\nSamuel Fernandes"
       },
       "updatedAt": "2026-05-07T12:13:43.835Z"
+    },
+    {
+      "teamId": "6",
+      "leader": "heloísa",
+      "viceLeader": "a rafaela",
+      "padrinho": "Prof. Eduardo",
+      "participants": {
+        "Prova Solidária": "Livia\nRafaela\nMaria Clara Santos",
+        "Futsal": "João Lucas Caetano\nJúlio levi Abreu\nJoão Miguel de Araújo\nRafael Holanda\nEduardo Levy",
+        "Desafio do Professor": "Prof. Eduardo",
+        "Carimba": "Livia Andrade\nMariana\nJoão Lucas Caetano\nAgnes\nYasmin\nRafaela\nAntônio Gustavo\nHelena\nEdgar\nJoão Lucas maia\nVinicius\nJoão Miguel Oliveira",
+        "Vôlei": "Maria Heloísa\nMaria Helena\nRafaela\nLivia\nBianca\nLiz Maria",
+        "Dança das Líderes": "Rafaela\nLivia\nMariana\nLiz Maria\nMaria Alice\nMaria Luísa\nAgnes Maria",
+        "Blusa da Equipe": "Maria Heloísa\nRafaela Silva\nLiz Maria",
+        "Corrida Maluca": "João Lucas Caetano\nLiz Maria",
+        "Caça ao Tesouro": "Maria Luísa\nJoão Lucas Maia",
+        "Soletrando": "Rafaela\nMiguel",
+        "Quiz": "Rafaela\nMaria Luísa",
+        "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia",
+        "Grito de Guerra": "Heloísa\nRafaela\nLivia",
+        "Comida Típica": "Maria Heloísa\nMaria Livia",
+        "Dança Típica": "Maria Alice\nLiz Maria\nMariana\nAgnes\nLivia\nEduardo Levy",
+        "Meu Professor Vale 1000": "Rafaela\nMariana\nAlice\nLiz Maria\nAgnes\nHeloísa\nProf. Eduardo"
+      },
+      "updatedAt": "2026-05-11T13:53:48.953Z"
     }
   ],
   "strategyReports": [
