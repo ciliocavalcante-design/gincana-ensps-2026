@@ -1190,6 +1190,14 @@
       "date": "2026-04-30",
       "amount": "55",
       "note": ""
+    },
+    {
+      "teamId": "8",
+      "material": "Cota (sala + blusa)",
+      "status": "Entregue",
+      "date": "2026-04-30",
+      "amount": "60",
+      "note": ""
     }
   ],
   "foodDonations": [],
