@@ -1222,6 +1222,14 @@
       "date": "2026-04-30",
       "amount": "55",
       "note": ""
+    },
+    {
+      "teamId": "2",
+      "material": "Remix dança das líderes de torcida",
+      "status": "Entregue",
+      "date": "2026-05-11",
+      "amount": "",
+      "note": ""
     }
   ],
   "foodDonations": [],
