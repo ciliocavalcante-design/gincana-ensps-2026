@@ -668,6 +668,19 @@
       "activity": "Dança das Líderes de Torcida",
       "active": true,
       "createdBy": "victoria"
+    },
+    {
+      "id": "1778495129001-a270033d3530b",
+      "teamId": "2",
+      "weekday": 3,
+      "startDate": "2026-05-11",
+      "untilDate": "2026-05-22",
+      "time": "11:50",
+      "endTime": "12:35",
+      "place": "ENSPS",
+      "activity": "Dança das Líderes de Torcida",
+      "active": true,
+      "createdBy": "victoria"
     }
   ],
   "participants": [
