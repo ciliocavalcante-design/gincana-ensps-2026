@@ -1325,6 +1325,13 @@
       "quantity": 20,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "7",
+      "foodId": "leite-po",
+      "quantity": 9,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
