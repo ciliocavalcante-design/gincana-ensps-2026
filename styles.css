@@ -1615,11 +1615,24 @@ h1 {
   text-align: center;
 }
 
+.public-page .schedule-item h3 {
+  width: 100%;
+  justify-items: center;
+  text-align: center;
+}
+
 .public-page .schedule-item h3,
 .public-page .schedule-item h3 span,
 .public-page .schedule-item h3 small,
 .public-page .schedule-activity,
 .public-page .schedule-meta {
+  text-align: center;
+}
+
+.public-page .schedule-item p,
+.public-page .schedule-item .schedule-participants,
+.public-page .schedule-item .schedule-participants strong {
+  width: 100%;
   text-align: center;
 }
 
@@ -1631,6 +1644,8 @@ h1 {
 .public-page .schedule-participants ul,
 .public-page .event-participant-team ul,
 .public-page .food-team ul {
+  padding-left: 0;
+  list-style: none;
   justify-content: center;
   text-align: center;
 }
@@ -5433,7 +5448,7 @@ header.hero-header > *,
 .projection-food-summary strong {
   color: #facc15;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.85rem, 5.8vw, 5.5rem);
+  font-size: clamp(2.45rem, 5vw, 4.85rem);
   line-height: 0.88;
 }
 
@@ -5488,6 +5503,10 @@ header.hero-header > *,
   width: 100%;
 }
 
+.projection-food-details-total {
+  margin-top: 10px;
+}
+
 .projection-food-details summary {
   width: fit-content;
   max-width: 100%;
@@ -5526,7 +5545,27 @@ header.hero-header > *,
   list-style: none;
 }
 
+.projection-food-details-total ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 .projection-food-card .projection-team li {
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #dbeafe;
+  background: rgba(255,255,255,0.08);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.projection-food-details-total li {
   border-radius: 999px;
   padding: 5px 8px;
   color: #dbeafe;

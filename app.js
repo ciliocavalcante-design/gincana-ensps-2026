@@ -159,6 +159,7 @@ let remoteSaveInProgress = false;
 let remoteSavePending = false;
 let welcomeAnimationTimer;
 let draftRemoteSaveTimer;
+const PROJECTION_DETAIL_STORAGE_KEY = "gincana-projection-details";
 localStorage.removeItem("gincana-ensps-2026-github-token");
 
 const defaultData = {
@@ -1049,7 +1050,7 @@ function renderSchedules() {
   if (!root) return;
   const sorted = sortedScheduleEntries();
   const manageSchedules = !document.body.classList.contains("public-page");
-  const isPublicPage = document.body.classList.contains("public-page");
+  const userSelectedTab = root.dataset.userSelectedScheduleTab === "true";
 
   const teamFilter = byId("scheduleTeamFilter");
   if (teamFilter && !teamFilter.dataset.loaded) {
@@ -1061,7 +1062,7 @@ function renderSchedules() {
     ? sorted.filter(({ item }) => item.teamId === selectedTeamId)
     : sorted;
 
-  let activeTab = !isPublicPage && ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "";
+  let activeTab = userSelectedTab && ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "";
   const today = todayIso();
   const isWeekend = [0, 6].includes(new Date().getDay());
   const todayEntries = isWeekend ? [] : filteredSorted.filter(({ item }) => item.date === today && !scheduleIsRealized(item));
@@ -2911,6 +2912,26 @@ function placementMedal(index = 0) {
   return ["🥇", "🥈", "🥉"][index] || `${index + 1}º`;
 }
 
+function projectionDetailState() {
+  try {
+    return JSON.parse(sessionStorage.getItem(PROJECTION_DETAIL_STORAGE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function projectionDetailOpen(key) {
+  return Boolean(projectionDetailState()[key]);
+}
+
+function setProjectionDetailOpen(key, open) {
+  if (!key) return;
+  const current = projectionDetailState();
+  if (open) current[key] = true;
+  else delete current[key];
+  sessionStorage.setItem(PROJECTION_DETAIL_STORAGE_KEY, JSON.stringify(current));
+}
+
 
 function renderProjectionPanel() {
   const scoreboardRoot = byId("projectionScoreboard");
@@ -2950,12 +2971,26 @@ function renderProjectionPanel() {
   if (foodRoot) {
     const ranking = foodTotals();
     const grandTotal = ranking.reduce((sum, item) => sum + Number(item.tokens || 0), 0);
+    const totalByFood = state.foodTypes.map((food) => {
+      const quantity = state.foodDonations
+        .filter((donation) => donation.foodId === food.id)
+        .reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
+      return { ...food, quantity, total: quantity * Number(food.tokens || 0) };
+    }).filter((food) => food.quantity > 0);
 
     foodRoot.innerHTML = `
       <section class="projection-food-summary">
         <span>Prova Solidária</span>
         <strong>${formatPoints(grandTotal)}</strong>
         <small>tokens arrecadados no total</small>
+        ${totalByFood.length ? `
+          <details class="projection-food-details projection-food-details-total" data-projection-detail="food-grand-total"${projectionDetailOpen("food-grand-total") ? " open" : ""}>
+            <summary>Itens totais arrecadados</summary>
+            <ul>
+              ${totalByFood.map((food) => `<li>${escapeHtml(food.name)}: <strong>${formatPoints(food.quantity)}</strong> un. / <strong>${formatPoints(food.total)}</strong> tokens</li>`).join("")}
+            </ul>
+          </details>
+        ` : ""}
       </section>
 
       <div class="projection-scoreboard projection-food-categories">
@@ -2983,7 +3018,7 @@ function renderProjectionPanel() {
                         <h3>${escapeHtml(item.name)}</h3>
                         <p>${escapeHtml(item.theme)}</p>
                         ${totalsByFood.length ? `
-                          <details class="projection-food-details">
+                          <details class="projection-food-details" data-projection-detail="food-${category}-${item.id}"${projectionDetailOpen(`food-${category}-${item.id}`) ? " open" : ""}>
                             <summary>${totalsByFood.length} ${totalsByFood.length === 1 ? "item lançado" : "itens lançados"}</summary>
                             <ul>
                               ${totalsByFood.map((food) => `<li>${escapeHtml(food.name)}: <strong>${formatPoints(food.quantity)}</strong> un. / <strong>${formatPoints(food.total)}</strong> tokens</li>`).join("")}
@@ -3453,6 +3488,13 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("fullscreenchange", updateProjectionFullscreenButton);
+document.addEventListener("toggle", (event) => {
+  const details = event.target;
+  if (!(details instanceof HTMLDetailsElement)) return;
+  const key = details.dataset.projectionDetail;
+  if (!key) return;
+  setProjectionDetailOpen(key, details.open);
+});
 
 document.querySelectorAll(".tab-button").forEach((button) => {
   button.addEventListener("click", () => {
