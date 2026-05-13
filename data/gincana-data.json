@@ -1017,12 +1017,12 @@
     {
       "teamId": "6",
       "activity": "Comida Típica",
-      "names": "Maria Heloísa\nMaria Livia"
+      "names": "Heloísa"
     },
     {
       "teamId": "6",
       "activity": "Dança Típica",
-      "names": "Liz Maria\nSophia Mariah\nLevi Abreu\nJoão Miguel de Araújo\nCaetano\nAgnes\nEduardo Levy"
+      "names": "Liz Maria\nSophia Mariah\nLevi Abreu\nJoão Miguel de Araújo\nCaetano\nAgnes\nEduardo Levy\nEmily Sousa"
     },
     {
       "teamId": "6",
@@ -1736,11 +1736,11 @@
         "Quiz": "Rafaela\nMaria Luísa",
         "Story Criativo": "Heloísa\nRafaela\nLiz\nLevi\nJoão Lucas Caetano\nJoão Lucas Maia",
         "Grito de Guerra": "Heloísa\nRafaela\nLivia",
-        "Comida Típica": "Maria Heloísa\nMaria Livia",
-        "Dança Típica": "Liz Maria\nSophia Mariah\nLevi Abreu\nJoão Miguel de Araújo\nCaetano\nAgnes\nEduardo Levy",
+        "Comida Típica": "Heloísa",
+        "Dança Típica": "Liz Maria\nSophia Mariah\nLevi Abreu\nJoão Miguel de Araújo\nCaetano\nAgnes\nEduardo Levy\nEmily Sousa",
         "Meu Professor Vale 1000": "Rafaela\nMariana\nValentina\nAlice Cordovil\nAlice\nLiz Maria\nAgnes\nHeloísa\nProf. Eduardo"
       },
-      "updatedAt": "2026-05-11T13:56:18.635Z"
+      "updatedAt": "2026-05-13T00:05:21.108Z"
     }
   ],
   "strategyReports": [
