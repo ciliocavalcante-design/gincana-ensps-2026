@@ -670,7 +670,7 @@ function renderScoreboard() {
         <div class="score-category-list">
           ${categoryTeams.map((item, index) => `
             <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-              <div class="rank">${index + 1}º</div>
+              <div class="rank" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
               <div>
                 <h4>${item.name}</h4>
                 <p>${item.theme}${item.penalties ? ` • -${item.penalties} em penalidades` : ""}</p>

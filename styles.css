@@ -512,6 +512,7 @@ h1 {
   border-radius: 50%;
   color: white;
   background: var(--team-color);
+  font-size: 1.35rem;
   font-weight: 900;
 }
 
@@ -5222,8 +5223,8 @@ header.hero-header > *,
   justify-items: center;
   gap: 2px;
   border: 1px solid rgba(250, 204, 21, 0.32);
-  border-radius: 22px;
-  padding: 14px 16px;
+  border-radius: 20px;
+  padding: 10px 14px;
   text-align: center;
   background:
     radial-gradient(circle at 50% -30%, rgba(250,204,21,0.3), transparent 42%),
@@ -5235,18 +5236,19 @@ header.hero-header > *,
   font-weight: 1000;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  font-size: 0.9rem;
 }
 
 .projection-food-summary strong {
   color: #facc15;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(3.4rem, 7vw, 6.5rem);
-  line-height: 0.86;
+  font-size: clamp(2.85rem, 5.8vw, 5.5rem);
+  line-height: 0.88;
 }
 
 .projection-food-summary small {
   color: #dbeafe;
-  font-size: clamp(0.92rem, 1.45vw, 1.2rem);
+  font-size: clamp(0.82rem, 1.15vw, 1rem);
   font-weight: 900;
 }
 
