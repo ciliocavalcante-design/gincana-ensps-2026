@@ -929,6 +929,10 @@ function normalizeParticipantNames(value = "") {
     .join("\n");
 }
 
+function sortParticipantNames(names = []) {
+  return [...names].sort((a, b) => a.localeCompare(b, "pt-BR", { sensitivity: "base" }));
+}
+
 function participantLines(teamId = "", activity = "") {
   return (participantRecord(teamId, activity)?.names || "")
     .split(/\r?\n/)
@@ -1094,7 +1098,7 @@ function renderSchedules() {
             const itemTeam = team(item.teamId);
             const activity = item.activity || "Ensaio";
             const place = item.place || "ENSPS";
-            const participants = participantLinesForSchedule(item.teamId, activity);
+            const participants = sortParticipantNames(participantLinesForSchedule(item.teamId, activity));
             const idSeed = [
               "participants",
               tabName,
