@@ -1346,6 +1346,13 @@
       "quantity": 5,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "7",
+      "foodId": "macarrao",
+      "quantity": 13,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
