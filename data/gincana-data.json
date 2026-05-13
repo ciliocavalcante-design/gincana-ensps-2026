@@ -1381,6 +1381,13 @@
       "quantity": 19,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "8",
+      "foodId": "floco",
+      "quantity": 22,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
