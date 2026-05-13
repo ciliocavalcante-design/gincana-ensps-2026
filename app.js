@@ -700,11 +700,26 @@ function renderTeams() {
 
 function renderEvents() {
   setHtml("eventsGrid", state.events.map((item) => {
+    const participantGroups = state.teams.map((currentTeam) => {
+      const names = participantLinesForSchedule(currentTeam.id, item.name);
+      return names.length ? `
+        <div class="event-participant-team" style="--team-color:${currentTeam.color}">
+          <strong>${escapeHtml(currentTeam.name)}</strong>
+          <ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>
+        </div>
+      ` : "";
+    }).join("");
     return `
       <article class="event-card neutral-card">
         <h3>${item.name}</h3>
         <p>${item.group}</p>
         <p>Máximo: ${formatPoints(item.max)} pontos</p>
+        ${participantGroups ? `
+          <details class="event-participants-details">
+            <summary>Participantes</summary>
+            <div class="event-participants-grid">${participantGroups}</div>
+          </details>
+        ` : ""}
       </article>
     `;
   }).join(""));
@@ -2866,6 +2881,10 @@ function formatDateTime(value) {
   });
 }
 
+function placementMedal(index = 0) {
+  return ["🥇", "🥈", "🥉"][index] || `${index + 1}º`;
+}
+
 
 function renderProjectionPanel() {
   const scoreboardRoot = byId("projectionScoreboard");
@@ -2885,7 +2904,7 @@ function renderProjectionPanel() {
           <div class="projection-ranking">
             ${categoryTeams.map((item, index) => `
               <article class="projection-score-card place-${index + 1}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-                <div class="projection-place">${index + 1}º</div>
+                <div class="projection-place" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
                 <div class="projection-team">
                   <h3>${escapeHtml(item.name)}</h3>
                   <p>${escapeHtml(item.theme)}</p>
@@ -2933,7 +2952,7 @@ function renderProjectionPanel() {
 
                   return `
                     <article class="projection-score-card projection-food-card place-${index + 1}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-                      <div class="projection-place">${index + 1}º</div>
+                      <div class="projection-place" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
                       <div class="projection-team">
                         <h3>${escapeHtml(item.name)}</h3>
                         <p>${escapeHtml(item.theme)}</p>
