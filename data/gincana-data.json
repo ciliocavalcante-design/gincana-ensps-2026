@@ -1844,105 +1844,6 @@
       "updatedAt": "2026-04-27T12:08:28.740Z"
     },
     {
-      "teamId": "6",
-      "rows": {
-        "Prova Solidária": {
-          "responsavel": "Maria Clara",
-          "custo": "",
-          "descricao": ""
-        },
-        "Comportamento": {
-          "responsavel": "Heloísa e Rafaela",
-          "custo": "",
-          "descricao": ""
-        },
-        "Adesão da Blusa": {
-          "responsavel": "Heloísa",
-          "custo": "",
-          "descricao": ""
-        },
-        "Futsal": {
-          "responsavel": "levi é Caetano",
-          "custo": "",
-          "descricao": ""
-        },
-        "Desafio do Professor": {
-          "responsavel": "Padrinho",
-          "custo": "",
-          "descricao": ""
-        },
-        "Carimba": {
-          "responsavel": "Liz Maria",
-          "custo": "",
-          "descricao": ""
-        },
-        "Vôlei": {
-          "responsavel": "Rafaela e heloisa",
-          "custo": "",
-          "descricao": ""
-        },
-        "Dança das Líderes": {
-          "responsavel": "Heloisa",
-          "custo": "",
-          "descricao": ""
-        },
-        "Blusa da Equipe": {
-          "responsavel": "Heloísa Caetano Livia",
-          "custo": "",
-          "descricao": ""
-        },
-        "Corrida Maluca": {
-          "responsavel": "Li Zé",
-          "custo": "",
-          "descricao": ""
-        },
-        "Caça ao Tesouro": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Soletrando": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Quiz": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Story Criativo": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Grito de Guerra": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Comida Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Dança Típica": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        },
-        "Meu Professor Vale 1000": {
-          "responsavel": "",
-          "custo": "",
-          "descricao": ""
-        }
-      },
-      "totalProvas": "",
-      "totalCamisa": "",
-      "cotaAluno": "",
-      "updatedAt": "2026-04-27T13:00:29.083Z"
-    },
-    {
       "teamId": "7",
       "rows": {
         "Prova Solidária": {
@@ -2238,6 +2139,105 @@
       "totalCamisa": "440",
       "cotaAluno": "50",
       "updatedAt": "2026-05-10T21:41:28.704Z"
+    },
+    {
+      "teamId": "6",
+      "rows": {
+        "Prova Solidária": {
+          "responsavel": "Maria Clara",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comportamento": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Adesão da Blusa": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Futsal": {
+          "responsavel": "levi é Caetano",
+          "custo": "",
+          "descricao": ""
+        },
+        "Desafio do Professor": {
+          "responsavel": "Padrinho",
+          "custo": "",
+          "descricao": ""
+        },
+        "Carimba": {
+          "responsavel": "Liz Maria",
+          "custo": "",
+          "descricao": ""
+        },
+        "Vôlei": {
+          "responsavel": "Helena e heloisa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança das Líderes": {
+          "responsavel": "Heloisa",
+          "custo": "150",
+          "descricao": ""
+        },
+        "Blusa da Equipe": {
+          "responsavel": "Heloísa Caetano Livia",
+          "custo": "",
+          "descricao": ""
+        },
+        "Corrida Maluca": {
+          "responsavel": "Liz Maria",
+          "custo": "",
+          "descricao": ""
+        },
+        "Caça ao Tesouro": {
+          "responsavel": "Luísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Soletrando": {
+          "responsavel": "Rafaela",
+          "custo": "",
+          "descricao": ""
+        },
+        "Quiz": {
+          "responsavel": "Rafaela",
+          "custo": "",
+          "descricao": ""
+        },
+        "Story Criativo": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Grito de Guerra": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Comida Típica": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Dança Típica": {
+          "responsavel": "Heloísa",
+          "custo": "",
+          "descricao": ""
+        },
+        "Meu Professor Vale 1000": {
+          "responsavel": "Padrinho",
+          "custo": "1.800",
+          "descricao": ""
+        }
+      },
+      "totalProvas": "",
+      "totalCamisa": "36",
+      "cotaAluno": "50",
+      "updatedAt": "2026-05-13T00:13:22.525Z"
     }
   ],
   "leadershipCodes": {
