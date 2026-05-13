@@ -5445,7 +5445,7 @@ header.hero-header > *,
   font-size: 0.9rem;
 }
 
-.projection-food-summary strong {
+.projection-food-summary > strong {
   color: #facc15;
   font-family: "Baloo 2", "Inter", sans-serif;
   font-size: clamp(2.45rem, 5vw, 4.85rem);
@@ -5560,9 +5560,9 @@ header.hero-header > *,
   padding: 5px 8px;
   color: #dbeafe;
   background: rgba(255,255,255,0.08);
-  font-size: 0.78rem;
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.12;
 }
 
 .projection-food-details-total li {
@@ -5570,9 +5570,16 @@ header.hero-header > *,
   padding: 5px 8px;
   color: #dbeafe;
   background: rgba(255,255,255,0.08);
-  font-size: 0.78rem;
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.12;
+}
+
+.projection-food-details li strong,
+.projection-food-details-total li strong {
+  color: #fef3c7;
+  font-size: 0.88em;
+  font-weight: 900;
 }
 
 @media (max-width: 1100px) {

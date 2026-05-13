@@ -3494,7 +3494,7 @@ document.addEventListener("toggle", (event) => {
   const key = details.dataset.projectionDetail;
   if (!key) return;
   setProjectionDetailOpen(key, details.open);
-});
+}, true);
 
 document.querySelectorAll(".tab-button").forEach((button) => {
   button.addEventListener("click", () => {
