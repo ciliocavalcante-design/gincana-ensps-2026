@@ -1087,6 +1087,20 @@ h1 {
   color: var(--muted);
 }
 
+.discipline-penalty h3,
+.discipline-penalty .discipline-highlight {
+  color: #fca5a5;
+}
+
+.discipline-bonus h3,
+.discipline-bonus .discipline-highlight {
+  color: #93c5fd;
+}
+
+.discipline-highlight {
+  font-weight: 900;
+}
+
 .schedule-activity {
   color: #f8fafc;
   font-weight: 700;

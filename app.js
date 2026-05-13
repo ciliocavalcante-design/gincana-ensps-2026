@@ -1238,21 +1238,32 @@ function syncParticipantsForm() {
 }
 
 function renderDiscipline() {
-  const entries = [...state.discipline].reverse();
-  setHtml("disciplineList", entries.length ? entries.map((item) => {
+  const penalties = state.discipline
+    .filter((item) => item.type === "Penalidade")
+    .map((item) => ({ kind: "penalty", sortDate: item.date || "", createdAt: item.createdAt || "", item }));
+  const bonuses = state.bonuses
+    .map((item) => ({ kind: "bonus", sortDate: item.date || "", createdAt: item.createdAt || "", item }));
+  const entries = [...penalties, ...bonuses].sort((a, b) => {
+    const dateCompare = (b.sortDate || "").localeCompare(a.sortDate || "");
+    if (dateCompare !== 0) return dateCompare;
+    return (b.createdAt || "").localeCompare(a.createdAt || "");
+  });
+
+  setHtml("disciplineList", entries.length ? entries.map(({ kind, item }) => {
     const itemTeam = team(item.teamId);
     const dateLabel = item.date ? formatDate(item.date) : "Data não informada";
-    const source = disciplineSourceLabel(item);
+    const source = kind === "penalty" ? disciplineSourceLabel(item) : "";
+    const amount = Math.abs(Number(item.points || 0));
     return `
-      <article class="discipline-item" style="border-left:8px solid ${itemTeam.color}">
-        <h3>${item.type}${item.levelLabel ? ` ${item.levelLabel}` : ""} • ${itemTeam.name}</h3>
+      <article class="discipline-item ${kind === "penalty" ? "discipline-penalty" : "discipline-bonus"}" style="border-left:8px solid ${itemTeam.color}">
+        <h3>${kind === "penalty" ? `Penalidade${item.levelLabel ? ` ${item.levelLabel}` : ""}` : "Bônus"} • ${itemTeam.name}</h3>
         <p>${dateLabel}</p>
         <p>${item.reason}</p>
-        <p>${item.type === "Penalidade" ? `Desconto: ${formatPoints(Math.abs(item.points || 0))} pontos` : "Sem desconto aplicado"}</p>
+        <p class="discipline-highlight">${kind === "penalty" ? `Desconto: ${formatPoints(amount)} pontos` : `Bonificação: +${formatPoints(amount)} pontos`}</p>
         ${source ? `<p>${source}</p>` : ""}
       </article>
     `;
-  }).join("") : `<div class="empty-state">Nenhuma advertência ou penalidade registrada.</div>`);
+  }).join("") : `<div class="empty-state">Nenhuma penalidade ou bônus registrado.</div>`);
 }
 
 function setDisciplineEditing(index = "") {
