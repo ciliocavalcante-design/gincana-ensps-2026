@@ -5206,6 +5206,38 @@ header.hero-header > *,
   font-size: clamp(2.1rem, 4vw, 4rem);
 }
 
+.projection-food-details {
+  margin-top: 8px;
+}
+
+.projection-food-details summary {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: #dbeafe;
+  background: rgba(255,255,255,0.08);
+  font-size: 0.82rem;
+  font-weight: 1000;
+  line-height: 1.1;
+  cursor: pointer;
+  list-style: none;
+}
+
+.projection-food-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.projection-food-details summary::after {
+  content: " +";
+  color: #bbf7d0;
+}
+
+.projection-food-details[open] summary::after {
+  content: " -";
+}
+
 .projection-food-card .projection-team ul {
   display: flex;
   flex-wrap: wrap;

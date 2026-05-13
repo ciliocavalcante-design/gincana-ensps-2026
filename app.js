@@ -2922,9 +2922,12 @@ function renderProjectionPanel() {
                         <h3>${escapeHtml(item.name)}</h3>
                         <p>${escapeHtml(item.theme)}</p>
                         ${totalsByFood.length ? `
-                          <ul>
-                            ${totalsByFood.map((food) => `<li>${escapeHtml(food.name)}: <strong>${formatPoints(food.quantity)}</strong> un. / <strong>${formatPoints(food.total)}</strong> tokens</li>`).join("")}
-                          </ul>
+                          <details class="projection-food-details">
+                            <summary>${totalsByFood.length} ${totalsByFood.length === 1 ? "item lançado" : "itens lançados"}</summary>
+                            <ul>
+                              ${totalsByFood.map((food) => `<li>${escapeHtml(food.name)}: <strong>${formatPoints(food.quantity)}</strong> un. / <strong>${formatPoints(food.total)}</strong> tokens</li>`).join("")}
+                            </ul>
+                          </details>
                         ` : `<small>Nenhum lançamento ainda</small>`}
                       </div>
                       <div class="projection-points">
