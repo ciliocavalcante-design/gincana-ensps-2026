@@ -1248,15 +1248,7 @@
       "note": ""
     }
   ],
-  "foodDonations": [
-    {
-      "teamId": "6",
-      "foodId": "arroz",
-      "quantity": 1,
-      "date": "2026-05-13",
-      "note": ""
-    }
-  ],
+  "foodDonations": [],
   "discipline": [
     {
       "teamId": "9",
