@@ -1360,6 +1360,13 @@
       "quantity": 42,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "8",
+      "foodId": "acucar",
+      "quantity": 16,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
