@@ -1521,6 +1521,13 @@
       "quantity": 2,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "2",
+      "foodId": "feijao",
+      "quantity": 22,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
