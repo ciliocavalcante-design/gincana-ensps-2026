@@ -1049,6 +1049,7 @@ function renderSchedules() {
   if (!root) return;
   const sorted = sortedScheduleEntries();
   const manageSchedules = !document.body.classList.contains("public-page");
+  const isPublicPage = document.body.classList.contains("public-page");
 
   const teamFilter = byId("scheduleTeamFilter");
   if (teamFilter && !teamFilter.dataset.loaded) {
@@ -1060,7 +1061,7 @@ function renderSchedules() {
     ? sorted.filter(({ item }) => item.teamId === selectedTeamId)
     : sorted;
 
-  let activeTab = ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "";
+  let activeTab = !isPublicPage && ["today", "upcoming", "realized"].includes(root.dataset.activeTab) ? root.dataset.activeTab : "";
   const today = todayIso();
   const isWeekend = [0, 6].includes(new Date().getDay());
   const todayEntries = isWeekend ? [] : filteredSorted.filter(({ item }) => item.date === today && !scheduleIsRealized(item));
