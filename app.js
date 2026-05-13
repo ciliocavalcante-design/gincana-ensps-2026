@@ -224,6 +224,7 @@ const defaultData = {
   participants: [],
   materials: [],
   foodDonations: [],
+  foodCountUpdatedAt: "",
   discipline: [],
   bonuses: [],
   judges: [],
@@ -268,6 +269,7 @@ function normalizeState(saved = {}) {
     participants: Array.isArray(saved.participants) ? saved.participants : base.participants,
     materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
+    foodCountUpdatedAt: saved.foodCountUpdatedAt || base.foodCountUpdatedAt,
     discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
     bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses,
     judges: Array.isArray(saved.judges) ? saved.judges : base.judges,
@@ -315,6 +317,7 @@ function mutableState() {
     participants: state.participants,
     materials: state.materials,
     foodDonations: state.foodDonations,
+    foodCountUpdatedAt: state.foodCountUpdatedAt,
     discipline: state.discipline,
     bonuses: state.bonuses,
     judges: state.judges,
@@ -2850,6 +2853,19 @@ function formatDate(value) {
   return `${day}/${month}/${year}`;
 }
 
+function formatDateTime(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 
 function renderProjectionPanel() {
   const scoreboardRoot = byId("projectionScoreboard");
@@ -2946,7 +2962,10 @@ function renderProjectionPanel() {
   }
 
   const updated = byId("projectionUpdatedAt");
-  if (updated) updated.textContent = `Atualizado em ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
+  if (updated) {
+    const lastCount = formatDateTime(state.foodCountUpdatedAt);
+    updated.textContent = lastCount ? `Última contagem: ${lastCount}` : "Última contagem: aguardando registro";
+  }
 }
 
 function setProjectionView(view = "scoreboard") {
@@ -4090,13 +4109,17 @@ on("materialsForm", "submit", (event) => {
 on("foodForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
+  const now = new Date().toISOString();
   state.foodDonations.push({
     teamId: data.team,
     foodId: data.food,
     quantity: Number(data.quantity),
     date: data.date,
-    note: data.note.trim()
+    note: data.note.trim(),
+    createdAt: now,
+    updatedAt: now
   });
+  state.foodCountUpdatedAt = now;
   event.currentTarget.reset();
   saveState();
 });
@@ -4368,6 +4391,7 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.deleteFood) {
     state.foodDonations.splice(Number(button.dataset.deleteFood), 1);
+    state.foodCountUpdatedAt = new Date().toISOString();
     saveState();
   }
   if (button.dataset.deleteDiscipline) {
