@@ -1458,6 +1458,13 @@
       "quantity": 6,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "1",
+      "foodId": "arroz",
+      "quantity": 59,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
