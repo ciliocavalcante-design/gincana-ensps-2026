@@ -1563,6 +1563,13 @@
       "quantity": 4,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "2",
+      "foodId": "oleo",
+      "quantity": 1,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
