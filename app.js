@@ -2985,7 +2985,7 @@ async function toggleProjectionFullscreen() {
 
 function initializeProjectionPage() {
   if (!document.body.classList.contains("projection-page")) return;
-  setProjectionView(sessionStorage.getItem("gincana-projection-view") || "scoreboard");
+  setProjectionView("food");
   updateProjectionFullscreenButton();
   setInterval(() => loadRemoteData(), 15000);
 }

@@ -4997,15 +4997,18 @@ header.hero-header > *,
 
 .projection-title {
   display: grid;
-  grid-template-columns: minmax(120px, 1fr) auto minmax(120px, 1fr);
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: 8px;
   align-items: center;
-  margin-bottom: 16px;
+  justify-items: center;
+  margin-bottom: 18px;
+  text-align: center;
 }
 
 .projection-title span {
+  justify-self: center;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 7px 18px;
   color: #052e16;
   background: #bbf7d0;
   font-weight: 1000;
@@ -5016,7 +5019,7 @@ header.hero-header > *,
 .projection-title h2 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.35rem, 4.55vw, 4.75rem);
+  font-size: clamp(2.35rem, 4.2vw, 4.45rem);
   line-height: 0.92;
   text-align: center;
   white-space: nowrap;
@@ -5034,8 +5037,10 @@ header.hero-header > *,
 }
 
 .projection-category header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  justify-content: center;
   align-items: center;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
@@ -5044,6 +5049,8 @@ header.hero-header > *,
 }
 
 .projection-category header span {
+  grid-column: 1 / -1;
+  justify-self: center;
   color: #bfdbfe;
   font-weight: 1000;
   text-transform: uppercase;
@@ -5051,6 +5058,8 @@ header.hero-header > *,
 }
 
 .projection-category header strong {
+  grid-column: 1 / -1;
+  justify-self: center;
   font-size: 1rem;
 }
 
@@ -5174,7 +5183,7 @@ header.hero-header > *,
 
 .projection-food-card {
   grid-template-columns: 60px minmax(0, 1fr) minmax(120px, auto);
-  align-items: start;
+  align-items: center;
   min-height: 0;
 }
 
@@ -5187,7 +5196,10 @@ header.hero-header > *,
 }
 
 .projection-food-card .projection-team {
+  display: grid;
+  justify-items: center;
   min-width: 0;
+  text-align: center;
 }
 
 .projection-food-card .projection-team h3 {
@@ -5200,6 +5212,7 @@ header.hero-header > *,
 
 .projection-food-card .projection-points {
   align-self: center;
+  text-align: center;
 }
 
 .projection-food-card .projection-points strong {
@@ -5207,7 +5220,10 @@ header.hero-header > *,
 }
 
 .projection-food-details {
+  display: grid;
+  justify-items: center;
   margin-top: 8px;
+  width: 100%;
 }
 
 .projection-food-details summary {
@@ -5241,6 +5257,7 @@ header.hero-header > *,
 .projection-food-card .projection-team ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 5px;
   margin: 8px 0 0;
   padding: 0;
