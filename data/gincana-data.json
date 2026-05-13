@@ -1339,6 +1339,13 @@
       "quantity": 42,
       "date": "2026-05-13",
       "note": ""
+    },
+    {
+      "teamId": "7",
+      "foodId": "cafe",
+      "quantity": 5,
+      "date": "2026-05-13",
+      "note": ""
     }
   ],
   "discipline": [
