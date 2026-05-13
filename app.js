@@ -946,6 +946,15 @@ function normalizeActivityName(value = "") {
     .trim();
 }
 
+function safeDomId(value = "") {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase() || "item";
+}
+
 function participantLinesForSchedule(teamId = "", activity = "") {
   const direct = participantLines(teamId, activity);
   if (direct.length) return direct;
@@ -1081,12 +1090,24 @@ function renderSchedules() {
           <span>${groupedEntries.length} ensaio${groupedEntries.length > 1 ? "s" : ""}</span>
         </header>
         <div class="schedule-day-list">
-          ${groupedEntries.map(({ item, index }) => {
+          ${groupedEntries.map(({ item, index, fixedIndex, type }, cardIndex) => {
             const itemTeam = team(item.teamId);
             const activity = item.activity || "Ensaio";
             const place = item.place || "ENSPS";
             const participants = participantLinesForSchedule(item.teamId, activity);
-            const participantsId = `participants-${tabName}-${index}`;
+            const idSeed = [
+              "participants",
+              tabName,
+              date,
+              type,
+              index === "" ? `fixed-${fixedIndex ?? "rule"}` : index,
+              cardIndex,
+              item.teamId,
+              item.time || "",
+              item.endTime || "",
+              activity
+            ].join("-");
+            const participantsId = safeDomId(idSeed);
             return `
               <article class="schedule-item" style="border-left:8px solid ${itemTeam?.color || "#64748b"}">
                 <div class="schedule-item-top">
