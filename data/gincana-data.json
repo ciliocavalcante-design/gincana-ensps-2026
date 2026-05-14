@@ -146,6 +146,15 @@
       "createdBy": "leader",
       "acceptedBy": "admin",
       "requestId": "1778449382097-8774617946dee"
+    },
+    {
+      "teamId": "1",
+      "date": "2026-05-14",
+      "time": "07:45",
+      "endTime": "08:15",
+      "place": "ENSPS",
+      "activity": "Ensaio Professor Participação",
+      "createdBy": "admin"
     }
   ],
   "fixedSchedules": [
