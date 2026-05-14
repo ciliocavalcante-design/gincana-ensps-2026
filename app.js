@@ -255,6 +255,234 @@ function loadState() {
   }
 }
 
+function makeRecordId(prefix = "item") {
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function stableRecordKey(parts = []) {
+  return parts.map((part) => String(part || "").trim()).join("::");
+}
+
+function recordTimestamp(record = {}) {
+  return String(record.updatedAt || record.submittedAt || record.createdAt || record.date || "");
+}
+
+function preferNewerRecord(current, candidate) {
+  if (!current) return candidate;
+  const currentTime = recordTimestamp(current);
+  const candidateTime = recordTimestamp(candidate);
+  if (candidateTime && (!currentTime || candidateTime > currentTime)) return candidate;
+  if (currentTime && (!candidateTime || currentTime > candidateTime)) return current;
+  return current;
+}
+
+function dedupeRecords(items = [], keyFn = (item) => item?.id || "") {
+  const map = new Map();
+  items.forEach((item) => {
+    const key = keyFn(item);
+    if (!key) return;
+    map.set(key, preferNewerRecord(map.get(key), item));
+  });
+  return [...map.values()];
+}
+
+function normalizeScoreRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["score", item.teamId, item.eventId]),
+    points: Number(item.points || 0),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeScheduleRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || item.requestId || stableRecordKey(["schedule", item.teamId, item.date, item.time, item.endTime, item.activity, item.place, item.requestId]),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeFixedScheduleRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["fixed-schedule", item.teamId, item.weekday, item.startDate, item.untilDate, item.time, item.endTime, item.activity, item.place]),
+    active: item.active !== false,
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeParticipantRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["participant", item.teamId, item.activity]),
+    names: normalizeParticipantNames(item.names || ""),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeMaterialRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["material", item.teamId, item.material]),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeFoodDonationRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["food", item.teamId, item.foodId, createdAt || item.date, item.quantity, item.note]),
+    quantity: Number(item.quantity || 0),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeDisciplineRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["discipline", item.teamId, item.type, item.date, item.points, item.reason, item.level]),
+    points: Number(item.points || 0),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeBonusRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["bonus", item.teamId, item.date, item.points, item.reason]),
+    points: Number(item.points || 0),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeJudgeRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["judge", item.code]),
+    code: normalizeJudgeCode(item.code || ""),
+    active: item.active !== false,
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeJudgingDayRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["judging-day", item.name, item.date, ...(item.eventIds || [])]),
+    eventIds: sortJudgingDayEventIds(item.eventIds || []),
+    judgeCodes: normalizedJudgeCodes(item.judgeCodes || []),
+    active: item.active !== false,
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeEvaluationRecord(item = {}) {
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["evaluation", normalizeJudgeCode(item.judgeCode), item.eventId, item.category, item.submittedAt]),
+    judgeCode: normalizeJudgeCode(item.judgeCode || "")
+  };
+}
+
+function normalizeJudgingBlockRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["judging-block", item.name, item.category, ...(item.eventIds || [])]),
+    eventIds: sortJudgingDayEventIds(item.eventIds || []),
+    category: judgingCategories().includes(item.category) ? item.category : "Categoria 1",
+    active: item.active !== false,
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeDraftRecord(item = {}) {
+  const updatedAt = item.updatedAt || "";
+  const judgeCode = normalizeJudgeCode(item.judgeCode || "");
+  const blockId = item.blockId || "";
+  return {
+    ...item,
+    key: item.key || `${judgeCode}::${blockId}`,
+    judgeCode,
+    blockId,
+    draft: item.draft && typeof item.draft === "object" ? item.draft : {},
+    updatedAt
+  };
+}
+
+function normalizeClaimRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["claim", item.teamId, item.disciplineIndex, item.createdAt, item.reason]),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeLeadershipRequestRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["leadership-request", item.teamId, item.type, item.createdAt, item.message]),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeScheduleRequestRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["schedule-request", item.teamId, item.date, item.time, item.activity, item.createdAt]),
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeRegistrationFormRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    teamId: item.teamId || "",
+    participants: item.participants && typeof item.participants === "object" ? item.participants : {},
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
+function normalizeStrategyReportRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    teamId: item.teamId || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
 function normalizeState(saved = {}) {
   const base = structuredClone(defaultData);
   return {
@@ -264,30 +492,25 @@ function normalizeState(saved = {}) {
     materialTypes: base.materialTypes,
     foodTypes: base.foodTypes,
     events: base.events,
-    scores: Array.isArray(saved.scores) ? saved.scores : base.scores,
-    schedules: Array.isArray(saved.schedules) ? saved.schedules : base.schedules,
-    fixedSchedules: Array.isArray(saved.fixedSchedules) ? saved.fixedSchedules : base.fixedSchedules,
-    participants: Array.isArray(saved.participants) ? saved.participants : base.participants,
-    materials: Array.isArray(saved.materials) ? saved.materials.filter((item) => item.material !== "Alimentos") : base.materials,
-    foodDonations: Array.isArray(saved.foodDonations) ? saved.foodDonations : base.foodDonations,
+    scores: Array.isArray(saved.scores) ? dedupeRecords(saved.scores.map(normalizeScoreRecord), (item) => item.id) : base.scores,
+    schedules: Array.isArray(saved.schedules) ? dedupeRecords(saved.schedules.map(normalizeScheduleRecord), (item) => item.id) : base.schedules,
+    fixedSchedules: Array.isArray(saved.fixedSchedules) ? dedupeRecords(saved.fixedSchedules.map(normalizeFixedScheduleRecord), (item) => item.id) : base.fixedSchedules,
+    participants: Array.isArray(saved.participants) ? dedupeRecords(saved.participants.map(normalizeParticipantRecord), (item) => item.id) : base.participants,
+    materials: Array.isArray(saved.materials) ? dedupeRecords(saved.materials.filter((item) => item.material !== "Alimentos").map(normalizeMaterialRecord), (item) => item.id) : base.materials,
+    foodDonations: Array.isArray(saved.foodDonations) ? dedupeRecords(saved.foodDonations.map(normalizeFoodDonationRecord), (item) => item.id) : base.foodDonations,
     foodCountUpdatedAt: saved.foodCountUpdatedAt || base.foodCountUpdatedAt,
-    discipline: Array.isArray(saved.discipline) ? saved.discipline : base.discipline,
-    bonuses: Array.isArray(saved.bonuses) ? saved.bonuses : base.bonuses,
-    judges: Array.isArray(saved.judges) ? saved.judges : base.judges,
-    judgingDays: Array.isArray(saved.judgingDays) ? saved.judgingDays : base.judgingDays,
-    evaluations: Array.isArray(saved.evaluations) ? saved.evaluations : base.evaluations,
-    judgingBlocks: Array.isArray(saved.judgingBlocks) ? saved.judgingBlocks.map((block) => ({
-      ...block,
-      eventIds: sortJudgingDayEventIds(block.eventIds || []),
-      category: judgingCategories().includes(block.category) ? block.category : "Categoria 1",
-      active: block.active !== false
-    })) : base.judgingBlocks,
-    evaluationDrafts: Array.isArray(saved.evaluationDrafts) ? saved.evaluationDrafts : base.evaluationDrafts,
-    leadershipClaims: Array.isArray(saved.leadershipClaims) ? saved.leadershipClaims : base.leadershipClaims,
-    leadershipRequests: Array.isArray(saved.leadershipRequests) ? saved.leadershipRequests : base.leadershipRequests,
-    scheduleRequests: Array.isArray(saved.scheduleRequests) ? saved.scheduleRequests : base.scheduleRequests,
-    registrationForms: Array.isArray(saved.registrationForms) ? saved.registrationForms : base.registrationForms,
-    strategyReports: Array.isArray(saved.strategyReports) ? saved.strategyReports : base.strategyReports,
+    discipline: Array.isArray(saved.discipline) ? dedupeRecords(saved.discipline.map(normalizeDisciplineRecord), (item) => item.id) : base.discipline,
+    bonuses: Array.isArray(saved.bonuses) ? dedupeRecords(saved.bonuses.map(normalizeBonusRecord), (item) => item.id) : base.bonuses,
+    judges: Array.isArray(saved.judges) ? dedupeRecords(saved.judges.map(normalizeJudgeRecord), (item) => item.id) : base.judges,
+    judgingDays: Array.isArray(saved.judgingDays) ? dedupeRecords(saved.judgingDays.map(normalizeJudgingDayRecord), (item) => item.id) : base.judgingDays,
+    evaluations: Array.isArray(saved.evaluations) ? dedupeRecords(saved.evaluations.map(normalizeEvaluationRecord), (item) => item.id) : base.evaluations,
+    judgingBlocks: Array.isArray(saved.judgingBlocks) ? dedupeRecords(saved.judgingBlocks.map(normalizeJudgingBlockRecord), (item) => item.id) : base.judgingBlocks,
+    evaluationDrafts: Array.isArray(saved.evaluationDrafts) ? dedupeRecords(saved.evaluationDrafts.map(normalizeDraftRecord), (item) => item.key) : base.evaluationDrafts,
+    leadershipClaims: Array.isArray(saved.leadershipClaims) ? dedupeRecords(saved.leadershipClaims.map(normalizeClaimRecord), (item) => item.id) : base.leadershipClaims,
+    leadershipRequests: Array.isArray(saved.leadershipRequests) ? dedupeRecords(saved.leadershipRequests.map(normalizeLeadershipRequestRecord), (item) => item.id) : base.leadershipRequests,
+    scheduleRequests: Array.isArray(saved.scheduleRequests) ? dedupeRecords(saved.scheduleRequests.map(normalizeScheduleRequestRecord), (item) => item.id) : base.scheduleRequests,
+    registrationForms: Array.isArray(saved.registrationForms) ? dedupeRecords(saved.registrationForms.map(normalizeRegistrationFormRecord), (item) => item.teamId) : base.registrationForms,
+    strategyReports: Array.isArray(saved.strategyReports) ? dedupeRecords(saved.strategyReports.map(normalizeStrategyReportRecord), (item) => item.teamId) : base.strategyReports,
     leadershipCodes: saved.leadershipCodes && typeof saved.leadershipCodes === "object" ? saved.leadershipCodes : base.leadershipCodes,
     teacherCodes: saved.teacherCodes && typeof saved.teacherCodes === "object" ? saved.teacherCodes : base.teacherCodes,
     judgingEventOrder: normalizeJudgingEventOrder(saved.judgingEventOrder || base.judgingEventOrder)
@@ -1037,7 +1260,14 @@ function syncParticipantsFromRegistrationForms() {
       const exists = state.participants.some((item) => item.teamId === teamId && item.activity === activity && item.names === normalizedNames);
       if (!exists) {
         state.participants = state.participants.filter((item) => item.teamId !== teamId || item.activity !== activity);
-        state.participants.push({ teamId, activity, names: normalizedNames });
+        state.participants.push({
+          id: stableRecordKey(["participant", teamId, activity]),
+          teamId,
+          activity,
+          names: normalizedNames,
+          createdAt: record.createdAt || record.updatedAt || "",
+          updatedAt: record.updatedAt || record.createdAt || ""
+        });
         changed = true;
       }
     });
@@ -2474,7 +2704,9 @@ function approveScheduleRequest(index, approver = "admin") {
   request.status = "approved";
   request.approvedBy = approver === "victoria" ? "victoria" : "admin";
   request.updatedAt = new Date().toISOString();
+  const now = new Date().toISOString();
   state.schedules.push({
+    id: request.id || makeRecordId("schedule"),
     teamId: request.teamId,
     date: request.date,
     time: request.time,
@@ -2483,7 +2715,9 @@ function approveScheduleRequest(index, approver = "admin") {
     activity: request.activity,
     createdBy: request.requestedBy === "teacher" ? "teacher" : "leader",
     acceptedBy: request.approvedBy,
-    requestId: request.id
+    requestId: request.id,
+    createdAt: now,
+    updatedAt: now
   });
   saveState();
 }
@@ -2515,9 +2749,12 @@ function namesFromFormData(data, prefix, eventName) {
 function upsertRegistrationForm(payload) {
   if (!payload?.teamId) return;
   const existing = registrationFormRecord(payload.teamId) || {};
+  const now = new Date().toISOString();
   const mergedPayload = {
     ...existing,
     ...payload,
+    createdAt: existing.createdAt || now,
+    updatedAt: now,
     participants: {
       ...(existing.participants || {}),
       ...(payload.participants || {})
@@ -2530,19 +2767,27 @@ function upsertRegistrationForm(payload) {
   REGISTRATION_EVENTS.forEach((eventName) => {
     const names = normalizeParticipantNames(mergedPayload.participants?.[eventName] || "");
     state.participants = state.participants.filter((item) => item.teamId !== mergedPayload.teamId || item.activity !== eventName);
-    if (names) {
-      state.participants.push({
-        teamId: mergedPayload.teamId,
-        activity: eventName,
-        names
-      });
-    }
+    state.participants.push({
+      id: stableRecordKey(["participant", mergedPayload.teamId, eventName]),
+      teamId: mergedPayload.teamId,
+      activity: eventName,
+      names,
+      createdAt: existing.createdAt || now,
+      updatedAt: now
+    });
   });
 }
 
 function upsertStrategyReport(payload) {
+  const existing = strategyReportRecord(payload.teamId) || {};
+  const now = new Date().toISOString();
   state.strategyReports = (state.strategyReports || []).filter((item) => item.teamId !== payload.teamId);
-  state.strategyReports.push(payload);
+  state.strategyReports.push({
+    ...existing,
+    ...payload,
+    createdAt: existing.createdAt || now,
+    updatedAt: now
+  });
 }
 
 function leadershipRegistrationFormHtml(teamId = "") {
@@ -3776,7 +4021,16 @@ on("pointsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const existing = state.scores.find((item) => item.teamId === data.team && item.eventId === data.event);
-  const payload = { teamId: data.team, eventId: data.event, points: Number(data.points), note: data.note.trim() };
+  const now = new Date().toISOString();
+  const payload = {
+    id: existing?.id || stableRecordKey(["score", data.team, data.event]),
+    teamId: data.team,
+    eventId: data.event,
+    points: Number(data.points),
+    note: data.note.trim(),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
+  };
   if (existing) Object.assign(existing, payload);
   else state.scores.push(payload);
   event.currentTarget.reset();
@@ -3797,7 +4051,16 @@ on("batchPointsForm", "submit", (event) => {
       const points = Number(data.get(`points-${key.split("-")[1]}`));
       const teamId = value;
       const existing = state.scores.find((item) => item.teamId === teamId && item.eventId === eventId);
-      const payload = { teamId, eventId, points, note };
+      const now = new Date().toISOString();
+      const payload = {
+        id: existing?.id || stableRecordKey(["score", teamId, eventId]),
+        teamId,
+        eventId,
+        points,
+        note,
+        createdAt: existing?.createdAt || now,
+        updatedAt: now
+      };
       if (existing) Object.assign(existing, payload);
       else state.scores.push(payload);
       savedAny = true;
@@ -4043,7 +4306,9 @@ on("judgingBlockForm", "submit", (event) => {
     name: String(data.get("name") || "").trim() || "Bloco de avaliação",
     category: data.get("category") || "Categoria 1",
     eventIds,
-    active: data.get("active") === "on"
+    active: data.get("active") === "on",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
   state.judgingBlocks.push(payload);
   form.reset();
@@ -4059,11 +4324,14 @@ on("judgeForm", "submit", (event) => {
   const code = normalizeJudgeCode(data.code || data.name);
   if (!code) return;
   const existing = judgeByCode(code);
+  const now = new Date().toISOString();
   const payload = {
     id: existing?.id || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     name: data.name.trim(),
     code,
-    active: data.active === "on"
+    active: data.active === "on",
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   if (existing) Object.assign(existing, payload);
   else state.judges.push(payload);
@@ -4088,7 +4356,9 @@ on("judgingDayForm", "submit", (event) => {
     date: String(data.get("date") || ""),
     eventIds,
     judgeCodes: [],
-    active: data.get("active") === "on"
+    active: data.get("active") === "on",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   });
   form.reset();
   const activeInput = form.elements.active;
@@ -4100,14 +4370,18 @@ on("scheduleForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const existing = data.editIndex !== "" ? state.schedules[Number(data.editIndex)] : null;
+  const now = new Date().toISOString();
   const payload = {
+    id: existing?.id || makeRecordId("schedule"),
     teamId: data.team,
     date: data.date,
     time: data.time,
     endTime: data.endTime,
     place: data.place.trim(),
     activity: data.activity.trim(),
-    createdBy: existing?.createdBy || (document.body.classList.contains("rehearsals-page") ? "victoria" : "admin")
+    createdBy: existing?.createdBy || (document.body.classList.contains("rehearsals-page") ? "victoria" : "admin"),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   if (data.editIndex !== "") state.schedules[Number(data.editIndex)] = payload;
   else state.schedules.push(payload);
@@ -4132,7 +4406,9 @@ on("fixedScheduleForm", "submit", (event) => {
     place: data.place.trim() || "ENSPS",
     activity: data.activity.trim() || "Ensaio fixo",
     createdBy: "victoria",
-    active: true
+    active: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   });
   form.reset();
   if (form.elements.place) form.elements.place.value = "ENSPS";
@@ -4174,13 +4450,18 @@ on("participantsForm", "change", (event) => {
 on("participantsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
+  const existing = state.participants.find((item) => item.teamId === data.team && item.activity === data.activity);
+  const now = new Date().toISOString();
   const payload = {
+    id: existing?.id || stableRecordKey(["participant", data.team, data.activity]),
     teamId: data.team,
     activity: data.activity,
-    names: normalizeParticipantNames(data.names)
+    names: normalizeParticipantNames(data.names),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   state.participants = state.participants.filter((item) => item.teamId !== payload.teamId || item.activity !== payload.activity);
-  if (payload.names) state.participants.push(payload);
+  state.participants.push(payload);
   event.currentTarget.elements.names.value = payload.names;
   setSyncStatus("Participantes salvos. Sincronizando online...");
   saveState();
@@ -4190,13 +4471,17 @@ on("materialsForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const existing = state.materials.find((item) => item.teamId === data.team && item.material === data.material);
+  const now = new Date().toISOString();
   const payload = {
+    id: existing?.id || stableRecordKey(["material", data.team, data.material]),
     teamId: data.team,
     material: data.material,
     status: data.status,
     date: data.date,
     amount: data.amount.trim(),
-    note: data.note.trim()
+    note: data.note.trim(),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   if (existing) Object.assign(existing, payload);
   else state.materials.push(payload);
@@ -4225,12 +4510,17 @@ on("foodForm", "submit", (event) => {
 on("disciplineForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
+  const existing = data.editIndex !== "" ? state.discipline[Number(data.editIndex)] : null;
+  const now = new Date().toISOString();
   const payload = {
+    id: existing?.id || makeRecordId("discipline"),
     teamId: data.team,
     type: data.type,
     date: data.date,
     points: data.type === "Penalidade" ? Math.abs(Number(data.points || 0)) : 0,
-    reason: data.reason.trim()
+    reason: data.reason.trim(),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   if (data.editIndex !== "") state.discipline[Number(data.editIndex)] = payload;
   else state.discipline.push(payload);
@@ -4250,7 +4540,9 @@ on("quickDisciplineForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const level = disciplineLevelById(data.level);
+  const now = new Date().toISOString();
   state.discipline.push({
+    id: makeRecordId("discipline"),
     teamId: data.team,
     type: "Penalidade",
     date: data.date,
@@ -4258,7 +4550,9 @@ on("quickDisciplineForm", "submit", (event) => {
     reason: data.reason.trim(),
     level: level.id,
     levelLabel: level.label,
-    createdBy: document.body.classList.contains("admin-page") ? "admin" : "victoria"
+    createdBy: document.body.classList.contains("admin-page") ? "admin" : "victoria",
+    createdAt: now,
+    updatedAt: now
   });
   event.currentTarget.reset();
   setSyncStatus("Penalidade registrada. Sincronizando online...");
@@ -4268,11 +4562,16 @@ on("quickDisciplineForm", "submit", (event) => {
 on("bonusForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
+  const existing = data.editIndex !== "" ? state.bonuses[Number(data.editIndex)] : null;
+  const now = new Date().toISOString();
   const payload = {
+    id: existing?.id || makeRecordId("bonus"),
     teamId: data.team,
     date: data.date,
     points: Math.abs(Number(data.points || 0)),
-    reason: data.reason.trim()
+    reason: data.reason.trim(),
+    createdAt: existing?.createdAt || now,
+    updatedAt: now
   };
   if (data.editIndex !== "") state.bonuses[Number(data.editIndex)] = payload;
   else state.bonuses.push(payload);
@@ -4520,6 +4819,7 @@ document.addEventListener("click", (event) => {
     const judge = state.judges[Number(button.dataset.toggleJudge)];
     if (judge) {
       judge.active = judge.active === false;
+      judge.updatedAt = new Date().toISOString();
       saveState();
     }
   }
@@ -4531,6 +4831,7 @@ document.addEventListener("click", (event) => {
     const day = state.judgingDays[Number(button.dataset.toggleJudgingDay)];
     if (day) {
       day.active = day.active === false;
+      day.updatedAt = new Date().toISOString();
       saveState();
     }
   }
@@ -4546,6 +4847,7 @@ document.addEventListener("click", (event) => {
     if (day && code) {
       const codes = normalizedJudgeCodes(day.judgeCodes || []);
       if (!codes.includes(code)) day.judgeCodes = [...codes, code];
+      day.updatedAt = new Date().toISOString();
       saveState();
     }
   }
@@ -4554,6 +4856,7 @@ document.addEventListener("click", (event) => {
     const code = normalizeJudgeCode(button.dataset.judgeCode);
     if (day) {
       day.judgeCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+      day.updatedAt = new Date().toISOString();
       saveState();
     }
   }
@@ -4567,6 +4870,7 @@ document.addEventListener("click", (event) => {
     const block = state.judgingBlocks[Number(button.dataset.toggleJudgingBlock)];
     if (block) {
       block.active = block.active === false;
+      block.updatedAt = new Date().toISOString();
       saveState();
     }
   }
@@ -4586,6 +4890,7 @@ document.addEventListener("click", (event) => {
       state.judgingEventOrder = order;
       state.judgingDays.forEach((day) => {
         day.eventIds = sortJudgingDayEventIds(day.eventIds || []);
+        day.updatedAt = new Date().toISOString();
       });
       saveState();
     }
@@ -4611,11 +4916,15 @@ document.addEventListener("click", (event) => {
     const aggregatedScores = Object.values(scoresByTeam);
     rankEvaluationScores(aggregatedScores, definition).forEach((score) => {
       const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
+      const now = new Date().toISOString();
       const payload = {
+        id: existing?.id || stableRecordKey(["score", score.teamId, definition.eventId]),
         teamId: score.teamId,
         eventId: definition.eventId,
         points: Number(score.gincanaPoints || 0),
-        note: `${score.placement}º lugar • Consolidado online: ${definition.name} • ${groupEvals[0].category}`
+        note: `${score.placement}º lugar • Consolidado online: ${definition.name} • ${groupEvals[0].category}`,
+        createdAt: existing?.createdAt || now,
+        updatedAt: now
       };
       if (existing) Object.assign(existing, payload);
       else state.scores.push(payload);
@@ -4785,7 +5094,11 @@ async function saveRemoteData() {
     if (!response.ok || payload.ok === false) {
       throw new Error(payload.error || `servidor respondeu ${response.status}`);
     }
+    if (payload.data) {
+      state = normalizeState(payload.data);
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
     setSyncStatus("Dados salvos online. Os alunos verão a atualização ao recarregar a página.");
   } catch (error) {
     setSyncStatus(`Não foi possível salvar online: ${error.message}`);
