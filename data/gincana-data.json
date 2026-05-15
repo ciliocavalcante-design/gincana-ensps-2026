@@ -2375,6 +2375,15 @@
       "reason": "Turma com menos alunos sem fardamento",
       "createdAt": "2026-05-15T10:15:41.335Z",
       "updatedAt": "2026-05-15T10:15:41.335Z"
+    },
+    {
+      "id": "bonus-1778840194186-3b011cfed8b03",
+      "teamId": "2",
+      "date": "2026-05-14",
+      "points": 5,
+      "reason": "Turma com menos alunos sem fardamento",
+      "createdAt": "2026-05-15T10:16:34.186Z",
+      "updatedAt": "2026-05-15T10:16:34.186Z"
     }
   ],
   "judges": [
