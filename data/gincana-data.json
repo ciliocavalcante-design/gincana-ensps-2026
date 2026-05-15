@@ -2420,6 +2420,15 @@
       "reason": "Turma com menos alunos atrasados",
       "createdAt": "2026-05-15T13:29:46.227Z",
       "updatedAt": "2026-05-15T13:29:46.227Z"
+    },
+    {
+      "id": "bonus-1778851821110-4ac9efcd0368a",
+      "teamId": "1",
+      "date": "2026-05-15",
+      "points": 5,
+      "reason": "Turma com menos alunos atrasados",
+      "createdAt": "2026-05-15T13:30:21.110Z",
+      "updatedAt": "2026-05-15T13:30:21.110Z"
     }
   ],
   "judges": [
