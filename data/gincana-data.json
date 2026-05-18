@@ -3200,7 +3200,8 @@
       "code": "J001",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777134175008-6bd07d77fbf63",
@@ -3208,7 +3209,8 @@
       "code": "J002",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777210348279-794bc0115a03d8",
@@ -3216,7 +3218,8 @@
       "code": "J003",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777210355927-2a8e5c63d704e",
@@ -3224,7 +3227,8 @@
       "code": "J004",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777210363062-866d27bdecc0f8",
@@ -3232,7 +3236,8 @@
       "code": "J005",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "judgingDays": [
@@ -3250,7 +3255,8 @@
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777210329978-20e8b5463c96b8",
@@ -3269,7 +3275,8 @@
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "judgingBlocks": [
@@ -3284,7 +3291,8 @@
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777212645628-9ea7be82bd10d",
@@ -3297,7 +3305,8 @@
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "evaluationDrafts": [
@@ -3373,7 +3382,8 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T19:04:33.551Z"
+      "updatedAt": "2026-04-26T19:04:33.551Z",
+      "deletedAt": ""
     }
   ],
   "leadershipClaims": [
