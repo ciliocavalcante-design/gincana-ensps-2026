@@ -2803,9 +2803,20 @@
       "createdAt": "2026-05-18T17:53:33.959Z",
       "updatedAt": "2026-05-18T17:53:33.959Z",
       "deletedAt": ""
+    },
+    {
+      "id": "food-1779126827145-0a2f190ebf2ec",
+      "teamId": "1",
+      "foodId": "floco",
+      "quantity": 22,
+      "date": "2026-05-18",
+      "note": "",
+      "createdAt": "2026-05-18T17:53:47.145Z",
+      "updatedAt": "2026-05-18T17:53:47.145Z",
+      "deletedAt": ""
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:53:33.959Z",
+  "foodCountUpdatedAt": "2026-05-18T17:53:47.145Z",
   "discipline": [
     {
       "teamId": "9",
