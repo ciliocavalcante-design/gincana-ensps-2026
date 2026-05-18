@@ -2306,8 +2306,8 @@
       "date": "2026-05-18",
       "note": "",
       "createdAt": "2026-05-18T17:15:18.502Z",
-      "updatedAt": "2026-05-18T17:15:18.502Z",
-      "deletedAt": ""
+      "updatedAt": "2026-05-18T17:16:21.795Z",
+      "deletedAt": "2026-05-18T17:16:21.795Z"
     },
     {
       "id": "food-1779124525930-df4ad49083ba8",
@@ -2354,7 +2354,7 @@
       "deletedAt": "2026-05-18T17:16:07.747Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:16:10.193Z",
+  "foodCountUpdatedAt": "2026-05-18T17:16:21.795Z",
   "discipline": [
     {
       "teamId": "9",
