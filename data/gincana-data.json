@@ -2206,9 +2206,19 @@
       "createdAt": "2026-05-13T13:38:18.166Z",
       "updatedAt": "2026-05-13T13:38:18.166Z",
       "id": "food::2::acucar::2026-05-13T13:38:18.166Z::10::"
+    },
+    {
+      "teamId": "2",
+      "foodId": "leite-po",
+      "quantity": 2,
+      "date": "2026-05-18",
+      "note": "",
+      "createdAt": "2026-05-18T11:26:24.879Z",
+      "updatedAt": "2026-05-18T11:26:24.879Z",
+      "id": "food::2::leite-po::2026-05-18T11:26:24.879Z::2::"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-13T13:38:18.166Z",
+  "foodCountUpdatedAt": "2026-05-18T11:26:24.879Z",
   "discipline": [
     {
       "teamId": "9",
