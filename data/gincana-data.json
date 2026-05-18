@@ -1744,9 +1744,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::arroz::2026-05-13::47::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:22.442Z",
+      "updatedAt": "2026-05-18T17:37:22.442Z",
+      "deletedAt": "2026-05-18T17:37:22.442Z"
     },
     {
       "teamId": "6",
@@ -1755,9 +1755,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::floco::2026-05-13::23::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:22.892Z",
+      "updatedAt": "2026-05-18T17:37:22.892Z",
+      "deletedAt": "2026-05-18T17:37:22.892Z"
     },
     {
       "teamId": "6",
@@ -1766,9 +1766,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::macarrao::2026-05-13::13::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:23.109Z",
+      "updatedAt": "2026-05-18T17:37:23.109Z",
+      "deletedAt": "2026-05-18T17:37:23.109Z"
     },
     {
       "teamId": "6",
@@ -1777,9 +1777,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::feijao::2026-05-13::24::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:23.355Z",
+      "updatedAt": "2026-05-18T17:37:23.355Z",
+      "deletedAt": "2026-05-18T17:37:23.355Z"
     },
     {
       "teamId": "6",
@@ -1788,9 +1788,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::cafe::2026-05-13::3::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:23.520Z",
+      "updatedAt": "2026-05-18T17:37:23.520Z",
+      "deletedAt": "2026-05-18T17:37:23.520Z"
     },
     {
       "teamId": "6",
@@ -1799,9 +1799,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::leite-po::2026-05-13::1::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:23.828Z",
+      "updatedAt": "2026-05-18T17:37:23.828Z",
+      "deletedAt": "2026-05-18T17:37:23.828Z"
     },
     {
       "teamId": "6",
@@ -1810,9 +1810,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::acucar::2026-05-13::14::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:24.039Z",
+      "updatedAt": "2026-05-18T17:37:24.039Z",
+      "deletedAt": "2026-05-18T17:37:24.039Z"
     },
     {
       "teamId": "6",
@@ -1821,9 +1821,9 @@
       "date": "2026-05-13",
       "note": "",
       "id": "food::6::oleo::2026-05-13::4::",
-      "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "createdAt": "2026-05-18T17:37:24.204Z",
+      "updatedAt": "2026-05-18T17:37:24.204Z",
+      "deletedAt": "2026-05-18T17:37:24.204Z"
     },
     {
       "teamId": "7",
@@ -2398,7 +2398,7 @@
       "deletedAt": ""
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:37:12.502Z",
+  "foodCountUpdatedAt": "2026-05-18T17:37:24.204Z",
   "discipline": [
     {
       "teamId": "9",
