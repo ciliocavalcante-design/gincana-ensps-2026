@@ -2957,9 +2957,20 @@
       "createdAt": "2026-05-18T17:58:07.804Z",
       "updatedAt": "2026-05-18T17:58:07.804Z",
       "deletedAt": ""
+    },
+    {
+      "id": "food-1779127096833-957262a3703b98",
+      "teamId": "2",
+      "foodId": "farinha",
+      "quantity": 1,
+      "date": "2026-05-18",
+      "note": "",
+      "createdAt": "2026-05-18T17:58:16.833Z",
+      "updatedAt": "2026-05-18T17:58:16.833Z",
+      "deletedAt": ""
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:58:07.804Z",
+  "foodCountUpdatedAt": "2026-05-18T17:58:16.833Z",
   "discipline": [
     {
       "teamId": "9",
