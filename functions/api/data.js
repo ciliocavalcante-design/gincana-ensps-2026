@@ -276,6 +276,7 @@ function normalizeJudgeRecord(item = {}) {
     id: item.id || stableRecordKey(["judge", item.code]),
     code: normalizeJudgeCode(item.code || ""),
     active: item.active !== false,
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -289,16 +290,21 @@ function normalizeJudgingDayRecord(item = {}) {
     eventIds: Array.isArray(item.eventIds) ? item.eventIds.map(String) : [],
     judgeCodes: normalizedJudgeCodes(item.judgeCodes || []),
     active: item.active !== false,
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
 }
 
 function normalizeEvaluationRecord(item = {}) {
+  const createdAt = item.createdAt || item.submittedAt || item.updatedAt || "";
   return {
     ...item,
     id: item.id || stableRecordKey(["evaluation", normalizeJudgeCode(item.judgeCode), item.eventId, item.category, item.submittedAt]),
-    judgeCode: normalizeJudgeCode(item.judgeCode || "")
+    judgeCode: normalizeJudgeCode(item.judgeCode || ""),
+    deletedAt: item.deletedAt || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
   };
 }
 
@@ -309,6 +315,7 @@ function normalizeJudgingBlockRecord(item = {}) {
     id: item.id || stableRecordKey(["judging-block", item.name, item.category, ...((item.eventIds || []).map(String))]),
     eventIds: Array.isArray(item.eventIds) ? item.eventIds.map(String) : [],
     active: item.active !== false,
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -323,8 +330,21 @@ function normalizeDraftRecord(item = {}) {
     judgeCode,
     blockId,
     draft: item.draft && typeof item.draft === "object" ? item.draft : {},
+    deletedAt: item.deletedAt || "",
     updatedAt: item.updatedAt || ""
   };
+}
+
+function activeJudges(data = {}) {
+  return (Array.isArray(data.judges) ? data.judges : []).filter((item) => !item.deletedAt);
+}
+
+function activeJudgingDays(data = {}) {
+  return (Array.isArray(data.judgingDays) ? data.judgingDays : []).filter((item) => !item.deletedAt);
+}
+
+function activeEvaluations(data = {}) {
+  return (Array.isArray(data.evaluations) ? data.evaluations : []).filter((item) => !item.deletedAt);
 }
 
 function normalizeClaimRecord(item = {}) {
@@ -447,7 +467,7 @@ function normalizedJudgeCodes(values = []) {
 }
 
 function judgeCanEvaluate(data, code, eventId) {
-  const days = Array.isArray(data.judgingDays) ? data.judgingDays : [];
+  const days = activeJudgingDays(data);
   return days.some((day) => (
     day.active !== false
     && Array.isArray(day.eventIds)
@@ -470,7 +490,7 @@ async function appendEvaluation(config, evaluation, reason) {
 
       const code = normalizeJudgeCode(evaluation.judgeCode);
       if (code) {
-        const judge = data.judges.find((item) => normalizeJudgeCode(item.code) === code);
+        const judge = activeJudges(data).find((item) => normalizeJudgeCode(item.code) === code);
         if (!judge || judge.active === false) {
           const error = new Error("Código de jurado não autorizado.");
           error.status = 403;
@@ -481,7 +501,7 @@ async function appendEvaluation(config, evaluation, reason) {
           error.status = 403;
           throw error;
         }
-        const duplicate = data.evaluations.some((item) => (
+        const duplicate = activeEvaluations(data).some((item) => (
           normalizeJudgeCode(item.judgeCode) === code
           && item.eventId === evaluation.eventId
           && item.category === evaluation.category
