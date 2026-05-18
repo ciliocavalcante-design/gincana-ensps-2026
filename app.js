@@ -589,6 +589,63 @@ function dataApiUrl() {
   return usesPagesApi() ? PAGES_DATA_URL : PUBLISHED_DATA_URL;
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientSyncStatus(status) {
+  return [408, 425, 429, 500, 502, 503, 504].includes(Number(status));
+}
+
+function transientSyncMessage(status) {
+  if (Number(status) === 503) return "servidor temporariamente indisponível (503)";
+  return `servidor respondeu ${status}`;
+}
+
+function formatSyncError(error) {
+  const status = Number(error?.status || 0);
+  if (isTransientSyncStatus(status)) {
+    return `O servidor oscilou e não respondeu a tempo (${status}). Tente novamente em alguns segundos.`;
+  }
+  return error?.message || "Erro inesperado na sincronização.";
+}
+
+async function requestJsonWithRetry(url, options = {}, config = {}) {
+  const attempts = Math.max(1, Number(config.attempts || 1));
+  const retryDelay = Math.max(200, Number(config.retryDelay || 800));
+  let lastError;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      const text = await response.text();
+      const payload = text ? JSON.parse(text) : {};
+
+      if (!response.ok) {
+        const error = new Error(payload?.error || transientSyncMessage(response.status));
+        error.status = response.status;
+        error.payload = payload;
+        if (attempt < attempts && isTransientSyncStatus(response.status)) {
+          await sleep(retryDelay * attempt);
+          continue;
+        }
+        throw error;
+      }
+
+      return { response, payload };
+    } catch (error) {
+      lastError = error;
+      const status = Number(error?.status || 0);
+      const isNetworkFailure = !status;
+      const canRetry = attempt < attempts && (isNetworkFailure || isTransientSyncStatus(status));
+      if (!canRetry) break;
+      await sleep(retryDelay * attempt);
+    }
+  }
+
+  throw lastError || new Error("Não foi possível concluir a sincronização.");
+}
+
 function byId(id) {
   return document.getElementById(id);
 }
@@ -4979,12 +5036,23 @@ on("resetData", "click", () => {
 async function loadRemoteData(options = {}) {
   try {
     setSyncStatus("Carregando dados online...");
-    let response = await fetch(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok && usesPagesApi()) {
-      response = await fetch(`${RAW_DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    let payload;
+    try {
+      ({ payload } = await requestJsonWithRetry(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, {
+        cache: "no-store"
+      }, {
+        attempts: 3,
+        retryDelay: 900
+      }));
+    } catch (primaryError) {
+      if (!usesPagesApi()) throw primaryError;
+      ({ payload } = await requestJsonWithRetry(`${RAW_DATA_URL}?t=${Date.now()}`, {
+        cache: "no-store"
+      }, {
+        attempts: 2,
+        retryDelay: 1000
+      }));
     }
-    if (!response.ok) throw new Error(`servidor respondeu ${response.status}`);
-    const payload = await response.json();
     const data = payload?.data || payload;
     state = normalizeState(data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -4993,7 +5061,7 @@ async function loadRemoteData(options = {}) {
     setSyncStatus("Dados carregados.");
   } catch (error) {
     if (options.announce) {
-      setSyncStatus(`Não foi possível carregar os dados online: ${error.message}`);
+      setSyncStatus(`Não foi possível carregar os dados online: ${formatSyncError(error)}`);
     } else {
       setSyncStatus("Usando dados salvos neste navegador. O banco online não respondeu agora.");
       render();
@@ -5008,7 +5076,7 @@ async function saveEvaluationRemote(evaluation) {
   }
   try {
     setSyncStatus("Enviando avaliação online...");
-    const response = await fetch(dataApiUrl(), {
+    const { payload } = await requestJsonWithRetry(dataApiUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -5018,10 +5086,12 @@ async function saveEvaluationRemote(evaluation) {
         evaluation,
         reason: `Avaliação online: ${evaluation.judge || "Jurado"}`
       })
+    }, {
+      attempts: 3,
+      retryDelay: 900
     });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || payload.ok === false) {
-      throw new Error(payload.error || `servidor respondeu ${response.status}`);
+    if (payload.ok === false) {
+      throw new Error(payload.error || "Não foi possível concluir o envio da avaliação.");
     }
     if (payload.data) {
       state = normalizeState(payload.data);
@@ -5034,7 +5104,7 @@ async function saveEvaluationRemote(evaluation) {
       await loadRemoteData();
       setSyncStatus("Esta ficha já foi enviada por este jurado. A lista foi atualizada.");
     } else {
-      setSyncStatus(`Não foi possível salvar online: ${error.message}`);
+      setSyncStatus(`Não foi possível salvar online: ${formatSyncError(error)}`);
     }
   }
 }
@@ -5051,7 +5121,7 @@ async function saveLeadershipRemote(type, payload) {
 
   try {
     setSyncStatus(`Enviando ${label} online...`);
-    const response = await fetch(dataApiUrl(), {
+    const { payload: result } = await requestJsonWithRetry(dataApiUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -5061,10 +5131,12 @@ async function saveLeadershipRemote(type, payload) {
         payload,
         reason: `${isRegistration ? "Ficha" : "Relatório"} de liderança: ${payload.teamId || "turma"}`
       })
+    }, {
+      attempts: 3,
+      retryDelay: 900
     });
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok || result.ok === false) {
-      throw new Error(result.error || `servidor respondeu ${response.status}`);
+    if (result.ok === false) {
+      throw new Error(result.error || "Não foi possível concluir o salvamento online.");
     }
     if (result.data) {
       state = normalizeState(result.data);
@@ -5074,7 +5146,7 @@ async function saveLeadershipRemote(type, payload) {
     setSyncStatus(`${isRegistration ? "Ficha de inscrição" : "Relatório de estratégia"} salvo online. O admin já pode acompanhar.`);
     return true;
   } catch (error) {
-    setSyncStatus(`Não foi possível salvar ${label} online: ${error.message}. O rascunho permanece neste aparelho.`);
+    setSyncStatus(`Não foi possível salvar ${label} online: ${formatSyncError(error)} O rascunho permanece neste aparelho.`);
     return false;
   }
 }
@@ -5095,19 +5167,22 @@ async function saveRemoteData() {
 
   try {
     setSyncStatus("Salvando dados online pelo Cloudflare...");
-    const response = await fetch(dataApiUrl(), {
+    const snapshot = mutableState();
+    const { payload } = await requestJsonWithRetry(dataApiUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        data: mutableState(),
+        data: snapshot,
         reason: "Update gincana data"
       })
+    }, {
+      attempts: 4,
+      retryDelay: 1000
     });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || payload.ok === false) {
-      throw new Error(payload.error || `servidor respondeu ${response.status}`);
+    if (payload.ok === false) {
+      throw new Error(payload.error || "Não foi possível concluir o salvamento online.");
     }
     if (payload.data) {
       state = normalizeState(payload.data);
@@ -5116,7 +5191,7 @@ async function saveRemoteData() {
     render();
     setSyncStatus("Dados salvos online. Os alunos verão a atualização ao recarregar a página.");
   } catch (error) {
-    setSyncStatus(`Não foi possível salvar online: ${error.message}`);
+    setSyncStatus(`Não foi possível salvar online: ${formatSyncError(error)}`);
   } finally {
     remoteSaveInProgress = false;
     if (remoteSavePending) {

@@ -1,5 +1,13 @@
 const GITHUB_API_BASE = "https://api.github.com";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientStatus(status) {
+  return [408, 425, 429, 500, 502, 503, 504].includes(Number(status));
+}
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -42,17 +50,36 @@ function fromBase64Utf8(base64) {
 }
 
 async function githubRequest(config, url, init = {}) {
-  return fetch(url, {
-    ...init,
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${config.token}`,
-      "Content-Type": "application/json; charset=utf-8",
-      "User-Agent": "gincana-ensps-2026-cloudflare-pages",
-      "X-GitHub-Api-Version": "2022-11-28",
-      ...(init.headers || {})
+  let lastError;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        ...init,
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${config.token}`,
+          "Content-Type": "application/json; charset=utf-8",
+          "User-Agent": "gincana-ensps-2026-cloudflare-pages",
+          "X-GitHub-Api-Version": "2022-11-28",
+          ...(init.headers || {})
+        }
+      });
+
+      if (attempt < 3 && isTransientStatus(response.status)) {
+        await sleep(400 * attempt);
+        continue;
+      }
+
+      return response;
+    } catch (error) {
+      lastError = error;
+      if (attempt >= 3) throw error;
+      await sleep(400 * attempt);
     }
-  });
+  }
+
+  throw lastError || new Error("GitHub não respondeu.");
 }
 
 async function readGithubData(config) {
