@@ -2383,11 +2383,11 @@
       "date": "2026-05-18",
       "note": "",
       "createdAt": "2026-05-18T17:17:01.195Z",
-      "updatedAt": "2026-05-18T17:17:01.195Z",
-      "deletedAt": ""
+      "updatedAt": "2026-05-18T17:36:58.646Z",
+      "deletedAt": "2026-05-18T17:36:58.646Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:17:01.195Z",
+  "foodCountUpdatedAt": "2026-05-18T17:36:58.646Z",
   "discipline": [
     {
       "teamId": "9",
