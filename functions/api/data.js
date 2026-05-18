@@ -214,6 +214,7 @@ function normalizeFoodDonationRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["food", item.teamId, item.foodId, createdAt || item.date, item.quantity, item.note]),
     quantity: Number(item.quantity || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };

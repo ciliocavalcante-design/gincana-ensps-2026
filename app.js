@@ -345,9 +345,14 @@ function normalizeFoodDonationRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["food", item.teamId, item.foodId, createdAt || item.date, item.quantity, item.note]),
     quantity: Number(item.quantity || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
+}
+
+function activeFoodDonations() {
+  return (state.foodDonations || []).filter((item) => !item.deletedAt);
 }
 
 function normalizeDisciplineRecord(item = {}) {
@@ -1542,8 +1547,9 @@ function loadBonusIntoForm(index) {
 }
 
 function foodTotals() {
+  const donations = activeFoodDonations();
   return state.teams.map((item) => {
-    const entries = state.foodDonations.filter((donation) => donation.teamId === item.id);
+    const entries = donations.filter((donation) => donation.teamId === item.id);
     const tokens = entries.reduce((sum, donation) => {
       const food = foodById(donation.foodId);
       return sum + Number(donation.quantity || 0) * Number(food?.tokens || 0);
@@ -1570,8 +1576,9 @@ function renderFoodDonations() {
   `).join(""));
 
   setHtml("foodPanel", state.teams.map((item) => {
+    const donations = activeFoodDonations();
     const totalsByFood = state.foodTypes.map((food) => {
-      const quantity = state.foodDonations
+      const quantity = donations
         .filter((donation) => donation.teamId === item.id && donation.foodId === food.id)
         .reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
       return { ...food, quantity, total: quantity * food.tokens };
@@ -2222,6 +2229,7 @@ function leadershipTeamSummary(teamId = "") {
     .filter((entry) => entry.teamId === teamId)
     .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
   const foodTokens = state.foodDonations
+    .filter((entry) => !entry.deletedAt)
     .filter((entry) => entry.teamId === teamId)
     .reduce((sum, entry) => sum + Number(entry.quantity || 0) * Number(foodById(entry.foodId)?.tokens || 0), 0);
   const total = scorePoints + bonuses - penalties;
@@ -2257,7 +2265,7 @@ function renderLeadershipPanel() {
   const summary = leadershipTeamSummary(teamId);
   const currentTeam = summary.team || state.teams[0];
 
-  const donations = state.foodDonations.filter((entry) => entry.teamId === teamId);
+  const donations = activeFoodDonations().filter((entry) => entry.teamId === teamId);
   const donationByFood = state.foodTypes.map((food) => {
     const quantity = donations
       .filter((entry) => entry.foodId === food.id)
@@ -2992,7 +3000,7 @@ function renderAdminTables() {
 
   setHtml("foodTable", tableMarkup(
     ["Turma", "Item", "Quantidade", "Tokens", "Data", "Observação", ""],
-    state.foodDonations.map((item, index) => {
+    activeFoodDonations().map((item) => {
       const food = foodById(item.foodId);
       const tokens = Number(item.quantity || 0) * Number(food?.tokens || 0);
       return [
@@ -3002,7 +3010,7 @@ function renderAdminTables() {
         formatPoints(tokens),
         formatDate(item.date),
         item.note || "",
-        `<button class="mini-action" data-delete-food="${index}" type="button">Excluir</button>`
+        `<button class="mini-action" data-delete-food="${escapeHtml(item.id)}" type="button">Excluir</button>`
       ];
     })
   ));
@@ -3227,8 +3235,9 @@ function renderProjectionPanel() {
   if (foodRoot) {
     const ranking = foodTotals();
     const grandTotal = ranking.reduce((sum, item) => sum + Number(item.tokens || 0), 0);
+    const donations = activeFoodDonations();
     const totalByFood = state.foodTypes.map((food) => {
-      const quantity = state.foodDonations
+      const quantity = donations
         .filter((donation) => donation.foodId === food.id)
         .reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
       return { ...food, quantity, total: quantity * Number(food.tokens || 0) };
@@ -3261,7 +3270,7 @@ function renderProjectionPanel() {
               <div class="projection-ranking">
                 ${categoryTeams.map((item, index) => {
                   const totalsByFood = state.foodTypes.map((food) => {
-                    const quantity = state.foodDonations
+                    const quantity = donations
                       .filter((donation) => donation.teamId === item.id && donation.foodId === food.id)
                       .reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
                     return { ...food, quantity, total: quantity * Number(food.tokens || 0) };
@@ -4494,6 +4503,7 @@ on("foodForm", "submit", (event) => {
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const now = new Date().toISOString();
   state.foodDonations.push({
+    id: makeRecordId("food"),
     teamId: data.team,
     foodId: data.food,
     quantity: Number(data.quantity),
@@ -4787,9 +4797,14 @@ document.addEventListener("click", (event) => {
     saveState();
   }
   if (button.dataset.deleteFood) {
-    state.foodDonations.splice(Number(button.dataset.deleteFood), 1);
-    state.foodCountUpdatedAt = new Date().toISOString();
-    saveState();
+    const item = state.foodDonations.find((entry) => entry.id === button.dataset.deleteFood);
+    if (item) {
+      const now = new Date().toISOString();
+      item.deletedAt = now;
+      item.updatedAt = now;
+      state.foodCountUpdatedAt = now;
+      saveState();
+    }
   }
   if (button.dataset.deleteDiscipline) {
     state.discipline.splice(Number(button.dataset.deleteDiscipline), 1);
