@@ -2583,9 +2583,20 @@
       "createdAt": "2026-05-18T17:46:52.777Z",
       "updatedAt": "2026-05-18T17:46:56.448Z",
       "deletedAt": "2026-05-18T17:46:56.448Z"
+    },
+    {
+      "id": "food-1779126428419-1c5c2a524f4ec",
+      "teamId": "7",
+      "foodId": "oleo",
+      "quantity": 1,
+      "date": "2026-05-18",
+      "note": "",
+      "createdAt": "2026-05-18T17:47:08.418Z",
+      "updatedAt": "2026-05-18T17:47:08.418Z",
+      "deletedAt": ""
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:46:56.448Z",
+  "foodCountUpdatedAt": "2026-05-18T17:47:08.418Z",
   "discipline": [
     {
       "teamId": "9",
