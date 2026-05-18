@@ -2581,11 +2581,11 @@
       "date": "2026-05-18",
       "note": "",
       "createdAt": "2026-05-18T17:46:52.777Z",
-      "updatedAt": "2026-05-18T17:46:52.777Z",
-      "deletedAt": ""
+      "updatedAt": "2026-05-18T17:46:56.448Z",
+      "deletedAt": "2026-05-18T17:46:56.448Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:46:52.777Z",
+  "foodCountUpdatedAt": "2026-05-18T17:46:56.448Z",
   "discipline": [
     {
       "teamId": "9",
