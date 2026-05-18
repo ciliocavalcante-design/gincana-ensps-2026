@@ -2515,11 +2515,11 @@
       "date": "2026-05-18",
       "note": "",
       "createdAt": "2026-05-18T17:41:09.876Z",
-      "updatedAt": "2026-05-18T17:41:09.876Z",
-      "deletedAt": ""
+      "updatedAt": "2026-05-18T17:41:40.649Z",
+      "deletedAt": "2026-05-18T17:41:40.649Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:41:09.876Z",
+  "foodCountUpdatedAt": "2026-05-18T17:41:40.649Z",
   "discipline": [
     {
       "teamId": "9",
