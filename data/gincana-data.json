@@ -2440,9 +2440,20 @@
       "createdAt": "2026-05-18T17:39:02.714Z",
       "updatedAt": "2026-05-18T17:39:02.714Z",
       "deletedAt": ""
+    },
+    {
+      "id": "food-1779125954689-08db64717d5ab8",
+      "teamId": "6",
+      "foodId": "acucar",
+      "quantity": 20,
+      "date": "2026-05-18",
+      "note": "",
+      "createdAt": "2026-05-18T17:39:14.689Z",
+      "updatedAt": "2026-05-18T17:39:14.689Z",
+      "deletedAt": ""
     }
   ],
-  "foodCountUpdatedAt": "2026-05-18T17:39:02.714Z",
+  "foodCountUpdatedAt": "2026-05-18T17:39:14.689Z",
   "discipline": [
     {
       "teamId": "9",
