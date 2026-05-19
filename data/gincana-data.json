@@ -3269,13 +3269,12 @@
         "professores"
       ],
       "judgeCodes": [
-        "J003",
         "J004",
         "J005"
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": "",
+      "updatedAt": "2026-05-19T20:57:24.519Z",
       "deletedAt": ""
     }
   ],
