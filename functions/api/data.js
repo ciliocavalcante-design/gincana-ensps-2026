@@ -653,6 +653,122 @@ async function upsertStrategyReport(config, payload, reason) {
   }, reason || "Salvar relatório de liderança", "Conflito ao salvar relatório de estratégia.");
 }
 
+async function upsertJudge(config, payload, reason) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error("Envie um jurado válido.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const now = new Date().toISOString();
+    const code = normalizeJudgeCode(payload.code || payload.name || "");
+    if (!code) throw new Error("Código do jurado inválido.");
+    const existing = (Array.isArray(data.judges) ? data.judges : []).find((item) => (
+      (payload.id && item.id === payload.id) || normalizeJudgeCode(item.code) === code
+    )) || {};
+
+    const record = {
+      ...existing,
+      ...payload,
+      id: existing.id || payload.id || stableRecordKey(["judge", code]),
+      code,
+      active: payload.active !== false,
+      deletedAt: "",
+      createdAt: existing.createdAt || payload.createdAt || now,
+      updatedAt: now
+    };
+
+    data.judges = (Array.isArray(data.judges) ? data.judges : []).filter((item) => (
+      item.id !== existing.id && normalizeJudgeCode(item.code) !== code
+    ));
+    data.judges.push(record);
+  }, reason || "Salvar jurado", "Conflito ao salvar jurado.");
+}
+
+async function upsertJudgingDay(config, payload, reason) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error("Envie um dia de julgamento válido.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const now = new Date().toISOString();
+    const existing = (Array.isArray(data.judgingDays) ? data.judgingDays : []).find((item) => item.id === payload.id) || {};
+    const record = {
+      ...existing,
+      ...payload,
+      id: existing.id || payload.id || stableRecordKey(["judging-day", payload.name, payload.date, ...((payload.eventIds || []).map(String))]),
+      eventIds: Array.isArray(payload.eventIds) ? payload.eventIds.map(String) : (existing.eventIds || []),
+      judgeCodes: normalizedJudgeCodes(payload.judgeCodes || existing.judgeCodes || []),
+      active: payload.active !== false,
+      deletedAt: "",
+      createdAt: existing.createdAt || payload.createdAt || now,
+      updatedAt: now
+    };
+
+    data.judgingDays = (Array.isArray(data.judgingDays) ? data.judgingDays : []).filter((item) => item.id !== record.id);
+    data.judgingDays.push(record);
+  }, reason || "Salvar dia de avaliação", "Conflito ao salvar dia de avaliação.");
+}
+
+async function assignJudgeToDay(config, payload, reason) {
+  if (!payload?.dayId || !payload?.judgeCode) {
+    throw new Error("Envie o dia e o jurado para vincular.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const day = (Array.isArray(data.judgingDays) ? data.judgingDays : []).find((item) => item.id === payload.dayId && !item.deletedAt);
+    if (!day) throw new Error("Dia de avaliação não encontrado.");
+    const code = normalizeJudgeCode(payload.judgeCode);
+    const judge = activeJudges(data).find((item) => normalizeJudgeCode(item.code) === code);
+    if (!judge) throw new Error("Jurado não encontrado.");
+    const codes = normalizedJudgeCodes(day.judgeCodes || []);
+    if (!codes.includes(code)) day.judgeCodes = [...codes, code];
+    day.updatedAt = new Date().toISOString();
+    day.deletedAt = "";
+  }, reason || "Vincular jurado ao dia", "Conflito ao vincular jurado ao dia.");
+}
+
+async function removeJudgeFromDay(config, payload, reason) {
+  if (!payload?.dayId || !payload?.judgeCode) {
+    throw new Error("Envie o dia e o jurado para remover.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const day = (Array.isArray(data.judgingDays) ? data.judgingDays : []).find((item) => item.id === payload.dayId && !item.deletedAt);
+    if (!day) throw new Error("Dia de avaliação não encontrado.");
+    const code = normalizeJudgeCode(payload.judgeCode);
+    day.judgeCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+    day.updatedAt = new Date().toISOString();
+  }, reason || "Remover jurado do dia", "Conflito ao remover jurado do dia.");
+}
+
+async function softDeleteJudge(config, payload, reason) {
+  if (!payload?.judgeId) throw new Error("Envie o jurado para excluir.");
+
+  return mergeGithubData(config, (data) => {
+    const judge = (Array.isArray(data.judges) ? data.judges : []).find((item) => item.id === payload.judgeId);
+    if (!judge) throw new Error("Jurado não encontrado.");
+    const now = new Date().toISOString();
+    const code = normalizeJudgeCode(judge.code);
+    judge.deletedAt = now;
+    judge.updatedAt = now;
+
+    (Array.isArray(data.judgingDays) ? data.judgingDays : []).forEach((day) => {
+      const nextCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+      if (nextCodes.length !== (day.judgeCodes || []).length) {
+        day.judgeCodes = nextCodes;
+        day.updatedAt = now;
+      }
+    });
+
+    (Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts : []).forEach((draft) => {
+      if (normalizeJudgeCode(draft.judgeCode) === code) {
+        draft.deletedAt = now;
+        draft.updatedAt = now;
+      }
+    });
+  }, reason || "Excluir jurado", "Conflito ao excluir jurado.");
+}
+
 async function mergeFullState(config, incoming, reason) {
   return mergeGithubData(config, (data) => {
     replaceObjectContents(data, mergeStateData(data, incoming));
@@ -689,6 +805,26 @@ export async function onRequestPost(context) {
     }
     if (body?.action === "upsertStrategyReport") {
       const saved = await upsertStrategyReport(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "upsertJudge") {
+      const saved = await upsertJudge(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "upsertJudgingDay") {
+      const saved = await upsertJudgingDay(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "assignJudgeToDay") {
+      const saved = await assignJudgeToDay(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "removeJudgeFromDay") {
+      const saved = await removeJudgeFromDay(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "softDeleteJudge") {
+      const saved = await softDeleteJudge(config, body.payload, body.reason);
       return json(saved);
     }
     const data = body?.data;

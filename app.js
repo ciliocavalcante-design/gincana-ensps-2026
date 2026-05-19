@@ -3837,7 +3837,7 @@ function render() {
 }
 
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   const familyButton = event.target.closest("[data-family-view]");
   if (familyButton) {
     event.preventDefault();
@@ -4442,7 +4442,7 @@ on("judgingBlockForm", "submit", (event) => {
 });
 
 
-on("judgeForm", "submit", (event) => {
+on("judgeForm", "submit", async (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const code = normalizeJudgeCode(data.code || data.name);
@@ -4458,15 +4458,25 @@ on("judgeForm", "submit", (event) => {
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
-  if (existing) Object.assign(existing, payload);
-  else state.judges.push(payload);
+  if (canSaveOnline()) {
+    const saved = await saveJudgingAdminRemote(
+      "upsertJudge",
+      payload,
+      `Salvar jurado: ${payload.name || code}`,
+      "Jurado sincronizado."
+    );
+    if (!saved) return;
+  } else {
+    if (existing) Object.assign(existing, payload);
+    else state.judges.push(payload);
+    saveState();
+  }
   event.currentTarget.reset();
   const activeInput = event.currentTarget.elements.active;
   if (activeInput) activeInput.checked = true;
-  saveState();
 });
 
-on("judgingDayForm", "submit", (event) => {
+on("judgingDayForm", "submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
   const data = new FormData(form);
@@ -4475,7 +4485,7 @@ on("judgingDayForm", "submit", (event) => {
     setSyncStatus("Escolha pelo menos uma prova para criar o dia.");
     return;
   }
-  state.judgingDays.push({
+  const payload = {
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     name: String(data.get("name") || "").trim(),
     date: String(data.get("date") || ""),
@@ -4485,11 +4495,22 @@ on("judgingDayForm", "submit", (event) => {
     deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
-  });
+  };
+  if (canSaveOnline()) {
+    const saved = await saveJudgingAdminRemote(
+      "upsertJudgingDay",
+      payload,
+      `Salvar dia de avaliação: ${payload.name || payload.date}`,
+      "Dia de avaliação sincronizado."
+    );
+    if (!saved) return;
+  } else {
+    state.judgingDays.push(payload);
+    saveState();
+  }
   form.reset();
   const activeInput = form.elements.active;
   if (activeInput) activeInput.checked = true;
-  saveState();
 });
 
 on("scheduleForm", "submit", (event) => {
@@ -4714,7 +4735,7 @@ on("bonusCancelEdit", "click", () => {
   setBonusEditing();
 });
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   const button = event.target.closest("button");
   if (!button) return;
 
@@ -4968,24 +4989,33 @@ document.addEventListener("click", (event) => {
   if (button.dataset.deleteJudge) {
     const judge = (state.judges || []).find((item) => item.id === button.dataset.deleteJudge);
     if (judge) {
-      const code = normalizeJudgeCode(judge.code);
-      const now = new Date().toISOString();
-      judge.deletedAt = now;
-      judge.updatedAt = now;
-      activeJudgingDays().forEach((day) => {
-        const nextCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
-        if (nextCodes.length !== (day.judgeCodes || []).length) {
-          day.judgeCodes = nextCodes;
-          day.updatedAt = now;
-        }
-      });
-      activeEvaluationDrafts()
-        .filter((draft) => normalizeJudgeCode(draft.judgeCode) === code)
-        .forEach((draft) => {
-          draft.deletedAt = now;
-          draft.updatedAt = now;
+      if (canSaveOnline()) {
+        await saveJudgingAdminRemote(
+          "softDeleteJudge",
+          { judgeId: judge.id },
+          `Excluir jurado: ${judge.name || judge.code}`,
+          "Jurado excluído e sincronizado."
+        );
+      } else {
+        const code = normalizeJudgeCode(judge.code);
+        const now = new Date().toISOString();
+        judge.deletedAt = now;
+        judge.updatedAt = now;
+        activeJudgingDays().forEach((day) => {
+          const nextCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+          if (nextCodes.length !== (day.judgeCodes || []).length) {
+            day.judgeCodes = nextCodes;
+            day.updatedAt = now;
+          }
         });
-      saveState();
+        activeEvaluationDrafts()
+          .filter((draft) => normalizeJudgeCode(draft.judgeCode) === code)
+          .forEach((draft) => {
+            draft.deletedAt = now;
+            draft.updatedAt = now;
+          });
+        saveState();
+      }
     }
   }
   if (button.dataset.toggleJudgingDay) {
@@ -5010,19 +5040,37 @@ document.addEventListener("click", (event) => {
     const select = document.querySelector(`select[data-day-judge-select="${button.dataset.addDayJudge}"]`);
     const code = normalizeJudgeCode(select?.value || "");
     if (day && code) {
-      const codes = normalizedJudgeCodes(day.judgeCodes || []);
-      if (!codes.includes(code)) day.judgeCodes = [...codes, code];
-      day.updatedAt = new Date().toISOString();
-      saveState();
+      if (canSaveOnline()) {
+        await saveJudgingAdminRemote(
+          "assignJudgeToDay",
+          { dayId: day.id, judgeCode: code },
+          `Vincular jurado ${code} ao dia ${day.name || day.date}`,
+          "Jurado vinculado ao dia."
+        );
+      } else {
+        const codes = normalizedJudgeCodes(day.judgeCodes || []);
+        if (!codes.includes(code)) day.judgeCodes = [...codes, code];
+        day.updatedAt = new Date().toISOString();
+        saveState();
+      }
     }
   }
   if (button.dataset.removeDayJudge) {
     const day = (state.judgingDays || []).find((item) => item.id === button.dataset.removeDayJudge);
     const code = normalizeJudgeCode(button.dataset.judgeCode);
     if (day) {
-      day.judgeCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
-      day.updatedAt = new Date().toISOString();
-      saveState();
+      if (canSaveOnline()) {
+        await saveJudgingAdminRemote(
+          "removeJudgeFromDay",
+          { dayId: day.id, judgeCode: code },
+          `Remover jurado ${code} do dia ${day.name || day.date}`,
+          "Jurado removido do dia."
+        );
+      } else {
+        day.judgeCodes = normalizedJudgeCodes(day.judgeCodes || []).filter((item) => item !== code);
+        day.updatedAt = new Date().toISOString();
+        saveState();
+      }
     }
   }
   if (button.dataset.selectJudgeBlock) {
@@ -5259,6 +5307,48 @@ async function saveLeadershipRemote(type, payload) {
     return true;
   } catch (error) {
     setSyncStatus(`Não foi possível salvar ${label} online: ${formatSyncError(error)} O rascunho permanece neste aparelho.`);
+    return false;
+  }
+}
+
+async function saveJudgingAdminRemote(action, payload, reason, successMessage) {
+  if (!canSaveOnline()) return false;
+
+  try {
+    localChangesPending = true;
+    lastLocalMutationAt = Date.now();
+    setSyncStatus("Sincronizando módulo de avaliações...");
+    const { payload: result } = await requestJsonWithRetry(dataApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action,
+        payload,
+        reason
+      })
+    }, {
+      attempts: 4,
+      retryDelay: 900
+    });
+
+    if (result.ok === false) {
+      throw new Error(result.error || "Não foi possível sincronizar o módulo de avaliações.");
+    }
+
+    if (result.data) {
+      state = normalizeState(result.data);
+      localChangesPending = false;
+      lastRemoteSyncAt = Date.now();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+
+    if (successMessage) setSyncStatus(successMessage);
+    return true;
+  } catch (error) {
+    setSyncStatus(`Não foi possível sincronizar avaliações: ${formatSyncError(error)}`);
     return false;
   }
 }
