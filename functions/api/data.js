@@ -188,6 +188,7 @@ function normalizeScoreRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["score", item.teamId, item.eventId]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -198,6 +199,7 @@ function normalizeScheduleRecord(item = {}) {
   return {
     ...item,
     id: item.id || item.requestId || stableRecordKey(["schedule", item.teamId, item.date, item.time, item.endTime, item.activity, item.place, item.requestId]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -209,6 +211,7 @@ function normalizeFixedScheduleRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["fixed-schedule", item.teamId, item.weekday, item.startDate, item.untilDate, item.time, item.endTime, item.activity, item.place]),
     active: item.active !== false,
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -230,6 +233,7 @@ function normalizeMaterialRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["material", item.teamId, item.material]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -253,6 +257,7 @@ function normalizeDisciplineRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["discipline", item.teamId, item.type, item.date, item.points, item.reason, item.level]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -264,6 +269,7 @@ function normalizeBonusRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["bonus", item.teamId, item.date, item.points, item.reason]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -352,6 +358,7 @@ function normalizeClaimRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["claim", item.teamId, item.disciplineIndex, item.createdAt, item.reason]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -362,6 +369,7 @@ function normalizeLeadershipRequestRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["leadership-request", item.teamId, item.type, item.createdAt, item.message]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -372,6 +380,7 @@ function normalizeScheduleRequestRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["schedule-request", item.teamId, item.date, item.time, item.activity, item.createdAt]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };

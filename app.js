@@ -295,6 +295,7 @@ function normalizeScoreRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["score", item.teamId, item.eventId]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -305,6 +306,7 @@ function normalizeScheduleRecord(item = {}) {
   return {
     ...item,
     id: item.id || item.requestId || stableRecordKey(["schedule", item.teamId, item.date, item.time, item.endTime, item.activity, item.place, item.requestId]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -316,6 +318,7 @@ function normalizeFixedScheduleRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["fixed-schedule", item.teamId, item.weekday, item.startDate, item.untilDate, item.time, item.endTime, item.activity, item.place]),
     active: item.active !== false,
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -337,6 +340,7 @@ function normalizeMaterialRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["material", item.teamId, item.material]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -358,12 +362,64 @@ function activeFoodDonations() {
   return (state.foodDonations || []).filter((item) => !item.deletedAt);
 }
 
+function activeScores() {
+  return (state.scores || []).filter((item) => !item.deletedAt);
+}
+
+function activeSchedules() {
+  return (state.schedules || []).filter((item) => !item.deletedAt);
+}
+
+function activeFixedSchedules() {
+  return (state.fixedSchedules || []).filter((item) => !item.deletedAt);
+}
+
+function activeMaterials() {
+  return (state.materials || []).filter((item) => !item.deletedAt);
+}
+
+function activeDiscipline() {
+  return (state.discipline || []).filter((item) => !item.deletedAt);
+}
+
+function activeBonuses() {
+  return (state.bonuses || []).filter((item) => !item.deletedAt);
+}
+
+function activeLeadershipClaims() {
+  return (state.leadershipClaims || []).filter((item) => !item.deletedAt);
+}
+
+function activeLeadershipRequests() {
+  return (state.leadershipRequests || []).filter((item) => !item.deletedAt);
+}
+
+function activeScheduleRequests() {
+  return (state.scheduleRequests || []).filter((item) => !item.deletedAt);
+}
+
+function activeWithIndex(items = []) {
+  return (items || [])
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => !item.deletedAt);
+}
+
+function markRecordDeleted(items = [], predicate = () => false) {
+  const item = items.find(predicate);
+  if (!item) return false;
+  const now = new Date().toISOString();
+  item.deletedAt = now;
+  item.updatedAt = now;
+  return true;
+}
+
 function normalizeDisciplineRecord(item = {}) {
   const createdAt = item.createdAt || item.updatedAt || "";
   return {
     ...item,
     id: item.id || stableRecordKey(["discipline", item.teamId, item.type, item.date, item.points, item.reason, item.level]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -375,6 +431,7 @@ function normalizeBonusRecord(item = {}) {
     ...item,
     id: item.id || stableRecordKey(["bonus", item.teamId, item.date, item.points, item.reason]),
     points: Number(item.points || 0),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -453,6 +510,7 @@ function normalizeClaimRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["claim", item.teamId, item.disciplineIndex, item.createdAt, item.reason]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -463,6 +521,7 @@ function normalizeLeadershipRequestRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["leadership-request", item.teamId, item.type, item.createdAt, item.message]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -473,6 +532,7 @@ function normalizeScheduleRequestRecord(item = {}) {
   return {
     ...item,
     id: item.id || stableRecordKey(["schedule-request", item.teamId, item.date, item.time, item.activity, item.createdAt]),
+    deletedAt: item.deletedAt || "",
     createdAt,
     updatedAt: item.updatedAt || createdAt
   };
@@ -984,13 +1044,13 @@ function disciplineLevelById(id) {
 
 function totals() {
   return state.teams.map((item) => {
-    const positive = state.scores
+    const positive = activeScores()
       .filter((score) => score.teamId === item.id)
       .reduce((sum, score) => sum + Number(score.points || 0), 0);
-    const penalties = state.discipline
+    const penalties = activeDiscipline()
       .filter((entry) => entry.teamId === item.id && entry.type === "Penalidade")
       .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
-    const bonuses = state.bonuses
+    const bonuses = activeBonuses()
       .filter((entry) => entry.teamId === item.id)
       .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
     return { ...item, total: positive + bonuses - penalties, penalties, bonuses };
@@ -1065,7 +1125,7 @@ function eventRanking(eventId, category) {
   return state.teams
     .filter((item) => !category || item.category === category)
     .map((item) => {
-    const score = state.scores.find((entry) => entry.teamId === item.id && entry.eventId === eventId);
+    const score = activeScores().find((entry) => entry.teamId === item.id && entry.eventId === eventId);
     return {
       ...item,
       points: Number(score?.points || 0),
@@ -1159,7 +1219,10 @@ function fixedScheduleOccurrences() {
   const today = localDateFromIso(todayIso());
   const horizon = new Date(today);
   horizon.setDate(horizon.getDate() + 45);
-  return (state.fixedSchedules || []).flatMap((rule, ruleIndex) => {
+  return (state.fixedSchedules || [])
+    .map((rule, ruleIndex) => ({ rule, ruleIndex }))
+    .filter(({ rule }) => !rule.deletedAt)
+    .flatMap(({ rule, ruleIndex }) => {
     if (rule.active === false || !rule.weekday || !rule.untilDate || !rule.teamId) return [];
     const start = localDateFromIso(rule.startDate) || today;
     const until = localDateFromIso(rule.untilDate);
@@ -1195,7 +1258,7 @@ function fixedScheduleOccurrences() {
 
 function sortedScheduleEntries() {
   return [
-    ...state.schedules.map((item, index) => ({ item, index, type: "single" })),
+    ...activeWithIndex(state.schedules).map(({ item, index }) => ({ item, index, type: "single" })),
     ...fixedScheduleOccurrences()
   ]
     .sort((a, b) => compareSchedules(a.item, b.item));
@@ -1553,17 +1616,19 @@ function weekdayLabel(value) {
 function renderFixedSchedules() {
   const root = byId("fixedScheduleList");
   if (!root) return;
-  const entries = state.fixedSchedules || [];
+  const entries = activeWithIndex(state.fixedSchedules);
   root.innerHTML = entries.length ? entries.map((item, index) => {
-    const itemTeam = team(item.teamId);
+    const rule = item.item || item;
+    const ruleIndex = item.index ?? index;
+    const itemTeam = team(rule.teamId);
     return `
       <article class="fixed-schedule-card" style="border-left:8px solid ${itemTeam?.color || "#64748b"}">
         <div>
-          <strong>${itemTeam?.name || item.teamId} • ${weekdayLabel(item.weekday)}</strong>
-          <span>${formatScheduleWindow(item)} • até ${formatDate(item.untilDate)}</span>
-          <small>${escapeHtml(item.activity || "Ensaio fixo")} • ${escapeHtml(item.place || "ENSPS")}</small>
+          <strong>${itemTeam?.name || rule.teamId} • ${weekdayLabel(rule.weekday)}</strong>
+          <span>${formatScheduleWindow(rule)} • até ${formatDate(rule.untilDate)}</span>
+          <small>${escapeHtml(rule.activity || "Ensaio fixo")} • ${escapeHtml(rule.place || "ENSPS")}</small>
         </div>
-        <button class="mini-action" data-delete-fixed-schedule="${index}" type="button">Excluir</button>
+        <button class="mini-action" data-delete-fixed-schedule="${ruleIndex}" type="button">Excluir</button>
       </article>
     `;
   }).join("") : `<div class="empty-state">Nenhum ensaio fixo cadastrado.</div>`;
@@ -1580,10 +1645,10 @@ function syncParticipantsForm() {
 }
 
 function renderDiscipline() {
-  const penalties = state.discipline
+  const penalties = activeDiscipline()
     .filter((item) => item.type === "Penalidade")
     .map((item) => ({ kind: "penalty", sortDate: item.date || "", createdAt: item.createdAt || "", item }));
-  const bonuses = state.bonuses
+  const bonuses = activeBonuses()
     .map((item) => ({ kind: "bonus", sortDate: item.date || "", createdAt: item.createdAt || "", item }));
   const entries = [...penalties, ...bonuses].sort((a, b) => {
     const dateCompare = (b.sortDate || "").localeCompare(a.sortDate || "");
@@ -1713,7 +1778,7 @@ function renderFoodDonations() {
 }
 
 function materialFor(teamId, material) {
-  return state.materials.find((item) => item.teamId === teamId && item.material === material);
+  return activeMaterials().find((item) => item.teamId === teamId && item.material === material);
 }
 
 function materialStatusClass(status) {
@@ -2370,15 +2435,15 @@ function leadershipSelectedTeamId() {
 
 function leadershipTeamSummary(teamId = "") {
   const itemTeam = team(teamId);
-  const scorePoints = state.scores
+  const scorePoints = activeScores()
     .filter((score) => score.teamId === teamId)
     .reduce((sum, score) => sum + Number(score.points || 0), 0);
-  const penalties = state.discipline
+  const penalties = activeDiscipline()
     .filter((entry) => entry.teamId === teamId && entry.type === "Penalidade")
     .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
-  const warnings = state.discipline
+  const warnings = activeDiscipline()
     .filter((entry) => entry.teamId === teamId && entry.type === "Advertência").length;
-  const bonuses = state.bonuses
+  const bonuses = activeBonuses()
     .filter((entry) => entry.teamId === teamId)
     .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
   const foodTokens = state.foodDonations
@@ -2427,7 +2492,7 @@ function renderLeadershipPanel() {
   }).filter((item) => item.quantity > 0);
 
   const materials = state.materialTypes.map((material) => {
-    const entry = state.materials.find((item) => item.teamId === teamId && item.material === material);
+    const entry = activeMaterials().find((item) => item.teamId === teamId && item.material === material);
     return entry || {
       teamId,
       material,
@@ -2437,12 +2502,12 @@ function renderLeadershipPanel() {
       note: ""
     };
   });
-  const discipline = state.discipline
-    .map((entry, index) => ({ entry, index }))
+  const discipline = activeWithIndex(state.discipline)
+    .map(({ item: entry, index }) => ({ entry, index }))
     .filter(({ entry }) => entry.teamId === teamId);
-  const claims = (state.leadershipClaims || []).filter((claim) => claim.teamId === teamId);
-  const bonuses = state.bonuses.filter((entry) => entry.teamId === teamId);
-  const scores = state.scores.filter((entry) => entry.teamId === teamId);
+  const claims = activeLeadershipClaims().filter((claim) => claim.teamId === teamId);
+  const bonuses = activeBonuses().filter((entry) => entry.teamId === teamId);
+  const scores = activeScores().filter((entry) => entry.teamId === teamId);
 
   root.innerHTML = `
     <section class="leadership-team-hero" style="--team-color:${currentTeam?.color || "#3b82f6"}">
@@ -2578,9 +2643,9 @@ function renderLeadershipPanel() {
         </label>
         <button class="button primary" type="submit">Enviar para comissão</button>
       </form>
-      ${(state.leadershipRequests || []).filter((item) => item.teamId === teamId).length ? `
+      ${activeLeadershipRequests().filter((item) => item.teamId === teamId).length ? `
         <div class="leadership-list">
-          ${(state.leadershipRequests || []).filter((item) => item.teamId === teamId).map((item) => `
+          ${activeLeadershipRequests().filter((item) => item.teamId === teamId).map((item) => `
             <div>
               <strong>${escapeHtml(item.type || "Solicitação")} • ${escapeHtml(item.status || "Pendente")}</strong>
               <span>${item.createdAt ? new Date(item.createdAt).toLocaleString("pt-BR") : ""} • ${escapeHtml(item.message || "")}${item.response ? ` • Resposta: ${escapeHtml(item.response)}` : ""}</span>
@@ -2608,9 +2673,9 @@ function renderLeadershipPanel() {
         <button class="button primary" type="submit">Enviar solicitação</button>
       </form>
       <h3>Solicitações de ensaio</h3>
-      ${(state.scheduleRequests || []).filter((item) => item.teamId === teamId).length ? `
+      ${activeScheduleRequests().filter((item) => item.teamId === teamId).length ? `
         <div class="leadership-list">
-          ${(state.scheduleRequests || []).filter((item) => item.teamId === teamId).map((item) => `
+          ${activeScheduleRequests().filter((item) => item.teamId === teamId).map((item) => `
             <div>
               <strong>${escapeHtml(item.activity)} • ${scheduleRequestStatusLabel(item)}</strong>
               <span>${formatDate(item.date)} • ${item.time || ""}${item.endTime ? ` - ${item.endTime}` : ""} • ${escapeHtml(item.place || "ENSPS")}${item.response ? ` • ${escapeHtml(item.response)}` : ""}</span>
@@ -2643,14 +2708,14 @@ function openLeadershipClaim(index) {
 function renderLeadershipClaimsAdmin() {
   const badge = byId("leadershipClaimsBadge");
   if (badge) {
-    const pendingCount = (state.leadershipClaims || []).filter((claim) => (claim.status || "Pendente") === "Pendente").length;
+    const pendingCount = activeLeadershipClaims().filter((claim) => (claim.status || "Pendente") === "Pendente").length;
     badge.textContent = pendingCount > 9 ? "9+" : String(pendingCount);
     badge.hidden = pendingCount === 0;
   }
 
   setHtml("leadershipClaimsTable", tableMarkup(
     ["Turma", "Ocorrência", "Contestação", "Status", "Resposta", ""],
-    (state.leadershipClaims || []).map((claim, index) => {
+    activeWithIndex(state.leadershipClaims).map(({ item: claim, index }) => {
       const disciplineEntry = state.discipline[Number(claim.disciplineIndex)];
       return [
         escapeHtml(team(claim.teamId)?.name || claim.teamId || ""),
@@ -2701,7 +2766,7 @@ function renderTeacherCodesAdmin() {
 }
 
 function renderTeacherRequestsAdmin() {
-  const teacherRequests = (state.scheduleRequests || []).filter((item) => item.requestedBy === "teacher");
+  const teacherRequests = activeScheduleRequests().filter((item) => item.requestedBy === "teacher");
   setHtml("teacherRequestsTable", tableMarkup(
     ["Turma", "Data", "Horário", "Status", "Observação"],
     teacherRequests.map((item) => [
@@ -2718,14 +2783,14 @@ function renderTeacherRequestsAdmin() {
 function renderLeadershipRequestsAdmin() {
   const badge = byId("leadershipRequestsBadge");
   if (badge) {
-    const pendingCount = (state.leadershipRequests || []).filter((item) => (item.status || "Pendente") === "Pendente").length;
+    const pendingCount = activeLeadershipRequests().filter((item) => (item.status || "Pendente") === "Pendente").length;
     badge.textContent = pendingCount > 9 ? "9+" : String(pendingCount);
     badge.hidden = pendingCount === 0;
   }
 
   setHtml("leadershipRequestsTable", tableMarkup(
     ["Turma", "Tipo", "Mensagem", "Status", "Resposta/Observação", ""],
-    (state.leadershipRequests || []).map((item, index) => [
+    activeWithIndex(state.leadershipRequests).map(({ item, index }) => [
       escapeHtml(team(item.teamId)?.name || item.teamId || ""),
       escapeHtml(item.type || "Solicitação"),
       escapeHtml(item.message || ""),
@@ -2761,8 +2826,7 @@ function scheduleRequestStatusLabel(item) {
 
 function renderScheduleRequestsTable(targetId = "scheduleRequestsTable", mode = "admin") {
   const isVictoria = mode === "victoria";
-  const visibleRequests = (state.scheduleRequests || [])
-    .map((item, index) => ({ item, index }))
+  const visibleRequests = activeWithIndex(state.scheduleRequests)
     .filter(({ item }) => {
       const activity = String(item.activity || "").trim().toLowerCase();
       const isApproved = item.status === "approved";
@@ -2798,8 +2862,7 @@ function renderScheduleRequestsCards(targetId = "scheduleRequestsCards", mode = 
   if (!root) return;
 
   const isVictoria = mode === "victoria";
-  const visibleRequests = (state.scheduleRequests || [])
-    .map((item, index) => ({ item, index }))
+  const visibleRequests = activeWithIndex(state.scheduleRequests)
     .filter(({ item }) => {
       const activity = String(item.activity || "").trim().toLowerCase();
       const isApproved = item.status === "approved";
@@ -2850,7 +2913,7 @@ function renderScheduleRequests() {
 
   const badge = byId("scheduleRequestsBadge");
   if (badge) {
-    const pending = (state.scheduleRequests || []).filter((item) => {
+    const pending = activeScheduleRequests().filter((item) => {
       const activity = String(item.activity || "").trim().toLowerCase();
       return item.status === "pending" && (!isRehearsalsPage || activity !== "dança dos professores");
     }).length;
@@ -2861,7 +2924,7 @@ function renderScheduleRequests() {
 
 function approveScheduleRequest(index, approver = "admin") {
   const request = state.scheduleRequests?.[Number(index)];
-  if (!request || request.status !== "pending") return;
+  if (!request || request.deletedAt || request.status !== "pending") return;
   request.status = "approved";
   request.approvedBy = approver === "victoria" ? "victoria" : "admin";
   request.updatedAt = new Date().toISOString();
@@ -2877,6 +2940,7 @@ function approveScheduleRequest(index, approver = "admin") {
     createdBy: request.requestedBy === "teacher" ? "teacher" : "leader",
     acceptedBy: request.approvedBy,
     requestId: request.id,
+    deletedAt: "",
     createdAt: now,
     updatedAt: now
   });
@@ -2885,7 +2949,7 @@ function approveScheduleRequest(index, approver = "admin") {
 
 function rejectScheduleRequest(index) {
   const request = state.scheduleRequests?.[Number(index)];
-  if (!request) return;
+  if (!request || request.deletedAt) return;
   const note = prompt("Motivo da recusa/observação:", request.response || "");
   if (note === null) return;
   request.status = "rejected";
@@ -3103,7 +3167,7 @@ function renderAdminTables() {
 
   setHtml("pointsTable", tableMarkup(
     ["Turma", "Prova", "Pontos", "Observação", ""],
-    state.scores.map((item, index) => [
+    activeWithIndex(state.scores).map(({ item, index }) => [
       team(item.teamId)?.name || item.teamId,
       eventById(item.eventId)?.name || item.eventId,
       formatPoints(item.points),
@@ -3140,7 +3204,7 @@ function renderAdminTables() {
 
   setHtml("materialsTable", tableMarkup(
     ["Turma", "Material", "Situação", "Data", "Valor/Detalhe", "Observação", ""],
-    state.materials.map((item, index) => [
+    activeWithIndex(state.materials).map(({ item, index }) => [
       team(item.teamId)?.name || item.teamId,
       item.material,
       item.status,
@@ -3170,7 +3234,7 @@ function renderAdminTables() {
 
   setHtml("disciplineTable", tableMarkup(
     ["Turma", "Tipo", "Data", "Pontos", "Motivo", "Registro", ""],
-    state.discipline.map((item, index) => [
+    activeWithIndex(state.discipline).map(({ item, index }) => [
       team(item.teamId)?.name || item.teamId,
       item.levelLabel ? `${item.type} ${item.levelLabel}` : item.type,
       formatDate(item.date),
@@ -3183,7 +3247,7 @@ function renderAdminTables() {
 
   setHtml("bonusTable", tableMarkup(
     ["Turma", "Data", "Pontos", "Motivo", ""],
-    state.bonuses.map((item, index) => [
+    activeWithIndex(state.bonuses).map(({ item, index }) => [
       team(item.teamId)?.name || item.teamId,
       formatDate(item.date),
       `+${formatPoints(Math.abs(item.points || 0))}`,
@@ -3574,12 +3638,12 @@ function renderTeacherPanel() {
   const summary = leadershipTeamSummary(teamId);
   const currentTeam = summary.team || team(teamId) || state.teams[0];
   const materials = state.materialTypes.map((material) => {
-    const entry = state.materials.find((item) => item.teamId === teamId && item.material === material);
+    const entry = activeMaterials().find((item) => item.teamId === teamId && item.material === material);
     return entry || { teamId, material, status: "Pendente", date: "", amount: "", note: "" };
   });
-  const discipline = state.discipline.filter((entry) => entry.teamId === teamId);
+  const discipline = activeDiscipline().filter((entry) => entry.teamId === teamId);
   const schedules = sortedScheduleEntries().filter(({ item }) => item.teamId === teamId);
-  const teacherRequests = (state.scheduleRequests || []).filter((item) => item.teamId === teamId && item.requestedBy === "teacher");
+  const teacherRequests = activeScheduleRequests().filter((item) => item.teamId === teamId && item.requestedBy === "teacher");
 
   root.innerHTML = `
     <section class="leadership-team-hero teacher-team-hero" style="--team-color:${currentTeam?.color || "#3b82f6"}">
@@ -4004,6 +4068,7 @@ document.addEventListener("submit", (event) => {
     note: data.note?.trim() || "",
     status: "pending",
     requestedBy: "teacher",
+    deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -4060,6 +4125,7 @@ document.addEventListener("submit", (event) => {
     message: data.message.trim(),
     status: "Pendente",
     response: "",
+    deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -4091,6 +4157,7 @@ document.addEventListener("submit", (event) => {
     note: data.note?.trim() || "",
     status: "pending",
     requestedBy: "leader",
+    deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -4169,6 +4236,7 @@ on("leadershipClaimForm", "submit", (event) => {
     reason: data.reason.trim(),
     status: "Pendente",
     response: "",
+    deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
@@ -4193,6 +4261,7 @@ on("pointsForm", "submit", (event) => {
     eventId: data.event,
     points: Number(data.points),
     note: data.note.trim(),
+    deletedAt: "",
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
@@ -4223,6 +4292,7 @@ on("batchPointsForm", "submit", (event) => {
         eventId,
         points,
         note,
+        deletedAt: "",
         createdAt: existing?.createdAt || now,
         updatedAt: now
       };
@@ -4573,6 +4643,7 @@ on("scheduleForm", "submit", (event) => {
     place: data.place.trim(),
     activity: data.activity.trim(),
     createdBy: existing?.createdBy || (document.body.classList.contains("rehearsals-page") ? "victoria" : "admin"),
+    deletedAt: "",
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
@@ -4600,6 +4671,7 @@ on("fixedScheduleForm", "submit", (event) => {
     activity: data.activity.trim() || "Ensaio fixo",
     createdBy: "victoria",
     active: true,
+    deletedAt: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -4673,6 +4745,7 @@ on("materialsForm", "submit", (event) => {
     date: data.date,
     amount: data.amount.trim(),
     note: data.note.trim(),
+    deletedAt: "",
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
@@ -4713,6 +4786,7 @@ on("disciplineForm", "submit", (event) => {
     date: data.date,
     points: data.type === "Penalidade" ? Math.abs(Number(data.points || 0)) : 0,
     reason: data.reason.trim(),
+    deletedAt: "",
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
@@ -4745,6 +4819,7 @@ on("quickDisciplineForm", "submit", (event) => {
     level: level.id,
     levelLabel: level.label,
     createdBy: document.body.classList.contains("admin-page") ? "admin" : "victoria",
+    deletedAt: "",
     createdAt: now,
     updatedAt: now
   });
@@ -4764,6 +4839,7 @@ on("bonusForm", "submit", (event) => {
     date: data.date,
     points: Math.abs(Number(data.points || 0)),
     reason: data.reason.trim(),
+    deletedAt: "",
     createdAt: existing?.createdAt || now,
     updatedAt: now
   };
@@ -4844,8 +4920,9 @@ document.addEventListener("click", async (event) => {
   }
 
   if (button.dataset.deleteLeadershipRequest) {
-    state.leadershipRequests.splice(Number(button.dataset.deleteLeadershipRequest), 1);
-    saveState();
+    if (markRecordDeleted(state.leadershipRequests, (_, index) => index === Number(button.dataset.deleteLeadershipRequest))) {
+      saveState();
+    }
     return;
   }
 
@@ -4860,7 +4937,7 @@ document.addEventListener("click", async (event) => {
     const id = button.dataset.deleteOwnTeacherScheduleRequest;
     const request = (state.scheduleRequests || []).find((item) => item.id === id);
     if (request && request.status !== "approved") {
-      state.scheduleRequests = state.scheduleRequests.filter((item) => item.id !== id);
+      markRecordDeleted(state.scheduleRequests, (item) => item.id === id);
       setSyncStatus("Solicitação do professor excluída.");
       saveState();
       restoreTeacherMobileSection();
@@ -4890,7 +4967,7 @@ document.addEventListener("click", async (event) => {
     const id = button.dataset.deleteOwnScheduleRequest;
     const request = (state.scheduleRequests || []).find((item) => item.id === id);
     if (request && request.status !== "approved") {
-      state.scheduleRequests = state.scheduleRequests.filter((item) => item.id !== id);
+      markRecordDeleted(state.scheduleRequests, (item) => item.id === id);
       setSyncStatus("Solicitação excluída.");
       saveState();
     }
@@ -4927,8 +5004,9 @@ document.addEventListener("click", async (event) => {
   }
 
   if (button.dataset.deleteLeadershipClaim) {
-    state.leadershipClaims.splice(Number(button.dataset.deleteLeadershipClaim), 1);
-    saveState();
+    if (markRecordDeleted(state.leadershipClaims, (_, index) => index === Number(button.dataset.deleteLeadershipClaim))) {
+      saveState();
+    }
     return;
   }
 
@@ -4961,24 +5039,32 @@ document.addEventListener("click", async (event) => {
   }
 
   if (button.dataset.deleteScore) {
-    state.scores.splice(Number(button.dataset.deleteScore), 1);
-    saveState();
+    if (markRecordDeleted(state.scores, (_, index) => index === Number(button.dataset.deleteScore))) {
+      saveState();
+    }
+    return;
   }
   if (button.dataset.deleteSchedule) {
-    state.schedules.splice(Number(button.dataset.deleteSchedule), 1);
-    setScheduleEditing();
-    saveState();
+    if (markRecordDeleted(state.schedules, (_, index) => index === Number(button.dataset.deleteSchedule))) {
+      setScheduleEditing();
+      saveState();
+    }
+    return;
   }
   if (button.dataset.deleteFixedSchedule) {
-    state.fixedSchedules.splice(Number(button.dataset.deleteFixedSchedule), 1);
-    saveState();
+    if (markRecordDeleted(state.fixedSchedules, (_, index) => index === Number(button.dataset.deleteFixedSchedule))) {
+      saveState();
+    }
+    return;
   }
   if (button.dataset.editSchedule) {
     loadScheduleIntoForm(Number(button.dataset.editSchedule));
   }
   if (button.dataset.deleteMaterial) {
-    state.materials.splice(Number(button.dataset.deleteMaterial), 1);
-    saveState();
+    if (markRecordDeleted(state.materials, (_, index) => index === Number(button.dataset.deleteMaterial))) {
+      saveState();
+    }
+    return;
   }
   if (button.dataset.deleteFood) {
     const item = state.foodDonations.find((entry) => entry.id === button.dataset.deleteFood);
@@ -4991,17 +5077,21 @@ document.addEventListener("click", async (event) => {
     }
   }
   if (button.dataset.deleteDiscipline) {
-    state.discipline.splice(Number(button.dataset.deleteDiscipline), 1);
-    setDisciplineEditing();
-    saveState();
+    if (markRecordDeleted(state.discipline, (_, index) => index === Number(button.dataset.deleteDiscipline))) {
+      setDisciplineEditing();
+      saveState();
+    }
+    return;
   }
   if (button.dataset.editDiscipline) {
     loadDisciplineIntoForm(Number(button.dataset.editDiscipline));
   }
   if (button.dataset.deleteBonus) {
-    state.bonuses.splice(Number(button.dataset.deleteBonus), 1);
-    setBonusEditing();
-    saveState();
+    if (markRecordDeleted(state.bonuses, (_, index) => index === Number(button.dataset.deleteBonus))) {
+      setBonusEditing();
+      saveState();
+    }
+    return;
   }
   if (button.dataset.editBonus) {
     loadBonusIntoForm(Number(button.dataset.editBonus));
@@ -5193,6 +5283,7 @@ document.addEventListener("click", async (event) => {
         eventId: definition.eventId,
         points: Number(score.gincanaPoints || 0),
         note: `${score.placement}º lugar • Consolidado online: ${definition.name} • ${groupEvals[0].category}`,
+        deletedAt: "",
         createdAt: existing?.createdAt || now,
         updatedAt: now
       };
