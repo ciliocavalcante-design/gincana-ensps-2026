@@ -159,6 +159,9 @@ let remoteSaveInProgress = false;
 let remoteSavePending = false;
 let welcomeAnimationTimer;
 let draftRemoteSaveTimer;
+let localChangesPending = false;
+let lastLocalMutationAt = 0;
+let lastRemoteSyncAt = 0;
 const PROJECTION_DETAIL_STORAGE_KEY = "gincana-projection-details";
 localStorage.removeItem("gincana-ensps-2026-github-token");
 
@@ -531,6 +534,8 @@ function normalizeState(saved = {}) {
 }
 
 function saveState() {
+  localChangesPending = true;
+  lastLocalMutationAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   render();
   if (canSaveOnline()) {
@@ -542,6 +547,7 @@ function saveState() {
 }
 
 function saveLocalStateOnly() {
+  lastLocalMutationAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   render();
 }
@@ -583,6 +589,12 @@ function queueRemoteSave() {
   remoteSaveTimer = setTimeout(() => {
     saveRemoteData();
   }, 700);
+}
+
+function shouldPauseRemoteLoad() {
+  if (remoteSaveInProgress || remoteSavePending || localChangesPending) return true;
+  if (!lastLocalMutationAt) return false;
+  return Date.now() - lastLocalMutationAt < 2500;
 }
 
 function usesPagesApi() {
@@ -5126,6 +5138,9 @@ on("resetData", "click", () => {
 });
 
 async function loadRemoteData(options = {}) {
+  if (!options.force && shouldPauseRemoteLoad()) {
+    return;
+  }
   try {
     setSyncStatus("Carregando dados online...");
     let payload;
@@ -5147,6 +5162,7 @@ async function loadRemoteData(options = {}) {
     }
     const data = payload?.data || payload;
     state = normalizeState(data);
+    lastRemoteSyncAt = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
     syncParticipantsForm();
@@ -5187,6 +5203,8 @@ async function saveEvaluationRemote(evaluation) {
     }
     if (payload.data) {
       state = normalizeState(payload.data);
+      localChangesPending = false;
+      lastRemoteSyncAt = Date.now();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       render();
     }
@@ -5232,6 +5250,8 @@ async function saveLeadershipRemote(type, payload) {
     }
     if (result.data) {
       state = normalizeState(result.data);
+      localChangesPending = false;
+      lastRemoteSyncAt = Date.now();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       render();
     }
@@ -5279,6 +5299,8 @@ async function saveRemoteData() {
     if (payload.data) {
       state = normalizeState(payload.data);
     }
+    localChangesPending = false;
+    lastRemoteSyncAt = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
     setSyncStatus("Dados salvos online. Os alunos verão a atualização ao recarregar a página.");
