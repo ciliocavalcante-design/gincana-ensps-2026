@@ -1,5 +1,33 @@
 {
-  "scores": [],
+  "scores": [
+    {
+      "id": "score::8::lideres",
+      "teamId": "8",
+      "eventId": "lideres",
+      "points": 30,
+      "note": "1º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
+      "createdAt": "2026-05-19T21:41:30.483Z",
+      "updatedAt": "2026-05-19T21:41:30.483Z"
+    },
+    {
+      "id": "score::6::lideres",
+      "teamId": "6",
+      "eventId": "lideres",
+      "points": 20,
+      "note": "2º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
+      "createdAt": "2026-05-19T21:41:30.484Z",
+      "updatedAt": "2026-05-19T21:41:30.484Z"
+    },
+    {
+      "id": "score::7::lideres",
+      "teamId": "7",
+      "eventId": "lideres",
+      "points": 10,
+      "note": "3º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
+      "createdAt": "2026-05-19T21:41:30.484Z",
+      "updatedAt": "2026-05-19T21:41:30.484Z"
+    }
+  ],
   "schedules": [
     {
       "teamId": "7",
@@ -4327,7 +4355,8 @@
           "placement": 3,
           "gincanaPoints": 0
         }
-      ]
+      ],
+      "deletedAt": ""
     }
   ],
   "judgingEventOrder": [
