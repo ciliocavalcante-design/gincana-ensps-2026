@@ -3268,12 +3268,10 @@
         "danca",
         "professores"
       ],
-      "judgeCodes": [
-        "J005"
-      ],
+      "judgeCodes": [],
       "active": true,
       "createdAt": "2026-05-19T20:57:24.519Z",
-      "updatedAt": "2026-05-19T20:57:34.880Z",
+      "updatedAt": "2026-05-19T20:57:38.247Z",
       "deletedAt": ""
     }
   ],
