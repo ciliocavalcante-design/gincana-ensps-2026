@@ -3251,11 +3251,12 @@
       ],
       "judgeCodes": [
         "J001",
-        "J002"
+        "J002",
+        "J003"
       ],
       "active": true,
       "createdAt": "",
-      "updatedAt": "",
+      "updatedAt": "2026-05-19T20:57:50.019Z",
       "deletedAt": ""
     },
     {
