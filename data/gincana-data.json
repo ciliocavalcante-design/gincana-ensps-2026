@@ -7,7 +7,8 @@
       "points": 30,
       "note": "1º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
       "createdAt": "2026-05-19T21:41:30.483Z",
-      "updatedAt": "2026-05-19T21:41:30.483Z"
+      "updatedAt": "2026-05-19T21:41:30.483Z",
+      "deletedAt": ""
     },
     {
       "id": "score::6::lideres",
@@ -16,7 +17,8 @@
       "points": 20,
       "note": "2º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
       "createdAt": "2026-05-19T21:41:30.484Z",
-      "updatedAt": "2026-05-19T21:41:30.484Z"
+      "updatedAt": "2026-05-19T21:41:30.484Z",
+      "deletedAt": ""
     },
     {
       "id": "score::7::lideres",
@@ -25,7 +27,8 @@
       "points": 10,
       "note": "3º lugar • Consolidado online: Dança das Líderes de Torcida • Categoria 1",
       "createdAt": "2026-05-19T21:41:30.484Z",
-      "updatedAt": "2026-05-19T21:41:30.484Z"
+      "updatedAt": "2026-05-19T21:41:30.484Z",
+      "deletedAt": ""
     }
   ],
   "schedules": [
@@ -38,7 +41,8 @@
       "activity": "Dança dos professores",
       "id": "schedule::7::2026-04-23::14:30::16:30::Dança dos professores::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -49,7 +53,8 @@
       "activity": "Ensaio das líderes de Torcida",
       "id": "schedule::2::2026-04-23::14:30::16:30::Ensaio das líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -61,7 +66,8 @@
       "createdBy": "admin",
       "id": "schedule::7::2026-04-27::14:30::16:30::Dança dos professores::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -73,7 +79,8 @@
       "createdBy": "admin",
       "id": "schedule::2::2026-04-29::07:45::08:40::Dança dos professores::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -85,7 +92,8 @@
       "createdBy": "victoria",
       "id": "schedule::6::2026-04-27::14:30::16:30::Dança das Líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "9",
@@ -97,7 +105,8 @@
       "createdBy": "victoria",
       "id": "schedule::9::2026-04-27::14:30::16:30::Dança das Líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -111,7 +120,8 @@
       "requestId": "1777292650626-ae5da125548a9",
       "id": "1777292650626-ae5da125548a9",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -123,7 +133,8 @@
       "createdBy": "victoria",
       "id": "schedule::1::2026-04-28::14:30::16:30::Dança das Líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -135,7 +146,8 @@
       "createdBy": "victoria",
       "id": "schedule::1::2026-04-29::14:30::16:30::Dança das Líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -147,7 +159,8 @@
       "createdBy": "victoria",
       "id": "schedule::7::2026-04-29::11:30::12:30::Dança das Líderes de Torcida::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -159,7 +172,8 @@
       "createdBy": "victoria",
       "id": "schedule::7::2026-04-29::14:30::16:30::Dança Típica::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -171,7 +185,8 @@
       "createdBy": "admin",
       "id": "schedule::7::2026-04-30::11:30::12:30::Dança dos professores::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -183,7 +198,8 @@
       "createdBy": "victoria",
       "id": "schedule::6::2026-04-30::11:30::12:30::Dança Típica::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -195,7 +211,8 @@
       "createdBy": "victoria",
       "id": "schedule::2::2026-04-30::14:30::16:30::Dança Típica::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -207,7 +224,8 @@
       "createdBy": "admin",
       "id": "schedule::2::2026-05-07::14:30::16:30::Story::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -221,7 +239,8 @@
       "requestId": "1778449382097-8774617946dee",
       "id": "1778449382097-8774617946dee",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -233,7 +252,8 @@
       "createdBy": "admin",
       "id": "schedule::1::2026-05-14::07:45::08:15::Ensaio Professor Participação::ENSPS::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "fixedSchedules": [
@@ -250,7 +270,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777898355566-a145b65dbdd458",
@@ -265,7 +286,8 @@
       "createdBy": "victoria",
       "active": true,
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777904869168-27f5c46b14e23",
@@ -280,7 +302,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777904893223-28b018d60798c8",
@@ -295,7 +318,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777904958326-71acc4de1adc7",
@@ -310,7 +334,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905003162-9e91bb4b265248",
@@ -325,7 +350,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905766703-e5d167edaab03",
@@ -340,7 +366,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905783485-f17a7fa294558",
@@ -355,7 +382,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905837315-8bc81501c2091",
@@ -370,7 +398,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905907592-08570fb1fb697",
@@ -385,7 +414,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905956134-79b21fc74e8fe8",
@@ -400,7 +430,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905969658-6a517071dace28",
@@ -415,7 +446,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777905989990-81e7bd66b0f908",
@@ -430,7 +462,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777906014667-ad1bc8db14e618",
@@ -445,7 +478,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777906060125-297a85fb83458",
@@ -460,7 +494,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919420478-a56c6ab030c4e8",
@@ -475,7 +510,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919478170-26069cfa8dcaa",
@@ -490,7 +526,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919509207-70a89c1fecb4d8",
@@ -505,7 +542,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919522128-ef3856b8f4a728",
@@ -520,7 +558,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919556099-e2d3e94877d98",
@@ -535,7 +574,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919594005-3fa312e7f10ba8",
@@ -550,7 +590,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919608781-037b0cb4386528",
@@ -565,7 +606,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919674161-1a4a4b635c989",
@@ -580,7 +622,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919696503-da842a97ae269",
@@ -595,7 +638,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919711429-3a35487438d3b",
@@ -610,7 +654,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919735924-b50acf9aaf3b98",
@@ -625,7 +670,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919759371-32d10b4ff92ea",
@@ -640,7 +686,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919786316-0cdf04f9919628",
@@ -655,7 +702,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919799616-3e9e1548dfa0f8",
@@ -670,7 +718,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919839862-2e6afd791837c",
@@ -685,7 +734,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "1777919853085-2ddcc9bc204518",
@@ -700,7 +750,8 @@
       "active": true,
       "createdBy": "victoria",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "participants": [
@@ -1475,7 +1526,8 @@
       "note": "",
       "id": "material::7::Ficha de inscrição",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1486,7 +1538,8 @@
       "note": "",
       "id": "material::8::Ficha de inscrição",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -1497,7 +1550,8 @@
       "note": "",
       "id": "material::6::Ficha de inscrição",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -1508,7 +1562,8 @@
       "note": "",
       "id": "material::6::Relatório de estratégia de trabalho",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -1519,7 +1574,8 @@
       "note": "",
       "id": "material::7::Relatório de estratégia de trabalho",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1530,7 +1586,8 @@
       "note": "",
       "id": "material::8::Relatório de estratégia de trabalho",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1541,7 +1598,8 @@
       "note": "",
       "id": "material::1::Ficha de inscrição",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1552,7 +1610,8 @@
       "note": "",
       "id": "material::1::Relatório de estratégia de trabalho",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1563,7 +1622,8 @@
       "note": "",
       "id": "material::2::Ficha de inscrição",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1574,7 +1634,8 @@
       "note": "",
       "id": "material::2::Relatório de estratégia de trabalho",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1585,7 +1646,8 @@
       "note": "",
       "id": "material::1::Remix dança típica",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1596,7 +1658,8 @@
       "note": "",
       "id": "material::1::Remix dança dos professores",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1607,7 +1670,8 @@
       "note": "",
       "id": "material::1::Remix dança das líderes de torcida",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -1618,7 +1682,8 @@
       "note": "",
       "id": "material::7::Remix dança dos professores",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -1629,7 +1694,8 @@
       "note": "",
       "id": "material::7::Remix dança das líderes de torcida",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1640,7 +1706,8 @@
       "note": "",
       "id": "material::8::Remix dança das líderes de torcida",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1651,7 +1718,8 @@
       "note": "",
       "id": "material::8::Remix dança dos professores",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1662,7 +1730,8 @@
       "note": "",
       "id": "material::8::Remix dança típica",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "6",
@@ -1673,7 +1742,8 @@
       "note": "",
       "id": "material::6::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -1684,7 +1754,8 @@
       "note": "",
       "id": "material::7::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -1695,7 +1766,8 @@
       "note": "",
       "id": "material::8::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -1706,7 +1778,8 @@
       "note": "",
       "id": "material::1::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1717,7 +1790,8 @@
       "note": "",
       "id": "material::2::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "9",
@@ -1728,7 +1802,8 @@
       "note": "",
       "id": "material::9::Cota (sala + blusa)",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1739,7 +1814,8 @@
       "note": "",
       "id": "material::2::Remix dança das líderes de torcida",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1750,7 +1826,8 @@
       "note": "",
       "id": "material::2::Remix dança dos professores",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -1761,7 +1838,8 @@
       "note": "",
       "id": "material::2::Remix dança típica",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     }
   ],
   "foodDonations": [
@@ -3008,7 +3086,8 @@
       "reason": "Mau comportamento",
       "id": "discipline::9::Advertência::2026-04-22::::Mau comportamento::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -3018,7 +3097,8 @@
       "reason": "Bagunça no intervalo",
       "id": "discipline::8::Advertência::2026-04-23::::Bagunça no intervalo::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -3028,7 +3108,8 @@
       "reason": "Bagunça no intervalo",
       "id": "discipline::7::Advertência::2026-04-23::::Bagunça no intervalo::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "9",
@@ -3038,7 +3119,8 @@
       "reason": "Bagunça no intervalo",
       "id": "discipline::9::Penalidade::2026-04-24::5::Bagunça no intervalo::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -3048,7 +3130,8 @@
       "reason": "Uso indevido de redes sociais, celular na escola por parte da turma e comportamento indevido para com o professor",
       "id": "discipline::1::Penalidade::2026-04-24::10::Uso indevido de redes sociais, celular na escola por parte da turma e comportamento indevido para com o professor::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "1",
@@ -3061,7 +3144,8 @@
       "createdBy": "victoria",
       "id": "discipline::1::Penalidade::2026-04-27::2::Alunos presentes na quadra fora do horário autorizado, com registro de uso indevido de celular e redes sociais.::media",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "8",
@@ -3071,7 +3155,8 @@
       "reason": "Mau comportamento recorrente e generalizado em sala",
       "id": "discipline::8::Penalidade::2026-04-30::5::Mau comportamento recorrente e generalizado em sala::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -3081,7 +3166,8 @@
       "reason": "Grupo generalizado da sala não realizou as atividades da aula de Educação Física",
       "id": "discipline::2::Advertência::2026-04-30::::Grupo generalizado da sala não realizou as atividades da aula de Educação Física::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -3094,7 +3180,8 @@
       "createdBy": "admin",
       "id": "discipline::7::Penalidade::2026-05-04::1::Conversa/Bagunça na fila, após o intervalo, durante a oração::leve",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "7",
@@ -3104,7 +3191,8 @@
       "reason": "Insubordinação e falta de respeito para com o professor",
       "id": "discipline::7::Penalidade::2026-05-05::2::Insubordinação e falta de respeito para com o professor::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "9",
@@ -3114,7 +3202,8 @@
       "reason": "Aluno fora da sala em horário de aula",
       "id": "discipline::9::Penalidade::2026-05-05::2::Aluno fora da sala em horário de aula::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -3124,7 +3213,8 @@
       "reason": "2 pontos por aluna fora de sala em horário de aula",
       "id": "discipline::2::Penalidade::2026-05-05::4::2 pontos por aluna fora de sala em horário de aula::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "teamId": "2",
@@ -3134,7 +3224,8 @@
       "reason": "Conversa, uso de celular, falta de respeito e de interesse generalizadas (GRAVE)",
       "id": "discipline::2::Penalidade::2026-05-13::5::Conversa, uso de celular, falta de respeito e de interesse generalizadas (GRAVE)::",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "discipline-1778840038804-6bed85a305ec4",
@@ -3144,7 +3235,8 @@
       "points": 5,
       "reason": "Uso de celular durante horário de aula de forma geral, incluindo postagens em redes sociais",
       "createdAt": "2026-05-15T10:13:58.804Z",
-      "updatedAt": "2026-05-15T10:13:58.804Z"
+      "updatedAt": "2026-05-15T10:13:58.804Z",
+      "deletedAt": ""
     }
   ],
   "bonuses": [
@@ -3155,7 +3247,8 @@
       "reason": "Turma com menos alunos sem fardamento",
       "id": "bonus::8::2026-04-27::5::Turma com menos alunos sem fardamento",
       "createdAt": "",
-      "updatedAt": ""
+      "updatedAt": "",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778840141335-275a6ca1760488",
@@ -3164,7 +3257,8 @@
       "points": 5,
       "reason": "Turma com menos alunos sem fardamento",
       "createdAt": "2026-05-15T10:15:41.335Z",
-      "updatedAt": "2026-05-15T10:15:41.335Z"
+      "updatedAt": "2026-05-15T10:15:41.335Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778840194186-3b011cfed8b03",
@@ -3173,7 +3267,8 @@
       "points": 5,
       "reason": "Turma com menos alunos sem fardamento",
       "createdAt": "2026-05-15T10:16:34.186Z",
-      "updatedAt": "2026-05-15T10:16:34.186Z"
+      "updatedAt": "2026-05-15T10:16:34.186Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778840220786-7237de32ddc718",
@@ -3182,7 +3277,8 @@
       "points": 5,
       "reason": "Turma com menos alunos atrasados",
       "createdAt": "2026-05-15T10:17:00.786Z",
-      "updatedAt": "2026-05-15T10:24:00.515Z"
+      "updatedAt": "2026-05-15T10:24:00.515Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778847038468-81a3fd62e52c5",
@@ -3191,7 +3287,8 @@
       "points": 5,
       "reason": "Turma com menos alunos sem fardamento",
       "createdAt": "2026-05-15T12:10:38.468Z",
-      "updatedAt": "2026-05-15T12:10:38.468Z"
+      "updatedAt": "2026-05-15T12:10:38.468Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778851777601-842d7edd4ed6d",
@@ -3200,7 +3297,8 @@
       "points": 5,
       "reason": "Turma com menos alunos sem fardamento",
       "createdAt": "2026-05-15T13:29:37.601Z",
-      "updatedAt": "2026-05-15T13:29:37.601Z"
+      "updatedAt": "2026-05-15T13:29:37.601Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778851786227-387dd892cffb18",
@@ -3209,7 +3307,8 @@
       "points": 0,
       "reason": "-",
       "createdAt": "2026-05-15T13:29:46.227Z",
-      "updatedAt": "2026-05-15T13:31:14.692Z"
+      "updatedAt": "2026-05-15T13:31:14.692Z",
+      "deletedAt": ""
     },
     {
       "id": "bonus-1778851821110-4ac9efcd0368a",
@@ -3218,7 +3317,8 @@
       "points": 5,
       "reason": "Turma com menos alunos atrasados",
       "createdAt": "2026-05-15T13:30:21.110Z",
-      "updatedAt": "2026-05-15T13:30:21.110Z"
+      "updatedAt": "2026-05-15T13:30:21.110Z",
+      "deletedAt": ""
     }
   ],
   "judges": [
@@ -3422,7 +3522,8 @@
       "status": "Respondida",
       "response": "Negado",
       "createdAt": "2026-04-29T11:58:54.215Z",
-      "updatedAt": "2026-05-04T11:27:27.688Z"
+      "updatedAt": "2026-05-04T11:27:27.688Z",
+      "deletedAt": ""
     },
     {
       "id": "1777464139472-3f049834a94db",
@@ -3432,7 +3533,8 @@
       "status": "Resolvida",
       "response": "Negado",
       "createdAt": "2026-04-29T12:02:19.472Z",
-      "updatedAt": "2026-04-30T09:16:04.615Z"
+      "updatedAt": "2026-04-30T09:16:04.615Z",
+      "deletedAt": ""
     }
   ],
   "leadershipRequests": [],
@@ -3450,7 +3552,8 @@
       "requestedBy": "leader",
       "createdAt": "2026-04-26T16:17:33.394Z",
       "updatedAt": "2026-04-26T17:07:55.448Z",
-      "approvedBy": "victoria"
+      "approvedBy": "victoria",
+      "deletedAt": ""
     },
     {
       "id": "1777292650626-ae5da125548a9",
@@ -3465,7 +3568,8 @@
       "requestedBy": "leader",
       "createdAt": "2026-04-27T12:24:10.626Z",
       "updatedAt": "2026-04-27T15:12:55.609Z",
-      "approvedBy": "victoria"
+      "approvedBy": "victoria",
+      "deletedAt": ""
     },
     {
       "id": "1778449382097-8774617946dee",
@@ -3480,7 +3584,8 @@
       "requestedBy": "leader",
       "createdAt": "2026-05-10T21:43:02.097Z",
       "updatedAt": "2026-05-11T10:07:32.166Z",
-      "approvedBy": "admin"
+      "approvedBy": "admin",
+      "deletedAt": ""
     }
   ],
   "registrationForms": [
@@ -4170,7 +4275,7 @@
       "judgeCode": "J001",
       "submittedAt": "2026-05-19T20:59:09.566Z",
       "createdAt": "2026-05-19T20:59:09.567Z",
-      "updatedAt": "2026-05-19T20:59:09.567Z",
+      "updatedAt": "2026-05-19T22:45:43.360Z",
       "scores": [
         {
           "teamId": "8",
@@ -4209,7 +4314,7 @@
           "gincanaPoints": 10
         }
       ],
-      "deletedAt": ""
+      "deletedAt": "2026-05-19T22:45:43.360Z"
     },
     {
       "id": "1779224373214-49f953bc1cdf38",
