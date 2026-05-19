@@ -1919,9 +1919,16 @@ function playJudgeWelcome(judge) {
 function renderEvaluationResults() {
   const root = byId("evaluationResults");
   if (!root) return;
+  const evaluations = activeEvaluations();
+  const badge = byId("evaluationsBadge");
+  if (badge) {
+    const pendingCount = evaluations.filter((item) => !item.launched).length;
+    badge.textContent = pendingCount > 9 ? "9+" : String(pendingCount);
+    badge.hidden = pendingCount === 0;
+  }
   
   const grouped = {};
-  activeEvaluations().forEach((evaluation) => {
+  evaluations.forEach((evaluation) => {
     const key = `${evaluation.eventId}|${evaluation.category}`;
     if (!grouped[key]) {
       grouped[key] = {
@@ -1980,7 +1987,7 @@ function renderEvaluationResults() {
         <div class="settings-actions">
           ${!group.launched && group.definition?.eventId ? `<button class="button primary" data-publish-group="${group.key}" type="button">Lançar resultado consolidado</button>` : ""}
           ${group.evaluations.map((id) => {
-            const entry = activeEvaluations().find((item) => item.id === id);
+            const entry = evaluations.find((item) => item.id === id);
             return `<button class="button ghost" data-delete-evaluation="${escapeHtml(id)}" type="button">Excluir ${escapeHtml(entry?.judge || "")}</button>`;
           }).join("")}
         </div>
@@ -1998,6 +2005,42 @@ function renderEvaluationResults() {
         ${launched.map(renderGroup).join("")}
       </div>
     ` : ""}
+  `;
+
+  renderEvaluationInbox(evaluations);
+}
+
+function renderEvaluationInbox(evaluations = activeEvaluations()) {
+  const root = byId("evaluationInbox");
+  if (!root) return;
+  const ordered = [...evaluations].sort((a, b) => String(b.submittedAt || b.updatedAt || "").localeCompare(String(a.submittedAt || a.updatedAt || "")));
+  if (!ordered.length) {
+    root.innerHTML = "";
+    return;
+  }
+
+  root.innerHTML = `
+    <article class="evaluation-result-card evaluation-inbox-card">
+      <header>
+        <span class="eyebrow">Conferência</span>
+        <h3>Fichas individuais recebidas</h3>
+        <p>${ordered.length} ficha${ordered.length > 1 ? "s" : ""} registrada${ordered.length > 1 ? "s" : ""} no banco online.</p>
+      </header>
+      <div class="table-wrap">
+        <table>
+          ${tableMarkup(
+            ["Enviada em", "Jurado", "Prova", "Categoria", "Status"],
+            ordered.map((evaluation) => [
+              evaluation.submittedAt ? new Date(evaluation.submittedAt).toLocaleString("pt-BR") : "",
+              escapeHtml(evaluation.judge || evaluation.judgeCode || "Jurado"),
+              escapeHtml(judgingEventById(evaluation.eventId)?.name || evaluation.eventId || ""),
+              escapeHtml(evaluation.category || ""),
+              evaluation.launched ? "Lançada" : "Pendente"
+            ])
+          )}
+        </table>
+      </div>
+    </article>
   `;
 }
 
@@ -3878,6 +3921,9 @@ document.querySelectorAll(".tab-button").forEach((button) => {
     button.classList.add("active");
     const panel = byId(button.dataset.panel);
     panel?.classList.add("active");
+    if (button.dataset.panel === "judgingPanel") {
+      loadRemoteData({ force: true });
+    }
     if (window.matchMedia("(max-width: 760px)").matches && panel) {
       requestAnimationFrame(() => {
         const top = panel.getBoundingClientRect().top + window.scrollY - 12;
