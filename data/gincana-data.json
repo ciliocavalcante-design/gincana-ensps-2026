@@ -4422,7 +4422,7 @@
       "judgeCode": "J001",
       "submittedAt": "2026-05-19T21:00:04.731Z",
       "createdAt": "2026-05-19T21:00:04.731Z",
-      "updatedAt": "2026-05-19T21:00:04.731Z",
+      "updatedAt": "2026-05-19T22:47:26.921Z",
       "scores": [
         {
           "teamId": "8",
@@ -4461,7 +4461,7 @@
           "gincanaPoints": 0
         }
       ],
-      "deletedAt": ""
+      "deletedAt": "2026-05-19T22:47:26.921Z"
     }
   ],
   "judgingEventOrder": [
