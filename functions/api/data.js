@@ -106,7 +106,7 @@ async function writeGithubData(config, data, reason) {
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
       const current = await readGithubData(config);
-      const content = `${JSON.stringify(data, null, 2)}\n`;
+      const content = `${JSON.stringify(data)}\n`;
       const body = {
         message: reason || "Update gincana data",
         content: toBase64Utf8(content),
@@ -528,7 +528,7 @@ async function appendEvaluation(config, evaluation, reason) {
         judgeCode: code
       });
 
-      const content = `${JSON.stringify(data, null, 2)}\n`;
+      const content = `${JSON.stringify(data)}\n`;
       const body = {
         message: reason || "Append judging evaluation",
         content: toBase64Utf8(content),
@@ -563,7 +563,7 @@ async function appendEvaluation(config, evaluation, reason) {
   throw lastError || new Error("Conflito ao salvar avaliação.");
 }
 
-async function mergeGithubData(config, updater, reason, conflictMessage) {
+async function mergeGithubData(config, updater, reason, conflictMessage, options = {}) {
   let lastError;
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
@@ -572,7 +572,7 @@ async function mergeGithubData(config, updater, reason, conflictMessage) {
       const data = normalizeStateData(current.data && typeof current.data === "object" ? current.data : {});
       updater(data);
 
-      const content = `${JSON.stringify(data, null, 2)}\n`;
+      const content = `${JSON.stringify(data)}\n`;
       const body = {
         message: reason || "Update gincana data",
         content: toBase64Utf8(content),
@@ -591,7 +591,7 @@ async function mergeGithubData(config, updater, reason, conflictMessage) {
           ok: true,
           sha: payload.content?.sha || "",
           path: payload.content?.path || config.path,
-          data
+          ...(options.returnData === false ? {} : { data })
         };
       }
 
@@ -795,7 +795,7 @@ async function upsertFoodDonation(config, payload, reason) {
     data.foodDonations = (Array.isArray(data.foodDonations) ? data.foodDonations : []).filter((item) => item.id !== record.id);
     data.foodDonations.push(record);
     data.foodCountUpdatedAt = now;
-  }, reason || "Lançar alimento", "Conflito ao lançar alimento.");
+  }, reason || "Lançar alimento", "Conflito ao lançar alimento.", { returnData: false });
 }
 
 async function deleteFoodDonation(config, payload, reason) {
@@ -808,7 +808,7 @@ async function deleteFoodDonation(config, payload, reason) {
     item.deletedAt = now;
     item.updatedAt = now;
     data.foodCountUpdatedAt = now;
-  }, reason || "Excluir alimento", "Conflito ao excluir alimento.");
+  }, reason || "Excluir alimento", "Conflito ao excluir alimento.", { returnData: false });
 }
 
 async function clearFoodDonations(config, payload = {}, reason) {
@@ -821,7 +821,7 @@ async function clearFoodDonations(config, payload = {}, reason) {
       }
     });
     data.foodCountUpdatedAt = now;
-  }, reason || "Zerar arrecadação de alimentos", "Conflito ao zerar alimentos.");
+  }, reason || "Zerar arrecadação de alimentos", "Conflito ao zerar alimentos.", { returnData: false });
 }
 
 async function mergeFullState(config, incoming, reason) {

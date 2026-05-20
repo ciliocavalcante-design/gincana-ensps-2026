@@ -669,6 +669,10 @@ function dataApiUrl() {
   return usesPagesApi() ? PAGES_DATA_URL : PUBLISHED_DATA_URL;
 }
 
+function dataReadUrl() {
+  return `${RAW_DATA_URL}?t=${Date.now()}`;
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -760,12 +764,14 @@ async function saveFoodAdminRemote(action, payload, reason, successMessage) {
 
     if (result.data) {
       state = normalizeState(result.data);
-      localChangesPending = false;
       lastRemoteSyncAt = Date.now();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       render();
     }
 
+    localChangesPending = false;
+    lastRemoteSyncAt = Date.now();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     if (successMessage) setSyncStatus(successMessage);
     return true;
   } catch (error) {
@@ -3624,7 +3630,7 @@ function initializeProjectionPage() {
   if (!document.body.classList.contains("projection-page")) return;
   setProjectionView("food");
   updateProjectionFullscreenButton();
-  setInterval(() => loadRemoteData(), 15000);
+  setInterval(() => loadRemoteData(), 45000);
 }
 
 
@@ -5424,23 +5430,12 @@ async function loadRemoteData(options = {}) {
   }
   try {
     setSyncStatus("Carregando dados online...");
-    let payload;
-    try {
-      ({ payload } = await requestJsonWithRetry(`${usesPagesApi() ? PAGES_DATA_URL : RAW_DATA_URL}?t=${Date.now()}`, {
-        cache: "no-store"
-      }, {
-        attempts: 3,
-        retryDelay: 900
-      }));
-    } catch (primaryError) {
-      if (!usesPagesApi()) throw primaryError;
-      ({ payload } = await requestJsonWithRetry(`${RAW_DATA_URL}?t=${Date.now()}`, {
-        cache: "no-store"
-      }, {
-        attempts: 2,
-        retryDelay: 1000
-      }));
-    }
+    const { payload } = await requestJsonWithRetry(dataReadUrl(), {
+      cache: "no-store"
+    }, {
+      attempts: 3,
+      retryDelay: 900
+    });
     const data = payload?.data || payload;
     state = normalizeState(data);
     lastRemoteSyncAt = Date.now();
