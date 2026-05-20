@@ -5394,6 +5394,55 @@
           "placement": 3,
           "gincanaPoints": 0
         }
+      ],
+      "deletedAt": ""
+    },
+    {
+      "id": "1779281973250-87473e7d9283b",
+      "eventId": "lideres",
+      "category": "Categoria 1",
+      "judge": "JURADO 3",
+      "judgeCode": "J003",
+      "submittedAt": "2026-05-20T12:59:33.254Z",
+      "createdAt": "2026-05-20T12:59:33.299Z",
+      "updatedAt": "2026-05-20T12:59:33.299Z",
+      "scores": [
+        {
+          "teamId": "6",
+          "criteria": {
+            "Coreografia": 6,
+            "Criatividade": 7,
+            "Organização": 10
+          },
+          "note": "oh meu deus",
+          "total": 23,
+          "placement": 1,
+          "gincanaPoints": 30
+        },
+        {
+          "teamId": "7",
+          "criteria": {
+            "Coreografia": 6,
+            "Criatividade": 7,
+            "Organização": 6
+          },
+          "note": "",
+          "total": 19,
+          "placement": 2,
+          "gincanaPoints": 20
+        },
+        {
+          "teamId": "8",
+          "criteria": {
+            "Coreografia": 6,
+            "Criatividade": 7,
+            "Organização": 6
+          },
+          "note": "nott",
+          "total": 19,
+          "placement": 3,
+          "gincanaPoints": 10
+        }
       ]
     }
   ],
