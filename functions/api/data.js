@@ -8,6 +8,12 @@ function isTransientStatus(status) {
   return [408, 425, 429, 500, 502, 503, 504].includes(Number(status));
 }
 
+function isGithubConflict(response, message = "") {
+  return Number(response?.status || 0) === 409
+    || String(message || "").includes("does not match")
+    || String(message || "").includes("but expected");
+}
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -129,10 +135,12 @@ async function writeGithubData(config, data, reason) {
       }
 
       lastError = new Error(payload.message || `GitHub PUT falhou (${response.status})`);
-      if (response.status !== 409) throw lastError;
+      lastError.status = response.status;
+      if (!isGithubConflict(response, lastError.message)) throw lastError;
     } catch (error) {
       lastError = error;
-      if (!String(error.message || "").includes("does not match")) throw error;
+      if (!isGithubConflict(error, error.message)) throw error;
+      await sleep(350 * attempt);
     }
   }
 
@@ -552,11 +560,12 @@ async function appendEvaluation(config, evaluation, reason) {
       }
 
       lastError = new Error(payload.message || `GitHub PUT falhou (${response.status})`);
-      if (response.status !== 409) throw lastError;
+      lastError.status = response.status;
+      if (!isGithubConflict(response, lastError.message)) throw lastError;
     } catch (error) {
       lastError = error;
-      if (error.status === 409) throw error;
-      if (!String(error.message || "").includes("does not match")) throw error;
+      if (!isGithubConflict(error, error.message)) throw error;
+      await sleep(350 * attempt);
     }
   }
 
@@ -596,10 +605,12 @@ async function mergeGithubData(config, updater, reason, conflictMessage, options
       }
 
       lastError = new Error(payload.message || `GitHub PUT falhou (${response.status})`);
-      if (response.status !== 409) throw lastError;
+      lastError.status = response.status;
+      if (!isGithubConflict(response, lastError.message)) throw lastError;
     } catch (error) {
       lastError = error;
-      if (!String(error.message || "").includes("does not match")) throw error;
+      if (!isGithubConflict(error, error.message)) throw error;
+      await sleep(350 * attempt);
     }
   }
 
