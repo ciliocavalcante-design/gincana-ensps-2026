@@ -260,6 +260,23 @@ function normalizeFoodDonationRecord(item = {}) {
   };
 }
 
+function normalizeFoodAdjustmentRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  const contracts = Math.max(0, Number(item.contracts || 0));
+  const tokensPerContract = Math.max(0, Number((item.tokensPerContract ?? item.tokens) || 30));
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["food-adjustment", item.teamId, createdAt || item.date, contracts, tokensPerContract, item.note]),
+    type: item.type || "Contratação de jogador",
+    contracts,
+    tokensPerContract,
+    tokens: Math.max(0, Number(item.tokens || contracts * tokensPerContract)),
+    deletedAt: item.deletedAt || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
 function normalizeDisciplineRecord(item = {}) {
   const createdAt = item.createdAt || item.updatedAt || "";
   return {
@@ -425,6 +442,7 @@ function normalizeStateData(data = {}) {
     participants: Array.isArray(data.participants) ? data.participants.map(normalizeParticipantRecord) : [],
     materials: Array.isArray(data.materials) ? data.materials.map(normalizeMaterialRecord) : [],
     foodDonations: Array.isArray(data.foodDonations) ? data.foodDonations.map(normalizeFoodDonationRecord) : [],
+    foodAdjustments: Array.isArray(data.foodAdjustments) ? data.foodAdjustments.map(normalizeFoodAdjustmentRecord) : [],
     discipline: Array.isArray(data.discipline) ? data.discipline.map(normalizeDisciplineRecord) : [],
     bonuses: Array.isArray(data.bonuses) ? data.bonuses.map(normalizeBonusRecord) : [],
     judges: Array.isArray(data.judges) ? data.judges.map(normalizeJudgeRecord) : [],
@@ -456,6 +474,7 @@ function mergeStateData(currentRaw = {}, incomingRaw = {}) {
     participants: mergeRecordArrays(current.participants, incoming.participants, (item) => item.id),
     materials: mergeRecordArrays(current.materials, incoming.materials, (item) => item.id),
     foodDonations: mergeRecordArrays(current.foodDonations, incoming.foodDonations, (item) => item.id),
+    foodAdjustments: mergeRecordArrays(current.foodAdjustments, incoming.foodAdjustments, (item) => item.id),
     discipline: mergeRecordArrays(current.discipline, incoming.discipline, (item) => item.id),
     bonuses: mergeRecordArrays(current.bonuses, incoming.bonuses, (item) => item.id),
     judges: mergeRecordArrays(current.judges, incoming.judges, (item) => item.id),
@@ -823,10 +842,46 @@ async function deleteFoodDonation(config, payload, reason) {
   }, reason || "Excluir alimento", "Conflito ao excluir alimento.", { returnData: false });
 }
 
+async function upsertFoodAdjustment(config, payload, reason) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error("Envie um desconto de contratação válido.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const now = new Date().toISOString();
+    const record = normalizeFoodAdjustmentRecord({
+      ...payload,
+      id: payload.id || stableRecordKey(["food-adjustment", payload.teamId, payload.createdAt || now, payload.contracts, payload.tokensPerContract, payload.note]),
+      deletedAt: "",
+      createdAt: payload.createdAt || now,
+      updatedAt: now
+    });
+    data.foodAdjustments = (Array.isArray(data.foodAdjustments) ? data.foodAdjustments : []).filter((item) => item.id !== record.id);
+    data.foodAdjustments.push(record);
+    data.foodCountUpdatedAt = now;
+  }, reason || "Descontar contratação de jogador", "Conflito ao descontar contratação.", { returnData: false });
+}
+
+async function deleteFoodAdjustment(config, payload, reason) {
+  if (!payload?.id) throw new Error("Envie o desconto para excluir.");
+
+  return mergeGithubData(config, (data) => {
+    const item = (Array.isArray(data.foodAdjustments) ? data.foodAdjustments : []).find((entry) => entry.id === payload.id);
+    if (!item) throw new Error("Desconto de contratação não encontrado.");
+    const now = payload.updatedAt || new Date().toISOString();
+    item.deletedAt = now;
+    item.updatedAt = now;
+    data.foodCountUpdatedAt = now;
+  }, reason || "Excluir desconto de contratação", "Conflito ao excluir desconto.", { returnData: false });
+}
+
 async function clearFoodDonations(config, payload = {}, reason) {
   return mergeGithubData(config, (data) => {
     const now = payload.updatedAt || new Date().toISOString();
-    (Array.isArray(data.foodDonations) ? data.foodDonations : []).forEach((item) => {
+    [
+      ...(Array.isArray(data.foodDonations) ? data.foodDonations : []),
+      ...(Array.isArray(data.foodAdjustments) ? data.foodAdjustments : [])
+    ].forEach((item) => {
       if (!item.deletedAt) {
         item.deletedAt = now;
         item.updatedAt = now;
@@ -900,6 +955,14 @@ export async function onRequestPost(context) {
     }
     if (body?.action === "deleteFoodDonation") {
       const saved = await deleteFoodDonation(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "upsertFoodAdjustment") {
+      const saved = await upsertFoodAdjustment(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "deleteFoodAdjustment") {
+      const saved = await deleteFoodAdjustment(config, body.payload, body.reason);
       return json(saved);
     }
     if (body?.action === "clearFoodDonations") {

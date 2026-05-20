@@ -229,6 +229,7 @@ const defaultData = {
   participants: [],
   materials: [],
   foodDonations: [],
+  foodAdjustments: [],
   foodCountUpdatedAt: "",
   discipline: [],
   bonuses: [],
@@ -359,8 +360,29 @@ function normalizeFoodDonationRecord(item = {}) {
   };
 }
 
+function normalizeFoodAdjustmentRecord(item = {}) {
+  const createdAt = item.createdAt || item.updatedAt || "";
+  const contracts = Math.max(0, Number(item.contracts || 0));
+  const tokensPerContract = Math.max(0, Number((item.tokensPerContract ?? item.tokens) || 30));
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["food-adjustment", item.teamId, createdAt || item.date, contracts, tokensPerContract, item.note]),
+    type: item.type || "Contratação de jogador",
+    contracts,
+    tokensPerContract,
+    tokens: Math.max(0, Number(item.tokens || contracts * tokensPerContract)),
+    deletedAt: item.deletedAt || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
 function activeFoodDonations() {
   return (state.foodDonations || []).filter((item) => !item.deletedAt);
+}
+
+function activeFoodAdjustments() {
+  return (state.foodAdjustments || []).filter((item) => !item.deletedAt);
 }
 
 function activeScores() {
@@ -575,6 +597,7 @@ function normalizeState(saved = {}) {
     participants: Array.isArray(saved.participants) ? dedupeRecords(saved.participants.map(normalizeParticipantRecord), (item) => item.id) : base.participants,
     materials: Array.isArray(saved.materials) ? dedupeRecords(saved.materials.filter((item) => item.material !== "Alimentos").map(normalizeMaterialRecord), (item) => item.id) : base.materials,
     foodDonations: Array.isArray(saved.foodDonations) ? dedupeRecords(saved.foodDonations.map(normalizeFoodDonationRecord), (item) => item.id) : base.foodDonations,
+    foodAdjustments: Array.isArray(saved.foodAdjustments) ? dedupeRecords(saved.foodAdjustments.map(normalizeFoodAdjustmentRecord), (item) => item.id) : base.foodAdjustments,
     foodCountUpdatedAt: saved.foodCountUpdatedAt || base.foodCountUpdatedAt,
     discipline: Array.isArray(saved.discipline) ? dedupeRecords(saved.discipline.map(normalizeDisciplineRecord), (item) => item.id) : base.discipline,
     bonuses: Array.isArray(saved.bonuses) ? dedupeRecords(saved.bonuses.map(normalizeBonusRecord), (item) => item.id) : base.bonuses,
@@ -621,6 +644,7 @@ function mutableState() {
     participants: state.participants,
     materials: state.materials,
     foodDonations: state.foodDonations,
+    foodAdjustments: state.foodAdjustments,
     foodCountUpdatedAt: state.foodCountUpdatedAt,
     discipline: state.discipline,
     bonuses: state.bonuses,
@@ -1109,6 +1133,29 @@ function welcomeStorageKey(code) {
 
 function foodById(id) {
   return state.foodTypes.find((item) => item.id === id);
+}
+
+function foodGrossTokensForTeam(teamId) {
+  return activeFoodDonations()
+    .filter((donation) => donation.teamId === teamId)
+    .reduce((sum, donation) => {
+      const food = foodById(donation.foodId);
+      return sum + Number(donation.quantity || 0) * Number(food?.tokens || 0);
+    }, 0);
+}
+
+function foodAdjustmentTokensForTeam(teamId) {
+  return activeFoodAdjustments()
+    .filter((item) => item.teamId === teamId)
+    .reduce((sum, item) => sum + Number(item.tokens || 0), 0);
+}
+
+function foodNetTokensForTeam(teamId) {
+  return Math.max(0, foodGrossTokensForTeam(teamId) - foodAdjustmentTokensForTeam(teamId));
+}
+
+function foodGrandTotalTokens() {
+  return state.teams.reduce((sum, item) => sum + foodGrossTokensForTeam(item.id), 0);
 }
 
 function disciplineLevelById(id) {
@@ -1795,12 +1842,11 @@ function foodTotals() {
   const donations = activeFoodDonations();
   return state.teams.map((item) => {
     const entries = donations.filter((donation) => donation.teamId === item.id);
-    const tokens = entries.reduce((sum, donation) => {
-      const food = foodById(donation.foodId);
-      return sum + Number(donation.quantity || 0) * Number(food?.tokens || 0);
-    }, 0);
+    const grossTokens = foodGrossTokensForTeam(item.id);
+    const adjustmentTokens = foodAdjustmentTokensForTeam(item.id);
+    const tokens = Math.max(0, grossTokens - adjustmentTokens);
     const quantity = entries.reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
-    return { ...item, tokens, quantity, entries };
+    return { ...item, tokens, grossTokens, adjustmentTokens, quantity, entries };
   }).sort((a, b) => b.tokens - a.tokens);
 }
 
@@ -1816,6 +1862,7 @@ function renderFoodDonations() {
       <div>
         <strong>${formatPoints(item.tokens)}</strong>
         <span>tokens</span>
+        ${item.adjustmentTokens ? `<small>-${formatPoints(item.adjustmentTokens)} tokens em contratações</small>` : ""}
       </div>
     </article>
   `).join(""));
@@ -1829,11 +1876,14 @@ function renderFoodDonations() {
       return { ...food, quantity, total: quantity * food.tokens };
     }).filter((food) => food.quantity > 0);
     const teamTotal = ranking.find((ranked) => ranked.id === item.id)?.tokens || 0;
+    const teamAdjustments = activeFoodAdjustments().filter((adjustment) => adjustment.teamId === item.id);
+    const adjustmentTotal = teamAdjustments.reduce((sum, adjustment) => sum + Number(adjustment.tokens || 0), 0);
     return `
       <article class="food-team" style="--team-color:${item.color}">
         <header>
           <h3>${item.name}</h3>
           <p>${formatPoints(teamTotal)} tokens acumulados</p>
+          ${adjustmentTotal ? `<p>-${formatPoints(adjustmentTotal)} tokens em contratações</p>` : ""}
         </header>
         ${totalsByFood.length ? `
           <ul>
@@ -2527,10 +2577,7 @@ function leadershipTeamSummary(teamId = "") {
   const bonuses = activeBonuses()
     .filter((entry) => entry.teamId === teamId)
     .reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
-  const foodTokens = state.foodDonations
-    .filter((entry) => !entry.deletedAt)
-    .filter((entry) => entry.teamId === teamId)
-    .reduce((sum, entry) => sum + Number(entry.quantity || 0) * Number(foodById(entry.foodId)?.tokens || 0), 0);
+  const foodTokens = foodNetTokensForTeam(teamId);
   const total = scorePoints + bonuses - penalties;
   return { team: itemTeam, scorePoints, penalties, warnings, bonuses, foodTokens, total };
 }
@@ -3313,6 +3360,18 @@ function renderAdminTables() {
     })
   ));
 
+  setHtml("foodAdjustmentTable", tableMarkup(
+    ["Turma", "Contratações", "Desconto", "Data", "Observação", ""],
+    activeFoodAdjustments().map((item) => [
+      team(item.teamId)?.name || item.teamId,
+      `${formatPoints(item.contracts)} x ${formatPoints(item.tokensPerContract)} tokens`,
+      `-${formatPoints(item.tokens)} tokens`,
+      formatDate(item.date),
+      item.note || "",
+      `<button class="mini-action" data-delete-food-adjustment="${escapeHtml(item.id)}" type="button">Excluir</button>`
+    ])
+  ));
+
   setHtml("disciplineTable", tableMarkup(
     ["Turma", "Tipo", "Data", "Pontos", "Motivo", "Registro", ""],
     activeWithIndex(state.discipline).map(({ item, index }) => [
@@ -3532,7 +3591,7 @@ function renderProjectionPanel() {
 
   if (foodRoot) {
     const ranking = foodTotals();
-    const grandTotal = ranking.reduce((sum, item) => sum + Number(item.tokens || 0), 0);
+    const grandTotal = foodGrandTotalTokens();
     const donations = activeFoodDonations();
     const totalByFood = state.foodTypes.map((food) => {
       const quantity = donations
@@ -3574,6 +3633,7 @@ function renderProjectionPanel() {
                     return { ...food, quantity, total: quantity * Number(food.tokens || 0) };
                   }).filter((food) => food.quantity > 0);
 
+                  const adjustmentTokens = foodAdjustmentTokensForTeam(item.id);
                   return `
                     <article class="projection-score-card projection-food-card place-${index + 1}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
                       <div class="projection-place" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
@@ -3585,6 +3645,7 @@ function renderProjectionPanel() {
                             <summary>${totalsByFood.length} ${totalsByFood.length === 1 ? "item lançado" : "itens lançados"}</summary>
                             <ul>
                               ${totalsByFood.map((food) => `<li>${escapeHtml(food.name)}: <strong>${formatPoints(food.quantity)}</strong> un. / <strong>${formatPoints(food.total)}</strong> tokens</li>`).join("")}
+                              ${adjustmentTokens ? `<li>Contratações de jogadores: <strong>-${formatPoints(adjustmentTokens)}</strong> tokens</li>` : ""}
                             </ul>
                           </details>
                         ` : `<small>Nenhum lançamento ainda</small>`}
@@ -4863,6 +4924,38 @@ on("foodForm", "submit", async (event) => {
   }
 });
 
+on("foodAdjustmentForm", "submit", async (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const now = new Date().toISOString();
+  const contracts = Math.max(0, Number(data.contracts || 0));
+  const tokensPerContract = Math.max(0, Number(data.tokens || 30));
+  const payload = {
+    id: makeRecordId("food-adjustment"),
+    teamId: data.team,
+    type: "Contratação de jogador",
+    contracts,
+    tokensPerContract,
+    tokens: contracts * tokensPerContract,
+    date: data.date,
+    note: data.note.trim(),
+    deletedAt: "",
+    createdAt: now,
+    updatedAt: now
+  };
+  state.foodAdjustments.push(payload);
+  state.foodCountUpdatedAt = now;
+  event.currentTarget.reset();
+  event.currentTarget.elements.tokens.value = "30";
+  if (canSaveOnline()) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+    await saveFoodAdminRemote("upsertFoodAdjustment", payload, "Descontar contratação de jogador", "Desconto de contratação sincronizado.");
+  } else {
+    saveState();
+  }
+});
+
 on("disciplineForm", "submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
@@ -4947,15 +5040,15 @@ on("bonusCancelEdit", "click", () => {
 });
 
 on("clearFoodDonations", "click", async () => {
-  const activeCount = activeFoodDonations().length;
+  const activeCount = activeFoodDonations().length + activeFoodAdjustments().length;
   if (!activeCount) {
     setSyncStatus("A contagem de alimentos já está zerada.");
     return;
   }
-  const confirmed = confirm(`Zerar a contagem de alimentos? ${activeCount} lançamento(s) serão ocultados do placar.`);
+  const confirmed = confirm(`Zerar a contagem de alimentos? ${activeCount} lançamento(s)/desconto(s) serão ocultados do placar.`);
   if (!confirmed) return;
   const now = new Date().toISOString();
-  state.foodDonations.forEach((item) => {
+  [...state.foodDonations, ...state.foodAdjustments].forEach((item) => {
     if (!item.deletedAt) {
       item.deletedAt = now;
       item.updatedAt = now;
@@ -5191,6 +5284,23 @@ document.addEventListener("click", async (event) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         render();
         await saveFoodAdminRemote("deleteFoodDonation", { id: item.id, updatedAt: now }, "Excluir alimento", "Alimento excluído e sincronizado.");
+      } else {
+        saveState();
+      }
+    }
+    return;
+  }
+  if (button.dataset.deleteFoodAdjustment) {
+    const item = state.foodAdjustments.find((entry) => entry.id === button.dataset.deleteFoodAdjustment);
+    if (item) {
+      const now = new Date().toISOString();
+      item.deletedAt = now;
+      item.updatedAt = now;
+      state.foodCountUpdatedAt = now;
+      if (canSaveOnline()) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        render();
+        await saveFoodAdminRemote("deleteFoodAdjustment", { id: item.id, updatedAt: now }, "Excluir desconto de contratação", "Desconto excluído e sincronizado.");
       } else {
         saveState();
       }
