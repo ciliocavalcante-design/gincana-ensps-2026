@@ -3265,6 +3265,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T10:28:46.516Z",
       "updatedAt": "2026-05-20T10:28:46.516Z"
+    },
+    {
+      "id": "discipline-1779272975235-af5b002746eb98",
+      "teamId": "7",
+      "type": "Penalidade",
+      "date": "2026-05-18",
+      "points": 2,
+      "reason": "Mau comportamento generalizado durante as aulas",
+      "level": "media",
+      "levelLabel": "Média",
+      "createdBy": "admin",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T10:29:35.235Z",
+      "updatedAt": "2026-05-20T10:29:35.235Z"
     }
   ],
   "bonuses": [
