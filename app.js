@@ -1889,9 +1889,11 @@ function renderJudgeAccess() {
   const gate = byId("judgeAccess");
   const status = byId("judgeStatus");
   const blockRoot = byId("judgeBlockWorkspace");
+  const thanks = byId("judgeThanks");
   if (!form || !gate || !status) return;
   const code = sessionStorage.getItem("gincana-judge-code") || form.dataset.judgeCode || "";
   const judge = judgeByCode(code);
+  if (thanks) thanks.hidden = true;
   if (!judgeIsActive(judge)) {
     form.hidden = true;
     if (blockRoot) {
@@ -1920,6 +1922,7 @@ function renderJudgeAccess() {
   }
   if (!blocks.length && !regularPending.length) {
     form.hidden = true;
+    if (thanks && judgeCompletedCount(judge.code) > 0) thanks.hidden = false;
     status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong>, todas as suas avaliações foram concluídas.`;
     renderEvaluationSheet();
     renderJudgeBlockWorkspace();
@@ -1934,7 +1937,7 @@ function renderJudgeAccess() {
   renderJudgeBlockWorkspace();
 }
 
-function updateJudgeEvaluationOptions() {
+function updateJudgeEvaluationOptions(options = {}) {
   const form = byId("evaluationForm");
   if (!form || !document.body.classList.contains("judge-page")) return;
   const judge = judgeByCode(form.dataset.judgeCode);
@@ -1948,12 +1951,17 @@ function updateJudgeEvaluationOptions() {
   eventSelect.innerHTML = pendingEvents.map((item) => `<option value="${item.id}">${item.name}</option>`).join("");
   if (pendingEvents.some((item) => item.id === currentEvent)) eventSelect.value = currentEvent;
   const selectedEvent = eventSelect.value || pendingEvents[0]?.id || "";
+  const eventChanged = selectedEvent !== currentEvent;
   const categories = pending
     .filter((item) => item.eventId === selectedEvent)
     .map((item) => item.category);
   const currentCategory = categorySelect.value;
   categorySelect.innerHTML = categories.map((item) => `<option>${item}</option>`).join("");
-  if (categories.includes(currentCategory)) categorySelect.value = currentCategory;
+  if (!options.resetCategory && !eventChanged && categories.includes(currentCategory)) {
+    categorySelect.value = currentCategory;
+  } else if (categories.length) {
+    categorySelect.value = categories[0];
+  }
 }
 
 function playJudgeWelcome(judge) {
@@ -1978,7 +1986,7 @@ function playJudgeWelcome(judge) {
       access.classList.remove("soft-hidden");
       form.classList.remove("soft-hidden");
     }, 520);
-  }, 4700);
+  }, 3700);
 }
 
 function renderEvaluationResults() {
@@ -4364,7 +4372,7 @@ on("judgeAccessForm", "submit", (event) => {
 
 on("evaluationForm", "change", (event) => {
   if (event.target.name === "event") {
-    updateJudgeEvaluationOptions();
+    updateJudgeEvaluationOptions({ resetCategory: true });
     renderEvaluationSheet();
   }
   if (event.target.name === "category") {
