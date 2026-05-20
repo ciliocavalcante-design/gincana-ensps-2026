@@ -5013,7 +5013,7 @@
       "judgeCode": "J001",
       "submittedAt": "2026-05-20T11:41:09.852Z",
       "createdAt": "2026-05-20T11:41:09.852Z",
-      "updatedAt": "2026-05-20T11:41:09.852Z",
+      "updatedAt": "2026-05-20T11:42:08.306Z",
       "scores": [
         {
           "teamId": "6",
@@ -5052,7 +5052,7 @@
           "gincanaPoints": 10
         }
       ],
-      "deletedAt": ""
+      "deletedAt": "2026-05-20T11:42:08.306Z"
     },
     {
       "id": "1779277280252-86f3640bee5828",
@@ -5198,7 +5198,8 @@
           "placement": 3,
           "gincanaPoints": 0
         }
-      ]
+      ],
+      "deletedAt": ""
     }
   ],
   "judgingEventOrder": [
