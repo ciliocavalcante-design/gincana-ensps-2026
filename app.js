@@ -5,6 +5,7 @@ const GITHUB_BRANCH = "main";
 const DATA_PATH = "data/gincana-data.json";
 const SECURITY_PATH = "data/admin-security.json";
 const RAW_DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${DATA_PATH}`;
+const GITHUB_CONTENTS_DATA_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}?ref=${GITHUB_BRANCH}`;
 const SECURITY_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${SECURITY_PATH}`;
 const PAGES_DATA_URL = "/api/data";
 const PUBLISHED_DATA_URL = "https://gincana-ensps-2026.pages.dev/api/data";
@@ -671,6 +672,24 @@ function dataApiUrl() {
 
 function dataReadUrl() {
   return `${RAW_DATA_URL}?t=${Date.now()}`;
+}
+
+function githubContentsReadUrl() {
+  return `${GITHUB_CONTENTS_DATA_URL}&t=${Date.now()}`;
+}
+
+function decodeBase64Utf8(value = "") {
+  const binary = atob(String(value).replace(/\s/g, ""));
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
+function extractRemoteData(payload) {
+  if (payload?.data) return payload.data;
+  if (payload?.encoding === "base64" && payload?.content) {
+    return JSON.parse(decodeBase64Utf8(payload.content));
+  }
+  return payload;
 }
 
 function sleep(ms) {
@@ -5430,13 +5449,26 @@ async function loadRemoteData(options = {}) {
   }
   try {
     setSyncStatus("Carregando dados online...");
-    const { payload } = await requestJsonWithRetry(dataReadUrl(), {
-      cache: "no-store"
-    }, {
-      attempts: 3,
-      retryDelay: 900
-    });
-    const data = payload?.data || payload;
+    let payload;
+    try {
+      ({ payload } = await requestJsonWithRetry(githubContentsReadUrl(), {
+        cache: "no-store",
+        headers: {
+          "Accept": "application/vnd.github+json"
+        }
+      }, {
+        attempts: 2,
+        retryDelay: 700
+      }));
+    } catch (primaryError) {
+      ({ payload } = await requestJsonWithRetry(dataReadUrl(), {
+        cache: "no-store"
+      }, {
+        attempts: 3,
+        retryDelay: 900
+      }));
+    }
+    const data = extractRemoteData(payload);
     state = normalizeState(data);
     lastRemoteSyncAt = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
