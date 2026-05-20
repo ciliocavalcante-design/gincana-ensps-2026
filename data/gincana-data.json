@@ -3319,6 +3319,16 @@
       "createdAt": "2026-05-15T13:30:21.110Z",
       "updatedAt": "2026-05-15T13:30:21.110Z",
       "deletedAt": ""
+    },
+    {
+      "id": "bonus-1779272848447-b4b11ee60a6558",
+      "teamId": "9",
+      "date": "2026-05-19",
+      "points": 5,
+      "reason": "Melhor comportamento apresentado no intervalo",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T10:27:28.447Z",
+      "updatedAt": "2026-05-20T10:27:28.447Z"
     }
   ],
   "judges": [
