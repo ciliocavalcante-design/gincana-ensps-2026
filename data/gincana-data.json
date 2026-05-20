@@ -3379,7 +3379,7 @@
       "name": "JURADO 1",
       "code": "J001",
       "active": true,
-      "createdAt": "",
+      "createdAt": "2026-05-20T13:09:32.631Z",
       "updatedAt": "2026-05-20T13:09:32.631Z",
       "deletedAt": "2026-05-20T13:09:32.631Z"
     },
@@ -3389,8 +3389,8 @@
       "code": "J002",
       "active": true,
       "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "updatedAt": "2026-05-20T13:09:39.702Z",
+      "deletedAt": "2026-05-20T13:09:39.702Z"
     },
     {
       "id": "1777210348279-794bc0115a03d8",
