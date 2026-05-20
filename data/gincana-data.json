@@ -3151,9 +3151,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T18:01:42.107Z",
       "updatedAt": "2026-05-20T18:01:42.816Z"
+    },
+    {
+      "id": "food-1779300113710-7fd58a67f8338",
+      "teamId": "7",
+      "foodId": "macarrao",
+      "quantity": 17,
+      "date": "2026-05-20",
+      "note": "",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T18:01:53.710Z",
+      "updatedAt": "2026-05-20T18:01:54.065Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:01:42.816Z",
+  "foodCountUpdatedAt": "2026-05-20T18:01:54.065Z",
   "discipline": [
     {
       "teamId": "9",
