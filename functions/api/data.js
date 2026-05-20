@@ -57,8 +57,9 @@ function fromBase64Utf8(base64) {
 
 async function githubRequest(config, url, init = {}) {
   let lastError;
+  const maxAttempts = 5;
 
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
       const response = await fetch(url, {
         ...init,
@@ -72,7 +73,7 @@ async function githubRequest(config, url, init = {}) {
         }
       });
 
-      if (attempt < 3 && isTransientStatus(response.status)) {
+      if (attempt < maxAttempts && isTransientStatus(response.status)) {
         await sleep(400 * attempt);
         continue;
       }
@@ -80,7 +81,7 @@ async function githubRequest(config, url, init = {}) {
       return response;
     } catch (error) {
       lastError = error;
-      if (attempt >= 3) throw error;
+      if (attempt >= maxAttempts) throw error;
       await sleep(400 * attempt);
     }
   }
@@ -109,7 +110,7 @@ async function readGithubData(config) {
 async function writeGithubData(config, data, reason) {
   let lastError;
 
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
     try {
       const current = await readGithubData(config);
       const content = `${JSON.stringify(data)}\n`;
@@ -500,7 +501,7 @@ async function appendEvaluation(config, evaluation, reason) {
 
   let lastError;
 
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
     try {
       const current = await readGithubData(config);
       const data = normalizeStateData(current.data && typeof current.data === "object" ? current.data : {});
@@ -575,7 +576,7 @@ async function appendEvaluation(config, evaluation, reason) {
 async function mergeGithubData(config, updater, reason, conflictMessage, options = {}) {
   let lastError;
 
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
     try {
       const current = await readGithubData(config);
       const data = normalizeStateData(current.data && typeof current.data === "object" ? current.data : {});

@@ -678,7 +678,7 @@ function sleep(ms) {
 }
 
 function isTransientSyncStatus(status) {
-  return [408, 425, 429, 500, 502, 503, 504].includes(Number(status));
+  return [408, 409, 425, 429, 500, 502, 503, 504].includes(Number(status));
 }
 
 function transientSyncMessage(status) {
