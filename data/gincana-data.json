@@ -3137,9 +3137,9 @@
       "quantity": 61,
       "date": "2026-05-20",
       "note": "",
-      "deletedAt": "",
+      "deletedAt": "2026-05-20T18:17:01.487Z",
       "createdAt": "2026-05-20T18:01:33.738Z",
-      "updatedAt": "2026-05-20T18:01:34.188Z"
+      "updatedAt": "2026-05-20T18:17:01.487Z"
     },
     {
       "id": "food-1779300102107-56c922ca35e1e",
@@ -3175,7 +3175,7 @@
       "updatedAt": "2026-05-20T18:02:03.687Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:02:03.687Z",
+  "foodCountUpdatedAt": "2026-05-20T18:17:01.487Z",
   "discipline": [
     {
       "teamId": "9",
