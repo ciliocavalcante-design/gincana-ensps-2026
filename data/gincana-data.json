@@ -3251,6 +3251,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T10:28:29.933Z",
       "updatedAt": "2026-05-20T10:28:29.933Z"
+    },
+    {
+      "id": "discipline-1779272926516-be42b7159bb378",
+      "teamId": "6",
+      "type": "Penalidade",
+      "date": "2026-05-19",
+      "points": 2,
+      "reason": "Mau comportamento no intervalo",
+      "level": "media",
+      "levelLabel": "Média",
+      "createdBy": "admin",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T10:28:46.516Z",
+      "updatedAt": "2026-05-20T10:28:46.516Z"
     }
   ],
   "bonuses": [
