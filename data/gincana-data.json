@@ -3140,9 +3140,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T18:01:33.738Z",
       "updatedAt": "2026-05-20T18:01:34.188Z"
+    },
+    {
+      "id": "food-1779300102107-56c922ca35e1e",
+      "teamId": "7",
+      "foodId": "cafe",
+      "quantity": 12,
+      "date": "2026-05-20",
+      "note": "",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T18:01:42.107Z",
+      "updatedAt": "2026-05-20T18:01:42.816Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:01:34.188Z",
+  "foodCountUpdatedAt": "2026-05-20T18:01:42.816Z",
   "discipline": [
     {
       "teamId": "9",
