@@ -3272,9 +3272,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T18:22:33.447Z",
       "updatedAt": "2026-05-20T18:22:34.034Z"
+    },
+    {
+      "id": "food-1779301362702-a4d4a12d22715",
+      "teamId": "1",
+      "foodId": "leite-po",
+      "quantity": 2,
+      "date": "2026-05-20",
+      "note": "",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T18:22:42.702Z",
+      "updatedAt": "2026-05-20T18:22:43.153Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:22:34.034Z",
+  "foodCountUpdatedAt": "2026-05-20T18:22:43.153Z",
   "discipline": [
     {
       "teamId": "9",
