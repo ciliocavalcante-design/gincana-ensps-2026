@@ -3316,9 +3316,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T18:30:28.095Z",
       "updatedAt": "2026-05-20T18:30:28.899Z"
+    },
+    {
+      "id": "food-1779301838687-bf66afbc9d08f8",
+      "teamId": "6",
+      "foodId": "arroz",
+      "quantity": 61,
+      "date": "2026-05-20",
+      "note": "",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T18:30:38.687Z",
+      "updatedAt": "2026-05-20T18:30:39.010Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:30:28.899Z",
+  "foodCountUpdatedAt": "2026-05-20T18:30:39.010Z",
   "discipline": [
     {
       "teamId": "9",
