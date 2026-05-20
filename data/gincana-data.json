@@ -5051,6 +5051,55 @@
           "placement": 3,
           "gincanaPoints": 10
         }
+      ],
+      "deletedAt": ""
+    },
+    {
+      "id": "1779277280252-86f3640bee5828",
+      "eventId": "lideres",
+      "category": "Categoria 2",
+      "judge": "JURADO 1",
+      "judgeCode": "J001",
+      "submittedAt": "2026-05-20T11:41:20.252Z",
+      "createdAt": "2026-05-20T11:41:20.252Z",
+      "updatedAt": "2026-05-20T11:41:20.252Z",
+      "scores": [
+        {
+          "teamId": "9",
+          "criteria": {
+            "Coreografia": 9,
+            "Criatividade": 9,
+            "Organização": 9
+          },
+          "note": "9",
+          "total": 27,
+          "placement": 1,
+          "gincanaPoints": 30
+        },
+        {
+          "teamId": "1",
+          "criteria": {
+            "Coreografia": 9,
+            "Criatividade": 9,
+            "Organização": 9
+          },
+          "note": "9",
+          "total": 27,
+          "placement": 2,
+          "gincanaPoints": 20
+        },
+        {
+          "teamId": "2",
+          "criteria": {
+            "Coreografia": 9,
+            "Criatividade": 9,
+            "Organização": 9
+          },
+          "note": "9",
+          "total": 27,
+          "placement": 3,
+          "gincanaPoints": 10
+        }
       ]
     }
   ],
