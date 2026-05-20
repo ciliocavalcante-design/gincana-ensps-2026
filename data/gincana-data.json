@@ -3082,12 +3082,12 @@
       "quantity": 1,
       "date": "2026-05-20",
       "note": "",
-      "deletedAt": "",
+      "deletedAt": "2026-05-20T17:59:30.417Z",
       "createdAt": "2026-05-20T17:59:15.594Z",
-      "updatedAt": "2026-05-20T17:59:16.391Z"
+      "updatedAt": "2026-05-20T17:59:30.417Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T17:59:16.391Z",
+  "foodCountUpdatedAt": "2026-05-20T17:59:30.417Z",
   "discipline": [
     {
       "teamId": "9",
