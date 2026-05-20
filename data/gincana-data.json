@@ -5688,6 +5688,55 @@
           "placement": 3,
           "gincanaPoints": 0
         }
+      ],
+      "deletedAt": ""
+    },
+    {
+      "id": "1779282043778-6031636a92e308",
+      "eventId": "blusa",
+      "category": "Categoria 2",
+      "judge": "JURADO 4",
+      "judgeCode": "J004",
+      "submittedAt": "2026-05-20T13:00:43.778Z",
+      "createdAt": "2026-05-20T13:00:43.778Z",
+      "updatedAt": "2026-05-20T13:00:43.778Z",
+      "scores": [
+        {
+          "teamId": "9",
+          "criteria": {
+            "Afinidade ao tema": 7,
+            "Criatividade": 7,
+            "Design": 7
+          },
+          "note": "",
+          "total": 21,
+          "placement": 1,
+          "gincanaPoints": 10
+        },
+        {
+          "teamId": "1",
+          "criteria": {
+            "Afinidade ao tema": 7,
+            "Criatividade": 7,
+            "Design": 7
+          },
+          "note": "",
+          "total": 21,
+          "placement": 2,
+          "gincanaPoints": 5
+        },
+        {
+          "teamId": "2",
+          "criteria": {
+            "Afinidade ao tema": 7,
+            "Criatividade": 7,
+            "Design": 7
+          },
+          "note": "",
+          "total": 21,
+          "placement": 3,
+          "gincanaPoints": 0
+        }
       ]
     }
   ],
