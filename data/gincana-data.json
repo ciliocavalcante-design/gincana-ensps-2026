@@ -3430,13 +3430,12 @@
         "blusa"
       ],
       "judgeCodes": [
-        "J003",
         "J004",
         "J005"
       ],
       "active": true,
       "createdAt": "2026-05-19T20:57:50.019Z",
-      "updatedAt": "2026-05-20T13:08:59.431Z",
+      "updatedAt": "2026-05-20T13:09:13.174Z",
       "deletedAt": ""
     },
     {
