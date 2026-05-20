@@ -3206,9 +3206,20 @@
       "deletedAt": "",
       "createdAt": "2026-05-20T18:20:56.339Z",
       "updatedAt": "2026-05-20T18:20:57.250Z"
+    },
+    {
+      "id": "food-1779301285096-f766ffb74baad8",
+      "teamId": "1",
+      "foodId": "feijao",
+      "quantity": 22,
+      "date": "2026-05-20",
+      "note": "",
+      "deletedAt": "",
+      "createdAt": "2026-05-20T18:21:25.096Z",
+      "updatedAt": "2026-05-20T18:21:25.953Z"
     }
   ],
-  "foodCountUpdatedAt": "2026-05-20T18:20:57.250Z",
+  "foodCountUpdatedAt": "2026-05-20T18:21:25.953Z",
   "discipline": [
     {
       "teamId": "9",
