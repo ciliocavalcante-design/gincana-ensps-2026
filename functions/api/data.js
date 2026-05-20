@@ -778,6 +778,52 @@ async function softDeleteJudge(config, payload, reason) {
   }, reason || "Excluir jurado", "Conflito ao excluir jurado.");
 }
 
+async function upsertFoodDonation(config, payload, reason) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error("Envie um lançamento de alimento válido.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const now = new Date().toISOString();
+    const record = normalizeFoodDonationRecord({
+      ...payload,
+      id: payload.id || stableRecordKey(["food", payload.teamId, payload.foodId, payload.createdAt || now, payload.quantity, payload.note]),
+      deletedAt: "",
+      createdAt: payload.createdAt || now,
+      updatedAt: now
+    });
+    data.foodDonations = (Array.isArray(data.foodDonations) ? data.foodDonations : []).filter((item) => item.id !== record.id);
+    data.foodDonations.push(record);
+    data.foodCountUpdatedAt = now;
+  }, reason || "Lançar alimento", "Conflito ao lançar alimento.");
+}
+
+async function deleteFoodDonation(config, payload, reason) {
+  if (!payload?.id) throw new Error("Envie o alimento para excluir.");
+
+  return mergeGithubData(config, (data) => {
+    const item = (Array.isArray(data.foodDonations) ? data.foodDonations : []).find((entry) => entry.id === payload.id);
+    if (!item) throw new Error("Lançamento de alimento não encontrado.");
+    const now = payload.updatedAt || new Date().toISOString();
+    item.deletedAt = now;
+    item.updatedAt = now;
+    data.foodCountUpdatedAt = now;
+  }, reason || "Excluir alimento", "Conflito ao excluir alimento.");
+}
+
+async function clearFoodDonations(config, payload = {}, reason) {
+  return mergeGithubData(config, (data) => {
+    const now = payload.updatedAt || new Date().toISOString();
+    (Array.isArray(data.foodDonations) ? data.foodDonations : []).forEach((item) => {
+      if (!item.deletedAt) {
+        item.deletedAt = now;
+        item.updatedAt = now;
+      }
+    });
+    data.foodCountUpdatedAt = now;
+  }, reason || "Zerar arrecadação de alimentos", "Conflito ao zerar alimentos.");
+}
+
 async function mergeFullState(config, incoming, reason) {
   return mergeGithubData(config, (data) => {
     replaceObjectContents(data, mergeStateData(data, incoming));
@@ -834,6 +880,18 @@ export async function onRequestPost(context) {
     }
     if (body?.action === "softDeleteJudge") {
       const saved = await softDeleteJudge(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "upsertFoodDonation") {
+      const saved = await upsertFoodDonation(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "deleteFoodDonation") {
+      const saved = await deleteFoodDonation(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "clearFoodDonations") {
+      const saved = await clearFoodDonations(config, body.payload, body.reason);
       return json(saved);
     }
     const data = body?.data;

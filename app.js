@@ -699,7 +699,17 @@ async function requestJsonWithRetry(url, options = {}, config = {}) {
     try {
       const response = await fetch(url, options);
       const text = await response.text();
-      const payload = text ? JSON.parse(text) : {};
+      let payload = {};
+      try {
+        payload = text ? JSON.parse(text) : {};
+      } catch {
+        const error = new Error(text?.startsWith("<")
+          ? transientSyncMessage(response.status || 503)
+          : (text || transientSyncMessage(response.status || 503)));
+        error.status = response.status || 503;
+        error.rawText = text;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(payload?.error || transientSyncMessage(response.status));
@@ -724,6 +734,44 @@ async function requestJsonWithRetry(url, options = {}, config = {}) {
   }
 
   throw lastError || new Error("Não foi possível concluir a sincronização.");
+}
+
+async function saveFoodAdminRemote(action, payload, reason, successMessage) {
+  if (!canSaveOnline()) return false;
+
+  try {
+    localChangesPending = true;
+    lastLocalMutationAt = Date.now();
+    setSyncStatus("Sincronizando arrecadação de alimentos...");
+    const { payload: result } = await requestJsonWithRetry(dataApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action, payload, reason })
+    }, {
+      attempts: 5,
+      retryDelay: 1200
+    });
+
+    if (result.ok === false) {
+      throw new Error(result.error || "Não foi possível sincronizar a arrecadação.");
+    }
+
+    if (result.data) {
+      state = normalizeState(result.data);
+      localChangesPending = false;
+      lastRemoteSyncAt = Date.now();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+
+    if (successMessage) setSyncStatus(successMessage);
+    return true;
+  } catch (error) {
+    setSyncStatus(`Não foi possível sincronizar arrecadação: ${formatSyncError(error)}`);
+    return false;
+  }
 }
 
 function byId(id) {
@@ -4763,23 +4811,31 @@ on("materialsForm", "submit", (event) => {
   saveState();
 });
 
-on("foodForm", "submit", (event) => {
+on("foodForm", "submit", async (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   const now = new Date().toISOString();
-  state.foodDonations.push({
+  const payload = {
     id: makeRecordId("food"),
     teamId: data.team,
     foodId: data.food,
     quantity: Number(data.quantity),
     date: data.date,
     note: data.note.trim(),
+    deletedAt: "",
     createdAt: now,
     updatedAt: now
-  });
+  };
+  state.foodDonations.push(payload);
   state.foodCountUpdatedAt = now;
   event.currentTarget.reset();
-  saveState();
+  if (canSaveOnline()) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+    await saveFoodAdminRemote("upsertFoodDonation", payload, "Lançar alimento", "Alimento lançado e sincronizado.");
+  } else {
+    saveState();
+  }
 });
 
 on("disciplineForm", "submit", (event) => {
@@ -4863,6 +4919,31 @@ on("bonusCancelEdit", "click", () => {
   if (!form) return;
   form.reset();
   setBonusEditing();
+});
+
+on("clearFoodDonations", "click", async () => {
+  const activeCount = activeFoodDonations().length;
+  if (!activeCount) {
+    setSyncStatus("A contagem de alimentos já está zerada.");
+    return;
+  }
+  const confirmed = confirm(`Zerar a contagem de alimentos? ${activeCount} lançamento(s) serão ocultados do placar.`);
+  if (!confirmed) return;
+  const now = new Date().toISOString();
+  state.foodDonations.forEach((item) => {
+    if (!item.deletedAt) {
+      item.deletedAt = now;
+      item.updatedAt = now;
+    }
+  });
+  state.foodCountUpdatedAt = now;
+  if (canSaveOnline()) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+    await saveFoodAdminRemote("clearFoodDonations", { updatedAt: now }, "Zerar arrecadação de alimentos", "Contagem de alimentos zerada e sincronizada.");
+  } else {
+    saveState();
+  }
 });
 
 document.addEventListener("click", async (event) => {
@@ -5081,8 +5162,15 @@ document.addEventListener("click", async (event) => {
       item.deletedAt = now;
       item.updatedAt = now;
       state.foodCountUpdatedAt = now;
-      saveState();
+      if (canSaveOnline()) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        render();
+        await saveFoodAdminRemote("deleteFoodDonation", { id: item.id, updatedAt: now }, "Excluir alimento", "Alimento excluído e sincronizado.");
+      } else {
+        saveState();
+      }
     }
+    return;
   }
   if (button.dataset.deleteDiscipline) {
     if (markRecordDeleted(state.discipline, (_, index) => index === Number(button.dataset.deleteDiscipline))) {
