@@ -5699,7 +5699,7 @@
       "judgeCode": "J004",
       "submittedAt": "2026-05-20T13:00:43.778Z",
       "createdAt": "2026-05-20T13:00:43.778Z",
-      "updatedAt": "2026-05-20T13:00:43.778Z",
+      "updatedAt": "2026-05-20T13:08:15.623Z",
       "scores": [
         {
           "teamId": "9",
@@ -5738,7 +5738,7 @@
           "gincanaPoints": 0
         }
       ],
-      "deletedAt": ""
+      "deletedAt": "2026-05-20T13:08:15.623Z"
     },
     {
       "id": "1779282057606-9003b53dc38c08",
