@@ -3406,7 +3406,7 @@
       "name": "JURADO 4",
       "code": "J004",
       "active": true,
-      "createdAt": "",
+      "createdAt": "2026-05-20T13:09:48.697Z",
       "updatedAt": "2026-05-20T13:09:48.697Z",
       "deletedAt": "2026-05-20T13:09:48.697Z"
     },
@@ -3416,8 +3416,8 @@
       "code": "J005",
       "active": true,
       "createdAt": "",
-      "updatedAt": "",
-      "deletedAt": ""
+      "updatedAt": "2026-05-20T13:09:52.754Z",
+      "deletedAt": "2026-05-20T13:09:52.754Z"
     }
   ],
   "judgingDays": [
@@ -3555,8 +3555,8 @@
           }
         }
       },
-      "updatedAt": "2026-04-26T19:04:33.551Z",
-      "deletedAt": ""
+      "updatedAt": "2026-05-20T13:09:52.754Z",
+      "deletedAt": "2026-05-20T13:09:52.754Z"
     }
   ],
   "leadershipClaims": [
