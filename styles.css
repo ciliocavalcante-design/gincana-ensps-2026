@@ -6650,7 +6650,7 @@ header.hero-header > *,
 @media (max-width: 760px) {
   .judge-page .hero {
     min-height: auto;
-    padding: 22px 14px 18px;
+    padding: 18px 12px 16px;
   }
 
   .judge-page .hero-content-wrap,
@@ -6660,29 +6660,33 @@ header.hero-header > *,
   }
 
   .judge-page .hero img {
-    height: 48px !important;
-    margin-bottom: 8px !important;
+    height: 58px !important;
+    margin-bottom: 7px !important;
   }
 
   .judge-page .hero h1 {
-    font-size: clamp(2.4rem, 15vw, 3.6rem);
-    line-height: 0.86;
-    margin-bottom: 8px;
+    font-size: clamp(2.25rem, 13vw, 3.25rem);
+    line-height: 0.9;
+    margin-bottom: 5px;
   }
 
   .judge-page .hero p {
     max-width: 300px;
     margin: 0 auto;
-    font-size: 1rem;
-    line-height: 1.2;
+    font-size: 0.92rem;
+    line-height: 1.12;
   }
 
   .judge-page main {
-    padding-top: 14px;
+    padding-top: 8px;
   }
 
   .judge-page .single-panel {
-    padding-inline: 12px;
+    padding-inline: 8px;
+  }
+
+  .judge-page .judge-screen-heading {
+    display: none !important;
   }
 
   .judge-page .single-panel .section-heading {
@@ -6696,7 +6700,7 @@ header.hero-header > *,
   }
 
   .judge-page .admin-shell {
-    padding: 10px;
+    padding: 8px;
     border-radius: 16px;
   }
 
@@ -6736,25 +6740,25 @@ header.hero-header > *,
   }
 
   .judge-page .evaluation-form {
-    padding: 8px 2px 2px;
-    gap: 12px;
+    padding: 8px 0 0;
+    gap: 10px;
   }
 
   .judge-page .evaluation-form > .form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    padding: 10px;
+    gap: 8px;
+    padding: 8px;
     border-radius: 14px;
   }
 
   .judge-page .evaluation-sheet {
-    gap: 10px;
+    gap: 9px;
   }
 
   .judge-page .evaluation-team {
     border-top-width: 6px;
     border-radius: 14px;
-    padding: 10px;
+    padding: 9px;
   }
 
   .judge-page .evaluation-team header {
@@ -6780,14 +6784,14 @@ header.hero-header > *,
 
   .judge-page .evaluation-criteria {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 7px;
   }
 
   .judge-page .evaluation-criteria label {
-    grid-template-columns: minmax(0, 1fr) 58px;
+    grid-template-columns: minmax(0, 1fr) 54px;
     align-items: center;
     gap: 6px;
-    padding: 8px;
+    padding: 7px;
     border-radius: 11px;
     font-size: 0.82rem;
     line-height: 1.1;
@@ -6795,7 +6799,7 @@ header.hero-header > *,
   }
 
   .judge-page .evaluation-criteria input {
-    min-height: 38px;
+    min-height: 36px;
     padding: 6px;
     font-size: 0.98rem;
     text-align: center;
