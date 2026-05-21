@@ -2011,6 +2011,7 @@ function renderJudgeAccess() {
   const form = byId("evaluationForm");
   const gate = byId("judgeAccess");
   const status = byId("judgeStatus");
+  const accessForm = byId("judgeAccessForm");
   const blockRoot = byId("judgeBlockWorkspace");
   const thanks = byId("judgeThanks");
   if (!form || !gate || !status) return;
@@ -2024,6 +2025,7 @@ function renderJudgeAccess() {
       blockRoot.innerHTML = "";
     }
     form.dataset.judgeCode = "";
+    if (accessForm) accessForm.hidden = false;
     status.innerHTML = activeJudges().length
       ? "Digite o código recebido para acessar as fichas pendentes."
       : "Nenhum jurado cadastrado ainda. Cadastre os códigos no painel do administrador.";
@@ -2036,6 +2038,7 @@ function renderJudgeAccess() {
     .filter((item) => !eventCoveredByPendingBlock(judge, item.eventId, item.category));
 
   form.dataset.judgeCode = normalizeJudgeCode(judge.code);
+  if (accessForm) accessForm.hidden = true;
   if (!assignments.length) {
     form.hidden = true;
     status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong>, nenhuma prova foi liberada para seu código ainda.`;
