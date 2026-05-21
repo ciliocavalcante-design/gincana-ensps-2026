@@ -6641,3 +6641,302 @@ header.hero-header > *,
     margin-left: 0;
   }
 }
+
+/* Avaliação online: versão mobile mais curta para jurados */
+@media (max-width: 760px) {
+  .judge-page .hero {
+    min-height: auto;
+    padding: 22px 14px 18px;
+  }
+
+  .judge-page .hero-content-wrap,
+  .judge-page .hero-content {
+    min-height: auto;
+    padding: 0;
+  }
+
+  .judge-page .hero img {
+    height: 48px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .judge-page .hero h1 {
+    font-size: clamp(2.4rem, 15vw, 3.6rem);
+    line-height: 0.86;
+    margin-bottom: 8px;
+  }
+
+  .judge-page .hero p {
+    max-width: 300px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .judge-page main {
+    padding-top: 14px;
+  }
+
+  .judge-page .single-panel {
+    padding-inline: 12px;
+  }
+
+  .judge-page .single-panel .section-heading {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .judge-page .single-panel .section-title {
+    font-size: 1.8rem;
+    line-height: 0.95;
+  }
+
+  .judge-page .admin-shell {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .judge-page .admin-sync-status {
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 0.92rem;
+  }
+
+  .judge-page .judge-access {
+    gap: 10px;
+    padding: 4px 0;
+  }
+
+  .judge-page .judge-access p {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .judge-page .judge-access-form {
+    gap: 10px;
+  }
+
+  .judge-page .judge-access-form label,
+  .judge-page .evaluation-form > .form-grid label {
+    font-size: 0.92rem;
+    text-align: center;
+  }
+
+  .judge-page .judge-access-form input,
+  .judge-page .judge-access-form button,
+  .judge-page .evaluation-form > .form-grid select {
+    min-height: 46px;
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+
+  .judge-page .evaluation-form {
+    padding: 8px 2px 2px;
+    gap: 12px;
+  }
+
+  .judge-page .evaluation-form > .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .judge-page .evaluation-sheet {
+    gap: 10px;
+  }
+
+  .judge-page .evaluation-team {
+    border-top-width: 6px;
+    border-radius: 14px;
+    padding: 10px;
+  }
+
+  .judge-page .evaluation-team header {
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .judge-page .evaluation-team-index {
+    margin-bottom: 2px;
+    padding: 3px 8px;
+    font-size: 0.64rem;
+  }
+
+  .judge-page .evaluation-team header h3 {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .judge-page .evaluation-team header p {
+    font-size: 0.9rem;
+    line-height: 1.15;
+  }
+
+  .judge-page .evaluation-criteria {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .judge-page .evaluation-criteria label {
+    grid-template-columns: minmax(0, 1fr) 58px;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 11px;
+    font-size: 0.82rem;
+    line-height: 1.1;
+    text-align: left;
+  }
+
+  .judge-page .evaluation-criteria input {
+    min-height: 38px;
+    padding: 6px;
+    font-size: 0.98rem;
+    text-align: center;
+  }
+
+  .judge-page .evaluation-team > label,
+  .judge-page .judge-event-card > label {
+    margin-top: 8px;
+    gap: 5px;
+    font-size: 0.86rem;
+    text-align: center;
+  }
+
+  .judge-page .evaluation-team > label input,
+  .judge-page .judge-event-card > label input {
+    min-height: 42px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .judge-page .evaluation-form > .button {
+    width: 100%;
+    max-width: none;
+    min-height: 48px;
+    margin-top: 2px;
+    font-size: 0.98rem;
+  }
+
+  .judge-page .judge-block-workspace {
+    padding: 6px 0 0;
+  }
+
+  .judge-page .judge-block-panel,
+  .judge-page .judge-block-form,
+  .judge-page .judge-event-stack {
+    gap: 10px;
+  }
+
+  .judge-page .judge-block-header {
+    gap: 5px;
+  }
+
+  .judge-page .judge-block-header h2 {
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  .judge-page .judge-block-header p {
+    max-width: 320px;
+    font-size: 0.88rem;
+    line-height: 1.2;
+  }
+
+  .judge-page .judge-block-tabs {
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .judge-page .judge-block-tabs .mini-action {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  .judge-page .judge-block-alert {
+    padding: 9px 10px;
+    border-radius: 11px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .judge-page .judge-team-block {
+    padding: 10px;
+    border-top-width: 6px;
+    border-radius: 13px;
+  }
+
+  .judge-page .judge-team-block > header {
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .judge-page .judge-team-block h3 {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .judge-page .judge-team-block p {
+    font-size: 0.9rem;
+    line-height: 1.15;
+  }
+
+  .judge-page .judge-event-card {
+    gap: 8px;
+    padding: 9px;
+    border-radius: 12px;
+  }
+
+  .judge-page .judge-event-card h4 {
+    font-size: 0.98rem;
+    line-height: 1.1;
+  }
+
+  .judge-page .judge-block-summary {
+    gap: 8px;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .judge-page .judge-block-summary h3 {
+    font-size: 1.1rem;
+  }
+
+  .judge-page .judge-block-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .judge-page .judge-block-summary-grid article {
+    padding: 8px;
+  }
+
+  .judge-page .judge-block-summary-grid span {
+    font-size: 0.78rem;
+  }
+
+  .judge-page .judge-block-footer {
+    gap: 8px;
+  }
+
+  .judge-page .judge-block-footer span {
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .judge-page .judge-block-footer .button {
+    width: 100%;
+    min-height: 48px;
+    font-size: 0.96rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .judge-page .judge-block-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
