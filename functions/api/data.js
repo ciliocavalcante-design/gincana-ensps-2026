@@ -875,6 +875,47 @@ async function deleteFoodAdjustment(config, payload, reason) {
   }, reason || "Excluir desconto de contratação", "Conflito ao excluir desconto.", { returnData: false });
 }
 
+async function upsertEvaluationDraft(config, payload, reason) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error("Envie um rascunho de avaliação válido.");
+  }
+
+  return mergeGithubData(config, (data) => {
+    const record = normalizeDraftRecord({
+      ...payload,
+      deletedAt: "",
+      updatedAt: payload.updatedAt || new Date().toISOString()
+    });
+    if (!record.key || !record.judgeCode || !record.blockId) {
+      throw new Error("Rascunho sem jurado ou bloco.");
+    }
+    data.evaluationDrafts = (Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts : []).filter((item) => item.key !== record.key);
+    data.evaluationDrafts.push(record);
+  }, reason || "Salvar rascunho de avaliação", "Conflito ao salvar rascunho.", { returnData: false });
+}
+
+async function deleteEvaluationDraft(config, payload, reason) {
+  const key = payload?.key || (payload?.judgeCode && payload?.blockId ? `${normalizeJudgeCode(payload.judgeCode)}::${payload.blockId}` : "");
+  if (!key) throw new Error("Envie o rascunho para excluir.");
+
+  return mergeGithubData(config, (data) => {
+    const now = payload.updatedAt || new Date().toISOString();
+    const item = (Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts : []).find((entry) => entry.key === key);
+    if (item) {
+      item.deletedAt = now;
+      item.updatedAt = now;
+      return;
+    }
+    data.evaluationDrafts = Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts : [];
+    data.evaluationDrafts.push(normalizeDraftRecord({
+      ...payload,
+      key,
+      deletedAt: now,
+      updatedAt: now
+    }));
+  }, reason || "Excluir rascunho de avaliação", "Conflito ao excluir rascunho.", { returnData: false });
+}
+
 async function clearFoodDonations(config, payload = {}, reason) {
   return mergeGithubData(config, (data) => {
     const now = payload.updatedAt || new Date().toISOString();
@@ -963,6 +1004,14 @@ export async function onRequestPost(context) {
     }
     if (body?.action === "deleteFoodAdjustment") {
       const saved = await deleteFoodAdjustment(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "upsertEvaluationDraft") {
+      const saved = await upsertEvaluationDraft(config, body.payload, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "deleteEvaluationDraft") {
+      const saved = await deleteEvaluationDraft(config, body.payload, body.reason);
       return json(saved);
     }
     if (body?.action === "clearFoodDonations") {

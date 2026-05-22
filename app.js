@@ -160,6 +160,7 @@ let remoteSaveInProgress = false;
 let remoteSavePending = false;
 let welcomeAnimationTimer;
 let draftRemoteSaveTimer;
+let pendingDraftRemoteRecord = null;
 let localChangesPending = false;
 let lastLocalMutationAt = 0;
 let lastRemoteSyncAt = 0;
@@ -907,6 +908,10 @@ function activeEvaluationDrafts() {
   return (state.evaluationDrafts || []).filter((item) => !item.deletedAt);
 }
 
+function mergeEvaluationDraftRecords(...groups) {
+  return dedupeRecords(groups.flat().filter(Boolean).map(normalizeDraftRecord), (item) => item.key);
+}
+
 function judgeRecordByCode(code) {
   const normalized = normalizeJudgeCode(code);
   return (state.judges || []).find((item) => normalizeJudgeCode(item.code) === normalized);
@@ -1005,12 +1010,18 @@ function onlineBlockDraftRecord(judgeCode = "", blockId = "") {
 
 function loadBlockDraft(judgeCode = "", blockId = "") {
   const online = onlineBlockDraftRecord(judgeCode, blockId);
-  if (online?.draft && typeof online.draft === "object") return online.draft;
+  let localRecord = null;
   try {
-    return JSON.parse(localStorage.getItem(blockKey(judgeCode, blockId)) || "{}");
+    localRecord = JSON.parse(localStorage.getItem(blockKey(judgeCode, blockId)) || "null");
   } catch {
-    return {};
+    localRecord = null;
   }
+  if (localRecord?.draft && typeof localRecord.draft === "object") {
+    return preferNewerRecord(localRecord, online || {}) === localRecord ? localRecord.draft : (online?.draft || {});
+  }
+  if (localRecord && typeof localRecord === "object" && !localRecord.key) return localRecord;
+  if (online?.draft && typeof online.draft === "object") return online.draft;
+  return {};
 }
 
 function upsertOnlineBlockDraft(judgeCode = "", blockId = "", draft = {}) {
@@ -1028,23 +1039,26 @@ function upsertOnlineBlockDraft(judgeCode = "", blockId = "", draft = {}) {
   };
   if (existing) Object.assign(existing, payload);
   else state.evaluationDrafts.push(payload);
+  return payload;
 }
 
 function queueDraftRemoteSave() {
   clearTimeout(draftRemoteSaveTimer);
-  draftRemoteSaveTimer = setTimeout(() => {
-    if (canSaveOnline()) {
-      setSyncStatus("Rascunho salvo. Sincronizando online...");
-      queueRemoteSave();
+  draftRemoteSaveTimer = setTimeout(async () => {
+    if (canSaveOnline() && pendingDraftRemoteRecord) {
+      await saveEvaluationDraftRemote(pendingDraftRemoteRecord);
     }
   }, 1200);
 }
 
 function saveBlockDraft(judgeCode = "", blockId = "", draft = {}, options = {}) {
-  localStorage.setItem(blockKey(judgeCode, blockId), JSON.stringify(draft));
-  upsertOnlineBlockDraft(judgeCode, blockId, draft);
+  const record = upsertOnlineBlockDraft(judgeCode, blockId, draft);
+  localStorage.setItem(blockKey(judgeCode, blockId), JSON.stringify(record));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  if (options.remote !== false) queueDraftRemoteSave();
+  if (options.remote !== false) {
+    pendingDraftRemoteRecord = record;
+    queueDraftRemoteSave();
+  }
 }
 
 function clearBlockDraft(judgeCode = "", blockId = "") {
@@ -1055,10 +1069,11 @@ function clearBlockDraft(judgeCode = "", blockId = "") {
     if (existing) {
       existing.deletedAt = new Date().toISOString();
       existing.updatedAt = existing.deletedAt;
+      pendingDraftRemoteRecord = existing;
     }
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  if (canSaveOnline()) queueRemoteSave();
+  if (canSaveOnline() && pendingDraftRemoteRecord) queueDraftRemoteSave();
 }
 
 function blockIsAllowedForJudge(block, judge) {
@@ -5581,8 +5596,10 @@ async function loadRemoteData(options = {}) {
         retryDelay: 900
       }));
     }
+    const localDrafts = Array.isArray(state.evaluationDrafts) ? state.evaluationDrafts : [];
     const data = extractRemoteData(payload);
     state = normalizeState(data);
+    state.evaluationDrafts = mergeEvaluationDraftRecords(state.evaluationDrafts, localDrafts);
     lastRemoteSyncAt = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
@@ -5637,6 +5654,37 @@ async function saveEvaluationRemote(evaluation) {
     } else {
       setSyncStatus(`Não foi possível salvar online: ${formatSyncError(error)}`);
     }
+  }
+}
+
+async function saveEvaluationDraftRemote(draftRecord) {
+  if (!canSaveOnline() || !draftRecord?.key) return false;
+
+  try {
+    setSyncStatus(draftRecord.deletedAt ? "Removendo rascunho online..." : "Rascunho salvo. Sincronizando online...");
+    const { payload } = await requestJsonWithRetry(dataApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: draftRecord.deletedAt ? "deleteEvaluationDraft" : "upsertEvaluationDraft",
+        payload: draftRecord,
+        reason: draftRecord.deletedAt ? "Excluir rascunho de avaliação" : "Salvar rascunho de avaliação"
+      })
+    }, {
+      attempts: 3,
+      retryDelay: 900
+    });
+    if (payload.ok === false) {
+      throw new Error(payload.error || "Não foi possível sincronizar o rascunho.");
+    }
+    pendingDraftRemoteRecord = null;
+    setSyncStatus(draftRecord.deletedAt ? "Rascunho removido online." : "Rascunho salvo online.");
+    return true;
+  } catch (error) {
+    setSyncStatus(`Rascunho salvo neste aparelho, mas ainda não sincronizou online: ${formatSyncError(error)}`);
+    return false;
   }
 }
 

@@ -6805,6 +6805,10 @@ header.hero-header > *,
     text-align: center;
   }
 
+  .judge-page .evaluation-criteria input::placeholder {
+    font-size: 0.76rem;
+  }
+
   .judge-page .evaluation-team > label,
   .judge-page .judge-event-card > label {
     margin-top: 8px;
