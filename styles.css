@@ -5255,11 +5255,11 @@ header.hero-header > *,
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: minmax(330px, 1fr) auto minmax(240px, 0.52fr);
-  gap: 12px;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+  gap: 10px;
   align-items: center;
-  min-height: 76px;
-  padding: 9px 22px;
+  min-height: 66px;
+  padding: 8px 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(2, 6, 23, 0.82);
   backdrop-filter: blur(18px);
@@ -5267,14 +5267,17 @@ header.hero-header > *,
 
 .projection-brand {
   display: flex;
-  gap: 12px;
+  grid-column: 2;
+  justify-self: center;
+  gap: 10px;
   align-items: center;
   min-width: 0;
+  text-align: left;
 }
 
 .projection-brand img {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   object-fit: contain;
   filter: drop-shadow(0 12px 20px rgba(0,0,0,0.35));
 }
@@ -5282,7 +5285,7 @@ header.hero-header > *,
 .projection-brand h1 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(1.45rem, 2.45vw, 2.45rem);
+  font-size: clamp(1.3rem, 2.2vw, 2.25rem);
   line-height: 0.94;
   white-space: nowrap;
   overflow: hidden;
@@ -5290,9 +5293,11 @@ header.hero-header > *,
 }
 
 .projection-switch {
+  grid-column: 3;
+  justify-self: end;
   display: flex;
-  gap: 8px;
-  padding: 5px;
+  gap: 5px;
+  padding: 4px;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
@@ -5302,10 +5307,11 @@ header.hero-header > *,
 .projection-switch a {
   border: 0;
   border-radius: 999px;
-  padding: 9px 14px;
+  padding: 7px 10px;
   color: #dbeafe;
   background: transparent;
   font: inherit;
+  font-size: 0.82rem;
   font-weight: 1000;
   cursor: pointer;
   text-decoration: none;
@@ -5329,9 +5335,9 @@ header.hero-header > *,
 .projection-main {
   width: min(1560px, 100%);
   margin: 0 auto;
-  height: calc(100vh - 76px - 92px);
+  height: calc(100vh - 66px - 118px);
   overflow: hidden;
-  padding: 16px 22px 12px;
+  padding: 14px 22px 10px;
 }
 
 .projection-title {
@@ -5670,7 +5676,7 @@ header.hero-header > *,
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  min-height: 92px;
+  min-height: 118px;
   border-top: 1px solid rgba(250, 204, 21, 0.28);
   background:
     linear-gradient(90deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.94)),
@@ -5681,18 +5687,18 @@ header.hero-header > *,
 
 .projection-lower-label {
   height: 100%;
-  min-width: 310px;
+  min-width: 360px;
   display: grid;
   place-items: center;
   align-content: center;
   gap: 0;
-  padding: 10px 24px;
+  padding: 12px 28px;
   color: #03110a;
   background: linear-gradient(135deg, #facc15, #86efac);
 }
 
 .projection-lower-label span {
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   font-weight: 1000;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -5700,7 +5706,7 @@ header.hero-header > *,
 
 .projection-lower-label strong {
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: 2.65rem;
+  font-size: 3.25rem;
   line-height: 0.9;
 }
 
@@ -5714,9 +5720,9 @@ header.hero-header > *,
   width: max-content;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-left: 18px;
-  animation: projectionTicker 78s linear infinite;
+  gap: 20px;
+  padding-left: 22px;
+  animation: projectionTicker 145s linear infinite;
 }
 
 .projection-lower-total,
@@ -5724,14 +5730,14 @@ header.hero-header > *,
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 14px;
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 999px;
-  padding: 12px 16px;
+  padding: 16px 20px;
   color: #e5e7eb;
   background: rgba(255,255,255,0.07);
   font-weight: 900;
-  font-size: 1.12rem;
+  font-size: 1.35rem;
   white-space: nowrap;
 }
 
@@ -5741,7 +5747,7 @@ header.hero-header > *,
 }
 
 .projection-lower-chip {
-  border-left: 8px solid var(--team-color, #38bdf8);
+  border-left: 10px solid var(--team-color, #38bdf8);
 }
 
 .projection-lower-chip strong {
@@ -5758,7 +5764,7 @@ header.hero-header > *,
 
 .projection-lower-chip small {
   color: #cbd5e1;
-  font-size: 0.98rem;
+  font-size: 1.18rem;
 }
 
 @keyframes projectionTicker {
@@ -5775,6 +5781,12 @@ header.hero-header > *,
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
+  }
+
+  .projection-brand,
+  .projection-switch {
+    grid-column: 1;
+    justify-self: center;
   }
 
   .projection-updated {
@@ -5804,7 +5816,7 @@ header.hero-header > *,
     min-height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-bottom: 86px;
+    padding-bottom: 104px;
   }
 
   .projection-header {
@@ -5879,7 +5891,7 @@ header.hero-header > *,
   }
 
   .projection-lower-third {
-    min-height: 76px;
+    min-height: 94px;
     grid-template-columns: 1fr;
   }
 
@@ -5888,7 +5900,7 @@ header.hero-header > *,
   }
 
   .projection-lower-marquee {
-    animation-duration: 62s;
+    animation-duration: 118s;
   }
 }
 
