@@ -27,6 +27,7 @@
     <nav class="projection-switch" aria-label="Visualização do painel">
       <button class="active" data-projection-view="scoreboard" type="button">Placar Geral</button>
       <button data-projection-view="food" type="button">Arrecadação</button>
+      <button data-projection-fullscreen type="button">Tela cheia</button>
       <a href="index.html">Página principal</a>
     </nav>
 
@@ -48,6 +49,8 @@
       <div id="projectionFood" class="projection-food"></div>
     </section>
   </main>
+
+  <aside id="projectionLowerThird" class="projection-lower-third" aria-label="Resumo da arrecadação"></aside>
 
   <script src="app.js"></script>
 </body>

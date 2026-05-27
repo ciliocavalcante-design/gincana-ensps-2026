@@ -5241,8 +5241,8 @@ header.hero-header > *,
 
 /* Painel de projetor */
 .projection-page {
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden;
   color: #f8fafc;
   background:
     radial-gradient(circle at 14% 10%, rgba(34, 197, 94, 0.2), transparent 28%),
@@ -5255,10 +5255,11 @@ header.hero-header > *,
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: minmax(360px, 1fr) auto minmax(220px, 0.55fr);
-  gap: 14px;
+  grid-template-columns: minmax(330px, 1fr) auto minmax(240px, 0.52fr);
+  gap: 12px;
   align-items: center;
-  padding: 12px 22px;
+  min-height: 76px;
+  padding: 9px 22px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.22);
   background: rgba(2, 6, 23, 0.82);
   backdrop-filter: blur(18px);
@@ -5272,8 +5273,8 @@ header.hero-header > *,
 }
 
 .projection-brand img {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
   filter: drop-shadow(0 12px 20px rgba(0,0,0,0.35));
 }
@@ -5281,7 +5282,7 @@ header.hero-header > *,
 .projection-brand h1 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(1.55rem, 2.7vw, 2.75rem);
+  font-size: clamp(1.45rem, 2.45vw, 2.45rem);
   line-height: 0.94;
   white-space: nowrap;
   overflow: hidden;
@@ -5291,7 +5292,7 @@ header.hero-header > *,
 .projection-switch {
   display: flex;
   gap: 8px;
-  padding: 6px;
+  padding: 5px;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
@@ -5301,7 +5302,7 @@ header.hero-header > *,
 .projection-switch a {
   border: 0;
   border-radius: 999px;
-  padding: 10px 16px;
+  padding: 9px 14px;
   color: #dbeafe;
   background: transparent;
   font: inherit;
@@ -5328,7 +5329,9 @@ header.hero-header > *,
 .projection-main {
   width: min(1560px, 100%);
   margin: 0 auto;
-  padding: 18px 22px 30px;
+  height: calc(100vh - 76px - 70px);
+  overflow: hidden;
+  padding: 16px 22px 12px;
 }
 
 .projection-title {
@@ -5337,7 +5340,7 @@ header.hero-header > *,
   gap: 8px;
   align-items: center;
   justify-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   text-align: center;
 }
 
@@ -5355,7 +5358,7 @@ header.hero-header > *,
 .projection-title h2 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.35rem, 4.2vw, 4.45rem);
+  font-size: clamp(2rem, 3.45vw, 3.7rem);
   line-height: 0.92;
   text-align: center;
   white-space: nowrap;
@@ -5364,12 +5367,16 @@ header.hero-header > *,
 .projection-scoreboard {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 14px;
+  height: calc(100% - 78px);
+  align-items: stretch;
 }
 
 .projection-category {
   display: grid;
-  gap: 12px;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+  min-height: 0;
 }
 
 .projection-category header {
@@ -5380,7 +5387,7 @@ header.hero-header > *,
   align-items: center;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
-  padding: 10px 14px;
+  padding: 7px 12px;
   background: rgba(255,255,255,0.06);
 }
 
@@ -5402,19 +5409,25 @@ header.hero-header > *,
 .projection-ranking,
 .projection-food-ranking {
   display: grid;
-  gap: 10px;
+  gap: 8px;
+  align-content: stretch;
+  min-height: 0;
+}
+
+.projection-ranking {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
 .projection-score-card,
 .projection-food-card {
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr) minmax(140px, auto);
-  gap: 14px;
+  grid-template-columns: 64px minmax(0, 1fr) minmax(124px, auto);
+  gap: 12px;
   align-items: center;
   border: 1px solid rgba(255,255,255,0.12);
   border-left: 9px solid var(--team-color, #3b82f6);
-  border-radius: 22px;
-  padding: 14px;
+  border-radius: 18px;
+  padding: 10px 12px;
   background:
     linear-gradient(135deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045)),
     rgba(15, 23, 42, 0.74);
@@ -5432,15 +5445,15 @@ header.hero-header > *,
 }
 
 .projection-place {
-  width: 60px;
-  height: 60px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
+  border-radius: 16px;
   color: #020617;
   background: var(--metric-color, var(--team-color, #facc15));
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: 2rem;
+  font-size: 1.65rem;
   font-weight: 1000;
   box-shadow: 0 14px 28px rgba(0,0,0,0.22);
 }
@@ -5448,14 +5461,14 @@ header.hero-header > *,
 .projection-team h3 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(1.65rem, 3vw, 3.1rem);
+  font-size: clamp(1.45rem, 2.25vw, 2.35rem);
   line-height: 0.96;
 }
 
 .projection-team p {
   margin: 3px 0 0;
   color: #cbd5e1;
-  font-size: clamp(0.9rem, 1.25vw, 1.15rem);
+  font-size: clamp(0.82rem, 1.05vw, 1rem);
   font-weight: 900;
 }
 
@@ -5467,21 +5480,23 @@ header.hero-header > *,
   display: block;
   color: var(--metric-color, var(--team-color, #facc15));
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.45rem, 5.2vw, 5.2rem);
+  font-size: clamp(2rem, 3.95vw, 4.1rem);
   line-height: 0.82;
   text-shadow: 0 12px 30px rgba(0,0,0,0.28);
 }
 
 .projection-points span {
   color: #dbeafe;
-  font-size: clamp(0.86rem, 1.25vw, 1.2rem);
+  font-size: clamp(0.78rem, 1vw, 1rem);
   font-weight: 1000;
   text-transform: uppercase;
 }
 
 .projection-food {
   display: grid;
-  gap: 18px;
+  gap: 14px;
+  height: calc(100% - 78px);
+  min-height: 0;
 }
 
 .projection-food-summary {
@@ -5490,7 +5505,7 @@ header.hero-header > *,
   gap: 2px;
   border: 1px solid rgba(250, 204, 21, 0.32);
   border-radius: 20px;
-  padding: 10px 14px;
+  padding: 9px 14px;
   text-align: center;
   background:
     radial-gradient(circle at 50% -30%, rgba(250,204,21,0.3), transparent 42%),
@@ -5508,7 +5523,7 @@ header.hero-header > *,
 .projection-food-summary > strong {
   color: #facc15;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.45rem, 5vw, 4.85rem);
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
   line-height: 0.88;
 }
 
@@ -5519,14 +5534,14 @@ header.hero-header > *,
 }
 
 .projection-food-card {
-  grid-template-columns: 60px minmax(0, 1fr) minmax(120px, auto);
+  grid-template-columns: 54px minmax(0, 1fr) minmax(112px, auto);
   align-items: center;
   min-height: 0;
 }
 
 .projection-food-card .projection-place {
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   border-radius: 16px;
   font-size: 1.75rem;
   align-self: center;
@@ -5540,11 +5555,15 @@ header.hero-header > *,
 }
 
 .projection-food-card .projection-team h3 {
-  font-size: clamp(1.45rem, 2.2vw, 2.35rem);
+  font-size: clamp(1.3rem, 1.8vw, 1.95rem);
 }
 
 .projection-food-card .projection-team p {
   font-size: clamp(0.84rem, 1.1vw, 1rem);
+}
+
+.projection-food-card .projection-food-details {
+  display: none;
 }
 
 .projection-food-card .projection-points {
@@ -5553,7 +5572,7 @@ header.hero-header > *,
 }
 
 .projection-food-card .projection-points strong {
-  font-size: clamp(2.1rem, 4vw, 4rem);
+  font-size: clamp(1.85rem, 3.25vw, 3.35rem);
 }
 
 .projection-food-details {
@@ -5642,6 +5661,112 @@ header.hero-header > *,
   font-weight: 900;
 }
 
+.projection-lower-third {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-height: 70px;
+  border-top: 1px solid rgba(250, 204, 21, 0.28);
+  background:
+    linear-gradient(90deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.94)),
+    rgba(2, 6, 23, 0.96);
+  box-shadow: 0 -18px 44px rgba(0,0,0,0.36);
+  overflow: hidden;
+}
+
+.projection-lower-label {
+  height: 100%;
+  min-width: 245px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0;
+  padding: 8px 20px;
+  color: #03110a;
+  background: linear-gradient(135deg, #facc15, #86efac);
+}
+
+.projection-lower-label span {
+  font-size: 0.78rem;
+  font-weight: 1000;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.projection-lower-label strong {
+  font-family: "Baloo 2", "Inter", sans-serif;
+  font-size: 1.95rem;
+  line-height: 0.9;
+}
+
+.projection-lower-track {
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+}
+
+.projection-lower-marquee {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 14px;
+  animation: projectionTicker 42s linear infinite;
+}
+
+.projection-lower-total,
+.projection-lower-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #e5e7eb;
+  background: rgba(255,255,255,0.07);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.projection-lower-total {
+  color: #fef3c7;
+  background: rgba(250, 204, 21, 0.12);
+}
+
+.projection-lower-chip {
+  border-left: 6px solid var(--team-color, #38bdf8);
+}
+
+.projection-lower-chip strong {
+  color: #ffffff;
+}
+
+.projection-lower-chip em {
+  color: var(--team-color, #38bdf8);
+  font-style: normal;
+  font-weight: 1000;
+}
+
+.projection-lower-chip small {
+  color: #cbd5e1;
+  font-size: 0.82rem;
+}
+
+@keyframes projectionTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 1100px) {
   .projection-header {
     grid-template-columns: 1fr;
@@ -5671,6 +5796,14 @@ header.hero-header > *,
 }
 
 @media (max-width: 760px) {
+  .projection-page {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 74px;
+  }
+
   .projection-header {
     padding: 10px;
   }
@@ -5693,7 +5826,14 @@ header.hero-header > *,
   }
 
   .projection-main {
+    height: auto;
+    overflow: visible;
     padding: 12px 10px 20px;
+  }
+
+  .projection-scoreboard,
+  .projection-food {
+    height: auto;
   }
 
   .projection-switch {
@@ -5733,6 +5873,19 @@ header.hero-header > *,
 
   .projection-points {
     text-align: center;
+  }
+
+  .projection-lower-third {
+    min-height: 62px;
+    grid-template-columns: 1fr;
+  }
+
+  .projection-lower-label {
+    display: none;
+  }
+
+  .projection-lower-marquee {
+    animation-duration: 34s;
   }
 }
 
@@ -5799,10 +5952,15 @@ header.hero-header > *,
 /* Arrecadação no mesmo modelo visual do placar geral */
 .projection-food-categories {
   margin-top: 10px;
+  height: auto;
+}
+
+.projection-food-categories .projection-ranking {
+  grid-template-rows: repeat(3, minmax(86px, auto));
 }
 
 .projection-switch {
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(4, auto);
 }
 
 .projection-switch a {

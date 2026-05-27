@@ -1173,6 +1173,10 @@ function foodGrandTotalTokens() {
   return state.teams.reduce((sum, item) => sum + foodGrossTokensForTeam(item.id), 0);
 }
 
+function foodGrandTotalQuantity() {
+  return activeFoodDonations().reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+}
+
 function disciplineLevelById(id) {
   return DISCIPLINE_LEVELS.find((item) => item.id === id) || DISCIPLINE_LEVELS[0];
 }
@@ -3571,6 +3575,56 @@ function setProjectionDetailOpen(key, open) {
   sessionStorage.setItem(PROJECTION_DETAIL_STORAGE_KEY, JSON.stringify(current));
 }
 
+function projectionFoodQuantityText(teamId = "") {
+  const donations = activeFoodDonations().filter((item) => !teamId || item.teamId === teamId);
+  const totalsByFood = state.foodTypes.map((food) => {
+    const quantity = donations
+      .filter((item) => item.foodId === food.id)
+      .reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+    return { ...food, quantity };
+  }).filter((food) => food.quantity > 0);
+
+  if (!totalsByFood.length) return "sem alimentos lançados";
+  return totalsByFood
+    .map((food) => `${food.short || food.name}: ${formatPoints(food.quantity)} un.`)
+    .join(" • ");
+}
+
+function renderProjectionLowerThird() {
+  const root = byId("projectionLowerThird");
+  if (!root) return;
+
+  const totalQuantity = foodGrandTotalQuantity();
+  const teamItems = state.teams.map((item) => {
+    const quantity = activeFoodDonations()
+      .filter((donation) => donation.teamId === item.id)
+      .reduce((sum, donation) => sum + Number(donation.quantity || 0), 0);
+    const accentColor = item.id === "2" ? "#ffffff" : item.color;
+    return `
+      <span class="projection-lower-chip" style="--team-color:${accentColor}">
+        <strong>${escapeHtml(item.name)}</strong>
+        <em>${formatPoints(quantity)} un.</em>
+        <small>${escapeHtml(projectionFoodQuantityText(item.id))}</small>
+      </span>
+    `;
+  }).join("");
+
+  const totalText = projectionFoodQuantityText();
+  root.innerHTML = `
+    <div class="projection-lower-label">
+      <span>Prova Solidária</span>
+      <strong>${formatPoints(totalQuantity)} un.</strong>
+    </div>
+    <div class="projection-lower-track" aria-hidden="true">
+      <div class="projection-lower-marquee">
+        <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+        ${teamItems}
+        <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+        ${teamItems}
+      </div>
+    </div>
+  `;
+}
 
 function renderProjectionPanel() {
   const scoreboardRoot = byId("projectionScoreboard");
@@ -3688,6 +3742,7 @@ function renderProjectionPanel() {
     const lastCount = formatDateTime(state.foodCountUpdatedAt);
     updated.textContent = lastCount ? `Última contagem: ${lastCount}` : "Última contagem: aguardando registro";
   }
+  renderProjectionLowerThird();
 }
 
 function setProjectionView(view = "scoreboard") {
@@ -3726,7 +3781,7 @@ async function toggleProjectionFullscreen() {
 
 function initializeProjectionPage() {
   if (!document.body.classList.contains("projection-page")) return;
-  setProjectionView("food");
+  setProjectionView("scoreboard");
   updateProjectionFullscreenButton();
   setInterval(() => loadRemoteData(), 45000);
 }
