@@ -3341,10 +3341,16 @@ function renderDisplaySettingsForm() {
   const settings = currentDisplaySettings();
   form.elements.hideScores.checked = settings.hideScores;
   form.elements.randomMode.checked = settings.randomMode;
+  updateDisplaySettingsFormState(form);
+}
+
+function updateDisplaySettingsFormState(form = byId("displaySettingsForm")) {
+  if (!form) return;
   const randomInput = form.elements.randomMode;
   if (randomInput) {
-    randomInput.disabled = !settings.hideScores;
-    randomInput.closest(".display-toggle-row")?.classList.toggle("disabled", !settings.hideScores);
+    const hideScores = Boolean(form.elements.hideScores.checked);
+    randomInput.disabled = !hideScores;
+    randomInput.closest(".display-toggle-row")?.classList.toggle("disabled", !hideScores);
   }
 }
 
@@ -4644,7 +4650,7 @@ on("displaySettingsForm", "change", (event) => {
   if (!form.elements.hideScores.checked) {
     form.elements.randomMode.checked = false;
   }
-  renderDisplaySettingsForm();
+  updateDisplaySettingsFormState(form);
 });
 
 on("displaySettingsForm", "submit", (event) => {
