@@ -5720,9 +5720,10 @@ header.hero-header > *,
   width: max-content;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding-left: 22px;
-  animation: projectionTicker 145s linear infinite;
+  gap: 34px;
+  padding-left: 34px;
+  animation: projectionTicker 230s linear infinite;
+  will-change: transform;
 }
 
 .projection-lower-total,
@@ -5730,24 +5731,34 @@ header.hero-header > *,
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 999px;
-  padding: 16px 20px;
+  gap: 16px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   color: #e5e7eb;
-  background: rgba(255,255,255,0.07);
+  background: transparent;
   font-weight: 900;
-  font-size: 1.35rem;
+  font-size: 1.62rem;
   white-space: nowrap;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.42);
 }
 
 .projection-lower-total {
   color: #fef3c7;
-  background: rgba(250, 204, 21, 0.12);
+  font-size: 1.72rem;
 }
 
 .projection-lower-chip {
-  border-left: 10px solid var(--team-color, #38bdf8);
+  position: relative;
+}
+
+.projection-lower-chip::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--team-color, #38bdf8);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--team-color, #38bdf8) 64%, transparent);
 }
 
 .projection-lower-chip strong {
@@ -5764,7 +5775,7 @@ header.hero-header > *,
 
 .projection-lower-chip small {
   color: #cbd5e1;
-  font-size: 1.18rem;
+  font-size: 1.34rem;
 }
 
 @keyframes projectionTicker {
@@ -5900,7 +5911,7 @@ header.hero-header > *,
   }
 
   .projection-lower-marquee {
-    animation-duration: 118s;
+    animation-duration: 180s;
   }
 }
 
