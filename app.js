@@ -3619,15 +3619,13 @@ function projectionRandomScoreMarkup() {
 }
 
 function randomizeProjectionOrder(items = [], salt = "") {
-  const tick = Math.floor(Date.now() / 12000);
-  const hash = (value) => String(value).split("").reduce((acc, char) => {
-    return ((acc << 5) - acc + char.charCodeAt(0)) | 0;
-  }, 0);
-  return [...items].sort((a, b) => {
-    const aKey = Math.abs(hash(`${salt}-${tick}-${a.id}`));
-    const bKey = Math.abs(hash(`${salt}-${tick}-${b.id}`));
-    return aKey - bKey;
-  });
+  const tick = Math.floor(Date.now() / 10000);
+  const ordered = [...items].sort((a, b) => scheduleTeamRank(a.id) - scheduleTeamRank(b.id));
+  if (!ordered.length) return ordered;
+  const saltOffset = String(salt).length % ordered.length;
+  const offset = (tick + saltOffset) % ordered.length;
+  const rotated = [...ordered.slice(offset), ...ordered.slice(0, offset)];
+  return tick % 2 ? rotated.reverse() : rotated;
 }
 
 function projectionDetailState() {
@@ -3866,6 +3864,11 @@ function initializeProjectionPage() {
   if (!document.body.classList.contains("projection-page")) return;
   setProjectionView("scoreboard");
   updateProjectionFullscreenButton();
+  setInterval(() => {
+    const scoreboardPanel = document.querySelector('[data-projection-panel="scoreboard"]');
+    if (!projectionRandomModeEnabled() || scoreboardPanel?.hidden) return;
+    renderProjectionPanel();
+  }, 10000);
   setInterval(() => loadRemoteData(), 45000);
 }
 
