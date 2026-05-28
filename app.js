@@ -1486,6 +1486,20 @@ function rankEvaluationScores(scores = [], definition = {}) {
     }));
 }
 
+function scoreLooksLikePublishedEvaluation(score = {}, definition = {}, category = "") {
+  const note = String(score.note || "");
+  return score.eventId === definition?.eventId
+    && note.includes("Consolidado online:")
+    && note.includes(definition?.name || "")
+    && note.includes(category || "");
+}
+
+function evaluationGroupHasPublishedScore(eventId = "", category = "") {
+  const definition = judgingEventById(eventId);
+  if (!definition?.eventId) return false;
+  return activeScores().some((score) => scoreLooksLikePublishedEvaluation(score, definition, category));
+}
+
 function participantRecord(teamId = "", activity = "") {
   return state.participants.find((item) => item.teamId === teamId && item.activity === activity);
 }
@@ -2170,11 +2184,6 @@ function renderEvaluationResults() {
   if (!root) return;
   const evaluations = activeEvaluations();
   const badge = byId("evaluationsBadge");
-  if (badge) {
-    const pendingCount = evaluations.filter((item) => !item.launched).length;
-    badge.textContent = pendingCount > 9 ? "9+" : String(pendingCount);
-    badge.hidden = pendingCount === 0;
-  }
   
   const grouped = {};
   evaluations.forEach((evaluation) => {
@@ -2204,10 +2213,21 @@ function renderEvaluationResults() {
       if (score.note) group.scoresByTeam[score.teamId].notes.push(`${evaluation.judge || "Jurado"}: ${score.note}`);
     });
   });
+
+  Object.values(grouped).forEach((group) => {
+    if (evaluationGroupHasPublishedScore(group.eventId, group.category)) {
+      group.launched = true;
+    }
+  });
   
   const groups = Object.values(grouped).sort((a, b) => judgingEventOrderIndex(a.eventId) - judgingEventOrderIndex(b.eventId) || a.category.localeCompare(b.category));
   const pending = groups.filter((g) => !g.launched);
   const launched = groups.filter((g) => g.launched);
+  if (badge) {
+    const pendingCount = pending.length;
+    badge.textContent = pendingCount > 9 ? "9+" : String(pendingCount);
+    badge.hidden = pendingCount === 0;
+  }
   
   const renderGroup = (group) => {
     const aggregatedScores = Object.values(group.scoresByTeam);
@@ -2284,7 +2304,7 @@ function renderEvaluationInbox(evaluations = activeEvaluations()) {
               escapeHtml(evaluation.judge || evaluation.judgeCode || "Jurado"),
               escapeHtml(judgingEventById(evaluation.eventId)?.name || evaluation.eventId || ""),
               escapeHtml(evaluation.category || ""),
-              evaluation.launched ? "Lançada" : "Pendente"
+              evaluation.launched || evaluationGroupHasPublishedScore(evaluation.eventId, evaluation.category) ? "Lançada" : "Pendente"
             ])
           )}
         </table>
@@ -5677,8 +5697,10 @@ document.addEventListener("click", async (event) => {
     if (!definition?.eventId) return;
 
     const scoresByTeam = {};
+    const now = new Date().toISOString();
     groupEvals.forEach((evaluation) => {
       evaluation.launched = true;
+      evaluation.updatedAt = now;
       evaluation.scores.forEach((score) => {
         if (!scoresByTeam[score.teamId]) scoresByTeam[score.teamId] = { teamId: score.teamId, total: 0 };
         scoresByTeam[score.teamId].total += Number(score.total || 0);
@@ -5688,7 +5710,6 @@ document.addEventListener("click", async (event) => {
     const aggregatedScores = Object.values(scoresByTeam);
     rankEvaluationScores(aggregatedScores, definition).forEach((score) => {
       const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
-      const now = new Date().toISOString();
       const payload = {
         id: existing?.id || stableRecordKey(["score", score.teamId, definition.eventId]),
         teamId: score.teamId,
