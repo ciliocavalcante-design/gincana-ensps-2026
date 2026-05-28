@@ -232,6 +232,10 @@ const defaultData = {
   foodDonations: [],
   foodAdjustments: [],
   foodCountUpdatedAt: "",
+  displaySettings: {
+    hideScores: false,
+    randomMode: false
+  },
   discipline: [],
   bonuses: [],
   judges: [],
@@ -388,6 +392,22 @@ function activeFoodAdjustments() {
 
 function activeScores() {
   return (state.scores || []).filter((item) => !item.deletedAt);
+}
+
+function currentDisplaySettings() {
+  return {
+    hideScores: Boolean(state.displaySettings?.hideScores),
+    randomMode: Boolean(state.displaySettings?.randomMode)
+  };
+}
+
+function scoresAreHidden() {
+  return currentDisplaySettings().hideScores;
+}
+
+function projectionRandomModeEnabled() {
+  const settings = currentDisplaySettings();
+  return settings.hideScores && settings.randomMode;
 }
 
 function activeSchedules() {
@@ -600,6 +620,10 @@ function normalizeState(saved = {}) {
     foodDonations: Array.isArray(saved.foodDonations) ? dedupeRecords(saved.foodDonations.map(normalizeFoodDonationRecord), (item) => item.id) : base.foodDonations,
     foodAdjustments: Array.isArray(saved.foodAdjustments) ? dedupeRecords(saved.foodAdjustments.map(normalizeFoodAdjustmentRecord), (item) => item.id) : base.foodAdjustments,
     foodCountUpdatedAt: saved.foodCountUpdatedAt || base.foodCountUpdatedAt,
+    displaySettings: {
+      ...base.displaySettings,
+      ...(saved.displaySettings && typeof saved.displaySettings === "object" ? saved.displaySettings : {})
+    },
     discipline: Array.isArray(saved.discipline) ? dedupeRecords(saved.discipline.map(normalizeDisciplineRecord), (item) => item.id) : base.discipline,
     bonuses: Array.isArray(saved.bonuses) ? dedupeRecords(saved.bonuses.map(normalizeBonusRecord), (item) => item.id) : base.bonuses,
     judges: Array.isArray(saved.judges) ? dedupeRecords(saved.judges.map(normalizeJudgeRecord), (item) => item.id) : base.judges,
@@ -647,6 +671,7 @@ function mutableState() {
     foodDonations: state.foodDonations,
     foodAdjustments: state.foodAdjustments,
     foodCountUpdatedAt: state.foodCountUpdatedAt,
+    displaySettings: state.displaySettings,
     discipline: state.discipline,
     bonuses: state.bonuses,
     judges: state.judges,
@@ -1197,20 +1222,23 @@ function totals() {
 }
 
 function renderScoreboard() {
+  const hidden = scoresAreHidden();
   setHtml("scoreboard", ["Categoria 1", "Categoria 2"].map((category) => {
-    const categoryTeams = totals().filter((item) => item.category === category);
+    const categoryTeams = hidden
+      ? state.teams.filter((item) => item.category === category)
+      : totals().filter((item) => item.category === category);
     return `
-      <div class="score-category">
+      <div class="score-category${hidden ? " scores-hidden" : ""}">
         <h3>${category}</h3>
         <div class="score-category-list">
           ${categoryTeams.map((item, index) => `
             <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-              <div class="rank" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
+              <div class="rank${hidden ? " rank-hidden" : ""}" aria-label="${hidden ? "Classificação em apuração" : `${index + 1}º lugar`}">${hidden ? "?" : placementMedal(index)}</div>
               <div>
                 <h4>${item.name}</h4>
-                <p>${item.theme}${item.penalties ? ` • -${item.penalties} em penalidades` : ""}</p>
+                <p>${item.theme}${!hidden && item.penalties ? ` • -${item.penalties} em penalidades` : ""}</p>
               </div>
-              <div class="score-total">${formatPoints(item.total)}</div>
+              <div class="score-total">${hidden ? hiddenScoreBadge() : formatPoints(item.total)}</div>
             </article>
           `).join("")}
         </div>
@@ -1261,7 +1289,7 @@ function renderEvents() {
 }
 
 function eventRanking(eventId, category) {
-  return state.teams
+  const ranking = state.teams
     .filter((item) => !category || item.category === category)
     .map((item) => {
     const score = activeScores().find((entry) => entry.teamId === item.id && entry.eventId === eventId);
@@ -1270,13 +1298,16 @@ function eventRanking(eventId, category) {
       points: Number(score?.points || 0),
       note: score?.note || "Sem observação"
     };
-    }).sort((a, b) => b.points - a.points);
+    });
+  if (scoresAreHidden()) return ranking.sort((a, b) => scheduleTeamRank(a.id) - scheduleTeamRank(b.id));
+  return ranking.sort((a, b) => b.points - a.points);
 }
 
 function renderEventResults() {
+  const hidden = scoresAreHidden();
   setHtml("eventResults", state.events.map((event) => {
     return `
-      <details class="event-result-card">
+      <details class="event-result-card${hidden ? " scores-hidden" : ""}">
         <summary>
           <span>
             <strong>${event.name}</strong>
@@ -1293,13 +1324,13 @@ function renderEventResults() {
                 <div class="event-result-category-list">
                   ${ranking.map((item, index) => `
                     <article class="event-result-row${index < 3 ? " top-three" : ""}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-                      <div class="event-result-place">${index + 1}º</div>
+                      <div class="event-result-place${hidden ? " rank-hidden" : ""}">${hidden ? "?" : `${index + 1}º`}</div>
                       <div>
                         <h4>${item.name}</h4>
                         <p>${item.theme}</p>
-                        <small>${item.note}</small>
+                        <small>${hidden ? "Resultado em apuração pela comissão" : item.note}</small>
                       </div>
-                      <div class="event-result-points">${formatPoints(item.points)}</div>
+                      <div class="event-result-points">${hidden ? hiddenScoreBadge() : formatPoints(item.points)}</div>
                     </article>
                   `).join("")}
                 </div>
@@ -3304,7 +3335,21 @@ function renderLeadershipFormsAdmin() {
 }
 
 
+function renderDisplaySettingsForm() {
+  const form = byId("displaySettingsForm");
+  if (!form) return;
+  const settings = currentDisplaySettings();
+  form.elements.hideScores.checked = settings.hideScores;
+  form.elements.randomMode.checked = settings.randomMode;
+  const randomInput = form.elements.randomMode;
+  if (randomInput) {
+    randomInput.disabled = !settings.hideScores;
+    randomInput.closest(".display-toggle-row")?.classList.toggle("disabled", !settings.hideScores);
+  }
+}
+
 function renderAdminTables() {
+  renderDisplaySettingsForm();
   renderJudgingDayControls();
   renderJudgingOrderControls();
   renderJudgingBlockControls();
@@ -3555,6 +3600,30 @@ function placementMedal(index = 0) {
   return ["🥇", "🥈", "🥉"][index] || `${index + 1}º`;
 }
 
+function hiddenScoreBadge(label = "Em apuração") {
+  return `<span class="score-hidden-badge">${label}</span>`;
+}
+
+function projectionRandomScoreMarkup() {
+  return `
+    <span class="projection-random-score" aria-label="Pontuação em apuração">
+      <i></i><i></i><i></i><i></i>
+    </span>
+  `;
+}
+
+function randomizeProjectionOrder(items = [], salt = "") {
+  const tick = Math.floor(Date.now() / 12000);
+  const hash = (value) => String(value).split("").reduce((acc, char) => {
+    return ((acc << 5) - acc + char.charCodeAt(0)) | 0;
+  }, 0);
+  return [...items].sort((a, b) => {
+    const aKey = Math.abs(hash(`${salt}-${tick}-${a.id}`));
+    const bKey = Math.abs(hash(`${salt}-${tick}-${b.id}`));
+    return aKey - bKey;
+  });
+}
+
 function projectionDetailState() {
   try {
     return JSON.parse(sessionStorage.getItem(PROJECTION_DETAIL_STORAGE_KEY) || "{}");
@@ -3632,26 +3701,34 @@ function renderProjectionPanel() {
   if (!scoreboardRoot && !foodRoot) return;
 
   const ranked = totals();
+  const hidden = scoresAreHidden();
+  const randomMode = projectionRandomModeEnabled();
   if (scoreboardRoot) {
+    scoreboardRoot.classList.toggle("projection-random-mode", randomMode);
+    scoreboardRoot.classList.toggle("scores-hidden", hidden);
     scoreboardRoot.innerHTML = ["Categoria 1", "Categoria 2"].map((category) => {
-      const categoryTeams = ranked.filter((item) => item.category === category);
+      const categoryTeams = randomMode
+        ? randomizeProjectionOrder(state.teams.filter((item) => item.category === category), category)
+        : hidden
+          ? state.teams.filter((item) => item.category === category)
+          : ranked.filter((item) => item.category === category);
       return `
         <section class="projection-category">
           <header>
             <span>${escapeHtml(category)}</span>
-            <strong>Placar Geral</strong>
+            <strong>${hidden ? "Placar em apuração" : "Placar Geral"}</strong>
           </header>
           <div class="projection-ranking">
             ${categoryTeams.map((item, index) => `
               <article class="projection-score-card place-${index + 1}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
-                <div class="projection-place" aria-label="${index + 1}º lugar">${placementMedal(index)}</div>
+                <div class="projection-place${hidden ? " projection-place-hidden" : ""}" aria-label="${hidden ? "Classificação em apuração" : `${index + 1}º lugar`}">${hidden ? "?" : placementMedal(index)}</div>
                 <div class="projection-team">
                   <h3>${escapeHtml(item.name)}</h3>
                   <p>${escapeHtml(item.theme)}</p>
                 </div>
                 <div class="projection-points">
-                  <strong>${formatPoints(item.total)}</strong>
-                  <span>pontos</span>
+                  ${hidden ? projectionRandomScoreMarkup() : `<strong>${formatPoints(item.total)}</strong>`}
+                  <span>${hidden ? "em apuração" : "pontos"}</span>
                 </div>
               </article>
             `).join("")}
@@ -4559,6 +4636,28 @@ on("batchPointsForm", "change", (event) => {
       </div>
     `).join("");
   }
+});
+
+on("displaySettingsForm", "change", (event) => {
+  if (event.target.name !== "hideScores") return;
+  const form = event.currentTarget;
+  if (!form.elements.hideScores.checked) {
+    form.elements.randomMode.checked = false;
+  }
+  renderDisplaySettingsForm();
+});
+
+on("displaySettingsForm", "submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  state.displaySettings = {
+    hideScores: Boolean(form.elements.hideScores.checked),
+    randomMode: Boolean(form.elements.hideScores.checked && form.elements.randomMode.checked)
+  };
+  setSyncStatus(state.displaySettings.hideScores
+    ? "Pontuações ocultas. Salvando modo de exibição online..."
+    : "Pontuações liberadas. Salvando modo de exibição online...");
+  saveState();
 });
 
 on("judgeAccessForm", "submit", (event) => {

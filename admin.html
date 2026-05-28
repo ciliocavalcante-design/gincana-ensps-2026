@@ -63,6 +63,7 @@
             <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
             <button class="tab-button" data-panel="participantsPanel" type="button">Participantes</button>
             <button class="tab-button" data-panel="judgingPanel" type="button">Avaliações <span id="evaluationsBadge" class="tab-alert-badge" hidden>0</span></button>
+            <button class="tab-button" data-panel="displayPanel" type="button">Painel</button>
             <button class="tab-button" data-panel="disciplinePanel" type="button">Advertências <span id="leadershipClaimsBadge" class="tab-alert-badge" hidden>0</span></button>
             <button class="tab-button" data-panel="bonusPanel" type="button">Bônus</button>
             <button class="tab-button" data-panel="leadershipAdminPanel" type="button">Lideranças <span id="leadershipRequestsBadge" class="tab-alert-badge" hidden>0</span></button>
@@ -389,6 +390,31 @@
           </div>
           <textarea id="dataPreview" readonly spellcheck="false"></textarea>
         </div>
+
+          <div class="admin-panel" id="displayPanel">
+            <div class="panel-card display-admin-card">
+              <span class="eyebrow">Exibição</span>
+              <h2>Controle do painel</h2>
+              <p>Use este modo para esconder o placar provisório enquanto a comissão contabiliza as últimas provas.</p>
+              <form id="displaySettingsForm" class="display-settings-form">
+                <label class="display-toggle-row">
+                  <input name="hideScores" type="checkbox">
+                  <span>
+                    <strong>Ocultar pontuações do placar e das provas</strong>
+                    <small>Na página principal, os pontos e posições reais ficam em apuração.</small>
+                  </span>
+                </label>
+                <label class="display-toggle-row">
+                  <input name="randomMode" type="checkbox">
+                  <span>
+                    <strong>Modo aleatório no painel do projetor</strong>
+                    <small>No painel, as posições ficam embaralhadas e os pontos viram uma animação.</small>
+                  </span>
+                </label>
+                <button class="button primary" type="submit">Salvar exibição</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </section>

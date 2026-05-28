@@ -458,6 +458,10 @@ function normalizeStateData(data = {}) {
     leadershipCodes: data.leadershipCodes && typeof data.leadershipCodes === "object" ? data.leadershipCodes : {},
     teacherCodes: data.teacherCodes && typeof data.teacherCodes === "object" ? data.teacherCodes : {},
     judgingEventOrder: Array.isArray(data.judgingEventOrder) ? data.judgingEventOrder.map(String) : [],
+    displaySettings: Object.prototype.hasOwnProperty.call(data, "displaySettings") && data.displaySettings && typeof data.displaySettings === "object" ? {
+      hideScores: Boolean(data.displaySettings.hideScores),
+      randomMode: Boolean(data.displaySettings.randomMode)
+    } : undefined,
     foodCountUpdatedAt: data.foodCountUpdatedAt || ""
   };
 }
@@ -490,6 +494,12 @@ function mergeStateData(currentRaw = {}, incomingRaw = {}) {
     leadershipCodes: { ...(current.leadershipCodes || {}), ...(incoming.leadershipCodes || {}) },
     teacherCodes: { ...(current.teacherCodes || {}), ...(incoming.teacherCodes || {}) },
     judgingEventOrder: incoming.judgingEventOrder?.length ? incoming.judgingEventOrder : current.judgingEventOrder,
+    displaySettings: {
+      hideScores: false,
+      randomMode: false,
+      ...(current.displaySettings || {}),
+      ...(incoming.displaySettings || {})
+    },
     foodCountUpdatedAt: [current.foodCountUpdatedAt || "", incoming.foodCountUpdatedAt || ""].sort().at(-1) || ""
   };
 }
