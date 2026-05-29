@@ -10,6 +10,7 @@ const SECURITY_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GI
 const PAGES_DATA_URL = "/api/data";
 const PUBLISHED_DATA_URL = "https://gincana-ensps-2026.pages.dev/api/data";
 const PAGES_SECURITY_URL = `/${SECURITY_PATH}`;
+const RESULTS_PASSWORD_HASH = "b2eb192b2c3e38d2f81a25e6b637d851151842495b59b30c64f5813a4d2bc022";
 const TEAM_ORDER = ["6", "7", "8", "9", "1", "2"];
 const SCHEDULE_ACTIVITIES = [
   "Dança das Líderes de Torcida",
@@ -6242,19 +6243,12 @@ async function protectResultsPage() {
   gate.hidden = false;
   passwordInput.focus();
 
-  const security = await loadAdminSecurityConfig();
-  const adminPasswordHash = security.adminPasswordHash;
-  if (!adminPasswordHash) {
-    setResultsAuthStatus("Senha não configurada no GitHub. Verifique o arquivo data/admin-security.json.");
-    return false;
-  }
-
   setResultsAuthStatus("Digite a senha para liberar o painel.");
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const typedHash = await sha256Text(passwordInput.value || "");
-    if (typedHash !== adminPasswordHash) {
+    if (typedHash !== RESULTS_PASSWORD_HASH) {
       passwordInput.value = "";
       passwordInput.focus();
       setResultsAuthStatus("Senha incorreta. Tente novamente.");
