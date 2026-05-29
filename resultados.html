@@ -40,6 +40,8 @@
 
     <nav class="projection-switch results-switch" aria-label="Controles do painel de resultados">
       <button id="resultsRefreshButton" type="button">Atualizar</button>
+      <button id="resultsReleaseButton" type="button">Liberar resultados</button>
+      <button id="resultsWinnersButton" type="button">Celebrar vencedores</button>
       <button id="resultsLowerToggle" type="button">Ocultar Lower</button>
       <button data-projection-fullscreen type="button">Tela cheia</button>
     </nav>
@@ -55,6 +57,17 @@
   </main>
 
   <aside id="projectionLowerThird" class="projection-lower-third" aria-label="Resumo da arrecadação"></aside>
+
+  <section id="winnerCelebration" class="winner-celebration" hidden aria-live="polite">
+    <div class="winner-confetti" aria-hidden="true"></div>
+    <div class="winner-celebration-card">
+      <button id="winnerCelebrationClose" class="winner-close" type="button" aria-label="Fechar celebração">×</button>
+      <div class="winner-crown" aria-hidden="true">♛</div>
+      <span class="eyebrow">Resultado final</span>
+      <h2>Turmas vencedoras</h2>
+      <div id="winnerCelebrationList" class="winner-celebration-list"></div>
+    </div>
+  </section>
 
   <script src="app.js"></script>
 </body>

@@ -244,6 +244,7 @@ const defaultData = {
   evaluations: [],
   judgingBlocks: [],
   evaluationDrafts: [],
+  evaluationTieBreaks: [],
   leadershipClaims: [],
   leadershipRequests: [],
   scheduleRequests: [],
@@ -550,6 +551,26 @@ function normalizeDraftRecord(item = {}) {
   };
 }
 
+function normalizeEvaluationTieBreakRecord(item = {}) {
+  const eventId = item.eventId || "";
+  const category = item.category || "";
+  const total = Number(item.total || 0);
+  const teamId = item.teamId || "";
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["evaluation-tie", eventId, category, total, teamId]),
+    eventId,
+    category,
+    total,
+    teamId,
+    priority: Number(item.priority || 0),
+    deletedAt: item.deletedAt || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
 function normalizeClaimRecord(item = {}) {
   const createdAt = item.createdAt || item.updatedAt || "";
   return {
@@ -632,6 +653,7 @@ function normalizeState(saved = {}) {
     evaluations: Array.isArray(saved.evaluations) ? dedupeRecords(saved.evaluations.map(normalizeEvaluationRecord), (item) => item.id) : base.evaluations,
     judgingBlocks: Array.isArray(saved.judgingBlocks) ? dedupeRecords(saved.judgingBlocks.map(normalizeJudgingBlockRecord), (item) => item.id) : base.judgingBlocks,
     evaluationDrafts: Array.isArray(saved.evaluationDrafts) ? dedupeRecords(saved.evaluationDrafts.map(normalizeDraftRecord), (item) => item.key) : base.evaluationDrafts,
+    evaluationTieBreaks: Array.isArray(saved.evaluationTieBreaks) ? dedupeRecords(saved.evaluationTieBreaks.map(normalizeEvaluationTieBreakRecord), (item) => item.id) : base.evaluationTieBreaks,
     leadershipClaims: Array.isArray(saved.leadershipClaims) ? dedupeRecords(saved.leadershipClaims.map(normalizeClaimRecord), (item) => item.id) : base.leadershipClaims,
     leadershipRequests: Array.isArray(saved.leadershipRequests) ? dedupeRecords(saved.leadershipRequests.map(normalizeLeadershipRequestRecord), (item) => item.id) : base.leadershipRequests,
     scheduleRequests: Array.isArray(saved.scheduleRequests) ? dedupeRecords(saved.scheduleRequests.map(normalizeScheduleRequestRecord), (item) => item.id) : base.scheduleRequests,
@@ -679,6 +701,7 @@ function mutableState() {
     judgingDays: state.judgingDays,
     judgingBlocks: state.judgingBlocks,
     evaluationDrafts: state.evaluationDrafts,
+    evaluationTieBreaks: state.evaluationTieBreaks,
     leadershipClaims: state.leadershipClaims,
     leadershipRequests: state.leadershipRequests,
     scheduleRequests: state.scheduleRequests,
@@ -1509,15 +1532,68 @@ function evaluationTotal(entry) {
   return Object.values(entry.criteria || {}).reduce((sum, value) => sum + Number(value || 0), 0);
 }
 
-function rankEvaluationScores(scores = [], definition = {}) {
+function activeEvaluationTieBreaks() {
+  return (state.evaluationTieBreaks || []).filter((item) => !item.deletedAt);
+}
+
+function evaluationTiePriority(eventId = "", category = "", total = 0, teamId = "") {
+  const record = activeEvaluationTieBreaks().find((item) => (
+    item.eventId === eventId
+    && item.category === category
+    && Number(item.total || 0) === Number(total || 0)
+    && item.teamId === teamId
+  ));
+  return record ? Number(record.priority || 0) : Number.POSITIVE_INFINITY;
+}
+
+function rankEvaluationScores(scores = [], definition = {}, context = {}) {
   return [...scores]
     .map((score) => ({ ...score, total: Number(score.total ?? evaluationTotal(score)) }))
-    .sort((a, b) => b.total - a.total || scheduleTeamRank(a.teamId) - scheduleTeamRank(b.teamId))
+    .sort((a, b) => (
+      b.total - a.total
+      || evaluationTiePriority(context.eventId || definition.id || "", context.category || "", a.total, a.teamId) - evaluationTiePriority(context.eventId || definition.id || "", context.category || "", b.total, b.teamId)
+      || scheduleTeamRank(a.teamId) - scheduleTeamRank(b.teamId)
+    ))
     .map((score, index) => ({
       ...score,
       placement: index + 1,
       gincanaPoints: Number(definition.pointsByPlace?.[index] || 0)
     }));
+}
+
+function tieGroupsForEvaluationScores(scores = []) {
+  const groups = {};
+  scores.forEach((score) => {
+    const key = String(Number(score.total || 0));
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(score);
+  });
+  return Object.entries(groups)
+    .filter(([, items]) => items.length > 1)
+    .map(([total, items]) => ({ total: Number(total), items }));
+}
+
+function setEvaluationTieLeader(eventId = "", category = "", total = 0, leaderTeamId = "", teamIds = []) {
+  if (!Array.isArray(state.evaluationTieBreaks)) state.evaluationTieBreaks = [];
+  const now = new Date().toISOString();
+  const ordered = [leaderTeamId, ...teamIds.filter((id) => id !== leaderTeamId)];
+  ordered.forEach((teamId, priority) => {
+    const id = stableRecordKey(["evaluation-tie", eventId, category, Number(total || 0), teamId]);
+    const existing = state.evaluationTieBreaks.find((item) => item.id === id);
+    const payload = normalizeEvaluationTieBreakRecord({
+      id,
+      eventId,
+      category,
+      total: Number(total || 0),
+      teamId,
+      priority,
+      deletedAt: "",
+      createdAt: existing?.createdAt || now,
+      updatedAt: now
+    });
+    if (existing) Object.assign(existing, payload);
+    else state.evaluationTieBreaks.push(payload);
+  });
 }
 
 function scoreLooksLikePublishedEvaluation(score = {}, definition = {}, category = "") {
@@ -2290,7 +2366,28 @@ function renderEvaluationResults() {
   
   const renderGroup = (group) => {
     const aggregatedScores = Object.values(group.scoresByTeam);
-    const rankedScores = rankEvaluationScores(aggregatedScores, group.definition);
+    const rankedScores = rankEvaluationScores(aggregatedScores, group.definition, { eventId: group.eventId, category: group.category });
+    const tieGroups = !group.launched ? tieGroupsForEvaluationScores(aggregatedScores) : [];
+    const tieBreakHtml = tieGroups.length ? `
+      <div class="evaluation-tiebreaks">
+        <strong>Empate detectado antes do lançamento</strong>
+        ${tieGroups.map((tie) => {
+          const teams = rankEvaluationScores(tie.items, group.definition, { eventId: group.eventId, category: group.category });
+          return `
+            <div class="evaluation-tiebreak-row">
+              <span>${formatPoints(tie.total)} pontos dos jurados</span>
+              <div>
+                ${teams.map((score) => `
+                  <button class="mini-action" data-evaluation-tie-leader="${escapeHtml(group.eventId)}|${escapeHtml(group.category)}|${escapeHtml(String(tie.total))}|${escapeHtml(score.teamId)}" type="button">
+                    ${escapeHtml(team(score.teamId)?.name || score.teamId)} leva a melhor
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    ` : "";
     return `
       <article class="evaluation-result-card">
         <header>
@@ -2312,6 +2409,7 @@ function renderEvaluationResults() {
             )}
           </table>
         </div>
+        ${tieBreakHtml}
         <div class="settings-actions">
           ${!group.launched && group.definition?.eventId ? `<button class="button primary" data-publish-group="${group.key}" type="button">Lançar resultado consolidado</button>` : ""}
           ${group.evaluations.map((id) => {
@@ -4011,6 +4109,34 @@ function initializeResultsPage() {
   updateResultsLowerToggle();
 }
 
+function winnersByCategory() {
+  const ranked = totals();
+  return ["Categoria 1", "Categoria 2"].map((category) => (
+    ranked.filter((item) => item.category === category)[0]
+  )).filter(Boolean);
+}
+
+function showWinnerCelebration() {
+  const root = byId("winnerCelebration");
+  const list = byId("winnerCelebrationList");
+  if (!root || !list) return;
+  const winners = winnersByCategory();
+  list.innerHTML = winners.map((item) => `
+    <article class="winner-card" style="--team-color:${item.id === "2" ? "#ffffff" : item.color}">
+      <span>${escapeHtml(item.category)}</span>
+      <h3>${escapeHtml(item.name)}</h3>
+      <p>${escapeHtml(item.theme)}</p>
+      <small>${formatPoints(item.total)} pontos</small>
+    </article>
+  `).join("");
+  root.hidden = false;
+}
+
+function hideWinnerCelebration() {
+  const root = byId("winnerCelebration");
+  if (root) root.hidden = true;
+}
+
 async function toggleProjectionFullscreen() {
   try {
     if (!document.fullscreenElement) {
@@ -4440,6 +4566,32 @@ document.addEventListener("click", (event) => {
   if (resultsRefreshButton) {
     event.preventDefault();
     loadRemoteData({ force: true });
+    return;
+  }
+
+  const resultsReleaseButton = event.target.closest("#resultsReleaseButton");
+  if (resultsReleaseButton) {
+    event.preventDefault();
+    state.displaySettings = {
+      ...(state.displaySettings || {}),
+      hideScores: false,
+      randomMode: false
+    };
+    setSyncStatus("Resultados liberados. Salvando exibição online...");
+    saveState();
+    return;
+  }
+
+  const resultsWinnersButton = event.target.closest("#resultsWinnersButton");
+  if (resultsWinnersButton) {
+    event.preventDefault();
+    showWinnerCelebration();
+    return;
+  }
+
+  if (event.target.closest("#winnerCelebrationClose")) {
+    event.preventDefault();
+    hideWinnerCelebration();
     return;
   }
 
@@ -5689,6 +5841,28 @@ document.addEventListener("click", async (event) => {
     return;
   }
 
+  if (button.dataset.evaluationTieLeader) {
+    const [eventId, category, totalText, teamId] = button.dataset.evaluationTieLeader.split("|");
+    const groupEvals = activeEvaluations().filter((ev) => ev.eventId === eventId && ev.category === category);
+    const scoresByTeam = {};
+    groupEvals.forEach((evaluation) => {
+      evaluation.scores.forEach((score) => {
+        if (!scoresByTeam[score.teamId]) scoresByTeam[score.teamId] = { teamId: score.teamId, total: 0 };
+        scoresByTeam[score.teamId].total += Number(score.total || 0);
+      });
+    });
+    const total = Number(totalText || 0);
+    const tiedTeamIds = Object.values(scoresByTeam)
+      .filter((score) => Number(score.total || 0) === total)
+      .map((score) => score.teamId);
+    if (tiedTeamIds.includes(teamId)) {
+      setEvaluationTieLeader(eventId, category, total, teamId, tiedTeamIds);
+      setSyncStatus(`Desempate salvo: ${team(teamId)?.name || teamId} fica à frente neste empate.`);
+      saveState();
+    }
+    return;
+  }
+
   if (button.dataset.deleteSchedule) {
     if (markRecordDeleted(state.schedules, (_, index) => index === Number(button.dataset.deleteSchedule))) {
       setScheduleEditing();
@@ -5945,7 +6119,7 @@ document.addEventListener("click", async (event) => {
     });
 
     const aggregatedScores = Object.values(scoresByTeam);
-    rankEvaluationScores(aggregatedScores, definition).forEach((score) => {
+    rankEvaluationScores(aggregatedScores, definition, { eventId: definition.id, category: groupEvals[0].category }).forEach((score) => {
       const existing = state.scores.find((item) => item.teamId === score.teamId && item.eventId === definition.eventId);
       const payload = {
         id: existing?.id || stableRecordKey(["score", score.teamId, definition.eventId]),

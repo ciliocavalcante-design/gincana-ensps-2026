@@ -367,6 +367,26 @@ function normalizeDraftRecord(item = {}) {
   };
 }
 
+function normalizeEvaluationTieBreakRecord(item = {}) {
+  const eventId = item.eventId || "";
+  const category = item.category || "";
+  const total = Number(item.total || 0);
+  const teamId = item.teamId || "";
+  const createdAt = item.createdAt || item.updatedAt || "";
+  return {
+    ...item,
+    id: item.id || stableRecordKey(["evaluation-tie", eventId, category, total, teamId]),
+    eventId,
+    category,
+    total,
+    teamId,
+    priority: Number(item.priority || 0),
+    deletedAt: item.deletedAt || "",
+    createdAt,
+    updatedAt: item.updatedAt || createdAt
+  };
+}
+
 function activeJudges(data = {}) {
   return (Array.isArray(data.judges) ? data.judges : []).filter((item) => !item.deletedAt);
 }
@@ -450,6 +470,7 @@ function normalizeStateData(data = {}) {
     evaluations: Array.isArray(data.evaluations) ? data.evaluations.map(normalizeEvaluationRecord) : [],
     judgingBlocks: Array.isArray(data.judgingBlocks) ? data.judgingBlocks.map(normalizeJudgingBlockRecord) : [],
     evaluationDrafts: Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts.map(normalizeDraftRecord) : [],
+    evaluationTieBreaks: Array.isArray(data.evaluationTieBreaks) ? data.evaluationTieBreaks.map(normalizeEvaluationTieBreakRecord) : [],
     leadershipClaims: Array.isArray(data.leadershipClaims) ? data.leadershipClaims.map(normalizeClaimRecord) : [],
     leadershipRequests: Array.isArray(data.leadershipRequests) ? data.leadershipRequests.map(normalizeLeadershipRequestRecord) : [],
     scheduleRequests: Array.isArray(data.scheduleRequests) ? data.scheduleRequests.map(normalizeScheduleRequestRecord) : [],
@@ -486,6 +507,7 @@ function mergeStateData(currentRaw = {}, incomingRaw = {}) {
     evaluations: mergeRecordArrays(current.evaluations, incoming.evaluations, (item) => item.id),
     judgingBlocks: mergeRecordArrays(current.judgingBlocks, incoming.judgingBlocks, (item) => item.id),
     evaluationDrafts: mergeRecordArrays(current.evaluationDrafts, incoming.evaluationDrafts, (item) => item.key),
+    evaluationTieBreaks: mergeRecordArrays(current.evaluationTieBreaks, incoming.evaluationTieBreaks, (item) => item.id),
     leadershipClaims: mergeRecordArrays(current.leadershipClaims, incoming.leadershipClaims, (item) => item.id),
     leadershipRequests: mergeRecordArrays(current.leadershipRequests, incoming.leadershipRequests, (item) => item.id),
     scheduleRequests: mergeRecordArrays(current.scheduleRequests, incoming.scheduleRequests, (item) => item.id),
