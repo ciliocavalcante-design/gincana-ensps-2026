@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="shortcut icon" type="image/png" href="assets/logo-ensps.png">
+  <link rel="apple-touch-icon" href="assets/logo-ensps.png">
+  <title>Resultados • Gincana ENSPS 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="projection-page results-page results-locked">
+  <div id="resultsAuthGate" class="admin-auth-gate results-auth-gate" role="dialog" aria-modal="true" aria-labelledby="resultsAuthTitle">
+    <form id="resultsAuthForm" class="admin-auth-card">
+      <img src="assets/logo-ensps.png" alt="">
+      <span class="eyebrow">Acesso ao painel</span>
+      <h1 id="resultsAuthTitle">Resultados</h1>
+      <p>Digite a senha de 6 dígitos para liberar a tela de apuração.</p>
+      <label>Senha
+        <input id="resultsPasswordInput" name="password" type="password" inputmode="numeric" pattern="[0-9]*" minlength="6" maxlength="6" autocomplete="current-password" required placeholder="••••••">
+      </label>
+      <button class="button primary" type="submit">Abrir painel</button>
+      <p id="resultsAuthStatus" class="muted-text">Carregando verificação...</p>
+    </form>
+  </div>
+
+  <div class="projection-shine" aria-hidden="true"></div>
+
+  <header class="projection-header results-header">
+    <div class="projection-brand results-brand">
+      <img src="assets/logo-ensps.png" alt="Logo ENSPS">
+      <div>
+        <span class="eyebrow">Gincana ENSPS 2026</span>
+        <h1>Resultados</h1>
+      </div>
+    </div>
+
+    <nav class="projection-switch results-switch" aria-label="Controles do painel de resultados">
+      <button id="resultsRefreshButton" type="button">Atualizar</button>
+      <button id="resultsLowerToggle" type="button">Ocultar Lower</button>
+      <button data-projection-fullscreen type="button">Tela cheia</button>
+    </nav>
+  </header>
+
+  <main class="projection-main results-main">
+    <section data-projection-panel="scoreboard" class="projection-panel">
+      <div class="projection-title results-title">
+        <h2>Placar Geral</h2>
+      </div>
+      <div id="projectionScoreboard" class="projection-scoreboard"></div>
+    </section>
+  </main>
+
+  <aside id="projectionLowerThird" class="projection-lower-third" aria-label="Resumo da arrecadação"></aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

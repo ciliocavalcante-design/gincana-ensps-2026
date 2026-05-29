@@ -3997,6 +3997,19 @@ function updateProjectionFullscreenButton() {
   button.classList.toggle("active", Boolean(document.fullscreenElement));
 }
 
+function updateResultsLowerToggle() {
+  const button = byId("resultsLowerToggle");
+  if (!button) return;
+  const hidden = document.body.classList.contains("results-lower-hidden");
+  button.textContent = hidden ? "Mostrar Lower" : "Ocultar Lower";
+  button.classList.toggle("active", hidden);
+}
+
+function initializeResultsPage() {
+  if (!document.body.classList.contains("results-page")) return;
+  updateResultsLowerToggle();
+}
+
 async function toggleProjectionFullscreen() {
   try {
     if (!document.fullscreenElement) {
@@ -4015,6 +4028,7 @@ async function toggleProjectionFullscreen() {
 function initializeProjectionPage() {
   if (!document.body.classList.contains("projection-page")) return;
   setProjectionView("scoreboard");
+  initializeResultsPage();
   updateProjectionFullscreenButton();
   setInterval(() => {
     const scoreboardPanel = document.querySelector('[data-projection-panel="scoreboard"]');
@@ -4418,6 +4432,21 @@ document.addEventListener("click", (event) => {
   if (fullscreenButton) {
     event.preventDefault();
     toggleProjectionFullscreen();
+    return;
+  }
+
+  const resultsRefreshButton = event.target.closest("#resultsRefreshButton");
+  if (resultsRefreshButton) {
+    event.preventDefault();
+    loadRemoteData({ force: true });
+    return;
+  }
+
+  const resultsLowerButton = event.target.closest("#resultsLowerToggle");
+  if (resultsLowerButton) {
+    event.preventDefault();
+    document.body.classList.toggle("results-lower-hidden");
+    updateResultsLowerToggle();
     return;
   }
 });
@@ -6189,6 +6218,60 @@ function setAdminAuthStatus(message = "") {
   if (status) status.textContent = message;
 }
 
+function setResultsAuthStatus(message = "") {
+  const status = byId("resultsAuthStatus");
+  if (status) status.textContent = message;
+}
+
+async function protectResultsPage() {
+  if (!document.body.classList.contains("results-page")) return true;
+
+  const gate = byId("resultsAuthGate");
+  const form = byId("resultsAuthForm");
+  const passwordInput = byId("resultsPasswordInput");
+
+  if (!gate || !form || !passwordInput) return true;
+
+  if (sessionStorage.getItem("gincana-results-auth-ok") === "true") {
+    document.body.classList.remove("results-locked");
+    gate.hidden = true;
+    return true;
+  }
+
+  document.body.classList.add("results-locked");
+  gate.hidden = false;
+  passwordInput.focus();
+
+  const security = await loadAdminSecurityConfig();
+  const adminPasswordHash = security.adminPasswordHash;
+  if (!adminPasswordHash) {
+    setResultsAuthStatus("Senha não configurada no GitHub. Verifique o arquivo data/admin-security.json.");
+    return false;
+  }
+
+  setResultsAuthStatus("Digite a senha para liberar o painel.");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const typedHash = await sha256Text(passwordInput.value || "");
+    if (typedHash !== adminPasswordHash) {
+      passwordInput.value = "";
+      passwordInput.focus();
+      setResultsAuthStatus("Senha incorreta. Tente novamente.");
+      return;
+    }
+
+    sessionStorage.setItem("gincana-results-auth-ok", "true");
+    gate.hidden = true;
+    document.body.classList.remove("results-locked");
+    render();
+    initializeProjectionPage();
+    loadRemoteData({ force: true });
+  }, { once: false });
+
+  return false;
+}
+
 async function protectAdminPage() {
   if (!document.body.classList.contains("admin-page")) return true;
 
@@ -6242,6 +6325,9 @@ async function protectAdminPage() {
 }
 
 async function initializeGincanaApp() {
+  const canOpenResults = await protectResultsPage();
+  if (!canOpenResults) return;
+
   const canContinue = await protectAdminPage();
   if (!canContinue) return;
 
