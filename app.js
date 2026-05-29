@@ -4907,10 +4907,43 @@ document.addEventListener("input", (event) => {
   updateJudgeBlockLivePreview(form, block, draft);
 });
 
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  const field = event.target.closest("#judgeBlockForm input");
+  if (!field) return;
+  event.preventDefault();
+
+  const form = field.closest("#judgeBlockForm");
+  const fields = Array.from(form?.querySelectorAll("input") || [])
+    .filter((input) => !input.disabled && input.type !== "hidden");
+  const currentIndex = fields.indexOf(field);
+  const nextField = fields[currentIndex + 1];
+  if (nextField) {
+    nextField.focus();
+    if (typeof nextField.select === "function") nextField.select();
+  } else {
+    field.blur();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("#judgeBlockForm [data-submit-block]");
+  if (!button) return;
+  const form = button.closest("#judgeBlockForm");
+  if (form) form.dataset.submitIntent = "true";
+});
+
 document.addEventListener("submit", async (event) => {
   const form = event.target.closest("#judgeBlockForm");
   if (!form) return;
   event.preventDefault();
+
+  const intentionalSubmit = event.submitter?.matches("[data-submit-block]") || form.dataset.submitIntent === "true";
+  delete form.dataset.submitIntent;
+  if (!intentionalSubmit) {
+    setSyncStatus("Rascunho preservado. Use o botão Enviar bloco finalizado para concluir.");
+    return;
+  }
 
   const blockId = form.dataset.blockId;
   const evalForm = byId("evaluationForm");
