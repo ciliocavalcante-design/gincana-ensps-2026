@@ -1160,6 +1160,35 @@ function blockReadyToSubmit(block, draft = {}) {
   }));
 }
 
+function updateJudgeBlockLivePreview(form, block, draft = {}) {
+  if (!form || !block) return;
+  const progress = blockDraftProgress(block, draft);
+  const progressText = form.closest(".judge-block-panel")?.querySelector("[data-block-progress]");
+  if (progressText) {
+    progressText.textContent = `${escapeHtml(block.category)} • ${progress.completed}/${progress.totalItems} fichas preenchidas. Você pode sair, atualizar a página e voltar depois.`;
+  }
+
+  categoryTeams(block.category).forEach((item) => {
+    (block.eventIds || []).forEach((eventId) => {
+      const definition = judgingEventById(eventId);
+      const record = draft?.[item.id]?.[eventId] || {};
+      const total = definition
+        ? definition.criteria.reduce((sum, criterion) => sum + Number(record[criterionId(criterion)] || 0), 0)
+        : 0;
+      const target = form.querySelector(`[data-block-summary-total="${CSS.escape(item.id)}__${CSS.escape(eventId)}"]`);
+      if (target) target.textContent = `${definition?.name || eventId}: ${formatPoints(total)}`;
+    });
+  });
+
+  const ready = blockReadyToSubmit(block, draft);
+  const submitButton = form.querySelector("[data-submit-block]");
+  if (submitButton) submitButton.disabled = !ready;
+  const status = byId("judgeBlockDraftStatus");
+  if (status && ready) {
+    status.textContent = "Bloco completo. Confira o resumo e envie quando estiver pronto.";
+  }
+}
+
 function pendingJudgingCombos(judge) {
   if (!judgeIsActive(judge)) return [];
   return judgingAssignmentsForJudge(judge)
@@ -2433,7 +2462,7 @@ function renderJudgeBlockWorkspace() {
       <header class="judge-block-header">
         <span class="eyebrow">Rascunho automático</span>
         <h2>${escapeHtml(block.name || "Bloco de avaliação")}</h2>
-        <p>${escapeHtml(block.category)} • ${progress.completed}/${progress.totalItems} fichas preenchidas. Você pode sair, atualizar a página e voltar depois.</p>
+        <p data-block-progress>${escapeHtml(block.category)} • ${progress.completed}/${progress.totalItems} fichas preenchidas. Você pode sair, atualizar a página e voltar depois.</p>
         <div class="judge-block-tabs">
           ${blocks.map((item) => `
             <button class="mini-action ${item.id === block.id ? "active" : ""}" data-select-judge-block="${escapeHtml(item.id)}" type="button">${escapeHtml(item.name || "Bloco")}</button>
@@ -2494,7 +2523,7 @@ function renderJudgeBlockWorkspace() {
                   const definition = judgingEventById(eventId);
                   const record = draft?.[item.id]?.[eventId] || {};
                   const total = definition ? definition.criteria.reduce((sum, criterion) => sum + Number(record[criterionId(criterion)] || 0), 0) : 0;
-                  return `<span>${escapeHtml(definition?.name || eventId)}: ${formatPoints(total)}</span>`;
+                  return `<span data-block-summary-total="${escapeHtml(item.id)}__${escapeHtml(eventId)}">${escapeHtml(definition?.name || eventId)}: ${formatPoints(total)}</span>`;
                 }).join("")}
               </article>
             `).join("")}
@@ -2503,7 +2532,7 @@ function renderJudgeBlockWorkspace() {
 
         <div class="judge-block-footer">
           <span id="judgeBlockDraftStatus">Lembrete: ao enviar este bloco, volte à parte de cima para acessar a outra categoria.</span>
-          <button class="button primary" type="submit" ${ready ? "" : "disabled"}>Enviar bloco finalizado</button>
+          <button class="button primary" data-submit-block type="submit" ${ready ? "" : "disabled"}>Enviar bloco finalizado</button>
         </div>
       </form>
     </section>
@@ -4828,6 +4857,7 @@ document.addEventListener("input", (event) => {
   if (!blockId || !judgeCode) return;
 
   const draft = loadBlockDraft(judgeCode, blockId);
+  const block = activeJudgingBlocks().find((item) => item.id === blockId);
   const teamId = field.dataset.teamId;
   const eventId = field.dataset.eventId;
   const criterionIdValue = field.dataset.criterionId;
@@ -4844,6 +4874,7 @@ document.addEventListener("input", (event) => {
       ? `Rascunho salvo às ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })} e sincronizando online.`
       : `Rascunho salvo neste navegador às ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}.`;
   }
+  updateJudgeBlockLivePreview(form, block, draft);
 });
 
 document.addEventListener("submit", async (event) => {
