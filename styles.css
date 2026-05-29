@@ -6416,13 +6416,43 @@ header.hero-header > *,
   place-items: center;
   padding: 24px;
   background:
-    radial-gradient(circle at 50% 20%, rgba(250, 204, 21, 0.28), transparent 34%),
-    rgba(2, 6, 23, 0.82);
+    radial-gradient(circle at 50% 12%, rgba(250, 204, 21, 0.36), transparent 18%),
+    radial-gradient(circle at 18% 72%, rgba(59, 130, 246, 0.22), transparent 28%),
+    radial-gradient(circle at 82% 68%, rgba(34, 197, 94, 0.16), transparent 28%),
+    linear-gradient(135deg, #020617 0%, #07111f 44%, #110b02 100%);
   overflow: hidden;
+  isolation: isolate;
 }
 
 .winner-celebration[hidden] {
   display: none;
+}
+
+.winner-celebration::before,
+.winner-celebration::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background:
+    conic-gradient(from 90deg at 50% 50%,
+      transparent 0deg,
+      rgba(250, 204, 21, 0.0) 28deg,
+      rgba(250, 204, 21, 0.20) 38deg,
+      rgba(255, 255, 255, 0.08) 44deg,
+      transparent 56deg,
+      transparent 120deg,
+      rgba(147, 197, 253, 0.14) 132deg,
+      transparent 148deg,
+      transparent 360deg);
+  filter: blur(1px);
+  animation: winnerLightSpin 18s linear infinite;
+}
+
+.winner-celebration::after {
+  animation-direction: reverse;
+  animation-duration: 24s;
+  opacity: 0.7;
 }
 
 .winner-confetti,
@@ -6432,87 +6462,127 @@ header.hero-header > *,
   inset: -20%;
   content: "";
   background-image:
-    radial-gradient(circle, rgba(250,204,21,0.95) 0 4px, transparent 5px),
-    radial-gradient(circle, rgba(253,224,71,0.9) 0 3px, transparent 4px),
-    radial-gradient(circle, rgba(255,255,255,0.85) 0 2px, transparent 3px);
-  background-size: 92px 92px, 128px 128px, 74px 74px;
-  animation: goldConfettiFall 8s linear infinite;
+    linear-gradient(135deg, rgba(250,204,21,0.98) 0 10px, transparent 10px),
+    radial-gradient(circle, rgba(253,224,71,0.92) 0 4px, transparent 5px),
+    radial-gradient(circle, rgba(255,255,255,0.86) 0 2px, transparent 3px);
+  background-size: 118px 118px, 154px 154px, 88px 88px;
+  animation: goldConfettiFall 11s linear infinite;
+  opacity: 0.86;
 }
 
 .winner-confetti::before {
-  animation-duration: 11s;
+  animation-duration: 15s;
   transform: rotate(18deg);
 }
 
 .winner-confetti::after {
-  animation-duration: 6.5s;
+  animation-duration: 8.5s;
   transform: rotate(-14deg);
 }
 
 .winner-celebration-card {
   position: relative;
   z-index: 1;
-  width: min(980px, 94vw);
+  width: min(1180px, 96vw);
+  min-height: min(760px, 86vh);
   display: grid;
   justify-items: center;
-  gap: 12px;
-  padding: clamp(28px, 5vw, 56px);
-  border: 1px solid rgba(250, 204, 21, 0.55);
-  border-radius: 34px;
+  align-content: center;
+  gap: clamp(10px, 2vw, 24px);
+  padding: clamp(18px, 4vw, 52px);
+  border: 0;
+  border-radius: 0;
   color: #fff7ed;
   text-align: center;
-  background:
-    linear-gradient(135deg, rgba(120, 53, 15, 0.72), rgba(15, 23, 42, 0.9)),
-    rgba(2, 6, 23, 0.9);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.56), 0 0 90px rgba(250,204,21,0.22);
+  background: transparent;
+  box-shadow: none;
 }
 
 .winner-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 42px;
-  height: 42px;
+  top: 10px;
+  right: 10px;
+  width: 54px;
+  height: 54px;
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: 999px;
   color: #fff;
-  background: rgba(15,23,42,0.76);
-  font-size: 1.8rem;
+  background: rgba(15,23,42,0.66);
+  font-size: 2rem;
   font-weight: 900;
   cursor: pointer;
+  backdrop-filter: blur(10px);
 }
 
 .winner-crown {
   color: #facc15;
-  font-size: clamp(4rem, 9vw, 7rem);
+  font-size: clamp(5rem, 12vw, 9rem);
   line-height: 0.8;
-  text-shadow: 0 0 36px rgba(250,204,21,0.72);
-  animation: crownFloat 2.2s ease-in-out infinite alternate;
+  text-shadow: 0 0 28px rgba(250,204,21,0.78), 0 0 96px rgba(250,204,21,0.54);
+  animation: crownFloat 1.8s ease-in-out infinite alternate;
+}
+
+.winner-celebration-card > .eyebrow {
+  color: #fef3c7;
+  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  text-shadow: 0 0 24px rgba(250, 204, 21, 0.52);
 }
 
 .winner-celebration-card h2 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.3rem, 6vw, 5rem);
+  font-size: clamp(3.4rem, 8vw, 7.2rem);
   line-height: 0.9;
+  color: #ffffff;
+  text-shadow: 0 10px 50px rgba(0,0,0,0.58), 0 0 46px rgba(250,204,21,0.32);
+  animation: winnerTitlePop 900ms cubic-bezier(.18,1.2,.2,1) both;
 }
 
 .winner-celebration-list {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  align-items: stretch;
+  gap: clamp(14px, 4vw, 56px);
 }
 
 .winner-card {
+  position: relative;
   display: grid;
-  gap: 4px;
-  padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--team-color, #facc15) 72%, transparent);
-  border-radius: 24px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--team-color, #facc15) 18%, transparent), rgba(255,255,255,0.08));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
-  animation: winnerPop 1.1s cubic-bezier(.2,1,.2,1) both;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: clamp(240px, 28vw, 380px);
+  padding: clamp(10px, 2vw, 24px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  animation: winnerPop 1.1s cubic-bezier(.2,1,.2,1) both, winnerWinnerFloat 3.2s ease-in-out infinite alternate;
+}
+
+.winner-card::before {
+  content: "";
+  position: absolute;
+  inset: 15% 2% 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--team-color, #facc15) 36%, transparent), transparent 66%);
+  filter: blur(18px);
+  opacity: 0.9;
+  animation: winnerHaloPulse 2.2s ease-in-out infinite alternate;
+}
+
+.winner-card:nth-child(2) {
+  animation-delay: 0.18s, 0.5s;
+}
+
+.winner-card-crown {
+  color: #facc15;
+  font-size: clamp(3.4rem, 7vw, 6rem);
+  line-height: 0.8;
+  filter: drop-shadow(0 0 30px rgba(250,204,21,0.6));
+  animation: winnerCrownDrop 1.1s cubic-bezier(.2,1.35,.25,1) both;
 }
 
 .winner-card span {
@@ -6520,13 +6590,19 @@ header.hero-header > *,
   font-weight: 1000;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  font-size: clamp(1rem, 1.6vw, 1.45rem);
+  text-shadow: 0 0 18px rgba(250,204,21,0.5);
 }
 
 .winner-card h3 {
   margin: 0;
   font-family: "Baloo 2", "Inter", sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4.8rem);
-  line-height: 0.9;
+  font-size: clamp(4.4rem, 9vw, 8.4rem);
+  line-height: 0.82;
+  color: #ffffff;
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--team-color, #facc15) 50%, transparent),
+    0 10px 42px rgba(0,0,0,0.7);
 }
 
 .winner-card p,
@@ -6534,19 +6610,41 @@ header.hero-header > *,
   margin: 0;
   color: #e5e7eb;
   font-weight: 900;
+  text-shadow: 0 6px 24px rgba(0,0,0,0.65);
+}
+
+.winner-card p {
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
 }
 
 .winner-card small {
   color: #fef3c7;
-  font-size: 1.15rem;
+  font-size: clamp(1.3rem, 2.4vw, 2.2rem);
+}
+
+.winner-score-value {
+  display: inline-block;
+  min-width: 2ch;
+  color: #facc15;
+  font-family: "Baloo 2", "Inter", sans-serif;
+  font-size: 1.6em;
+  line-height: 0.9;
+  text-shadow: 0 0 30px rgba(250,204,21,0.48);
+  animation: winnerScoreGlow 1.1s ease-in-out infinite alternate;
 }
 
 @keyframes goldConfettiFall {
   from {
-    transform: translateY(-12%);
+    transform: translateY(-18%);
   }
   to {
-    transform: translateY(12%);
+    transform: translateY(18%);
+  }
+}
+
+@keyframes winnerLightSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -6559,14 +6657,71 @@ header.hero-header > *,
   }
 }
 
+@keyframes winnerTitlePop {
+  from {
+    opacity: 0;
+    transform: scale(0.84);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
 @keyframes winnerPop {
   from {
     opacity: 0;
-    transform: translateY(26px) scale(0.9);
+    transform: translateY(42px) scale(0.86);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes winnerWinnerFloat {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -12px;
+  }
+}
+
+@keyframes winnerHaloPulse {
+  from {
+    transform: scale(0.92);
+    opacity: 0.54;
+  }
+  to {
+    transform: scale(1.08);
+    opacity: 0.94;
+  }
+}
+
+@keyframes winnerCrownDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-80px) rotate(-12deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes winnerScoreGlow {
+  from {
+    transform: scale(1);
+    filter: saturate(1);
+  }
+  to {
+    transform: scale(1.05);
+    filter: saturate(1.35);
   }
 }
 

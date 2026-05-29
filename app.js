@@ -3914,6 +3914,14 @@ function projectionFoodQuantityText(teamId = "") {
     .join(" • ");
 }
 
+function setProjectionLowerMarkup(root, markup) {
+  if (!root) return;
+  const signature = String(markup.length) + ":" + String(markup.charCodeAt(0) || 0) + ":" + String(markup.charCodeAt(markup.length - 1) || 0) + ":" + String(markup.split("").reduce((sum, char) => (sum + char.charCodeAt(0)) % 1000000007, 0));
+  if (root.dataset.lowerSignature === signature) return;
+  root.innerHTML = markup;
+  root.dataset.lowerSignature = signature;
+}
+
 function renderProjectionLowerThird() {
   const root = byId("projectionLowerThird");
   if (!root) return;
@@ -3921,7 +3929,7 @@ function renderProjectionLowerThird() {
   const totalQuantity = foodGrandTotalQuantity();
   const totalText = projectionFoodQuantityText();
   if (document.body.classList.contains("results-page")) {
-    root.innerHTML = `
+    setProjectionLowerMarkup(root, `
       <div class="projection-lower-label">
         <span>Prova Solidária</span>
         <strong>${formatPoints(totalQuantity)} un.</strong>
@@ -3934,7 +3942,7 @@ function renderProjectionLowerThird() {
           <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
         </div>
       </div>
-    `;
+    `);
     return;
   }
 
@@ -3952,7 +3960,7 @@ function renderProjectionLowerThird() {
     `;
   }).join("");
 
-  root.innerHTML = `
+  setProjectionLowerMarkup(root, `
     <div class="projection-lower-label">
       <span>Prova Solidária</span>
       <strong>${formatPoints(totalQuantity)} un.</strong>
@@ -3965,7 +3973,7 @@ function renderProjectionLowerThird() {
         ${teamItems}
       </div>
     </div>
-  `;
+  `);
 }
 
 function renderProjectionPanel() {
@@ -4150,18 +4158,41 @@ function showWinnerCelebration() {
   const winners = winnersByCategory();
   list.innerHTML = winners.map((item) => `
     <article class="winner-card" style="--team-color:${item.id === "2" ? "#ffffff" : item.color}">
+      <div class="winner-card-crown" aria-hidden="true">♛</div>
       <span>${escapeHtml(item.category)}</span>
       <h3>${escapeHtml(item.name)}</h3>
       <p>${escapeHtml(item.theme)}</p>
-      <small>${formatPoints(item.total)} pontos</small>
+      <small><strong class="winner-score-value" data-score="${Number(item.total || 0)}">0</strong> pontos</small>
     </article>
   `).join("");
   root.hidden = false;
+  root.classList.remove("winner-celebration-running");
+  void root.offsetWidth;
+  root.classList.add("winner-celebration-running");
+  animateWinnerScores(root);
 }
 
 function hideWinnerCelebration() {
   const root = byId("winnerCelebration");
-  if (root) root.hidden = true;
+  if (root) {
+    root.hidden = true;
+    root.classList.remove("winner-celebration-running");
+  }
+}
+
+function animateWinnerScores(root) {
+  root.querySelectorAll(".winner-score-value").forEach((node) => {
+    const target = Number(node.dataset.score || 0);
+    const duration = 1800;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      node.textContent = formatPoints(Math.round(target * eased));
+      if (progress < 1 && !root.hidden) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 }
 
 async function toggleProjectionFullscreen() {
