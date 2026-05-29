@@ -3869,16 +3869,6 @@ function projectionRandomScoreMarkup() {
   `;
 }
 
-function randomizeProjectionOrder(items = [], salt = "") {
-  const tick = Math.floor(Date.now() / 10000);
-  const ordered = [...items].sort((a, b) => scheduleTeamRank(a.id) - scheduleTeamRank(b.id));
-  if (!ordered.length) return ordered;
-  const saltOffset = String(salt).length % ordered.length;
-  const offset = (tick + saltOffset) % ordered.length;
-  const rotated = [...ordered.slice(offset), ...ordered.slice(0, offset)];
-  return tick % 2 ? rotated.reverse() : rotated;
-}
-
 function projectionDetailState() {
   try {
     return JSON.parse(sessionStorage.getItem(PROJECTION_DETAIL_STORAGE_KEY) || "{}");
@@ -3988,11 +3978,9 @@ function renderProjectionPanel() {
     scoreboardRoot.classList.toggle("projection-random-mode", randomMode);
     scoreboardRoot.classList.toggle("scores-hidden", hidden);
     scoreboardRoot.innerHTML = ["Categoria 1", "Categoria 2"].map((category) => {
-      const categoryTeams = randomMode
-        ? randomizeProjectionOrder(state.teams.filter((item) => item.category === category), category)
-        : hidden
-          ? state.teams.filter((item) => item.category === category)
-          : ranked.filter((item) => item.category === category);
+      const categoryTeams = hidden
+        ? state.teams.filter((item) => item.category === category)
+        : ranked.filter((item) => item.category === category);
       return `
         <section class="projection-category">
           <header>
@@ -4215,11 +4203,6 @@ function initializeProjectionPage() {
   setProjectionView("scoreboard");
   initializeResultsPage();
   updateProjectionFullscreenButton();
-  setInterval(() => {
-    const scoreboardPanel = document.querySelector('[data-projection-panel="scoreboard"]');
-    if (!projectionRandomModeEnabled() || scoreboardPanel?.hidden) return;
-    renderProjectionPanel();
-  }, 10000);
   setInterval(() => loadRemoteData(), 45000);
 }
 
@@ -5143,10 +5126,36 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  const field = event.target.closest(".judge-page #evaluationForm input");
+  if (!field) return;
+  event.preventDefault();
+
+  const form = field.closest("#evaluationForm");
+  const fields = Array.from(form?.querySelectorAll("input") || [])
+    .filter((input) => !input.disabled && input.type !== "hidden");
+  const currentIndex = fields.indexOf(field);
+  const nextField = fields[currentIndex + 1];
+  if (nextField) {
+    nextField.focus();
+    if (typeof nextField.select === "function") nextField.select();
+  } else {
+    field.blur();
+  }
+});
+
 document.addEventListener("click", (event) => {
   const button = event.target.closest("#judgeBlockForm [data-submit-block]");
   if (!button) return;
   const form = button.closest("#judgeBlockForm");
+  if (form) form.dataset.submitIntent = "true";
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest(".judge-page #evaluationForm button[type='submit']");
+  if (!button) return;
+  const form = button.closest("#evaluationForm");
   if (form) form.dataset.submitIntent = "true";
 });
 
@@ -5254,11 +5263,18 @@ document.addEventListener("submit", async (event) => {
 on("evaluationForm", "submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
+  const isJudgePage = document.body.classList.contains("judge-page");
+  const intentionalSubmit = event.submitter?.matches("button[type='submit']") || form.dataset.submitIntent === "true";
+  delete form.dataset.submitIntent;
+  if (isJudgePage && !intentionalSubmit) {
+    setSyncStatus("Avaliação preservada. Use o botão Enviar avaliação da categoria para concluir.");
+    return;
+  }
   const data = Object.fromEntries(new FormData(form));
   const definition = judgingEventById(data.event);
   if (!definition) return;
-  const judge = document.body.classList.contains("judge-page") ? judgeByCode(form.dataset.judgeCode) : null;
-  if (document.body.classList.contains("judge-page")) {
+  const judge = isJudgePage ? judgeByCode(form.dataset.judgeCode) : null;
+  if (isJudgePage) {
     if (!judgeIsActive(judge)) {
       setSyncStatus("Código de jurado inválido. Entre novamente.");
       form.hidden = true;
@@ -5305,7 +5321,7 @@ on("evaluationForm", "submit", async (event) => {
   form.reset();
   if (judge) form.dataset.judgeCode = normalizeJudgeCode(judge.code);
   setSyncStatus("Avaliação enviada. Sincronizando online...");
-  if (document.body.classList.contains("judge-page")) {
+  if (isJudgePage) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     render();
     await saveEvaluationRemote(evaluation);
