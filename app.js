@@ -889,6 +889,10 @@ function judgingEventById(id) {
   return JUDGING_EVENTS.find((item) => item.id === id);
 }
 
+function judgingEventByOfficialEventId(eventId) {
+  return JUDGING_EVENTS.find((item) => item.eventId === eventId);
+}
+
 function normalizeJudgingEventOrder(order = []) {
   const validIds = JUDGING_EVENTS.map((item) => item.id);
   const seen = new Set();
@@ -1498,6 +1502,31 @@ function evaluationGroupHasPublishedScore(eventId = "", category = "") {
   const definition = judgingEventById(eventId);
   if (!definition?.eventId) return false;
   return activeScores().some((score) => scoreLooksLikePublishedEvaluation(score, definition, category));
+}
+
+function deletePublishedEvaluationGroup(eventId = "", category = "") {
+  const definition = judgingEventById(eventId);
+  if (!definition?.eventId) return false;
+  const now = new Date().toISOString();
+  let changed = false;
+
+  (state.scores || []).forEach((score) => {
+    if (!score.deletedAt && scoreLooksLikePublishedEvaluation(score, definition, category)) {
+      score.deletedAt = now;
+      score.updatedAt = now;
+      changed = true;
+    }
+  });
+
+  (state.evaluations || []).forEach((evaluation) => {
+    if (!evaluation.deletedAt && evaluation.eventId === eventId && evaluation.category === category && evaluation.launched) {
+      evaluation.launched = false;
+      evaluation.updatedAt = now;
+      changed = true;
+    }
+  });
+
+  return changed;
 }
 
 function participantRecord(teamId = "", activity = "") {
@@ -3374,8 +3403,82 @@ function updateDisplaySettingsFormState(form = byId("displaySettingsForm")) {
   }
 }
 
+function renderScoreReviewBoard() {
+  const root = byId("scoreReviewBoard");
+  if (!root) return;
+  const realTotals = totals();
+  const totalSections = ["Categoria 1", "Categoria 2"].map((category) => {
+    const categoryTeams = realTotals.filter((item) => item.category === category);
+    return `
+      <section class="score-review-card">
+        <h3>${category}</h3>
+        <div class="score-review-list">
+          ${categoryTeams.map((item, index) => `
+            <article class="score-review-row" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
+              <span class="score-review-place">${placementMedal(index)}</span>
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <small>${escapeHtml(item.theme)}${item.penalties ? ` • -${formatPoints(item.penalties)} em penalidades` : ""}${item.bonuses ? ` • +${formatPoints(item.bonuses)} em bônus` : ""}</small>
+              </div>
+              <b>${formatPoints(item.total)}</b>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  const eventSections = state.events.map((event) => {
+    const judgingDefinition = judgingEventByOfficialEventId(event.id);
+    return `
+      <details class="score-review-event">
+        <summary>
+          <span>
+            <strong>${escapeHtml(event.name)}</strong>
+            <small>${escapeHtml(event.group || "")}</small>
+          </span>
+          <span class="toggle-arrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="score-review-event-body">
+          ${["Categoria 1", "Categoria 2"].map((category) => {
+            const ranking = eventRanking(event.id, category);
+            const canResetJudging = Boolean(judgingDefinition && evaluationGroupHasPublishedScore(judgingDefinition.id, category));
+            return `
+              <section class="score-review-event-category">
+                <header>
+                  <h4>${category}</h4>
+                  ${canResetJudging ? `<button class="mini-action danger-mini" data-delete-published-evaluation="${judgingDefinition.id}|${category}" type="button">Excluir lançamento da avaliação</button>` : ""}
+                </header>
+                <div class="table-wrap">
+                  <table>
+                    ${tableMarkup(
+                      ["Colocação", "Turma", "Pontos", "Observação"],
+                      ranking.map((item, index) => [
+                        `${index + 1}º`,
+                        team(item.id)?.name || item.name,
+                        formatPoints(item.points),
+                        escapeHtml(item.note || "")
+                      ])
+                    )}
+                  </table>
+                </div>
+              </section>
+            `;
+          }).join("")}
+        </div>
+      </details>
+    `;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="score-review-total-grid">${totalSections}</div>
+    <div class="score-review-events">${eventSections}</div>
+  `;
+}
+
 function renderAdminTables() {
   renderDisplaySettingsForm();
+  renderScoreReviewBoard();
   renderJudgingDayControls();
   renderJudgingOrderControls();
   renderJudgingBlockControls();
@@ -5452,6 +5555,19 @@ document.addEventListener("click", async (event) => {
     }
     return;
   }
+
+  if (button.dataset.deletePublishedEvaluation) {
+    const [eventId, category] = button.dataset.deletePublishedEvaluation.split("|");
+    const definition = judgingEventById(eventId);
+    const label = `${definition?.name || eventId} • ${category}`;
+    if (!confirm(`Excluir o lançamento consolidado de "${label}"? As fichas voltarão para a opção de lançar consolidado.`)) return;
+    if (deletePublishedEvaluationGroup(eventId, category)) {
+      setSyncStatus("Lançamento consolidado excluído. As fichas voltaram para pendentes.");
+      saveState();
+    }
+    return;
+  }
+
   if (button.dataset.deleteSchedule) {
     if (markRecordDeleted(state.schedules, (_, index) => index === Number(button.dataset.deleteSchedule))) {
       setScheduleEditing();

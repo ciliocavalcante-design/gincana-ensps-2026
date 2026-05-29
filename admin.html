@@ -58,6 +58,7 @@
           <button class="admin-refresh-button" id="refreshAdminData" type="button">Atualizar dados</button>
           <div class="admin-tabs" role="tablist" aria-label="Ferramentas de administração">
             <button class="tab-button active" data-panel="pointsPanel" type="button">Pontuações</button>
+            <button class="tab-button" data-panel="scoreReviewPanel" type="button">Placar interno</button>
             <button class="tab-button" data-panel="schedulePanel" type="button">Ensaios <span id="scheduleRequestsBadge" class="tab-alert-badge" hidden>0</span></button>
             <button class="tab-button" data-panel="foodPanelAdmin" type="button">Arrecadação</button>
             <button class="tab-button" data-panel="materialsPanel" type="button">Entregas</button>
@@ -103,6 +104,15 @@
             </div>
 
             <div class="table-wrap"><table id="pointsTable"></table></div>
+          </div>
+
+          <div class="admin-panel" id="scoreReviewPanel">
+            <div class="schedule-board-heading">
+              <span class="eyebrow">Apuração interna</span>
+              <h2>Placar real da comissão</h2>
+              <p>Confira a pontuação real mesmo quando o placar público estiver oculto. Em provas julgadas, é possível desfazer o lançamento consolidado.</p>
+            </div>
+            <div id="scoreReviewBoard" class="score-review-board"></div>
           </div>
 
         <div class="admin-panel" id="schedulePanel">
