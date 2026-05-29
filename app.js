@@ -2179,7 +2179,7 @@ function renderJudgeAccess() {
 
   form.hidden = !regularPending.length;
   const totalPending = blocks.length + regularPending.length;
-  status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong> • ${totalPending} pendência${totalPending > 1 ? "s" : ""}. ${blocks.length ? "Use o bloco com rascunho automático para as provas agrupadas." : ""}`;
+  status.innerHTML = `<strong>${escapeHtml(judge.name)}</strong> • ${totalPending} pendência${totalPending > 1 ? "s" : ""}.`;
   updateJudgeEvaluationOptions();
   renderEvaluationSheet();
   renderJudgeBlockWorkspace();
@@ -2471,7 +2471,7 @@ function renderJudgeBlockWorkspace() {
       </header>
 
       <div class="judge-block-alert">
-        Avalie por turma na ordem da apresentação. As notas ficam salvas como rascunho até o envio final.
+        Avalie por turma na ordem da apresentação.
       </div>
 
       <form id="judgeBlockForm" class="judge-block-form" data-block-id="${escapeHtml(block.id)}">
@@ -5977,7 +5977,7 @@ async function saveEvaluationRemote(evaluation) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       render();
     }
-    setSyncStatus("Avaliação enviada online. A organização já pode acompanhar no admin.");
+    setSyncStatus("Avaliação enviada online.");
   } catch (error) {
     if (String(error.message || "").includes("já foi enviada")) {
       await loadRemoteData();
