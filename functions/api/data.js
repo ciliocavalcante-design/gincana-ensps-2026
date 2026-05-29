@@ -602,6 +602,109 @@ async function appendEvaluation(config, evaluation, reason) {
   throw lastError || new Error("Conflito ao salvar avaliação.");
 }
 
+async function appendEvaluations(config, evaluations, reason, options = {}) {
+  if (!Array.isArray(evaluations) || !evaluations.length) {
+    throw new Error("Envie avaliações válidas.");
+  }
+
+  let lastError;
+
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    try {
+      const current = await readGithubData(config);
+      const data = normalizeStateData(current.data && typeof current.data === "object" ? current.data : {});
+      const batchKeys = new Set();
+
+      evaluations.forEach((evaluation) => {
+        if (!evaluation || typeof evaluation !== "object" || Array.isArray(evaluation)) {
+          throw new Error("Envie avaliações válidas.");
+        }
+
+        const code = normalizeJudgeCode(evaluation.judgeCode);
+        if (code) {
+          const judge = activeJudges(data).find((item) => normalizeJudgeCode(item.code) === code);
+          if (!judge || judge.active === false) {
+            const error = new Error("Código de jurado não autorizado.");
+            error.status = 403;
+            throw error;
+          }
+          if (!judgeCanEvaluate(data, code, evaluation.eventId)) {
+            const error = new Error("Esta prova não está liberada para este jurado.");
+            error.status = 403;
+            throw error;
+          }
+          const key = `${code}::${evaluation.eventId}::${evaluation.category}`;
+          const duplicate = batchKeys.has(key) || activeEvaluations(data).some((item) => (
+            normalizeJudgeCode(item.judgeCode) === code
+            && item.eventId === evaluation.eventId
+            && item.category === evaluation.category
+          ));
+          if (duplicate) {
+            const error = new Error("Esta avaliação já foi enviada por este jurado.");
+            error.status = 409;
+            throw error;
+          }
+          batchKeys.add(key);
+        }
+      });
+
+      evaluations.forEach((evaluation) => {
+        const code = normalizeJudgeCode(evaluation.judgeCode);
+        data.evaluations.push({
+          ...evaluation,
+          id: evaluation.id || stableRecordKey(["evaluation", code, evaluation.eventId, evaluation.category, evaluation.submittedAt]),
+          judgeCode: code
+        });
+      });
+
+      const draftKey = options?.clearDraft?.key || (options?.clearDraft?.judgeCode && options?.clearDraft?.blockId
+        ? `${normalizeJudgeCode(options.clearDraft.judgeCode)}::${options.clearDraft.blockId}`
+        : "");
+      if (draftKey) {
+        const now = new Date().toISOString();
+        const item = (Array.isArray(data.evaluationDrafts) ? data.evaluationDrafts : []).find((entry) => entry.key === draftKey);
+        if (item) {
+          item.deletedAt = now;
+          item.updatedAt = now;
+        }
+      }
+
+      const content = `${JSON.stringify(data)}\n`;
+      const body = {
+        message: reason || "Append judging evaluation batch",
+        content: toBase64Utf8(content),
+        branch: config.branch
+      };
+      if (current.sha) body.sha = current.sha;
+
+      const response = await githubRequest(config, `${GITHUB_API_BASE}/repos/${config.owner}/${config.repo}/contents/${config.path}`, {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        return {
+          ok: true,
+          sha: payload.content?.sha || "",
+          path: payload.content?.path || config.path,
+          data
+        };
+      }
+
+      lastError = new Error(payload.message || `GitHub PUT falhou (${response.status})`);
+      lastError.status = response.status;
+      if (!isGithubConflict(response, lastError.message)) throw lastError;
+    } catch (error) {
+      lastError = error;
+      if (!isGithubConflict(error, error.message)) throw error;
+      await sleep(350 * attempt);
+    }
+  }
+
+  throw lastError || new Error("Conflito ao salvar avaliações.");
+}
+
 async function mergeGithubData(config, updater, reason, conflictMessage, options = {}) {
   let lastError;
 
@@ -970,6 +1073,10 @@ export async function onRequestPost(context) {
     const body = await context.request.json().catch(() => ({}));
     if (body?.action === "appendEvaluation") {
       const saved = await appendEvaluation(config, body.evaluation, body.reason);
+      return json(saved);
+    }
+    if (body?.action === "appendEvaluations") {
+      const saved = await appendEvaluations(config, body.evaluations, body.reason, { clearDraft: body.clearDraft });
       return json(saved);
     }
     if (body?.action === "upsertRegistrationForm") {

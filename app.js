@@ -4933,6 +4933,17 @@ document.addEventListener("click", (event) => {
   if (form) form.dataset.submitIntent = "true";
 });
 
+function scrollJudgeToActiveBlock() {
+  if (!document.body.classList.contains("judge-page")) return;
+  requestAnimationFrame(() => {
+    const blockWorkspace = byId("judgeBlockWorkspace");
+    const target = blockWorkspace && !blockWorkspace.hidden ? blockWorkspace : byId("judgeAccess");
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY - 12;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  });
+}
+
 document.addEventListener("submit", async (event) => {
   const form = event.target.closest("#judgeBlockForm");
   if (!form) return;
@@ -4946,6 +4957,8 @@ document.addEventListener("submit", async (event) => {
   }
 
   const blockId = form.dataset.blockId;
+  const submitButton = form.querySelector("[data-submit-block]");
+  const originalButtonText = submitButton?.textContent || "";
   const evalForm = byId("evaluationForm");
   const judge = judgeByCode(evalForm?.dataset.judgeCode || sessionStorage.getItem("gincana-judge-code") || "");
   const block = activeJudgingBlocks().find((item) => item.id === blockId);
@@ -4993,16 +5006,30 @@ document.addEventListener("submit", async (event) => {
   if (!evaluations.length) {
     setSyncStatus("Este bloco já foi enviado. Atualizando as pendências.");
     render();
+    scrollJudgeToActiveBlock();
     return;
   }
 
-  evaluations.forEach((evaluation) => state.evaluations.push(evaluation));
-  clearBlockDraft(judge.code, block.id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  render();
-  setSyncStatus("Bloco enviado oficialmente. Sincronizando online...");
-  for (const evaluation of evaluations) {
-    await saveEvaluationRemote(evaluation);
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando bloco...";
+  }
+  setSyncStatus("Enviando bloco online...");
+  const savedOnline = await saveEvaluationBatchRemote(evaluations, {
+    clearDraft: {
+      judgeCode: judge.code,
+      blockId: block.id
+    }
+  });
+  if (savedOnline) {
+    localStorage.removeItem(blockKey(judge.code, block.id));
+    const nextBlock = pendingBlocksForJudge(judge)[0];
+    if (nextBlock) sessionStorage.setItem("gincana-selected-block", nextBlock.id);
+    render();
+    scrollJudgeToActiveBlock();
+  } else if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = originalButtonText || "Enviar bloco finalizado";
   }
 });
 
@@ -6048,6 +6075,52 @@ async function saveEvaluationRemote(evaluation) {
     } else {
       setSyncStatus(`Não foi possível salvar online: ${formatSyncError(error)}`);
     }
+  }
+}
+
+async function saveEvaluationBatchRemote(evaluations = [], options = {}) {
+  if (!evaluations.length) return true;
+  if (!canSaveOnline()) {
+    setSyncStatus("Bloco salvo neste navegador. Abra pelo Cloudflare Pages para salvar online.");
+    return false;
+  }
+  try {
+    setSyncStatus("Enviando bloco online...");
+    const { payload } = await requestJsonWithRetry(dataApiUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: "appendEvaluations",
+        evaluations,
+        clearDraft: options.clearDraft || null,
+        reason: `Bloco de avaliação online: ${evaluations[0]?.judge || "Jurado"}`
+      })
+    }, {
+      attempts: 3,
+      retryDelay: 900
+    });
+    if (payload.ok === false) {
+      throw new Error(payload.error || "Não foi possível concluir o envio do bloco.");
+    }
+    if (payload.data) {
+      state = normalizeState(payload.data);
+      localChangesPending = false;
+      lastRemoteSyncAt = Date.now();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+    setSyncStatus("Bloco enviado online.");
+    return true;
+  } catch (error) {
+    if (String(error.message || "").includes("já foi enviada")) {
+      await loadRemoteData();
+      setSyncStatus("Este bloco já foi enviado por este jurado. A lista foi atualizada.");
+    } else {
+      setSyncStatus(`Não foi possível salvar online: ${formatSyncError(error)}`);
+    }
+    return false;
   }
 }
 
