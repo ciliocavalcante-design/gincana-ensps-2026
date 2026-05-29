@@ -5692,7 +5692,7 @@ header.hero-header > *,
 
 .projection-score-card.place-1,
 .projection-food-card.place-1 {
-  transform: scale(1.01);
+  transform: none;
   background:
     radial-gradient(circle at 12% 50%, color-mix(in srgb, var(--team-color) 26%, transparent), transparent 28%),
     linear-gradient(135deg, rgba(250,204,21,0.18), rgba(255,255,255,0.06)),
@@ -5760,18 +5760,21 @@ header.hero-header > *,
   grid-template-columns: repeat(4, 18px);
   justify-content: end;
   gap: 7px;
-  min-height: 52px;
+  height: 54px;
   align-items: end;
 }
 
 .projection-random-score i {
   display: block;
   width: 18px;
-  height: 22px;
+  height: 44px;
+  transform: scaleY(0.42);
+  transform-origin: bottom;
   border-radius: 999px;
   background: linear-gradient(180deg, #bfdbfe, #38bdf8);
   box-shadow: 0 0 22px rgba(56, 189, 248, 0.5);
-  animation: projectionScorePulse 1.2s ease-in-out infinite alternate;
+  animation: projectionScorePulse 1.25s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 .projection-random-score i:nth-child(2) {
@@ -5787,7 +5790,7 @@ header.hero-header > *,
 }
 
 .projection-random-mode .projection-score-card {
-  animation: projectionCardFloat 3.8s ease-in-out infinite alternate;
+  transform: translateZ(0);
 }
 
 .projection-random-mode .projection-score-card:nth-child(2) {
@@ -5800,12 +5803,12 @@ header.hero-header > *,
 
 @keyframes projectionScorePulse {
   from {
-    height: 16px;
+    transform: scaleY(0.36);
     opacity: 0.58;
     filter: saturate(0.9);
   }
   to {
-    height: 54px;
+    transform: scaleY(1);
     opacity: 1;
     filter: saturate(1.4);
   }
@@ -5813,10 +5816,10 @@ header.hero-header > *,
 
 @keyframes projectionCardFloat {
   from {
-    transform: translateY(-5px);
+    transform: translateY(0);
   }
   to {
-    transform: translateY(7px);
+    transform: translateY(0);
   }
 }
 
@@ -6047,6 +6050,23 @@ header.hero-header > *,
   animation: projectionTicker 230s linear infinite;
   will-change: transform;
   text-transform: uppercase;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.projection-lower-marquee-compact {
+  gap: 72px;
+  animation-duration: 340s;
+}
+
+.results-page .projection-lower-total {
+  text-shadow: none;
+}
+
+.results-page .projection-lower-marquee {
+  will-change: transform;
+  font-synthesis: none;
 }
 
 .projection-lower-total,

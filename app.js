@@ -3919,6 +3919,25 @@ function renderProjectionLowerThird() {
   if (!root) return;
 
   const totalQuantity = foodGrandTotalQuantity();
+  const totalText = projectionFoodQuantityText();
+  if (document.body.classList.contains("results-page")) {
+    root.innerHTML = `
+      <div class="projection-lower-label">
+        <span>Prova Solidária</span>
+        <strong>${formatPoints(totalQuantity)} un.</strong>
+      </div>
+      <div class="projection-lower-track" aria-hidden="true">
+        <div class="projection-lower-marquee projection-lower-marquee-compact">
+          <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+          <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+          <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+          <span class="projection-lower-total">Total geral: ${escapeHtml(totalText)}</span>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   const teamItems = state.teams.map((item) => {
     const quantity = activeFoodDonations()
       .filter((donation) => donation.teamId === item.id)
@@ -3933,7 +3952,6 @@ function renderProjectionLowerThird() {
     `;
   }).join("");
 
-  const totalText = projectionFoodQuantityText();
   root.innerHTML = `
     <div class="projection-lower-label">
       <span>Prova Solidária</span>
@@ -4104,9 +4122,18 @@ function updateResultsLowerToggle() {
   button.classList.toggle("active", hidden);
 }
 
+function updateResultsReleaseButton() {
+  const button = byId("resultsReleaseButton");
+  if (!button) return;
+  const hidden = scoresAreHidden();
+  button.textContent = hidden ? "Liberar resultados" : "Ocultar resultados";
+  button.classList.toggle("active", !hidden);
+}
+
 function initializeResultsPage() {
   if (!document.body.classList.contains("results-page")) return;
   updateResultsLowerToggle();
+  updateResultsReleaseButton();
 }
 
 function winnersByCategory() {
@@ -4535,6 +4562,7 @@ function render() {
   restoreTeacherMobileSection();
   renderLeadershipFormsAdmin();
   renderProjectionPanel();
+  updateResultsReleaseButton();
 }
 
 
@@ -4572,13 +4600,19 @@ document.addEventListener("click", (event) => {
   const resultsReleaseButton = event.target.closest("#resultsReleaseButton");
   if (resultsReleaseButton) {
     event.preventDefault();
+    const shouldHide = !scoresAreHidden();
     state.displaySettings = {
       ...(state.displaySettings || {}),
-      hideScores: false,
-      randomMode: false
+      hideScores: shouldHide,
+      randomMode: shouldHide
     };
-    setSyncStatus("Resultados liberados. Salvando exibição online...");
+    resultsReleaseButton.textContent = shouldHide ? "Liberar resultados" : "Ocultar resultados";
+    resultsReleaseButton.classList.toggle("active", !shouldHide);
+    setSyncStatus(shouldHide
+      ? "Resultados ocultos. Salvando exibição online..."
+      : "Resultados liberados. Salvando exibição online...");
     saveState();
+    setTimeout(updateResultsReleaseButton, 0);
     return;
   }
 
