@@ -1289,7 +1289,7 @@ function renderScoreboard() {
         <h3>${category}</h3>
         <div class="score-category-list">
           ${categoryTeams.map((item, index) => `
-            <article class="score-card" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
+            <article class="score-card${!hidden && index === 0 ? " score-card-winner" : ""}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
               <div class="rank${hidden ? " rank-hidden" : ""}" aria-label="${hidden ? "Classificação em apuração" : `${index + 1}º lugar`}">${hidden ? "?" : placementMedal(index)}</div>
               <div>
                 <h4>${item.name}</h4>
@@ -3989,7 +3989,7 @@ function renderProjectionPanel() {
           </header>
           <div class="projection-ranking">
             ${categoryTeams.map((item, index) => `
-              <article class="projection-score-card place-${index + 1}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
+              <article class="projection-score-card place-${index + 1}${!hidden && index === 0 ? " projection-score-winner" : ""}" style="--team-color:${item.color};--metric-color:${item.id === "2" ? "#ffffff" : item.color}">
                 <div class="projection-place${hidden ? " projection-place-hidden" : ""}" aria-label="${hidden ? "Classificação em apuração" : `${index + 1}º lugar`}">${hidden ? "?" : placementMedal(index)}</div>
                 <div class="projection-team">
                   <h3>${escapeHtml(item.name)}</h3>
