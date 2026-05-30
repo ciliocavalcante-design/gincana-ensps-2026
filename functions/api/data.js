@@ -45,14 +45,11 @@ function getConfig(env) {
 function toBase64Utf8(text) {
   const bytes = new TextEncoder().encode(text);
   let binary = "";
-  for (const byte of bytes) binary += String.fromCharCode(byte);
+  const chunkSize = 0x8000;
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
+  }
   return btoa(binary);
-}
-
-function fromBase64Utf8(base64) {
-  const binary = atob(base64.replace(/\n/g, ""));
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
 }
 
 async function githubRequest(config, url, init = {}) {
@@ -100,11 +97,41 @@ async function readGithubData(config) {
   }
 
   const payload = await response.json();
-  const content = typeof payload.content === "string" ? fromBase64Utf8(payload.content) : "{}";
+  const downloadUrl = payload.download_url || `https://raw.githubusercontent.com/${config.owner}/${config.repo}/${config.branch}/${config.path}`;
+  const rawResponse = await fetch(`${downloadUrl}${downloadUrl.includes("?") ? "&" : "?"}t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "User-Agent": "gincana-ensps-2026-cloudflare-pages"
+    }
+  });
+  if (!rawResponse.ok) {
+    const details = await rawResponse.text().catch(() => "");
+    throw new Error(`GitHub RAW falhou (${rawResponse.status}): ${details}`);
+  }
+  const content = await rawResponse.text();
   return {
     sha: payload.sha || "",
     data: JSON.parse(content || "{}")
   };
+}
+
+async function readGithubDataText(config) {
+  const url = `https://raw.githubusercontent.com/${config.owner}/${config.repo}/${config.branch}/${config.path}?t=${Date.now()}`;
+  const response = await fetch(url, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "User-Agent": "gincana-ensps-2026-cloudflare-pages"
+    }
+  });
+
+  if (response.status === 404) return "{}";
+  if (!response.ok) {
+    const details = await response.text().catch(() => "");
+    throw new Error(`GitHub RAW falhou (${response.status}): ${details}`);
+  }
+  return response.text();
 }
 
 async function writeGithubData(config, data, reason) {
@@ -1076,13 +1103,16 @@ async function mergeFullState(config, incoming, reason) {
 export async function onRequestGet(context) {
   try {
     const config = getConfig(context.env);
-    const current = await readGithubData(config);
-    return json({
-      ok: true,
-      data: current.data,
-      sha: current.sha,
-      path: config.path,
-      branch: config.branch
+    const text = await readGithubDataText(config);
+    return new Response(`{"ok":true,"data":${text || "{}"},"path":${JSON.stringify(config.path)},"branch":${JSON.stringify(config.branch)}}`, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
     });
   } catch (error) {
     return json({ ok: false, error: error.message || "Erro ao carregar dados." }, 500);
